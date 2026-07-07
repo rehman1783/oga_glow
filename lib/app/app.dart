@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:oga_glow/core/app_theme.dart';
-import 'package:oga_glow/core/routes/app_pages.dart';
-import 'package:oga_glow/core/routes/app_routes.dart';
+import 'package:oga_glow/core/theme/app_theme.dart';
+import 'package:oga_glow/app/routes/app_pages.dart';
+import 'package:oga_glow/app/routes/app_routes.dart';
 
 import 'bindings/initial_binding.dart';
 
