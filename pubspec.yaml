@@ -19,6 +19,7 @@ dependencies:
   flutter_svg: ^2.3.0
   carousel_slider: ^5.1.2
   smooth_page_indicator: ^2.0.1
+  shimmer: ^3.0.0
 
 
 dev_dependencies:
@@ -39,11 +40,14 @@ flutter:
 # Native Splash Configuration
 # -------------------------------
 flutter_native_splash:
-  color: "#FFFFFF"
+  color: "00000000"
+  image: assets/images/logo.png
 
   android: true
   ios: true
   web: false
 
   android_12:
-    color: "#FFFFFF"
+    image: assets/images/logo.png
+    icon_background_color: "#00000000"
+    color: "#00000000"
