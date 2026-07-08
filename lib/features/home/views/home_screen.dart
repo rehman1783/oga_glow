@@ -4,6 +4,7 @@ import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:oga_glow/features/home/controllers/home_controller.dart';
 import 'package:oga_glow/features/home/widgets/home_app_bar.dart';
 import 'package:oga_glow/features/home/widgets/home_banner_slider.dart';
+import 'package:oga_glow/features/home/widgets/home_categories.dart';
 import 'package:oga_glow/features/home/widgets/home_search_bar.dart';
 
 class HomeScreen extends GetView<HomeController> {
@@ -25,6 +26,12 @@ class HomeScreen extends GetView<HomeController> {
         SizedBox(height: 24.h),
 
         HomeBannerSlider(),
+
+        const SizedBox(height: 30),
+
+       HomeCategories(),
+
+      const SizedBox(height: 20),
       ],
     ),
   ),
