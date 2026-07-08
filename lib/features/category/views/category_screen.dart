@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:oga_glow/features/category/widgets/category_product_card.dart';
 
-import '../../../core/theme/app_text_styles.dart';
+import '../../home/widgets/product_card.dart';
 import '../controllers/category_controller.dart';
-import '../widgets/category_card.dart';
+import '../widgets/category_chip.dart';
 
 class CategoryScreen extends GetView<CategoryController> {
   const CategoryScreen({super.key});
@@ -15,35 +15,61 @@ class CategoryScreen extends GetView<CategoryController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Categories',
-          style: AppTextStyles.heading2,
-        ),
-        centerTitle: true,
+        title: const Text('Categories'),
       ),
 
       body: Padding(
-        padding: EdgeInsets.all(20.w),
-        child: GridView.builder(
-          itemCount: controller.categories.length,
-          gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 16.w,
-            mainAxisSpacing: 16.h,
-            childAspectRatio: 0.95,
-          ),
-          itemBuilder: (context, index) {
-            final category = controller.categories[index];
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 45,
+              child: Obx(
+                () => ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: controller.categories.length,
+                  itemBuilder: (context, index) {
+                    final category =
+                        controller.categories[index];
 
-            return CategoryCard(
-              icon: category['icon'] as IconData,
-              title: category['name'] as String,
-              onTap: () {
-                // Product screen pr navigate karwayenge
-              },
-            );
-          },
+                    return CategoryChip(
+                      title: category,
+                      isSelected:
+                          controller.selectedCategory.value ==
+                              category,
+                      onTap: () {
+                        controller.changeCategory(
+                          category
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Expanded(
+  child: Obx(
+    () => GridView.builder(
+      itemCount: controller.filteredProducts.length,
+      gridDelegate:
+          const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 15,
+        mainAxisSpacing: 15,
+        childAspectRatio: 0.72,
+      ),
+      itemBuilder: (context, index) {
+        return CategoryProductCard(
+          product: controller.filteredProducts[index],
+        );
+      },
+    ),
+  ),
+),
+          ],
         ),
       ),
     );
