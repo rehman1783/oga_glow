@@ -19,59 +19,127 @@ class HomeScreen extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-  child: SingleChildScrollView(
-    child: Column(
-      children: [
-        HomeAppBar(),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                HomeAppBar(),
 
-        SizedBox(height: 20.h),
+                SizedBox(height: 20.h),
 
-        HomeSearchBar(),
+                HomeSearchBar(),
 
-        SizedBox(height: 24.h),
+                SizedBox(height: 24.h),
 
-        HomeBannerSlider(),
+                HomeBannerSlider(),
 
-        const SizedBox(height: 30),
+                const SizedBox(height: 30),
 
-       HomeCategories(),
+                HomeCategories(),
 
-      const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-      Padding(
-  padding: const EdgeInsets.symmetric(horizontal: 20),
-  child: SectionTitle(
-    title: 'Featured Products',
-    onSeeAll: () {
-    Get.toNamed(AppRoutes.products);
-  },
-  ),
-),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: SectionTitle(
+                    title: 'Featured Products',
+                    onSeeAll: () {
+                      Get.toNamed(AppRoutes.products);
+                    },
+                  ),
+                ),
 
-const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-SizedBox(
-  height: 280,
-  child: ListView.separated(
-    padding: const EdgeInsets.symmetric(horizontal: 20),
-    scrollDirection: Axis.horizontal,
-    itemCount: controller.featuredProducts.length,
-    separatorBuilder: (_, __) => const SizedBox(width: 16),
-    itemBuilder: (context, index) {
-      final product = controller.featuredProducts[index];
+                SizedBox(
+                  height: 300.h,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: controller.featuredProducts.length,
+                    separatorBuilder: (_, __) => const SizedBox(width: 16),
+                    itemBuilder: (context, index) {
+                      final product = controller.featuredProducts[index];
 
-      return ProductCard(
-        name: product['name']!,
-        price: product['price']!,
-        image: product['image']!,
-      );
-    },
-  ),
-),
-      ],
-    ),
-  ),
-),
+                      return ProductCard(
+                        name: product['name']!,
+                        price: product['price']!,
+                        image: product['image']!,
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: SectionTitle(
+                    title: 'Best Sellers',
+                    onSeeAll: () {
+                      Get.toNamed(AppRoutes.products);
+                    },
+                  ),
+                ),
+
+                SizedBox(height: 15.h),
+
+                SizedBox(
+                  height: 300.h,
+                  child: ListView.separated(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: controller.bestSellers.length,
+                    separatorBuilder: (_, __) => SizedBox(width: 12.w),
+                    itemBuilder: (context, index) {
+                      final product = controller.bestSellers[index];
+
+                      return ProductCard(
+                        name: product['name']!,
+                        price: product['price']!,
+                        image: product['image']!,
+                      );
+                    },
+                  ),
+                ),
+
+                SizedBox(height: 20.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: SectionTitle(
+                    title: 'New Arrivals',
+                    onSeeAll: () {
+                      Get.toNamed(AppRoutes.products);
+                    },
+                  ),
+                ),
+
+                SizedBox(height: 15.h),
+
+                SizedBox(
+                  height: 300.h,
+                  child: ListView.separated(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: controller.newArrivals.length,
+                    separatorBuilder: (_, __) => SizedBox(width: 12.w),
+                    itemBuilder: (context, index) {
+                      final product = controller.newArrivals[index];
+
+                      return ProductCard(
+                        name: product['name']!,
+                        price: product['price']!,
+                        image: product['image']!,
+                      );
+                    },
+                  ),
+                ),
+
+                SizedBox(height: 20.h),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -40,6 +40,40 @@ final featuredProducts = [
     "image": "assets/images/banner2.jpeg",
   },
 ];
+final bestSellers = [
+  {
+    "name": "Best Seller 1",
+    "price": "1800",
+    "image": "assets/images/banner1.jpeg",
+  },
+  {
+    "name": "Best Seller 2",
+    "price": "2500",
+    "image": "assets/images/banner2.jpeg",
+  },
+  {
+    "name": "Best Seller 3",
+    "price": "3200",
+    "image": "assets/images/banner3.jpeg",
+  },
+];
+final newArrivals = [
+  {
+    "name": "Glow Face Wash",
+    "price": "1700",
+    "image": "assets/images/banner1.jpeg",
+  },
+  {
+    "name": "Hair Repair Shampoo",
+    "price": "2400",
+    "image": "assets/images/banner2.jpeg",
+  },
+  {
+    "name": "Body Care Kit",
+    "price": "2900",
+    "image": "assets/images/banner3.jpeg",
+  },
+];
   void updateBanner(int index) {
     currentBanner.value = index;
   }

@@ -21,7 +21,6 @@ class ProductCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8.w),
       width: 160.w,
-      height: 250.h,
       decoration: BoxDecoration(
         color: AppColors.secondary,
         borderRadius: BorderRadius.circular(20.r),
@@ -52,7 +51,9 @@ class ProductCard extends StatelessWidget {
               children: [
                 Text(
                   name,
-                  style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
+                  style: AppTextStyles.body.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),

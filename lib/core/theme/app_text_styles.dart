@@ -7,13 +7,13 @@ class AppTextStyles {
   AppTextStyles._();
 
   static TextStyle heading1 = GoogleFonts.poppins(
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: FontWeight.bold,
     color: AppColors.textPrimary,
   );
 
   static TextStyle heading2 = GoogleFonts.poppins(
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
   );
