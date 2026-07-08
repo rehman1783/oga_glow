@@ -8,4 +8,5 @@ static const mainNavigation = '/main-navigation';
   static const wishlist = '/wishlist';
   static const cart = '/cart';
   static const profile = '/profile';
+  static const products = '/products';
 }

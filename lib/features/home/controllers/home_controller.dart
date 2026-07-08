@@ -28,7 +28,18 @@ class HomeController extends GetxController {
     "icon": Icons.inventory_2_outlined,
   },
 ];
-
+final featuredProducts = [
+  {
+    "name": "Vitamin C Serum",
+    "price": "1500",
+    "image": "assets/images/banner1.jpeg",
+  },
+  {
+    "name": "Hair Growth Serum",
+    "price": "2200",
+    "image": "assets/images/banner2.jpeg",
+  },
+];
   void updateBanner(int index) {
     currentBanner.value = index;
   }
