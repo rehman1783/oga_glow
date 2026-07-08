@@ -27,5 +27,6 @@ class AppPages {
   page: () => const MainNavigationScreen(),
   binding: MainNavigationBinding(),
 ),
+
   ];
 }
