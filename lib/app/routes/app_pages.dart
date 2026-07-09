@@ -42,7 +42,7 @@ GetPage(
   binding: ProductBinding(),
 ),
 GetPage(
-  name: AppRoutes.products,
+  name: AppRoutes.products_details,
   page: () => const ProductScreen(),
   binding: ProductBinding(),
 ),
