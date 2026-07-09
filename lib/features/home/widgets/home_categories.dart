@@ -18,19 +18,16 @@ class HomeCategories extends GetView<HomeController> {
         children: [
           Row(
             children: [
-              Text(
-                "Categories",
-                style: AppTextStyles.heading2,
-              ),
+              Text("Categories", style: AppTextStyles.heading2),
 
               const Spacer(),
 
-             TextButton(
-  onPressed: () {
-    Get.toNamed(AppRoutes.category);
-  },
-  child: const Text("See All"),
-),
+              TextButton(
+                onPressed: () {
+                  Get.toNamed(AppRoutes.category);
+                },
+                child: const Text("See All"),
+              ),
             ],
           ),
 
@@ -48,6 +45,12 @@ class HomeCategories extends GetView<HomeController> {
                 return CategoryItem(
                   icon: category['icon'] as IconData,
                   title: category['name'] as String,
+                  onTap: () {
+                    Get.toNamed(
+                      AppRoutes.category,
+                      arguments: category['name'],
+                    );
+                  },
                 );
               },
             ),
