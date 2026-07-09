@@ -1,13 +1,7 @@
 import 'package:get/get.dart';
 
 class CategoryController extends GetxController {
-  final categories = [
-    'All',
-    'Skin Care',
-    'Hair Care',
-    'Body Care',
-    'Kits',
-  ].obs;
+  final categories = ['All', 'Skin Care', 'Hair Care', 'Body Care', 'Kits'].obs;
 
   final selectedCategory = 'All'.obs;
 
@@ -40,6 +34,7 @@ class CategoryController extends GetxController {
 
   void changeCategory(String category) {
     selectedCategory.value = category;
+    // print("Selected: ${selectedCategory.value}");
   }
 
   List<Map<String, dynamic>> get filteredProducts {
@@ -47,9 +42,8 @@ class CategoryController extends GetxController {
       return allProducts;
     }
 
-    return allProducts.where(
-      (product) =>
-          product['category'] == selectedCategory.value,
-    ).toList();
+    return allProducts
+        .where((product) => product['category'] == selectedCategory.value)
+        .toList();
   }
 }

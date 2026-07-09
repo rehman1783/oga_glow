@@ -7,10 +7,7 @@ import '../../../core/theme/app_text_styles.dart';
 class CategoryProductCard extends StatelessWidget {
   final Map<String, dynamic> product;
 
-  const CategoryProductCard({
-    super.key,
-    required this.product,
-  });
+  const CategoryProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +30,32 @@ class CategoryProductCard extends StatelessWidget {
           /// Product Image
           Expanded(
             flex: 7,
-            child: ClipRRect(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(16.r),
-              ),
-              child: Image.asset(
-                product['image'],
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(16.r),
+                  ),
+                  child: Image.asset(
+                    product['image'],
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.favorite_border, size: 18),
+                  ),
+                ),
+              ],
             ),
           ),
 

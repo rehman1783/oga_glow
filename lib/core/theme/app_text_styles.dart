@@ -7,31 +7,31 @@ class AppTextStyles {
   AppTextStyles._();
 
   static TextStyle heading1 = GoogleFonts.poppins(
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: FontWeight.bold,
     color: AppColors.textPrimary,
   );
 
   static TextStyle heading2 = GoogleFonts.poppins(
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
   );
 
   static TextStyle body = GoogleFonts.poppins(
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: FontWeight.w400,
     color: AppColors.textPrimary,
   );
 
   static TextStyle caption = GoogleFonts.poppins(
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: FontWeight.w400,
     color: AppColors.textSecondary,
   );
 
   static TextStyle button = GoogleFonts.poppins(
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: FontWeight.w600,
     color: AppColors.white,
   );
