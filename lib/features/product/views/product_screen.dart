@@ -17,21 +17,16 @@ class ProductScreen extends GetView<ProductController> {
     controller;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Product Details'),
-      ),
+      appBar: AppBar(title: const Text('Product Details')),
 
-      bottomNavigationBar:
-          const ProductActionButtons(),
+      bottomNavigationBar: const ProductActionButtons(),
 
       body: SingleChildScrollView(
         child: Column(
           children: [
             const ProductImageSection(),
 
-            ProductInfoSection(
-              product: controller.product,
-            ),
+            ProductInfoSection(product: controller.product),
 
             ProductDescriptionSection(
               description:
