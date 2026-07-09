@@ -41,5 +41,10 @@ GetPage(
   page: () => const ProductScreen(),
   binding: ProductBinding(),
 ),
+GetPage(
+  name: AppRoutes.products,
+  page: () => const ProductScreen(),
+  binding: ProductBinding(),
+),
   ];
 }
