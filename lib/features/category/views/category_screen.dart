@@ -6,7 +6,7 @@ import 'package:oga_glow/features/category/widgets/category_product_card.dart';
 
 import '../../home/widgets/product_card.dart';
 import '../controllers/category_controller.dart';
-import '../widgets/category_chip.dart';
+import 'category_chip_row.dart';
 
 class CategoryScreen extends GetView<CategoryController> {
   const CategoryScreen({super.key});
@@ -29,23 +29,7 @@ class CategoryScreen extends GetView<CategoryController> {
             const SizedBox(height: 20),
             SizedBox(
               height: 45,
-              child: Obx(
-                () => ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: controller.categories.length,
-                  itemBuilder: (context, index) {
-                    final category = controller.categories[index];
-
-                    return CategoryChip(
-                      title: category,
-                      isSelected: controller.selectedCategory.value == category,
-                      onTap: () {
-                        controller.changeCategory(category);
-                      },
-                    );
-                  },
-                ),
-              ),
+              child: CategoryChipRow(controller: controller),
             ),
 
             const SizedBox(height: 10),

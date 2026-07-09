@@ -1,13 +1,7 @@
 import 'package:get/get.dart';
 
 class CategoryController extends GetxController {
-  final categories = [
-    'All',
-    'Skin Care',
-    'Hair Care',
-    'Body Care',
-    'Kits',
-  ].obs;
+  final categories = ['All', 'Skin Care', 'Hair Care', 'Body Care', 'Kits'].obs;
 
   final selectedCategory = 'All'.obs;
 
@@ -41,14 +35,34 @@ class CategoryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    // Note: controller can be reused because of Get.lazyPut.
+    // Don’t rely on onInit() alone for deep-link arguments.
+    _setSelectedFromArguments();
+  }
 
-    // Home Screen se aayi hui category set karo
-    selectedCategory.value =
-        Get.arguments?.toString() ?? 'All';
+  @override
+  void onReady() {
+    super.onReady();
+    // Ensure arguments are applied after the route is mounted.
+    _setSelectedFromArguments();
+  }
+
+  void _setSelectedFromArguments() {
+    final raw = Get.arguments?.toString();
+    if (raw == null || raw.trim().isEmpty) return;
+
+    final normalized = raw.trim();
+
+    // Keep controller categories consistent.
+    if (categories.contains(normalized)) {
+      selectedCategory.value = normalized;
+    } else {
+      selectedCategory.value = 'All';
+    }
   }
 
   void changeCategory(String category) {
-    selectedCategory.value = category;
+    selectedCategory.value = category.trim();
   }
 
   List<Map<String, dynamic>> get filteredProducts {
@@ -56,9 +70,8 @@ class CategoryController extends GetxController {
       return allProducts;
     }
 
-    return allProducts.where(
-      (product) =>
-          product['category'] == selectedCategory.value,
-    ).toList();
+    return allProducts
+        .where((product) => product['category'] == selectedCategory.value)
+        .toList();
   }
 }
