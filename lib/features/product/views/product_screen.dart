@@ -17,29 +17,44 @@ class ProductScreen extends GetView<ProductController> {
     controller;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Product Details')),
-
+      appBar: AppBar(title: const Text('Product Details'), centerTitle: true),
       bottomNavigationBar: const ProductActionButtons(),
-
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const ProductImageSection(),
-
-            ProductInfoSection(product: controller.product),
-
-            ProductDescriptionSection(
-              description:
-                  controller.product['description'] ??
-                  'No description available',
-            ),
-
-            const ProductBenefitsSection(),
-
-            const QuantitySelector(),
-
-            const SizedBox(height: 120),
-          ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const ProductImageSection(),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(24),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 12),
+                    ProductInfoSection(product: controller.product),
+                    const SizedBox(height: 4),
+                  ],
+                ),
+              ),
+              ProductDescriptionSection(
+                description:
+                    controller.product['description'] ??
+                    'No description available',
+              ),
+              const ProductBenefitsSection(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24),
+                child: const QuantitySelector(),
+              ),
+              const SizedBox(height: 120),
+            ],
+          ),
         ),
       ),
     );
