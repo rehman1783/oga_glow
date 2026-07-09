@@ -13,7 +13,8 @@ class CategoryScreen extends GetView<CategoryController> {
 
   @override
   Widget build(BuildContext context) {
-    controller;
+    // Force-synchronize route args into controller state in case controller is reused.
+    controller.syncFromRouteArguments();
 
     return Scaffold(
       backgroundColor: AppColors.background,

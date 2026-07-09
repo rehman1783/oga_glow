@@ -35,35 +35,25 @@ class CategoryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // Note: controller can be reused because of Get.lazyPut.
-    // Don’t rely on onInit() alone for deep-link arguments.
-    _setSelectedFromArguments();
+    // Don’t rely on navigation lifecycle alone; always sync from arguments.
+    syncFromRouteArguments();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-    // Ensure arguments are applied after the route is mounted.
-    _setSelectedFromArguments();
-  }
-
-  void _setSelectedFromArguments() {
+  /// Call this from the screen whenever it builds/mounts.
+  void syncFromRouteArguments() {
     final raw = Get.arguments?.toString();
-    if (raw == null || raw.trim().isEmpty) return;
+    if (raw == null) return;
 
     final normalized = raw.trim();
+    if (normalized.isEmpty) return;
 
-    // Keep controller categories consistent.
-    if (categories.contains(normalized)) {
-      selectedCategory.value = normalized;
-    } else {
-      selectedCategory.value = 'All';
-    }
+    selectedCategory.value = categories.contains(normalized) ? normalized : 'All';
   }
 
   void changeCategory(String category) {
     selectedCategory.value = category.trim();
   }
+
 
   List<Map<String, dynamic>> get filteredProducts {
     if (selectedCategory.value == 'All') {
