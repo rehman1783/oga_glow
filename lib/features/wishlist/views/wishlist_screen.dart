@@ -19,42 +19,52 @@ class WishlistScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
-        elevation: 0,
-        centerTitle: false,
-        titleSpacing: 0,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Wishlist', style: AppTextStyles.heading2),
-            Obx(
-              () => Text(
-                '${controller.wishlistItems.length} item${controller.wishlistItems.length == 1 ? '' : 's'}',
-                style: AppTextStyles.caption,
-              ),
-            ),
-          ],
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(92.h),
+        child: AppBar(
+          backgroundColor: AppColors.background,
+          elevation: 0,
+          centerTitle: false,
+          titleSpacing: 0,
+          // leading: IconButton(
+          //   onPressed: () => Get.back(),
+          //   icon: const Icon(Icons.arrow_back_ios_new_rounded),
+          // ),
+          title: Center(child: Text('Wishlist', style: AppTextStyles.heading2)),
         ),
       ),
-      body: Obx(() {
-        if (controller.wishlistItems.isEmpty) {
-          return const EmptyWishlist();
-        }
+      body:
+          // Obx(
+          //   () => Container(
+          //     padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+          //     decoration: BoxDecoration(
+          //       color: AppColors.secondary,
+          //       borderRadius: BorderRadius.circular(999.r),
+          //       border: Border.all(color: AppColors.border.withOpacity(0.8)),
+          //     ),
+          //     child: Text(
+          //       '${controller.wishlistItems.length} item${controller.wishlistItems.length == 1 ? '' : 's'}',
+          //       style: AppTextStyles.caption,
+          //     ),
+          //   ),
+          // ),
+          Obx(() {
+            if (controller.wishlistItems.isEmpty) {
+              return const EmptyWishlist();
+            }
 
-        return ListView.separated(
-          padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
-          itemCount: controller.wishlistItems.length,
-          separatorBuilder: (_, __) => SizedBox(height: 12.h),
-          itemBuilder: (context, index) {
-            return WishlistItemCard(
-              product: controller.wishlistItems[index],
-              index: index,
+            return ListView.separated(
+              padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
+              itemCount: controller.wishlistItems.length,
+              separatorBuilder: (_, __) => SizedBox(height: 12.h),
+              itemBuilder: (context, index) {
+                return WishlistItemCard(
+                  product: controller.wishlistItems[index],
+                  index: index,
+                );
+              },
             );
-          },
-        );
-      }),
+          }),
     );
   }
 }
