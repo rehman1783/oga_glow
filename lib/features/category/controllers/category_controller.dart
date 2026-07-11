@@ -47,13 +47,14 @@ class CategoryController extends GetxController {
     final normalized = raw.trim();
     if (normalized.isEmpty) return;
 
-    selectedCategory.value = categories.contains(normalized) ? normalized : 'All';
+    selectedCategory.value = categories.contains(normalized)
+        ? normalized
+        : 'All';
   }
 
   void changeCategory(String category) {
     selectedCategory.value = category.trim();
   }
-
 
   List<Map<String, dynamic>> get filteredProducts {
     if (selectedCategory.value == 'All') {

@@ -15,4 +15,3 @@ abstract class AppRoutes {
   static const products = '/products';
   static const products_details = '/products-details';
 }
-

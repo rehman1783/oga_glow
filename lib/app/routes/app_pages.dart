@@ -55,5 +55,10 @@ class AppPages {
       page: () => const ProductScreen(),
       binding: ProductBinding(),
     ),
+    GetPage(
+      name: AppRoutes.wishlist,
+      page: () => const CategoryScreen(),
+      binding: CategoryBinding(),
+    ),
   ];
 }
