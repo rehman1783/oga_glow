@@ -1,6 +1,10 @@
-- [x] Wishlist toggle behavior implement (add/remove with heart icon)
-- [x] Snackbar update: second tap => “Item removed from wishlist”
-- [x] Verify: heart icon state + wishlist list removal
+# TODO
 
+## Wishlist UI improvements
+- [x] Update WishlistScreen app bar + padding/background + counter
+- [x] Redesign WishlistItemCard layout (better spacing, action buttons, typography)
+- [x] Enhance EmptyWishlist visuals (theme colors + better spacing)
+- [x] Run flutter analyze
+- [ ] Smoke test: open Wishlist screen with empty + non-empty states
 
 

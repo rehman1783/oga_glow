@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
 
+import 'package:oga_glow/app/routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
-import 'package:oga_glow/app/routes/app_routes.dart';
-
+import '../../wishlist/controllers/wishlist_controller.dart';
 
 class CategoryProductCard extends StatelessWidget {
   final Map<String, dynamic> product;
 
   const CategoryProductCard({super.key, required this.product});
+
+  Map<String, dynamic> get _productData => {
+    'name': product['name'],
+    'category': product['category'],
+    'price': product['price'],
+    'image': product['image'],
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +35,6 @@ class CategoryProductCard extends StatelessWidget {
             ),
           ],
         ),
-
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -52,13 +57,43 @@ class CategoryProductCard extends StatelessWidget {
                   Positioned(
                     top: 10,
                     right: 10,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.favorite_border, size: 18),
+                    child: Builder(
+                      builder: (context) {
+                        final wishlistController = Get.find<WishlistController>(
+                          tag: WishlistController.tag,
+                        );
+
+                        return Obx(() {
+                          final inWishlist = wishlistController.isInWishlist(
+                            _productData,
+                          );
+
+                          return InkWell(
+                            borderRadius: BorderRadius.circular(20.r),
+                            onTap: () {
+                              wishlistController.toggleWishlistItem(
+                                _productData,
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                inWishlist
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                size: 18,
+                                color: inWishlist
+                                    ? Colors.red
+                                    : AppColors.textPrimary,
+                              ),
+                            ),
+                          );
+                        });
+                      },
                     ),
                   ),
                 ],

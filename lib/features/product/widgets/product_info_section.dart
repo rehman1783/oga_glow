@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:oga_glow/features/wishlist/controllers/wishlist_controller.dart';
 
 class ProductInfoSection extends StatelessWidget {
   final Map<String, dynamic> product;
@@ -32,22 +34,46 @@ class ProductInfoSection extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              InkWell(
-                borderRadius: BorderRadius.circular(12),
-                onTap: () {
-                  // Placeholder for wishlist interaction.
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Saved to wishlist')),
-                  );
+              Builder(
+                builder: (context) {
+                  return Obx(() {
+                    final wishlistController = Get.find<WishlistController>(
+                      tag: WishlistController.tag,
+                    );
+
+                    final productData = {
+                      'name': product['name'],
+                      'price': product['price'],
+                      'image': product['image'],
+                      'category': product['category'],
+                      'description': product['description'],
+                    };
+
+                    final inWishlist = wishlistController.isInWishlist(
+                      productData,
+                    );
+
+                    return InkWell(
+                      borderRadius: BorderRadius.circular(12),
+                      onTap: () {
+                        wishlistController.toggleWishlistItem(productData);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primaryContainer,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          inWishlist
+                              ? Icons.favorite_rounded
+                              : Icons.favorite_border_rounded,
+                          color: inWishlist ? Colors.red : null,
+                        ),
+                      ),
+                    );
+                  });
                 },
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(Icons.favorite_border_rounded),
-                ),
               ),
             ],
           ),

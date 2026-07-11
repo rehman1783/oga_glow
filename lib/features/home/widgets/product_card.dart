@@ -91,7 +91,7 @@ class ProductCard extends StatelessWidget {
                           ),
                           child: Icon(
                             inWishlist ? Icons.favorite : Icons.favorite_border,
-                            size: 18.sp,
+                            size: 18,
                             color: inWishlist
                                 ? Colors.red
                                 : AppColors.textPrimary,
