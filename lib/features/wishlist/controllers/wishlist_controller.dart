@@ -36,13 +36,11 @@ class WishlistController extends GetxController {
   void addToWishlist(Map<String, dynamic> product) {
     // Debug: ensure method is hitting.
     // ignore: avoid_print
-    
-   
+
     // Ensure correct type (Get may pass IdentityMap internally).
     final normalized = <String, dynamic>{...product};
 
     if (isInWishlist(normalized)) {
-
       Get.snackbar(
         'Wishlist',
         'Already saved to wishlist',
@@ -54,7 +52,6 @@ class WishlistController extends GetxController {
 
     wishlistItems.add(normalized);
 
-
     Get.snackbar(
       'Wishlist',
       'Saved to wishlist',
@@ -65,6 +62,27 @@ class WishlistController extends GetxController {
 
   void removeItem(int index) {
     wishlistItems.removeAt(index);
+  }
+
+  void toggleWishlistItem(Map<String, dynamic> product) {
+    final normalized = <String, dynamic>{...product};
+
+    final index = wishlistItems.indexWhere(
+      (item) => _isSameProduct(item, normalized),
+    );
+
+    if (index != -1) {
+      wishlistItems.removeAt(index);
+      Get.snackbar(
+        'Wishlist',
+        'Item removed from wishlist',
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 2),
+      );
+      return;
+    }
+
+    addToWishlist(normalized);
   }
 
   /// Kept for compatibility; used by wishlist UI flow.
