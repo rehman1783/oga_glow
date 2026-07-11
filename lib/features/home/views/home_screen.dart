@@ -45,7 +45,7 @@ class HomeScreen extends GetView<HomeController> {
                   child: SectionTitle(
                     title: 'Featured Products',
                     onSeeAll: () {
-                      Get.toNamed(AppRoutes.products);
+                      Get.toNamed(AppRoutes.allProducts);
                     },
                   ),
                 ),
@@ -76,7 +76,7 @@ class HomeScreen extends GetView<HomeController> {
                   child: SectionTitle(
                     title: 'Best Sellers',
                     onSeeAll: () {
-                      Get.toNamed(AppRoutes.products);
+                      Get.toNamed(AppRoutes.allProducts);
                     },
                   ),
                 ),
@@ -108,7 +108,7 @@ class HomeScreen extends GetView<HomeController> {
                   child: SectionTitle(
                     title: 'New Arrivals',
                     onSeeAll: () {
-                      Get.toNamed(AppRoutes.products);
+                      Get.toNamed(AppRoutes.allProducts);
                     },
                   ),
                 ),

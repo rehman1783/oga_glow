@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:oga_glow/features/category/bindings/category_binding.dart';
+
 import 'package:oga_glow/features/category/views/category_screen.dart';
+
 import 'package:oga_glow/features/home/bindings/home_binding.dart';
 import 'package:oga_glow/features/home/views/home_screen.dart';
 import 'package:oga_glow/features/main_navigation/bindings/main_navigation_binding.dart';
@@ -26,25 +28,32 @@ class AppPages {
       page: () => const HomeScreen(),
       binding: HomeBinding(),
     ),
-   GetPage(
-  name: AppRoutes.mainNavigation,
-  page: () => const MainNavigationScreen(),
-  binding: MainNavigationBinding(),
-),
-GetPage(
-  name: AppRoutes.category,
-  page: () => const CategoryScreen(),
-  binding: CategoryBinding(),
-),
-GetPage(
-  name: AppRoutes.products,
-  page: () => const ProductScreen(),
-  binding: ProductBinding(),
-),
-GetPage(
-  name: AppRoutes.products_details,
-  page: () => const ProductScreen(),
-  binding: ProductBinding(),
-),
+    GetPage(
+      name: AppRoutes.mainNavigation,
+      page: () => const MainNavigationScreen(),
+      binding: MainNavigationBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.category,
+      page: () => const CategoryScreen(),
+      binding: CategoryBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.allProducts,
+      page: () => const CategoryScreen(),
+      binding: CategoryBinding(),
+      arguments: 'All',
+    ),
+
+    // GetPage(
+    //   name: AppRoutes.products,
+    //   page: () => const ProductScreen(),
+    //   binding: ProductBinding(),
+    // ),
+    GetPage(
+      name: AppRoutes.products_details,
+      page: () => const ProductScreen(),
+      binding: ProductBinding(),
+    ),
   ];
 }
