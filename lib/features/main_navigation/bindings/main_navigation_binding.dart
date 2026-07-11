@@ -12,6 +12,9 @@ class MainNavigationBinding extends Bindings {
     Get.put(MainNavigationController());
     Get.put(HomeController());
     Get.put(CategoryController());
-    Get.put(WishlistController());
-  }
+Get.put(
+  WishlistController(),
+  tag: WishlistController.tag,
+  permanent: true,
+);  }
 }

@@ -68,7 +68,7 @@ class WishlistItemCard extends StatelessWidget {
 
               ElevatedButton(
                 onPressed: () {
-                  controller.addToCart(product);
+                  controller.addToCartDynamic(product);
                 },
                 child: const Text("Add To Cart"),
               ),
