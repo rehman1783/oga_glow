@@ -48,7 +48,6 @@ class HomeScreen extends GetView<HomeController> {
                       Get.toNamed(
                         AppRoutes.allProducts,
                         arguments: {'category': 'All'},
-                        
                       );
                     },
                   ),
@@ -57,7 +56,7 @@ class HomeScreen extends GetView<HomeController> {
                 const SizedBox(height: 20),
 
                 SizedBox(
-                  height: 300.h,
+                  height: 350.h,
                   child: ListView.separated(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     scrollDirection: Axis.horizontal,
@@ -91,7 +90,7 @@ class HomeScreen extends GetView<HomeController> {
                 SizedBox(height: 15.h),
 
                 SizedBox(
-                  height: 300.h,
+                  height: 350.h,
                   child: ListView.separated(
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
                     scrollDirection: Axis.horizontal,
@@ -126,7 +125,7 @@ class HomeScreen extends GetView<HomeController> {
                 SizedBox(height: 15.h),
 
                 SizedBox(
-                  height: 300.h,
+                  height: 350.h,
                   child: ListView.separated(
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
                     scrollDirection: Axis.horizontal,
