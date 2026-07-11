@@ -17,8 +17,10 @@ class WishlistItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<WishlistController>();
-
+ final WishlistController controller =
+      Get.find<WishlistController>(
+    tag: WishlistController.tag,
+  );
     return Container(
       margin: EdgeInsets.only(bottom: 16.h),
       padding: EdgeInsets.all(12.w),

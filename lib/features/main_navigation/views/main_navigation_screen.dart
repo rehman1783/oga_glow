@@ -17,7 +17,7 @@ class MainNavigationScreen extends GetView<MainNavigationController> {
     final screens = [
       const HomeScreen(),
       const CategoryScreen(),
-      const WishlistScreen(),
+       WishlistScreen(),
       const CartScreen(),
       const ProfileScreen(),
     ];
