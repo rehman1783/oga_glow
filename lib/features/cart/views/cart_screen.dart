@@ -90,15 +90,9 @@ class CartScreen extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            Get.snackbar(
-                              'Checkout',
-                              'Checkout flow will be wired later.',
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor: AppColors.cardBackground,
-                              colorText: AppColors.textPrimary,
-                              borderRadius: 14.r,
-                            );
+                            Get.toNamed('/checkout');
                           },
+
                           icon: const Icon(Icons.payment_rounded),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primary,

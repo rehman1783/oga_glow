@@ -7,6 +7,7 @@ abstract class AppRoutes {
   static const category = '/category';
   static const wishlist = '/wishlist';
   static const cart = '/cart';
+  static const checkout = '/checkout';
   static const profile = '/profile';
 
   /// All products screen (registered as separate route as requested).

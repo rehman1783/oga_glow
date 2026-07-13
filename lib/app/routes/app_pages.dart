@@ -25,6 +25,8 @@ import 'app_routes.dart';
 import '../../features/auth/views/auth_entry_screen.dart';
 import '../../features/auth/views/login_screen.dart';
 import '../../features/auth/views/signup_screen.dart';
+import '../../features/checkout/views/checkout_screen.dart';
+import '../../features/checkout/bindings/checkout_binding.dart';
 
 class AppPages {
   AppPages._();
@@ -51,6 +53,12 @@ class AppPages {
       page: () => const CategoryScreen(),
       binding: CategoryBinding(),
     ),
+    GetPage(
+      name: AppRoutes.checkout,
+      page: () => const CheckoutScreen(),
+      binding: CheckoutBinding(),
+    ),
+
     GetPage(
       name: AppRoutes.allProducts,
       page: () => const CategoryScreen(),
