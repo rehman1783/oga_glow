@@ -8,9 +8,12 @@ import 'package:oga_glow/features/home/views/home_screen.dart';
 
 import 'package:oga_glow/features/main_navigation/bindings/main_navigation_binding.dart';
 import 'package:oga_glow/features/main_navigation/views/main_navigation_screen.dart';
-
 import 'package:oga_glow/features/product/bindings/product_binding.dart';
 import 'package:oga_glow/features/product/views/product_screen.dart';
+import 'package:oga_glow/features/auth/bindings/login_binding.dart';
+import 'package:oga_glow/features/auth/bindings/signup_binding.dart';
+import 'package:oga_glow/features/auth/views/login_screen.dart';
+import 'package:oga_glow/features/auth/views/signup_screen.dart';
 
 import '../../features/splash/bindings/splash_binding.dart';
 import '../../features/splash/views/splash_screen.dart';
@@ -19,6 +22,9 @@ import '../../features/wishlist/bindings/wishlist_binding.dart';
 import '../../features/wishlist/views/wishlist_screen.dart';
 
 import 'app_routes.dart';
+import '../../features/auth/views/auth_entry_screen.dart';
+import '../../features/auth/views/login_screen.dart';
+import '../../features/auth/views/signup_screen.dart';
 
 class AppPages {
   AppPages._();
@@ -29,6 +35,7 @@ class AppPages {
       page: () => const SplashScreen(),
       binding: SplashBinding(),
     ),
+    GetPage(name: AppRoutes.auth, page: () => const AuthEntryScreen()),
     GetPage(
       name: AppRoutes.home,
       page: () => const HomeScreen(),
@@ -66,5 +73,17 @@ class AppPages {
     //   page: () => const WishlistScreen(),
     //   binding: WishlistBinding(),
     // ),
+
+    // Auth routes
+    GetPage(
+      name: AppRoutes.login,
+      page: () => const LoginScreen(),
+      binding: LoginBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.signup,
+      page: () => const SignupScreen(),
+      binding: SignupBinding(),
+    ),
   ];
 }
