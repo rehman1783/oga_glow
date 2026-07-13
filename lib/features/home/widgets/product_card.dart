@@ -71,8 +71,8 @@ class ProductCard extends StatelessWidget {
                   ),
 
                   Positioned(
-                    top: 10.w,
-                    right: 10.w,
+                    top: 10,
+                    right: 10,
                     child: Obx(() {
                       final inWishlist = wishlistController.isInWishlist(
                         _productData,

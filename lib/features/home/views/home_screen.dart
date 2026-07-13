@@ -56,12 +56,12 @@ class HomeScreen extends GetView<HomeController> {
                 const SizedBox(height: 20),
 
                 SizedBox(
-                  height: 350.h,
+                  height: 300.h,
                   child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 08.w),
                     scrollDirection: Axis.horizontal,
                     itemCount: controller.featuredProducts.length,
-                    separatorBuilder: (_, __) => const SizedBox(width: 16),
+                    separatorBuilder: (_, __) => SizedBox(width: 08.w),
                     itemBuilder: (context, index) {
                       final product = controller.featuredProducts[index];
 
@@ -92,10 +92,10 @@ class HomeScreen extends GetView<HomeController> {
                 SizedBox(
                   height: 350.h,
                   child: ListView.separated(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    padding: EdgeInsets.symmetric(horizontal: 08.w),
                     scrollDirection: Axis.horizontal,
                     itemCount: controller.bestSellers.length,
-                    separatorBuilder: (_, __) => SizedBox(width: 12.w),
+                    separatorBuilder: (_, __) => SizedBox(width: 08.w),
                     itemBuilder: (context, index) {
                       final product = controller.bestSellers[index];
 
@@ -127,10 +127,10 @@ class HomeScreen extends GetView<HomeController> {
                 SizedBox(
                   height: 350.h,
                   child: ListView.separated(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
                     scrollDirection: Axis.horizontal,
                     itemCount: controller.newArrivals.length,
-                    separatorBuilder: (_, __) => SizedBox(width: 12.w),
+                    separatorBuilder: (_, __) => SizedBox(width: 8.w),
                     itemBuilder: (context, index) {
                       final product = controller.newArrivals[index];
 

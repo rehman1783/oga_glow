@@ -29,7 +29,7 @@ class CategoryProductCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black12,
+              color: AppColors.primaryLight,
               blurRadius: 8.r,
               offset: const Offset(0, 4),
             ),
