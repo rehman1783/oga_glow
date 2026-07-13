@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:oga_glow/features/auth/bindings/auth_entry_binding.dart';
 
 import 'package:oga_glow/features/category/bindings/category_binding.dart';
 import 'package:oga_glow/features/category/views/category_screen.dart';
@@ -92,6 +93,9 @@ class AppPages {
       name: AppRoutes.signup,
       page: () => const SignupScreen(),
       binding: SignupBinding(),
+    ),
+    GetPage(name: AppRoutes.entry, page: () => const AuthEntryScreen(),
+    binding: AuthEntryBinding(),
     ),
   ];
 }

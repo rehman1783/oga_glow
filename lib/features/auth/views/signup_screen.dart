@@ -22,7 +22,7 @@ class SignupScreen extends GetView<SignupController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 24),
-              const AuthBrandHeader(title: 'Sign up'),
+              const AuthBrandHeader(),
               const SizedBox(height: 24),
               AuthTextFormFields(
                 isLogin: false,

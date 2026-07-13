@@ -22,6 +22,8 @@ class OgaGlowApp extends StatelessWidget {
           title: 'OGA Glow',
 
           theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+
 
           initialBinding: InitialBinding(),
 

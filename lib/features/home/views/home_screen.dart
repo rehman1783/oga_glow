@@ -56,12 +56,12 @@ class HomeScreen extends GetView<HomeController> {
                 const SizedBox(height: 20),
 
                 SizedBox(
-                  height: 300.h,
+                  height: 280.h,
                   child: ListView.separated(
-                    padding: EdgeInsets.symmetric(horizontal: 08.w),
+                    // padding: EdgeInsets.symmetric(horizontal: 08.w),
                     scrollDirection: Axis.horizontal,
                     itemCount: controller.featuredProducts.length,
-                    separatorBuilder: (_, __) => SizedBox(width: 08.w),
+                    separatorBuilder: (_, __) => SizedBox(width: 0.w),
                     itemBuilder: (context, index) {
                       final product = controller.featuredProducts[index];
 
@@ -90,12 +90,12 @@ class HomeScreen extends GetView<HomeController> {
                 SizedBox(height: 15.h),
 
                 SizedBox(
-                  height: 350.h,
+                  height: 280.h,
                   child: ListView.separated(
-                    padding: EdgeInsets.symmetric(horizontal: 08.w),
+                    // padding: EdgeInsets.symmetric(horizontal: 0.w),
                     scrollDirection: Axis.horizontal,
                     itemCount: controller.bestSellers.length,
-                    separatorBuilder: (_, __) => SizedBox(width: 08.w),
+                    separatorBuilder: (_, __) => SizedBox(width: 0.w),
                     itemBuilder: (context, index) {
                       final product = controller.bestSellers[index];
 
@@ -125,12 +125,12 @@ class HomeScreen extends GetView<HomeController> {
                 SizedBox(height: 15.h),
 
                 SizedBox(
-                  height: 350.h,
+                  height: 280.h,
                   child: ListView.separated(
-                    padding: EdgeInsets.symmetric(horizontal: 8.w),
+                    // padding: EdgeInsets.symmetric(horizontal: 8.w),
                     scrollDirection: Axis.horizontal,
                     itemCount: controller.newArrivals.length,
-                    separatorBuilder: (_, __) => SizedBox(width: 8.w),
+                    separatorBuilder: (_, __) => SizedBox(width: 0.w),
                     itemBuilder: (context, index) {
                       final product = controller.newArrivals[index];
 

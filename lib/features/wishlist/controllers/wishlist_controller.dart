@@ -45,7 +45,7 @@ class WishlistController extends GetxController {
         'Wishlist',
         'Already saved to wishlist',
         snackPosition: SnackPosition.BOTTOM,
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 1),
       );
       return;
     }
@@ -56,7 +56,7 @@ class WishlistController extends GetxController {
       'Wishlist',
       'Saved to wishlist',
       snackPosition: SnackPosition.BOTTOM,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 1),
     );
   }
 
@@ -77,7 +77,7 @@ class WishlistController extends GetxController {
         'Wishlist',
         'Item removed from wishlist',
         snackPosition: SnackPosition.BOTTOM,
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 1),
       );
       return;
     }

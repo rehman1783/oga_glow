@@ -18,6 +18,8 @@ abstract class AppRoutes {
 
   // Auth
   static const auth = '/auth';
+  static const entry = '/entry';
   static const login = '/login';
   static const signup = '/signup';
+  
 }

@@ -22,7 +22,7 @@ class LoginScreen extends GetView<LoginController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 24),
-              const AuthBrandHeader(title: 'Login'),
+              const AuthBrandHeader(),
               const SizedBox(height: 24),
               AuthTextFormFields(
                 isLogin: true,

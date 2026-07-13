@@ -37,110 +37,107 @@ class ProductCard extends StatelessWidget {
       onTap: () {
         Get.toNamed(AppRoutes.products_details, arguments: _productData);
       },
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 8.w),
-          width: 160.w,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16.r),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primaryLight,
-                blurRadius: 8.r,
-                offset: const Offset(0, 4),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 8.w),
+        width: 160.w,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16.r),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primaryLight,
+              blurRadius: 8.r,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            /// Product Image + Wishlist Icon
+            Expanded(
+              flex: 7,
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(16.r),
+                    ),
+                    child: Image.asset(
+                      image,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: Obx(() {
+                      final inWishlist = wishlistController.isInWishlist(
+                        _productData,
+                      );
+
+                      return InkWell(
+                        borderRadius: BorderRadius.circular(20.r),
+                        onTap: () {
+                          wishlistController.toggleWishlistItem(_productData);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            inWishlist ? Icons.favorite : Icons.favorite_border,
+                            size: 18,
+                            color: inWishlist
+                                ? Colors.red
+                                : AppColors.textPrimary,
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                ],
               ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              /// Product Image + Wishlist Icon
-              Expanded(
-                flex: 7,
-                child: Stack(
+            ),
+
+            /// Product Details
+            Expanded(
+              flex: 3,
+              child: Padding(
+                padding: EdgeInsets.all(10.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(16.r),
-                      ),
-                      child: Image.asset(
-                        image,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
+                    Text(
+                      name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextStyles.body.copyWith(
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
 
-                    Positioned(
-                      top: 10,
-                      right: 10,
-                      child: Obx(() {
-                        final inWishlist = wishlistController.isInWishlist(
-                          _productData,
-                        );
+                    const Spacer(),
 
-                        return InkWell(
-                          borderRadius: BorderRadius.circular(20.r),
-                          onTap: () {
-                            wishlistController.toggleWishlistItem(_productData);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              inWishlist
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              size: 18,
-                              color: inWishlist
-                                  ? Colors.red
-                                  : AppColors.textPrimary,
-                            ),
-                          ),
-                        );
-                      }),
+                    Text(
+                      'Rs ${price}',
+                      style: AppTextStyles.body.copyWith(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
               ),
-
-              /// Product Details
-              Expanded(
-                flex: 3,
-                child: Padding(
-                  padding: EdgeInsets.all(10.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.body.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-
-                      const Spacer(),
-
-                      Text(
-                        'Rs ${price}',
-                        style: AppTextStyles.body.copyWith(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-
+      ),
     );
   }
 }
