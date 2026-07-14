@@ -5,6 +5,8 @@ import '../controllers/signup_controller.dart';
 import '../widgets/auth_brand_header.dart';
 import '../widgets/auth_submit_button.dart';
 import '../widgets/auth_text_form_fields.dart';
+import '../widgets/glow_background.dart';
+import '../widgets/fade_slide_transition.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../app/routes/app_routes.dart';
 
@@ -14,70 +16,120 @@ class SignupScreen extends GetView<SignupController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 12),
-              const AuthBrandHeader(),
-              const SizedBox(height: 18),
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 350),
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.06),
-                      blurRadius: 18,
-                      offset: const Offset(0, 10),
-                    ),
-                  ],
+      backgroundColor: Colors.transparent,
+      body: GlowBackground(
+        child: SafeArea(
+          top: false, // Let header content draw under status bar
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const AuthBrandHeader(
+                  title: 'Create Account',
+                  subtitle: 'Start your journey to healthy, glowing skin.',
                 ),
-                child: AuthTextFormFields(
-                  isLogin: false,
-                  emailController: controller.emailController,
-                  passwordController: controller.passwordController,
-                  nameController: controller.nameController,
-                ),
-              ),
-              const SizedBox(height: 14),
+                
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 12),
+                      
+                      // Staggered Entrance 1: Credentials card
+                      FadeSlideTransition(
+                        index: 1,
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 350),
+                          padding: const EdgeInsets.all(18),
+                          decoration: BoxDecoration(
+                            color: AppColors.white.withOpacity(0.95),
+                            borderRadius: BorderRadius.circular(24),
+                            border: Border.all(
+                              color: AppColors.border.withOpacity(0.6),
+                              width: 1,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 20,
+                                offset: const Offset(0, 10),
+                              ),
+                            ],
+                          ),
+                          child: AuthTextFormFields(
+                            isLogin: false,
+                            emailController: controller.emailController,
+                            passwordController: controller.passwordController,
+                            nameController: controller.nameController,
+                          ),
+                        ),
+                      ),
+                      
+                      const SizedBox(height: 16),
 
-              Text(
-                'By continuing, you agree to our Terms & Privacy Policy.',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(color: AppColors.textSecondary),
-              ),
+                      // Staggered Entrance 2: Terms and policy text
+                      FadeSlideTransition(
+                        index: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: Text(
+                            'By continuing, you agree to our Terms & Privacy Policy.',
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                  color: AppColors.textSecondary,
+                                  height: 1.4,
+                                ),
+                          ),
+                        ),
+                      ),
 
-              const SizedBox(height: 16),
+                      const SizedBox(height: 24),
 
-              Obx(
-                () => AuthSubmitButton(
-                  text: 'Create account',
-                  isLoading: controller.isLoading.value,
-                  onPressed: controller.signup,
-                ),
-              ),
+                      // Staggered Entrance 3: Submit signup action
+                      FadeSlideTransition(
+                        index: 3,
+                        child: Obx(
+                          () => AuthSubmitButton(
+                            text: 'Create Account',
+                            isLoading: controller.isLoading.value,
+                            onPressed: controller.signup,
+                          ),
+                        ),
+                      ),
 
-              const SizedBox(height: 18),
+                      const SizedBox(height: 24),
 
-              Center(
-                child: TextButton(
-                  onPressed: () => Get.toNamed(AppRoutes.login),
-                  child: Text(
-                    "Already have an account? Log in",
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
+                      // Staggered Entrance 4: Nav toggle to login
+                      FadeSlideTransition(
+                        index: 4,
+                        child: Center(
+                          child: TextButton(
+                            onPressed: () => Get.toNamed(AppRoutes.login),
+                            child: RichText(
+                              text: TextSpan(
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                      color: AppColors.textSecondary,
+                                    ),
+                                children: const [
+                                  TextSpan(text: "Already have an account? "),
+                                  TextSpan(
+                                    text: "Log in",
+                                    style: TextStyle(
+                                      color: AppColors.primary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

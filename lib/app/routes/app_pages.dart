@@ -24,8 +24,6 @@ import '../../features/wishlist/views/wishlist_screen.dart';
 
 import 'app_routes.dart';
 import '../../features/auth/views/auth_entry_screen.dart';
-import '../../features/auth/views/login_screen.dart';
-import '../../features/auth/views/signup_screen.dart';
 import '../../features/checkout/views/checkout_screen.dart';
 import '../../features/checkout/bindings/checkout_binding.dart';
 

@@ -21,11 +21,12 @@ class SplashScreen extends GetView<SplashController> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFFE0F7FA), // Light cyan
-              Color(0xFF80DEEA), // Cyan
-              Color(0xFF26C6DA), // Darker cyan
-              Color(0xFF00ACC1), // Teal
+              AppColors.bgLight,
+              AppColors.secondary,
+              Color(0xFFE2EAD6), // Extremely soft olive mix
+              AppColors.bgLight,
             ],
+            stops: [0.0, 0.4, 0.8, 1.0],
           ),
         ),
         child: Stack(
@@ -55,12 +56,12 @@ class SplashScreen extends GetView<SplashController> {
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.pink.withOpacity(.25),
+                                color: AppColors.primary.withOpacity(.18),
                                 blurRadius: 50,
                                 spreadRadius: 15,
                               ),
                               BoxShadow(
-                                color: Colors.orange.withOpacity(.15),
+                                color: AppColors.primaryLight.withOpacity(.12),
                                 blurRadius: 80,
                                 spreadRadius: 30,
                               ),
@@ -91,7 +92,7 @@ class SplashScreen extends GetView<SplashController> {
                     style: GoogleFonts.inter(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: AppColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -101,15 +102,15 @@ class SplashScreen extends GetView<SplashController> {
                     style: GoogleFonts.inter(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black54,
+                      color: AppColors.textSecondary,
                       letterSpacing: 2,
                     ),
                   ),
                   const SizedBox(height: 10),
-                  // Existing shimmer tagline
+                  // Shimmer tagline in brand matching shades
                   Shimmer.fromColors(
-                    baseColor: Colors.grey.shade400,
-                    highlightColor: Colors.white,
+                    baseColor: AppColors.primary,
+                    highlightColor: AppColors.primaryLight,
                     child: const Text(
                       "FRESH & NATURAL",
                       style: TextStyle(
@@ -120,7 +121,7 @@ class SplashScreen extends GetView<SplashController> {
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
 
                   SizedBox(
                     width: 35,
@@ -134,8 +135,8 @@ class SplashScreen extends GetView<SplashController> {
                   const SizedBox(height: 20),
 
                   Shimmer.fromColors(
-                    baseColor: Colors.grey,
-                    highlightColor: Colors.white,
+                    baseColor: AppColors.textSecondary.withOpacity(0.5),
+                    highlightColor: AppColors.primaryLight,
                     child: const Text(
                       "LOADING...",
                       style: TextStyle(
@@ -148,14 +149,18 @@ class SplashScreen extends GetView<SplashController> {
               ),
             ),
 
-            const Positioned(
-              bottom: 10,
+            Positioned(
+              bottom: 16,
               left: 0,
               right: 0,
               child: Center(
                 child: Text(
                   "Version 1.0.0",
-                  style: TextStyle(color: Colors.black54, fontSize: 12),
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             ),
@@ -171,9 +176,17 @@ class FloatingParticles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Brand colors to pick from randomly
+    final List<Color> brandColors = [
+      AppColors.primary,
+      AppColors.primaryLight,
+      AppColors.accent,
+      AppColors.secondary,
+    ];
+
     return Stack(
       children: List.generate(
-        20,
+        25,
         (index) => Positioned(
           top: Random().nextDouble() * 800,
           left: Random().nextDouble() * 400,
@@ -181,8 +194,7 @@ class FloatingParticles extends StatelessWidget {
             width: Random().nextDouble() * 8 + 4,
             height: Random().nextDouble() * 8 + 4,
             decoration: BoxDecoration(
-              color: Colors.primaries[index % Colors.primaries.length]
-                  .withOpacity(.5),
+              color: brandColors[index % brandColors.length].withOpacity(.35),
               shape: BoxShape.circle,
             ),
           ),
