@@ -23,6 +23,28 @@ class ProductController extends GetxController {
 
   late Map<String, dynamic> product;
 
+  // Mock related products (can be replaced with API later)
+  final relatedProducts = <Map<String, dynamic>>[
+    {
+      'name': 'Related Product 1',
+      'price': '1600',
+      'image': 'assets/images/banner1.jpeg',
+      'category': 'General',
+    },
+    {
+      'name': 'Related Product 2',
+      'price': '2400',
+      'image': 'assets/images/banner2.jpeg',
+      'category': 'General',
+    },
+    {
+      'name': 'Related Product 3',
+      'price': '3100',
+      'image': 'assets/images/banner3.jpeg',
+      'category': 'General',
+    },
+  ];
+
   @override
   void onInit() {
     super.onInit();

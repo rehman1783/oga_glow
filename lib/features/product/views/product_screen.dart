@@ -3,11 +3,13 @@ import 'package:get/get.dart';
 import 'package:oga_glow/features/product/widgets/product_image_slider.dart';
 
 import '../controllers/product_controller.dart';
+
 import '../widgets/product_action_buttons.dart';
 import '../widgets/product_benefits_section.dart';
 import '../widgets/product_description_section.dart';
 import '../widgets/product_info_section.dart';
 import '../widgets/quantity_selector.dart';
+import '../widgets/related_products_section.dart';
 
 class ProductScreen extends GetView<ProductController> {
   const ProductScreen({super.key});
@@ -48,11 +50,10 @@ class ProductScreen extends GetView<ProductController> {
                     'No description available',
               ),
               const ProductBenefitsSection(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 24),
-                child: const QuantitySelector(),
-              ),
-              const SizedBox(height: 120),
+              const QuantitySelector(),
+              const RelatedProductsSection(),
+
+              const SizedBox(height: 50),
             ],
           ),
         ),

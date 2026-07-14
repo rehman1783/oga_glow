@@ -8,6 +8,8 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../wishlist/controllers/wishlist_controller.dart';
 
+import '../../wishlist/bindings/wishlist_binding.dart';
+
 class ProductCard extends StatelessWidget {
   final String name;
   final String price;
@@ -29,6 +31,11 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Ensure WishlistController exists (some routes may not include WishlistBinding).
+    if (!Get.isRegistered<WishlistController>(tag: WishlistController.tag)) {
+      WishlistBinding().dependencies();
+    }
+
     final wishlistController = Get.find<WishlistController>(
       tag: WishlistController.tag,
     );

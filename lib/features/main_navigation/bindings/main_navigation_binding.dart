@@ -17,6 +17,7 @@ class MainNavigationBinding extends Bindings {
       () => CartController(),
       tag: CartController.tag,
     );
+    
 Get.put(
   WishlistController(),
   tag: WishlistController.tag,
