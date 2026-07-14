@@ -17,18 +17,33 @@ class SignupScreen extends GetView<SignupController> {
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 24),
+              const SizedBox(height: 12),
               const AuthBrandHeader(),
-              const SizedBox(height: 24),
-              AuthTextFormFields(
-                isLogin: false,
-                emailController: controller.emailController,
-                passwordController: controller.passwordController,
-                nameController: controller.nameController,
+              const SizedBox(height: 18),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 350),
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.06),
+                      blurRadius: 18,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
+                ),
+                child: AuthTextFormFields(
+                  isLogin: false,
+                  emailController: controller.emailController,
+                  passwordController: controller.passwordController,
+                  nameController: controller.nameController,
+                ),
               ),
               const SizedBox(height: 14),
 
