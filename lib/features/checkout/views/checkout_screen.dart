@@ -6,6 +6,9 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../controllers/checkout_controller.dart';
 import '../widgets/shipping_address_form.dart';
+import '../widgets/app_text_field.dart';
+import '../../../core/widgets/bounce_tap.dart';
+import '../../../core/widgets/fade_slide_transition.dart';
 
 class CheckoutScreen extends GetView<CheckoutController> {
   const CheckoutScreen({super.key});
@@ -17,9 +20,8 @@ class CheckoutScreen extends GetView<CheckoutController> {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         elevation: 0,
-        centerTitle: false,
-        titleSpacing: 0,
-        title: Center(child: Text('Checkout', style: AppTextStyles.heading2)),
+        centerTitle: true,
+        title: Text('Checkout', style: AppTextStyles.heading2.copyWith(fontSize: 18)),
         scrolledUnderElevation: 0,
       ),
       body: SafeArea(
@@ -30,52 +32,95 @@ class CheckoutScreen extends GetView<CheckoutController> {
               Expanded(
                 child: Obx(
                   () => SingleChildScrollView(
-                    padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
+                    padding: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 24.h),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ShippingAddressForm(),
+                        // Staggered Entrance 0: Address Form Card
+                        FadeSlideTransition(
+                          index: 0,
+                          child: const ShippingAddressForm(),
+                        ),
 
-                        SizedBox(height: 18.h),
-                        Text('Payment', style: AppTextStyles.heading2),
-                        SizedBox(height: 12.h),
-
-                        Container(
-                          padding: EdgeInsets.all(16.w),
-                          decoration: BoxDecoration(
-                            color: AppColors.cardBackground,
-                            borderRadius: BorderRadius.circular(20.r),
-                            border: Border.all(
-                              color: AppColors.border.withOpacity(0.8),
-                            ),
-                          ),
+                        SizedBox(height: 24.h),
+                        
+                        // Staggered Entrance 1: Payment Selection Section
+                        FadeSlideTransition(
+                          index: 1,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _paymentOption(
-                                value: 'card',
-                                title: 'Card',
-                                subtitle: 'Visa / MasterCard / RuPay',
-                                icon: Icons.credit_card_rounded,
-                              ),
-                              SizedBox(height: 10.h),
-                              _paymentOption(
-                                value: 'cod',
-                                title: 'Cash on Delivery',
-                                subtitle: 'Pay when you receive your order',
-                                icon: Icons.money_rounded,
-                              ),
+                              Text('Payment Method', style: AppTextStyles.heading2),
                               SizedBox(height: 12.h),
-                              if (controller.paymentMethod.value == 'card')
-                                _cardFields(),
-                              if (controller.paymentMethod.value == 'cod')
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 4.w),
-                                  child: Text(
-                                    'You selected COD. Your card details are not required.',
-                                    style: AppTextStyles.caption,
+
+                              Container(
+                                padding: EdgeInsets.all(16.w),
+                                decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  borderRadius: BorderRadius.circular(24.r),
+                                  border: Border.all(
+                                    color: AppColors.border.withOpacity(0.5),
                                   ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.02),
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
                                 ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    _paymentOption(
+                                      value: 'card',
+                                      title: 'Card Payment',
+                                      subtitle: 'Visa / MasterCard / RuPay',
+                                      icon: Icons.credit_card_rounded,
+                                    ),
+                                    SizedBox(height: 12.h),
+                                    _paymentOption(
+                                      value: 'cod',
+                                      title: 'Cash on Delivery',
+                                      subtitle: 'Pay when you receive your order',
+                                      icon: Icons.money_rounded,
+                                    ),
+                                    
+                                    // Smoothly animated dynamic height fields container
+                                    AnimatedSize(
+                                      duration: const Duration(milliseconds: 250),
+                                      curve: Curves.easeInOut,
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        child: controller.paymentMethod.value == 'card'
+                                            ? Column(
+                                                key: const ValueKey('card_fields'),
+                                                children: [
+                                                  SizedBox(height: 16.h),
+                                                  _cardFields(),
+                                                ],
+                                              )
+                                            : Column(
+                                                key: const ValueKey('cod_fields'),
+                                                children: [
+                                                  SizedBox(height: 16.h),
+                                                  Padding(
+                                                    padding: EdgeInsets.symmetric(horizontal: 4.w),
+                                                    child: Text(
+                                                      'You selected Cash on Delivery. Card details are not required to complete this order.',
+                                                      style: AppTextStyles.caption.copyWith(
+                                                        color: AppColors.textSecondary,
+                                                        height: 1.4,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -87,71 +132,107 @@ class CheckoutScreen extends GetView<CheckoutController> {
                 ),
               ),
 
-              // Bottom summary / CTA
-              Padding(
-                padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
-                child: Container(
-                  padding: EdgeInsets.all(16.w),
-                  decoration: BoxDecoration(
-                    color: AppColors.cardBackground,
-                    borderRadius: BorderRadius.circular(20.r),
-                    border: Border.all(
-                      color: AppColors.border.withOpacity(0.8),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        children: [
-                          Text('Total', style: AppTextStyles.caption),
-                          const Spacer(),
-                          Obx(() => Text('Rs. ${controller.total}', style: AppTextStyles.heading2)),
-                        ],
+              // Bottom summary / CTA Card
+              FadeSlideTransition(
+                index: 2,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 24.h),
+                  child: Container(
+                    padding: EdgeInsets.all(18.w),
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(24.r),
+                      border: Border.all(
+                        color: AppColors.border.withOpacity(0.5),
                       ),
-                      SizedBox(height: 14.h),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            if (!controller.formKey.currentState!.validate()) {
-                              Get.snackbar(
-                                'Fix details',
-                                'Please complete the required fields.',
-                                snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor: AppColors.cardBackground,
-                                colorText: AppColors.textPrimary,
-                                borderRadius: 14.r,
-                              );
-                              return;
-                            }
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.03),
+                          blurRadius: 16,
+                          offset: const Offset(0, -4),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Total Amount', 
+                              style: AppTextStyles.caption.copyWith(
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const Spacer(),
+                            Obx(() => Text(
+                                  'Rs. ${controller.total}', 
+                                  style: AppTextStyles.heading2.copyWith(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.sp,
+                                  ),
+                                )),
+                          ],
+                        ),
+                        SizedBox(height: 16.h),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 52,
+                          child: BounceTap(
+                            onTap: () {
+                              if (!controller.formKey.currentState!.validate()) {
+                                Get.snackbar(
+                                  'Fix details',
+                                  'Please complete the required fields.',
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: AppColors.cardBackground,
+                                  colorText: AppColors.textPrimary,
+                                  borderRadius: 14.r,
+                                );
+                                return;
+                              }
 
-                            Get.snackbar(
-                              'Order placed',
-                              'Place Order will be connected to backend later.',
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor: AppColors.cardBackground,
-                              colorText: AppColors.textPrimary,
-                              borderRadius: 14.r,
-                            );
-                          },
-                          icon: const Icon(Icons.check_circle_rounded),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: AppColors.white,
-                            elevation: 0,
-                            padding: EdgeInsets.symmetric(vertical: 14.h),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.r),
+                              Get.snackbar(
+                                  'Order placed',
+                                  'Place Order will be connected to backend later.',
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: AppColors.cardBackground,
+                                  colorText: AppColors.textPrimary,
+                                  borderRadius: 14.r,
+                                );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [AppColors.primary, AppColors.primaryLight],
+                                ),
+                                borderRadius: BorderRadius.circular(16.r),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.primary.withOpacity(0.25),
+                                    blurRadius: 12,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.check_circle_rounded, color: Colors.white),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    'Place Order', 
+                                    style: AppTextStyles.button.copyWith(fontSize: 14.sp),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          label: Text(
-                            'Place Order',
-                            style: AppTextStyles.button,
-                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -168,18 +249,19 @@ class CheckoutScreen extends GetView<CheckoutController> {
     required String subtitle,
     required IconData icon,
   }) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(16.r),
-      onTap: () => controller.setPaymentMethod(value),
-      child: Obx(() {
-        final selected = controller.paymentMethod.value == value;
-        return Container(
+    return Obx(() {
+      final selected = controller.paymentMethod.value == value;
+      return BounceTap(
+        onTap: () => controller.setPaymentMethod(value),
+        scaleBound: 0.97,
+        child: Container(
           padding: EdgeInsets.all(12.w),
           decoration: BoxDecoration(
-            color: selected ? AppColors.secondary : AppColors.cardBackground,
+            color: selected ? AppColors.secondary.withOpacity(0.4) : AppColors.white,
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
-              color: selected ? AppColors.primary.withOpacity(0.35) : AppColors.border.withOpacity(0.7),
+              color: selected ? AppColors.primary : AppColors.border.withOpacity(0.6),
+              width: selected ? 1.5 : 1.0,
             ),
           ),
           child: Row(
@@ -189,11 +271,12 @@ class CheckoutScreen extends GetView<CheckoutController> {
                 height: 42.h,
                 decoration: BoxDecoration(
                   color: selected ? AppColors.primary : AppColors.chipUnselected,
-                  borderRadius: BorderRadius.circular(14.r),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Icon(
                   icon,
                   color: selected ? AppColors.white : AppColors.textPrimary,
+                  size: 20,
                 ),
               ),
               SizedBox(width: 12.w),
@@ -201,9 +284,15 @@ class CheckoutScreen extends GetView<CheckoutController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: AppTextStyles.heading2),
+                    Text(
+                      title, 
+                      style: AppTextStyles.heading2.copyWith(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                     SizedBox(height: 2.h),
-                    Text(subtitle, style: AppTextStyles.caption),
+                    Text(subtitle, style: AppTextStyles.caption.copyWith(fontSize: 11.sp)),
                   ],
                 ),
               ),
@@ -218,17 +307,15 @@ class CheckoutScreen extends GetView<CheckoutController> {
               ),
             ],
           ),
-        );
-      }),
-    );
+        ),
+      );
+    });
   }
 
   Widget _cardFields() {
     final cardNumberController = TextEditingController();
     final expiryController = TextEditingController();
     final cvvController = TextEditingController();
-
-    // Demo MVP: local controllers (no dispose to keep refactor minimal).
 
     return Column(
       children: [
@@ -278,12 +365,12 @@ class CheckoutScreen extends GetView<CheckoutController> {
             ),
           ],
         ),
-        SizedBox(height: 4.h),
+        SizedBox(height: 6.h),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 4.w),
           child: Text(
             'This is a demo UI. Card processing is not implemented.',
-            style: AppTextStyles.caption,
+            style: AppTextStyles.caption.copyWith(color: Colors.black26),
           ),
         ),
       ],
@@ -298,29 +385,13 @@ class CheckoutScreen extends GetView<CheckoutController> {
     int maxLines = 1,
     String? Function(String?)? validator,
   }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: AppTextStyles.caption),
-        SizedBox(height: 6.h),
-        TextFormField(
-          controller: controller,
-          keyboardType: keyboardType,
-          maxLines: maxLines,
-          validator: validator,
-          decoration: InputDecoration(
-            hintText: hint,
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 14.w,
-              vertical: 12.h,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14.r),
-            ),
-          ),
-        ),
-      ],
+    return AppTextField(
+      controller: controller,
+      label: label,
+      hint: hint,
+      keyboardType: keyboardType,
+      maxLines: maxLines,
+      validator: validator,
     );
   }
 }
-

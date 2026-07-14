@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_text_styles.dart';
 
-class AppTextField extends StatelessWidget {
+class AppTextField extends StatefulWidget {
   const AppTextField({
     super.key,
     required this.controller,
@@ -23,38 +22,83 @@ class AppTextField extends StatelessWidget {
   final String? Function(String?)? validator;
 
   @override
+  State<AppTextField> createState() => _AppTextFieldState();
+}
+
+class _AppTextFieldState extends State<AppTextField> {
+  bool _isFocused = false;
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      setState(() {
+        _isFocused = _focusNode.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: AppTextStyles.caption),
-        SizedBox(height: 6.h),
-        TextFormField(
-          controller: controller,
-          keyboardType: keyboardType,
-          maxLines: maxLines,
-          validator: validator,
-          decoration: InputDecoration(
-            hintText: hint,
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 14.w,
-              vertical: 12.h,
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(14.r),
+        boxShadow: _isFocused
+            ? [
+                BoxShadow(
+                  color: AppColors.primary.withOpacity(0.08),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                )
+              ]
+            : [],
+      ),
+      child: TextFormField(
+        controller: widget.controller,
+        focusNode: _focusNode,
+        keyboardType: widget.keyboardType,
+        maxLines: widget.maxLines,
+        validator: widget.validator,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w500,
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14.r),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14.r),
-              borderSide: BorderSide(color: AppColors.border),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14.r),
-              borderSide: BorderSide(color: AppColors.primary.withOpacity(0.9), width: 1.5.w),
-            ),
+        decoration: InputDecoration(
+          labelText: widget.label,
+          hintText: widget.hint,
+          labelStyle: TextStyle(
+            color: _isFocused ? AppColors.primary : AppColors.textSecondary,
+            fontWeight: _isFocused ? FontWeight.w600 : FontWeight.normal,
+            fontSize: 13.sp,
+          ),
+          hintStyle: const TextStyle(color: Colors.black26),
+          filled: true,
+          fillColor: _isFocused ? AppColors.white : AppColors.secondary.withOpacity(0.4),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 14.w,
+            vertical: widget.maxLines > 1 ? 14.h : 12.h,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14.r),
+            borderSide: BorderSide(color: AppColors.border.withOpacity(0.5)),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14.r),
+            borderSide: BorderSide(color: AppColors.border.withOpacity(0.5)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14.r),
+            borderSide: const BorderSide(color: AppColors.primary, width: 1.8),
           ),
         ),
-      ],
+      ),
     );
   }
 }
-

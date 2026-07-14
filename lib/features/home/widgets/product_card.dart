@@ -4,11 +4,10 @@ import 'package:get/get.dart';
 import 'package:oga_glow/core/theme/app_colors.dart';
 
 import '../../../app/routes/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../wishlist/controllers/wishlist_controller.dart';
-
 import '../../wishlist/bindings/wishlist_binding.dart';
+import '../../../core/widgets/bounce_tap.dart';
 
 class ProductCard extends StatelessWidget {
   final String name;
@@ -31,7 +30,6 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Ensure WishlistController exists (some routes may not include WishlistBinding).
     if (!Get.isRegistered<WishlistController>(tag: WishlistController.tag)) {
       WishlistBinding().dependencies();
     }
@@ -40,21 +38,26 @@ class ProductCard extends StatelessWidget {
       tag: WishlistController.tag,
     );
 
-    return InkWell(
+    return BounceTap(
       onTap: () {
         Get.toNamed(AppRoutes.products_details, arguments: _productData);
       },
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 8.w),
+        margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
         width: 160.w,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primaryLight,
+              color: Colors.black.withOpacity(0.04),
               blurRadius: 8.r,
               offset: const Offset(0, 4),
+            ),
+            BoxShadow(
+              color: AppColors.primary.withOpacity(0.03),
+              blurRadius: 14.r,
+              offset: const Offset(0, 8),
             ),
           ],
         ),
@@ -132,7 +135,7 @@ class ProductCard extends StatelessWidget {
                     const Spacer(),
 
                     Text(
-                      'Rs ${price}',
+                      'Rs $price',
                       style: AppTextStyles.body.copyWith(
                         color: AppColors.primary,
                         fontWeight: FontWeight.bold,

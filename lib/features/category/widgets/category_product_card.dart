@@ -6,6 +6,7 @@ import 'package:oga_glow/app/routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../wishlist/controllers/wishlist_controller.dart';
+import '../../../core/widgets/bounce_tap.dart';
 
 class CategoryProductCard extends StatelessWidget {
   final Map<String, dynamic> product;
@@ -21,7 +22,7 @@ class CategoryProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return BounceTap(
       onTap: () => Get.toNamed(AppRoutes.products_details, arguments: product),
       child: Container(
         decoration: BoxDecoration(
@@ -29,9 +30,14 @@ class CategoryProductCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primaryLight,
+              color: Colors.black.withOpacity(0.04),
               blurRadius: 8.r,
               offset: const Offset(0, 4),
+            ),
+            BoxShadow(
+              color: AppColors.primary.withOpacity(0.03),
+              blurRadius: 14.r,
+              offset: const Offset(0, 8),
             ),
           ],
         ),

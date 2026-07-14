@@ -14,6 +14,7 @@ class ProductImageSection extends GetView<ProductController> {
       builder: (c) {
         return Column(
           children: [
+            SizedBox(height: 16.h),
             SizedBox(
               height: 320.h,
               child: PageView.builder(
@@ -22,7 +23,7 @@ class ProductImageSection extends GetView<ProductController> {
                 onPageChanged: c.changeImage,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: EdgeInsets.all(16.w),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20.r),
                       child: Image.asset(
