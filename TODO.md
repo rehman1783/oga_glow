@@ -1,9 +1,10 @@
-# TODO
+- [x] Implement CartController with add-to-cart + remove
+- [x] Wire WishlistController.addToCartDynamic to CartController
+- [x] Update CartScreen to use CartController state (RxList)
+- [x] Add CartBinding and register in AppPages (if required)
 
-- [x] Update theme colors mapping from CSS `:root` + `.dark` into `lib/core/theme/app_colors.dart`
-- [x] Add `darkTheme` to `lib/core/theme/app_theme.dart` and align `lightTheme` with mapped colors
-- [x] Enable `darkTheme` in `lib/app/app.dart`
+- [x] Run flutter analyze
+- [ ] Run flutter build/run smoke test
 
-- [ ] Run `flutter analyze` / `flutter run` to verify
 
 

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/cart_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/theme/app_colors.dart';
@@ -6,8 +9,9 @@ import '../../../core/theme/app_text_styles.dart';
 
 class CartItemCard extends StatelessWidget {
   final Map<String, dynamic> product;
+  final int index;
 
-  const CartItemCard({super.key, required this.product});
+  const CartItemCard({super.key, required this.product, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +75,10 @@ class CartItemCard extends StatelessWidget {
 
           SizedBox(width: 10.w),
           IconButton.filledTonal(
-            onPressed: () {},
+            onPressed: () {
+              final cart = Get.find<CartController>(tag: CartController.tag);
+              cart.removeItem(index);
+            },
             tooltip: 'Remove from cart',
             icon: const Icon(Icons.delete_outline),
             style: IconButton.styleFrom(

@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../../cart/controllers/cart_controller.dart';
+
 class WishlistController extends GetxController {
   static const String tag = 'wishlist';
 
@@ -85,13 +87,17 @@ class WishlistController extends GetxController {
     addToWishlist(normalized);
   }
 
-  /// Kept for compatibility; used by wishlist UI flow.
+  /// Used by wishlist UI flow.
   void addToCartDynamic(Map<String, dynamic> product) {
-    // Cart integration later
+    final normalized = <String, dynamic>{...product};
+
+    final cart = Get.find<CartController>(tag: CartController.tag);
+
+    cart.addToCart(normalized);
   }
 
   /// Alias to keep older code compiling
   void addToCartLegacy(Map<String, dynamic> product) {
-    // Cart integration later
+    addToCartDynamic(product);
   }
 }

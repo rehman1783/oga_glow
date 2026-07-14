@@ -77,11 +77,11 @@ class AppPages {
       page: () => const ProductScreen(),
       binding: ProductBinding(),
     ),
-    // GetPage(
-    //   name: AppRoutes.wishlist,
-    //   page: () => const WishlistScreen(),
-    //   binding: WishlistBinding(),
-    // ),
+    GetPage(
+      name: AppRoutes.wishlist,
+      page: () => WishlistScreen(),
+      binding: WishlistBinding(),
+    ),
 
     // Auth routes
     GetPage(
@@ -94,8 +94,10 @@ class AppPages {
       page: () => const SignupScreen(),
       binding: SignupBinding(),
     ),
-    GetPage(name: AppRoutes.entry, page: () => const AuthEntryScreen(),
-    binding: AuthEntryBinding(),
+    GetPage(
+      name: AppRoutes.entry,
+      page: () => const AuthEntryScreen(),
+      binding: AuthEntryBinding(),
     ),
   ];
 }
