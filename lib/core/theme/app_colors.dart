@@ -81,13 +81,18 @@ class AppColors {
 
   // Extra mapped colors (approx)
   // Note: Color constants must be valid ARGB (0xAARRGGBB)
-  static const Color leafLight = Color(0xE0F5F0D8); // approx mix(primary, white 10%)
-  static const Color aloeLight = Color(0xD9F5EFD8); // approx mix(primary, white 40%)
-  static const Color leafDark = Color(0xFF2F8A3B); // approx mix(primary, black 40%)
-  static const Color aloeDark = Color(0xFF1B7B2A); // approx mix(primary, black 60%)
-
-
-
+  static const Color leafLight = Color(
+    0xE0F5F0D8,
+  ); // approx mix(primary, white 10%)
+  static const Color aloeLight = Color(
+    0xD9F5EFD8,
+  ); // approx mix(primary, white 40%)
+  static const Color leafDark = Color(
+    0xFF2F8A3B,
+  ); // approx mix(primary, black 40%)
+  static const Color aloeDark = Color(
+    0xFF1B7B2A,
+  ); // approx mix(primary, black 60%)
 
   // Derived (used widely by current widgets / themes)
   static Color get background => bgLight;

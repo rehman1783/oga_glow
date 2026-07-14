@@ -24,7 +24,8 @@ class MainNavigationScreen extends GetView<MainNavigationController> {
 
     return Obx(
       () => Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+
         body: AnimatedSwitcher(
           duration: const Duration(milliseconds: 320),
           switchInCurve: Curves.easeInOutQuad,
@@ -80,16 +81,13 @@ class MainNavigationScreen extends GetView<MainNavigationController> {
                     size: 24,
                   );
                 }
-                return IconThemeData(
-                  color: AppColors.textSecondary,
-                  size: 22,
-                );
+                return IconThemeData(color: AppColors.textSecondary, size: 22);
               }),
             ),
             child: NavigationBar(
               selectedIndex: controller.currentIndex.value,
               onDestinationSelected: controller.changeIndex,
-              backgroundColor: AppColors.white,
+              backgroundColor: Theme.of(context).colorScheme.surface,
               elevation: 0,
               height: 68,
               destinations: const [

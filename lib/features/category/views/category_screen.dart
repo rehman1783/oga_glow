@@ -17,9 +17,9 @@ class CategoryScreen extends GetView<CategoryController> {
     controller.syncFromRouteArguments();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
         title: const Text('Categories'),
         elevation: 0,
         scrolledUnderElevation: 0,

@@ -27,7 +27,7 @@ class AuthEntryScreen extends StatelessWidget {
                 subtitle: 'Discover Your Natural Radiance',
               ),
               SizedBox(height: 24.h),
-
+          
               /// Bottom Content
               Expanded(
                 flex: 4,
@@ -37,7 +37,7 @@ class AuthEntryScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 10.h),
-
+          
                       FadeSlideTransition(
                         index: 1,
                         child: Text(
@@ -49,9 +49,9 @@ class AuthEntryScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-
+          
                       SizedBox(height: 16.h),
-
+          
                       FadeSlideTransition(
                         index: 2,
                         child: Text(
@@ -63,9 +63,9 @@ class AuthEntryScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-
+          
                       const Spacer(),
-
+          
                       FadeSlideTransition(
                         index: 3,
                         child: Align(
@@ -91,7 +91,7 @@ class AuthEntryScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-
+          
                       SizedBox(height: 48.h),
                     ],
                   ),

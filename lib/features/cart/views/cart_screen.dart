@@ -20,14 +20,19 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(64.h),
         child: AppBar(
-          backgroundColor: AppColors.background,
+          backgroundColor:
+              Theme.of(context).appBarTheme.backgroundColor ??
+              Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
           centerTitle: true,
-          title: Text('Cart', style: AppTextStyles.heading2.copyWith(fontSize: 18)),
+          title: Text(
+            'Cart',
+            style: AppTextStyles.heading2.copyWith(fontSize: 18),
+          ),
           scrolledUnderElevation: 0,
         ),
       ),
@@ -67,7 +72,9 @@ class CartScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(24.r),
-                    border: Border.all(color: AppColors.border.withOpacity(0.5)),
+                    border: Border.all(
+                      color: AppColors.border.withOpacity(0.5),
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.03),
@@ -81,7 +88,7 @@ class CartScreen extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            'Subtotal', 
+                            'Subtotal',
                             style: AppTextStyles.caption.copyWith(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
@@ -89,7 +96,7 @@ class CartScreen extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            'Rs. $total', 
+                            'Rs. $total',
                             style: AppTextStyles.heading2.copyWith(
                               color: AppColors.primary,
                               fontWeight: FontWeight.bold,
@@ -109,7 +116,10 @@ class CartScreen extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               gradient: const LinearGradient(
-                                colors: [AppColors.primary, AppColors.primaryLight],
+                                colors: [
+                                  AppColors.primary,
+                                  AppColors.primaryLight,
+                                ],
                               ),
                               borderRadius: BorderRadius.circular(16.r),
                               boxShadow: [
@@ -123,11 +133,16 @@ class CartScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(Icons.payment_rounded, color: Colors.white),
+                                const Icon(
+                                  Icons.payment_rounded,
+                                  color: Colors.white,
+                                ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  'Proceed to Checkout', 
-                                  style: AppTextStyles.button.copyWith(fontSize: 14.sp),
+                                  'Proceed to Checkout',
+                                  style: AppTextStyles.button.copyWith(
+                                    fontSize: 14.sp,
+                                  ),
                                 ),
                               ],
                             ),

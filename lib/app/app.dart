@@ -6,6 +6,7 @@ import 'package:oga_glow/app/routes/app_pages.dart';
 import 'package:oga_glow/app/routes/app_routes.dart';
 
 import 'bindings/initial_binding.dart';
+import '../core/theme/theme_controller.dart';
 
 class OgaGlowApp extends StatelessWidget {
   const OgaGlowApp({super.key});
@@ -17,19 +18,21 @@ class OgaGlowApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (_, __) {
-        return GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'OGA Glow',
+        final themeController = Get.put(ThemeController(), permanent: true);
 
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
+        return Obx(
+          () => GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'OGA Glow',
 
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: themeController.themeMode.value,
 
-          initialBinding: InitialBinding(),
-
-          initialRoute: AppRoutes.splash,
-
-          getPages: AppPages.pages,
+            initialBinding: InitialBinding(),
+            initialRoute: AppRoutes.splash,
+            getPages: AppPages.pages,
+          ),
         );
       },
     );

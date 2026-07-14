@@ -58,11 +58,11 @@ class ProductActionButtons extends GetView<ProductController> {
               height: 50,
               child: BounceTap(
                 onTap: () {
-                  final cartController = Get.find<CartController>(
-                    tag: CartController.tag,
-                  );
-                  cartController.addToCart({...controller.product});
-                  Get.toNamed('/cart');
+                  // final cartController = Get.find<CartController>(
+                  //   tag: CartController.tag,
+                  // );
+                  // cartController.addToCart({...controller.product});
+                  // Get.toNamed('/cart');
                 },
                 child: Container(
                   decoration: BoxDecoration(

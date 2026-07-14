@@ -66,7 +66,7 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
       child: ClipPath(
         clipper: AuthWaveClipper(),
         child: Container(
-          height: 260.h,
+          height: 300.h,
           width: double.infinity,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
