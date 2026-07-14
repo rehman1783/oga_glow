@@ -1,5 +1,6 @@
 # Miscellaneous
 *.class
+*.TODO.md
 *.log
 *.pyc
 *.swp
