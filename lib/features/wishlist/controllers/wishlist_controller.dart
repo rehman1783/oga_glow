@@ -13,12 +13,16 @@ class WishlistController extends GetxController {
       "category": "Skin Care",
       "price": "1500",
       "image": "assets/images/banner1.jpeg",
+      "description":
+          "A gentle face wash that helps cleanse, refresh, and support a healthy glow.",
     },
     {
       "name": "Hair Growth Serum",
       "category": "Hair Care",
       "price": "2200",
       "image": "assets/images/banner2.jpeg",
+      "description":
+          "A lightweight serum formulated to nourish hair and support the appearance of stronger growth.",
     },
   ].obs;
 

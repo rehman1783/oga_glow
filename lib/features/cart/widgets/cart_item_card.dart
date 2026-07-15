@@ -20,12 +20,15 @@ class CartItemCard extends StatelessWidget {
     final String category = product['category']?.toString() ?? '';
     final String price = product['price']?.toString() ?? '';
     final String imagePath = product['image']?.toString() ?? '';
+    final String description =
+        product['description']?.toString() ?? 'No description available';
 
     final Map<String, dynamic> productData = {
       'name': name,
       'price': price,
       'image': imagePath,
       'category': category,
+      'description': description,
     };
 
     return BounceTap(
@@ -82,7 +85,9 @@ class CartItemCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: AppColors.secondary,
                       borderRadius: BorderRadius.circular(8.r),
-                      border: Border.all(color: AppColors.border.withOpacity(0.4)),
+                      border: Border.all(
+                        color: AppColors.border.withOpacity(0.4),
+                      ),
                     ),
                     child: Text(
                       category,
