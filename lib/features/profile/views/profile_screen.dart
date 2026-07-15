@@ -46,7 +46,7 @@ class ProfileScreen extends StatelessWidget {
                       'Edit profile UI will be connected to controller later.',
                       snackPosition: SnackPosition.BOTTOM,
                       backgroundColor: AppColors.cardBackground,
-                      colorText: AppColors.textPrimary,
+                      colorText: Theme.of(context).colorScheme.onSurface,
                       borderRadius: 14.r,
                     );
                   },
@@ -253,7 +253,7 @@ class ProfileScreen extends StatelessWidget {
                             'Delete account action is a placeholder.',
                             snackPosition: SnackPosition.BOTTOM,
                             backgroundColor: AppColors.cardBackground,
-                            colorText: AppColors.textPrimary,
+                            colorText: Theme.of(context).colorScheme.onSurface,
                             borderRadius: 14.r,
                           );
                         },

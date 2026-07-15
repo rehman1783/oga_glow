@@ -29,7 +29,7 @@ class ProfileOptionTile extends StatelessWidget {
           border: Border.all(color: AppColors.border.withOpacity(0.5)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.015),
+              color: Theme.of(context).shadowColor.withOpacity(0.08),
               blurRadius: 8,
               offset: const Offset(0, 3),
             ),

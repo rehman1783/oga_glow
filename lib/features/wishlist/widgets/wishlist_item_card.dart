@@ -51,7 +51,7 @@ class WishlistItemCard extends StatelessWidget {
           border: Border.all(color: AppColors.border.withOpacity(0.5)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.02),
+              color: Theme.of(context).shadowColor.withOpacity(0.08),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
