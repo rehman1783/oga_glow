@@ -16,12 +16,17 @@ class CheckoutScreen extends GetView<CheckoutController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor:
+            Theme.of(context).appBarTheme.backgroundColor ??
+            Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
-        title: Text('Checkout', style: AppTextStyles.heading2.copyWith(fontSize: 18)),
+        title: Text(
+          'Checkout',
+          style: AppTextStyles.heading2.copyWith(fontSize: 18),
+        ),
         scrolledUnderElevation: 0,
       ),
       body: SafeArea(
@@ -43,14 +48,17 @@ class CheckoutScreen extends GetView<CheckoutController> {
                         ),
 
                         SizedBox(height: 24.h),
-                        
+
                         // Staggered Entrance 1: Payment Selection Section
                         FadeSlideTransition(
                           index: 1,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Payment Method', style: AppTextStyles.heading2),
+                              Text(
+                                'Payment Method',
+                                style: AppTextStyles.heading2,
+                              ),
                               SizedBox(height: 12.h),
 
                               Container(
@@ -82,36 +90,51 @@ class CheckoutScreen extends GetView<CheckoutController> {
                                     _paymentOption(
                                       value: 'cod',
                                       title: 'Cash on Delivery',
-                                      subtitle: 'Pay when you receive your order',
+                                      subtitle:
+                                          'Pay when you receive your order',
                                       icon: Icons.money_rounded,
                                     ),
-                                    
+
                                     // Smoothly animated dynamic height fields container
                                     AnimatedSize(
-                                      duration: const Duration(milliseconds: 250),
+                                      duration: const Duration(
+                                        milliseconds: 250,
+                                      ),
                                       curve: Curves.easeInOut,
                                       child: SizedBox(
                                         width: double.infinity,
-                                        child: controller.paymentMethod.value == 'card'
+                                        child:
+                                            controller.paymentMethod.value ==
+                                                'card'
                                             ? Column(
-                                                key: const ValueKey('card_fields'),
+                                                key: const ValueKey(
+                                                  'card_fields',
+                                                ),
                                                 children: [
                                                   SizedBox(height: 16.h),
                                                   _cardFields(),
                                                 ],
                                               )
                                             : Column(
-                                                key: const ValueKey('cod_fields'),
+                                                key: const ValueKey(
+                                                  'cod_fields',
+                                                ),
                                                 children: [
                                                   SizedBox(height: 16.h),
                                                   Padding(
-                                                    padding: EdgeInsets.symmetric(horizontal: 4.w),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                          horizontal: 4.w,
+                                                        ),
                                                     child: Text(
                                                       'You selected Cash on Delivery. Card details are not required to complete this order.',
-                                                      style: AppTextStyles.caption.copyWith(
-                                                        color: AppColors.textSecondary,
-                                                        height: 1.4,
-                                                      ),
+                                                      style: AppTextStyles
+                                                          .caption
+                                                          .copyWith(
+                                                            color: AppColors
+                                                                .textSecondary,
+                                                            height: 1.4,
+                                                          ),
                                                     ),
                                                   ),
                                                 ],
@@ -159,21 +182,23 @@ class CheckoutScreen extends GetView<CheckoutController> {
                         Row(
                           children: [
                             Text(
-                              'Total Amount', 
+                              'Total Amount',
                               style: AppTextStyles.caption.copyWith(
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                             const Spacer(),
-                            Obx(() => Text(
-                                  'Rs. ${controller.total}', 
-                                  style: AppTextStyles.heading2.copyWith(
-                                    color: AppColors.primary,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.sp,
-                                  ),
-                                )),
+                            Obx(
+                              () => Text(
+                                'Rs. ${controller.total}',
+                                style: AppTextStyles.heading2.copyWith(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.sp,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(height: 16.h),
@@ -182,7 +207,8 @@ class CheckoutScreen extends GetView<CheckoutController> {
                           height: 52,
                           child: BounceTap(
                             onTap: () {
-                              if (!controller.formKey.currentState!.validate()) {
+                              if (!controller.formKey.currentState!
+                                  .validate()) {
                                 Get.snackbar(
                                   'Fix details',
                                   'Please complete the required fields.',
@@ -195,18 +221,21 @@ class CheckoutScreen extends GetView<CheckoutController> {
                               }
 
                               Get.snackbar(
-                                  'Order placed',
-                                  'Place Order will be connected to backend later.',
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor: AppColors.cardBackground,
-                                  colorText: AppColors.textPrimary,
-                                  borderRadius: 14.r,
-                                );
+                                'Order placed',
+                                'Place Order will be connected to backend later.',
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: AppColors.cardBackground,
+                                colorText: AppColors.textPrimary,
+                                borderRadius: 14.r,
+                              );
                             },
                             child: Container(
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
-                                  colors: [AppColors.primary, AppColors.primaryLight],
+                                  colors: [
+                                    AppColors.primary,
+                                    AppColors.primaryLight,
+                                  ],
                                 ),
                                 borderRadius: BorderRadius.circular(16.r),
                                 boxShadow: [
@@ -220,11 +249,16 @@ class CheckoutScreen extends GetView<CheckoutController> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Icon(Icons.check_circle_rounded, color: Colors.white),
+                                  const Icon(
+                                    Icons.check_circle_rounded,
+                                    color: Colors.white,
+                                  ),
                                   const SizedBox(width: 8),
                                   Text(
-                                    'Place Order', 
-                                    style: AppTextStyles.button.copyWith(fontSize: 14.sp),
+                                    'Place Order',
+                                    style: AppTextStyles.button.copyWith(
+                                      fontSize: 14.sp,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -257,10 +291,14 @@ class CheckoutScreen extends GetView<CheckoutController> {
         child: Container(
           padding: EdgeInsets.all(12.w),
           decoration: BoxDecoration(
-            color: selected ? AppColors.secondary.withOpacity(0.4) : AppColors.white,
+            color: selected
+                ? AppColors.secondary.withOpacity(0.4)
+                : AppColors.white,
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
-              color: selected ? AppColors.primary : AppColors.border.withOpacity(0.6),
+              color: selected
+                  ? AppColors.primary
+                  : AppColors.border.withOpacity(0.6),
               width: selected ? 1.5 : 1.0,
             ),
           ),
@@ -270,7 +308,9 @@ class CheckoutScreen extends GetView<CheckoutController> {
                 width: 42.w,
                 height: 42.h,
                 decoration: BoxDecoration(
-                  color: selected ? AppColors.primary : AppColors.chipUnselected,
+                  color: selected
+                      ? AppColors.primary
+                      : AppColors.chipUnselected,
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Icon(
@@ -285,14 +325,17 @@ class CheckoutScreen extends GetView<CheckoutController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      title, 
+                      title,
                       style: AppTextStyles.heading2.copyWith(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     SizedBox(height: 2.h),
-                    Text(subtitle, style: AppTextStyles.caption.copyWith(fontSize: 11.sp)),
+                    Text(
+                      subtitle,
+                      style: AppTextStyles.caption.copyWith(fontSize: 11.sp),
+                    ),
                   ],
                 ),
               ),
