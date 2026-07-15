@@ -122,8 +122,8 @@ class ProfileScreen extends StatelessWidget {
                   FadeSlideTransition(
                     index: 5,
                     child: ProfileOptionTile(
-                      icon: Icons.settings_outlined,
-                      title: 'Settings',
+                      icon: Icons.brightness_6_outlined,
+                      title: 'Theme Mode',
                       onTap: () async {
                         final themeController = Get.find<ThemeController>();
 
