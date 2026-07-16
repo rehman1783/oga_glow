@@ -56,7 +56,7 @@ class HomeHotDeals extends GetView<HomeController> {
         ),
         SizedBox(height: 12.h),
         SizedBox(
-          height: 165.h,
+          height: 175.h,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -160,7 +160,7 @@ class HomeHotDeals extends GetView<HomeController> {
                           ),
                           // Price row
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 'Rs. ${deal['price']}',
