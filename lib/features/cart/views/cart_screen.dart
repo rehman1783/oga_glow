@@ -70,7 +70,7 @@ class CartScreen extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(18.w),
                   decoration: BoxDecoration(
-                    color: AppColors.white,
+                    color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.circular(24.r),
                     border: Border.all(
                       color: AppColors.border.withOpacity(0.5),

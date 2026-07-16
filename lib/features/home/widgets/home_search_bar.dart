@@ -16,11 +16,9 @@ class HomeSearchBar extends StatelessWidget {
           prefixIcon: const Icon(Icons.search),
 
           filled: true,
-          fillColor: AppColors.white,
+          fillColor: Theme.of(context).cardColor,
 
-          contentPadding: EdgeInsets.symmetric(
-            vertical: 18.h,
-          ),
+          contentPadding: EdgeInsets.symmetric(vertical: 18.h),
 
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(18.r),
@@ -29,16 +27,12 @@ class HomeSearchBar extends StatelessWidget {
 
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(18.r),
-            borderSide: BorderSide(
-              color: AppColors.border,
-            ),
+            borderSide: BorderSide(color: AppColors.border),
           ),
 
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(18.r),
-            borderSide: BorderSide(
-              color: AppColors.primary,
-            ),
+            borderSide: BorderSide(color: AppColors.primary),
           ),
         ),
       ),

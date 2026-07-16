@@ -24,7 +24,7 @@ class ProfileOptionTile extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
         decoration: BoxDecoration(
-          color: AppColors.cardBackground,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(16.r),
           border: Border.all(color: AppColors.border.withOpacity(0.5)),
           boxShadow: [
@@ -56,7 +56,11 @@ class ProfileOptionTile extends StatelessWidget {
                 ),
               ),
             ),
-            Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary, size: 22.sp),
+            Icon(
+              Icons.chevron_right_rounded,
+              color: AppColors.textSecondary,
+              size: 22.sp,
+            ),
           ],
         ),
       ),

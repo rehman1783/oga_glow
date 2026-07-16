@@ -18,29 +18,23 @@ class CategoryChip extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 10),
       child: ChoiceChip(
-  label: Text(
-    title,
-    style: TextStyle(
-      color: isSelected
-          ? AppColors.white
-          : AppColors.textPrimary,
-      fontWeight: FontWeight.w600,
-    ),
-  ),
-  selected: isSelected,
-  selectedColor: AppColors.primary,
-  backgroundColor: AppColors.white,
-  showCheckmark: false,
-  side: BorderSide(
-    color: isSelected
-        ? AppColors.primary
-        : AppColors.border,
-  ),
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(30),
-  ),
-  onSelected: (_) => onTap(),
-)
+        label: Text(
+          title,
+          style: TextStyle(
+            color: isSelected ? AppColors.white : AppColors.textPrimary,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        selected: isSelected,
+        selectedColor: AppColors.primary,
+        backgroundColor: Theme.of(context).cardColor,
+        showCheckmark: false,
+        side: BorderSide(
+          color: isSelected ? AppColors.primary : AppColors.border,
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        onSelected: (_) => onTap(),
+      ),
     );
   }
 }

@@ -208,14 +208,14 @@ class ProfileScreen extends StatelessWidget {
                             'Logout',
                             'Logout action will be wired with auth controller.',
                             snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: AppColors.cardBackground,
+                            backgroundColor: Theme.of(context).cardColor,
                             colorText: AppColors.textPrimary,
                             borderRadius: 14.r,
                           );
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: AppColors.secondary,
+                            color: Theme.of(context).cardColor,
                             borderRadius: BorderRadius.circular(14.r),
                             border: Border.all(
                               color: AppColors.accent.withOpacity(0.35),
@@ -252,14 +252,14 @@ class ProfileScreen extends StatelessWidget {
                             'Delete Account',
                             'Delete account action is a placeholder.',
                             snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: AppColors.cardBackground,
+                            backgroundColor: Theme.of(context).cardColor,
                             colorText: Theme.of(context).colorScheme.onSurface,
                             borderRadius: 14.r,
                           );
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: AppColors.white,
+                            color: Theme.of(context).cardColor,
                             borderRadius: BorderRadius.circular(14.r),
                             border: Border.all(
                               color: AppColors.error.withOpacity(0.4),

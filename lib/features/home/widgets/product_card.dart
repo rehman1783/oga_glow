@@ -46,7 +46,7 @@ class ProductCard extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
         width: 160.w,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
@@ -96,8 +96,8 @@ class ProductCard extends StatelessWidget {
                         },
                         child: Container(
                           padding: const EdgeInsets.all(8),
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).cardColor,
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
@@ -105,7 +105,7 @@ class ProductCard extends StatelessWidget {
                             size: 18,
                             color: inWishlist
                                 ? Colors.red
-                                : AppColors.textPrimary,
+                                : Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       );
@@ -129,6 +129,7 @@ class ProductCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: AppTextStyles.body.copyWith(
                         fontWeight: FontWeight.w600,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
 

@@ -46,7 +46,7 @@ class WishlistItemCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
-          color: AppColors.cardBackground,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(20.r),
           border: Border.all(color: AppColors.border.withOpacity(0.5)),
           boxShadow: [
@@ -91,7 +91,7 @@ class WishlistItemCard extends StatelessWidget {
                       vertical: 3.h,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.secondary,
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(8.r),
                       border: Border.all(
                         color: AppColors.border.withOpacity(0.4),
@@ -133,7 +133,7 @@ class WishlistItemCard extends StatelessWidget {
                     width: 38.w,
                     height: 38.h,
                     decoration: BoxDecoration(
-                      color: AppColors.secondary,
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(10.r),
                       border: Border.all(
                         color: AppColors.accent.withOpacity(0.15),

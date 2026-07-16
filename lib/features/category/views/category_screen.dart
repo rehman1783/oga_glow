@@ -43,7 +43,7 @@ class CategoryScreen extends GetView<CategoryController> {
                       hintText: "Search products...",
                       prefixIcon: const Icon(Icons.search),
                       filled: true,
-                      fillColor: AppColors.white,
+                      fillColor: Theme.of(context).cardColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
                         borderSide: BorderSide(color: AppColors.border.withOpacity(0.5)),

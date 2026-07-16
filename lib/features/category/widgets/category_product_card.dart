@@ -26,7 +26,7 @@ class CategoryProductCard extends StatelessWidget {
       onTap: () => Get.toNamed(AppRoutes.products_details, arguments: product),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
@@ -83,8 +83,8 @@ class CategoryProductCard extends StatelessWidget {
                             },
                             child: Container(
                               padding: const EdgeInsets.all(8),
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).cardColor,
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(
@@ -94,7 +94,7 @@ class CategoryProductCard extends StatelessWidget {
                                 size: 18,
                                 color: inWishlist
                                     ? Colors.red
-                                    : AppColors.textPrimary,
+                                    : Theme.of(context).colorScheme.onSurface,
                               ),
                             ),
                           );

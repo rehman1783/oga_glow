@@ -19,7 +19,7 @@ class EmptyCart extends StatelessWidget {
               width: 92.w,
               height: 92.h,
               decoration: BoxDecoration(
-                color: AppColors.secondary,
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(26.r),
                 border: Border.all(color: AppColors.border.withOpacity(0.7)),
               ),

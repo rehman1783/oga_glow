@@ -8,30 +8,28 @@ class AppTextStyles {
   // IMPORTANT: These styles should be theme-aware.
   // Avoid hard-coding AppColors.textPrimary/textSecondary because those are light-based.
 
+  /// Theme-aware: hardcoded black avoid karo.
+  /// Agar widget/theme override karega to wo use hoga.
   static TextStyle heading1 = GoogleFonts.inter(
     fontSize: 18,
     fontWeight: FontWeight.bold,
-    // Use Theme color dynamically when used with copyWith or theme defaults.
-    color: Colors.black,
   );
 
   static TextStyle heading2 = GoogleFonts.inter(
     fontSize: 16,
     fontWeight: FontWeight.w600,
-    color: Colors.black,
   );
 
   static TextStyle body = GoogleFonts.inter(
     fontSize: 14,
     fontWeight: FontWeight.w400,
-    color: Colors.black,
   );
 
   static TextStyle caption = GoogleFonts.inter(
     fontSize: 12,
     fontWeight: FontWeight.w400,
-    color: Colors.black54,
   );
+
 
   static TextStyle button = GoogleFonts.inter(
     fontSize: 14,
