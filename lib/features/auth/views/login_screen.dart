@@ -28,14 +28,17 @@ class LoginScreen extends GetView<LoginController> {
                   title: 'Welcome Back',
                   subtitle: 'Sign in to access your glowing routine.',
                 ),
-                
+
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 16,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 12),
-                      
+
                       // Staggered Entrance 1: Credentials card
                       FadeSlideTransition(
                         index: 1,
@@ -65,7 +68,7 @@ class LoginScreen extends GetView<LoginController> {
                           ),
                         ),
                       ),
-                      
+
                       const SizedBox(height: 8),
 
                       // Staggered Entrance 2: Forgot password link
@@ -77,7 +80,8 @@ class LoginScreen extends GetView<LoginController> {
                             onPressed: () {},
                             child: Text(
                               'Forgot password?',
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
                                     color: AppColors.primary,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -108,12 +112,16 @@ class LoginScreen extends GetView<LoginController> {
                         child: Row(
                           children: [
                             Expanded(
-                              child: Divider(color: AppColors.border.withOpacity(0.8), thickness: 1),
+                              child: Divider(
+                                color: AppColors.border.withOpacity(0.8),
+                                thickness: 1,
+                              ),
                             ),
                             const SizedBox(width: 14),
                             Text(
                               'OR',
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(
                                     color: AppColors.textSecondary,
                                     letterSpacing: 1.5,
                                     fontWeight: FontWeight.w600,
@@ -121,7 +129,10 @@ class LoginScreen extends GetView<LoginController> {
                             ),
                             const SizedBox(width: 14),
                             Expanded(
-                              child: Divider(color: AppColors.border.withOpacity(0.8), thickness: 1),
+                              child: Divider(
+                                color: AppColors.border.withOpacity(0.8),
+                                thickness: 1,
+                              ),
                             ),
                           ],
                         ),
@@ -139,7 +150,9 @@ class LoginScreen extends GetView<LoginController> {
                             onPressed: () {},
                             style: OutlinedButton.styleFrom(
                               backgroundColor: AppColors.white,
-                              side: BorderSide(color: AppColors.border.withOpacity(0.8)),
+                              side: BorderSide(
+                                color: AppColors.border.withOpacity(0.8),
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(14),
                               ),
@@ -156,9 +169,11 @@ class LoginScreen extends GetView<LoginController> {
                                 const SizedBox(width: 4),
                                 Text(
                                   'Continue with Google',
-                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                  style: Theme.of(context).textTheme.bodyLarge
+                                      ?.copyWith(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 15,
+                                        color: Colors.black54,
                                       ),
                                 ),
                               ],
@@ -177,9 +192,8 @@ class LoginScreen extends GetView<LoginController> {
                             onPressed: () => Get.toNamed(AppRoutes.signup),
                             child: RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                      color: AppColors.textSecondary,
-                                    ),
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(color: AppColors.textSecondary),
                                 children: const [
                                   TextSpan(text: "Don't have an account? "),
                                   TextSpan(

@@ -57,7 +57,7 @@ class _AppTextFieldState extends State<AppTextField> {
                   color: AppColors.primary.withOpacity(0.08),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
-                )
+                ),
               ]
             : [],
       ),
@@ -68,34 +68,52 @@ class _AppTextFieldState extends State<AppTextField> {
         maxLines: widget.maxLines,
         validator: widget.validator,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w500,
-            ),
+          fontWeight: FontWeight.w500,
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
         decoration: InputDecoration(
           labelText: widget.label,
           hintText: widget.hint,
           labelStyle: TextStyle(
-            color: _isFocused ? AppColors.primary : AppColors.textSecondary,
+            color: _isFocused
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onSurfaceVariant,
             fontWeight: _isFocused ? FontWeight.w600 : FontWeight.normal,
             fontSize: 13.sp,
           ),
-          hintStyle: const TextStyle(color: Colors.black26),
+          hintStyle: TextStyle(
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurfaceVariant.withOpacity(0.7),
+          ),
           filled: true,
-          fillColor: _isFocused ? AppColors.white : AppColors.secondary.withOpacity(0.4),
+          fillColor: _isFocused
+              ? Theme.of(context).colorScheme.surface
+              : Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.55),
           contentPadding: EdgeInsets.symmetric(
             horizontal: 14.w,
             vertical: widget.maxLines > 1 ? 14.h : 12.h,
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14.r),
-            borderSide: BorderSide(color: AppColors.border.withOpacity(0.5)),
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.outlineVariant,
+              width: 1,
+            ),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14.r),
-            borderSide: BorderSide(color: AppColors.border.withOpacity(0.5)),
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.outlineVariant,
+              width: 1,
+            ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14.r),
-            borderSide: const BorderSide(color: AppColors.primary, width: 1.8),
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.primary,
+              width: 1.8,
+            ),
           ),
         ),
       ),

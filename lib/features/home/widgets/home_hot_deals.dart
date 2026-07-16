@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:oga_glow/app/routes/app_routes.dart';
 import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/core/theme/app_text_styles.dart';
 import 'package:oga_glow/features/home/controllers/home_controller.dart';
-import 'package:oga_glow/app/routes/app_routes.dart';
 
 class HomeHotDeals extends GetView<HomeController> {
   const HomeHotDeals({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Fix overflow: don't use `mainAxisAlignment: spaceBetween` inside a fixed-height card.
+    final cs = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -23,7 +26,7 @@ class HomeHotDeals extends GetView<HomeController> {
                 children: [
                   Icon(
                     Icons.local_fire_department_rounded,
-                    color: AppColors.gold,
+                    color: AppColors.goldDark,
                     size: 22.sp,
                   ),
                   SizedBox(width: 6.w),
@@ -31,7 +34,7 @@ class HomeHotDeals extends GetView<HomeController> {
                     'Hot Deals',
                     style: AppTextStyles.heading1.copyWith(
                       fontSize: 18.sp,
-                      color: AppColors.text,
+                      color: AppColors.textDark,
                     ),
                   ),
                 ],
@@ -68,27 +71,32 @@ class HomeHotDeals extends GetView<HomeController> {
                 width: 310.w,
                 padding: EdgeInsets.all(12.w),
                 decoration: BoxDecoration(
-                  color: AppColors.panel,
-                  borderRadius: AppColors.radius,
+                  color: AppColors.panelDark,
+                  borderRadius: BorderRadius.circular(16.r),
                   border: Border.all(
-                    color: AppColors.gold.withOpacity(0.25),
+                    color: AppColors.goldDark.withOpacity(0.25),
                     width: 1.2,
                   ),
-                  boxShadow: AppColors.shadow2,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.04),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
                 child: Row(
                   children: [
-                    // Text and Price section
                     Expanded(
                       flex: 6,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // IMPORTANT: avoid spaceBetween in fixed-height layouts.
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Timer / discount badge row
                               Row(
                                 children: [
                                   Container(
@@ -97,7 +105,7 @@ class HomeHotDeals extends GetView<HomeController> {
                                       vertical: 3.h,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: AppColors.gold,
+                                      color: AppColors.goldDark,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Text(
@@ -116,10 +124,12 @@ class HomeHotDeals extends GetView<HomeController> {
                                       vertical: 3.h,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: AppColors.cream,
+                                      color: AppColors.creamDark,
                                       borderRadius: BorderRadius.circular(20),
                                       border: Border.all(
-                                        color: AppColors.gold.withOpacity(0.3),
+                                        color: AppColors.goldDark.withOpacity(
+                                          0.3,
+                                        ),
                                         width: 0.8,
                                       ),
                                     ),
@@ -129,13 +139,13 @@ class HomeHotDeals extends GetView<HomeController> {
                                         Icon(
                                           Icons.access_time_rounded,
                                           size: 10.sp,
-                                          color: AppColors.gold,
+                                          color: AppColors.goldDark,
                                         ),
                                         SizedBox(width: 3.w),
                                         Text(
                                           deal['timeLeft']!,
                                           style: AppTextStyles.caption.copyWith(
-                                            color: AppColors.gold,
+                                            color: AppColors.goldDark,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 9.sp,
                                           ),
@@ -152,13 +162,13 @@ class HomeHotDeals extends GetView<HomeController> {
                                 overflow: TextOverflow.ellipsis,
                                 style: AppTextStyles.heading2.copyWith(
                                   fontSize: 14.sp,
-                                  color: AppColors.text,
+                                  color: cs.onSurface,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ],
                           ),
-                          // Price row
+                          // SizedBox(height: 8.h),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -174,7 +184,7 @@ class HomeHotDeals extends GetView<HomeController> {
                               Text(
                                 'Rs. ${deal['originalPrice']}',
                                 style: AppTextStyles.caption.copyWith(
-                                  color: AppColors.muted,
+                                  color: AppColors.mutedDark,
                                   decoration: TextDecoration.lineThrough,
                                   fontSize: 12.sp,
                                 ),
@@ -185,24 +195,21 @@ class HomeHotDeals extends GetView<HomeController> {
                       ),
                     ),
                     SizedBox(width: 8.w),
-                    // Image and buy button section
                     Expanded(
                       flex: 4,
                       child: Center(
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            // Soft background behind image
                             Positioned.fill(
                               child: Container(
                                 margin: EdgeInsets.all(4.w),
                                 decoration: BoxDecoration(
-                                  color: AppColors.cream,
+                                  color: AppColors.creamDark,
                                   shape: BoxShape.circle,
                                 ),
                               ),
                             ),
-                            // Product Image
                             Positioned.fill(
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(12),
@@ -212,7 +219,6 @@ class HomeHotDeals extends GetView<HomeController> {
                                 ),
                               ),
                             ),
-                            // Premium Quick Shop Add Button
                             Positioned(
                               bottom: 0,
                               right: 0,
