@@ -25,7 +25,10 @@ class CheckoutScreen extends GetView<CheckoutController> {
         centerTitle: true,
         title: Text(
           'Checkout',
-          style: AppTextStyles.heading2.copyWith(fontSize: 18),
+          style: AppTextStyles.heading2.copyWith(
+            fontSize: 18,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
         ),
         scrolledUnderElevation: 0,
       ),

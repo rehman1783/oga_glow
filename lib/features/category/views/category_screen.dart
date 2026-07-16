@@ -20,7 +20,13 @@ class CategoryScreen extends GetView<CategoryController> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
-        title: const Text('Categories'),
+        title: Text(
+          'Categories',
+          style: AppTextStyles.heading2.copyWith(
+            fontSize: 18,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        ),
         elevation: 0,
         scrolledUnderElevation: 0,
       ),

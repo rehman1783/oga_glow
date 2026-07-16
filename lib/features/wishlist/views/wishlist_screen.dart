@@ -23,10 +23,18 @@ class WishlistScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(64.h),
         child: AppBar(
-          backgroundColor: Theme.of(context).appBarTheme.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor:
+              Theme.of(context).appBarTheme.backgroundColor ??
+              Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
           centerTitle: true,
-          title: Text('Wishlist', style: AppTextStyles.heading2.copyWith(fontSize: 18)),
+          title: Text(
+            'Wishlist',
+            style: AppTextStyles.heading2.copyWith(
+              fontSize: 18,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
           scrolledUnderElevation: 0,
         ),
       ),

@@ -22,7 +22,7 @@ class ProfileHeaderCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(18.w),
       decoration: BoxDecoration(
-        color:Theme.of(context).cardColor,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(24.r),
         border: Border.all(color: AppColors.border.withOpacity(0.5)),
         boxShadow: [
@@ -56,9 +56,15 @@ class ProfileHeaderCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(name, style: AppTextStyles.heading2.copyWith(fontSize: 16.sp)),
+                Text(
+                  name,
+                  style: AppTextStyles.heading2.copyWith(fontSize: 16.sp),
+                ),
                 SizedBox(height: 4.h),
-                Text(email, style: AppTextStyles.caption.copyWith(fontSize: 12.sp)),
+                Text(
+                  email,
+                  style: AppTextStyles.caption.copyWith(fontSize: 12.sp),
+                ),
                 SizedBox(height: 10.h),
                 SizedBox(
                   height: 32.h,
@@ -68,18 +74,25 @@ class ProfileHeaderCard extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 14.w),
                       decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
+
                         borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(color: AppColors.primary.withOpacity(0.35)),
+                        border: Border.all(
+                          color: AppColors.primary.withOpacity(0.35),
+                        ),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.edit_outlined, size: 14.sp, color: AppColors.primary),
+                          Icon(
+                            Icons.edit_outlined,
+                            size: 14.sp,
+                            color: AppColors.primary,
+                          ),
                           SizedBox(width: 4.w),
                           Text(
-                            'Edit', 
+                            'Edit',
                             style: AppTextStyles.body.copyWith(
-                              fontWeight: FontWeight.w700, 
+                              fontWeight: FontWeight.w700,
                               fontSize: 12.sp,
                               color: AppColors.bannerGradientStart,
                             ),

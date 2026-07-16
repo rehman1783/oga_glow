@@ -26,7 +26,10 @@ class ProfileScreen extends StatelessWidget {
         centerTitle: true,
         title: Text(
           'Profile',
-          style: AppTextStyles.heading2.copyWith(fontSize: 18),
+          style: AppTextStyles.heading2.copyWith(
+            fontSize: 18,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
         ),
         scrolledUnderElevation: 0,
       ),

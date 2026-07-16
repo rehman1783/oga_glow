@@ -10,13 +10,9 @@ class HomeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 20.w,
-        vertical: 12.h,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
       child: Row(
         children: [
-
           Container(
             width: 50.w,
             height: 50.h,
@@ -37,17 +33,15 @@ class HomeAppBar extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-                Text(
-                  'Welcome Back',
-                  style: AppTextStyles.caption,
-                ),
+                Text('Welcome Back', style: AppTextStyles.caption),
 
                 SizedBox(height: 2.h),
 
                 Text(
                   'OGA Glow',
-                  style: AppTextStyles.heading2,
+                  style: AppTextStyles.heading2.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
               ],
             ),
