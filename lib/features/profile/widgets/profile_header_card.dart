@@ -22,10 +22,16 @@ class ProfileHeaderCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(18.w),
       decoration: BoxDecoration(
-        color: AppColors.cardBackground,
-        borderRadius: AppColors.radius2,
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(24.r),
         border: Border.all(color: AppColors.border.withOpacity(0.5)),
-        boxShadow: AppColors.shadow2,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,8 +73,9 @@ class ProfileHeaderCard extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 14.w),
                       decoration: BoxDecoration(
-                        color: AppColors.panel2,
-                        borderRadius: BorderRadius.circular(10),
+                        color: Theme.of(context).cardColor,
+
+                        borderRadius: BorderRadius.circular(10.r),
                         border: Border.all(
                           color: AppColors.primary.withOpacity(0.35),
                         ),
@@ -87,7 +94,7 @@ class ProfileHeaderCard extends StatelessWidget {
                             style: AppTextStyles.body.copyWith(
                               fontWeight: FontWeight.w700,
                               fontSize: 12.sp,
-                              color: AppColors.primary,
+                              color: AppColors.bannerGradientStart,
                             ),
                           ),
                         ],

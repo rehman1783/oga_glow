@@ -26,7 +26,7 @@ class AppTheme {
       error: AppColors.error,
       onError: AppColors.white,
 
-      surface: AppColors.panelLight,
+      surface: AppColors.white,
       onSurface: AppColors.textLight,
     ),
 
@@ -46,10 +46,10 @@ class AppTheme {
 
     // Card Theme
     cardTheme: CardThemeData(
-      color: AppColors.panelLight,
+      color: AppColors.white,
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppColors.radiusVal),
+        borderRadius: BorderRadius.circular(16),
       ),
     ),
 
@@ -69,21 +69,21 @@ class AppTheme {
       ),
 
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppColors.radiusVal),
+        borderRadius: BorderRadius.circular(14),
         borderSide: const BorderSide(
           color: AppColors.borderLight,
         ),
       ),
 
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppColors.radiusVal),
+        borderRadius: BorderRadius.circular(14),
         borderSide: const BorderSide(
           color: AppColors.borderLight,
         ),
       ),
 
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppColors.radiusVal),
+        borderRadius: BorderRadius.circular(14),
         borderSide: const BorderSide(
           color: AppColors.primary,
           width: 1.5,
@@ -98,7 +98,7 @@ class AppTheme {
         foregroundColor: AppColors.white,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppColors.radiusVal),
+          borderRadius: BorderRadius.circular(14),
         ),
       ),
     ),
@@ -106,13 +106,13 @@ class AppTheme {
     // Chip Theme
     chipTheme: ChipThemeData(
       selectedColor: AppColors.primary,
-      backgroundColor: AppColors.panel2Light,
+      backgroundColor: AppColors.chipUnselected,
       labelStyle: AppTextStyles.body,
       secondaryLabelStyle: AppTextStyles.body.copyWith(
         color: AppColors.white,
       ),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppColors.radius2Val),
+        borderRadius: BorderRadius.circular(30),
       ),
       side: BorderSide.none,
     ),
@@ -165,7 +165,7 @@ class AppTheme {
       color: AppColors.panelDark,
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppColors.radiusVal),
+        borderRadius: BorderRadius.circular(16),
       ),
     ),
 
@@ -183,21 +183,21 @@ class AppTheme {
       ),
 
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppColors.radiusVal),
+        borderRadius: BorderRadius.circular(14),
         borderSide: const BorderSide(
           color: AppColors.borderDark,
         ),
       ),
 
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppColors.radiusVal),
+        borderRadius: BorderRadius.circular(14),
         borderSide: const BorderSide(
           color: AppColors.borderDark,
         ),
       ),
 
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppColors.radiusVal),
+        borderRadius: BorderRadius.circular(14),
         borderSide: const BorderSide(
           color: AppColors.primary,
           width: 1.5,
@@ -211,7 +211,7 @@ class AppTheme {
         foregroundColor: AppColors.white,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppColors.radiusVal),
+          borderRadius: BorderRadius.circular(14),
         ),
       ),
     ),
@@ -224,7 +224,7 @@ class AppTheme {
         color: AppColors.white,
       ),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppColors.radius2Val),
+        borderRadius: BorderRadius.circular(30),
       ),
       side: BorderSide.none,
     ),
@@ -238,3 +238,4 @@ class AppTheme {
     ),
   );
 }
+

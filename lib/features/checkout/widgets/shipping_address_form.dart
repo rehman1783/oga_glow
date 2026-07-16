@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import '../controllers/checkout_controller.dart';
 import 'app_text_field.dart';
 import 'section_title.dart';
-import '../../../core/theme/app_colors.dart';
 
 class ShippingAddressForm extends StatelessWidget {
   const ShippingAddressForm({super.key});
@@ -22,9 +21,9 @@ class ShippingAddressForm extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
-            color: AppColors.cardBackground,
-            borderRadius: AppColors.radius,
-            border: Border.all(color: AppColors.border.withOpacity(0.8)),
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(20.r),
+            border: Border.all(color: const Color(0xFFE5E0D8).withOpacity(0.8)),
           ),
           child: Column(
             children: [

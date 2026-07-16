@@ -16,17 +16,17 @@ class SplashScreen extends GetView<SplashController> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppColors.bg,
-              AppColors.cream,
-              AppColors.aloe.withOpacity(0.3),
-              AppColors.bg,
+              AppColors.bgLight,
+              AppColors.secondary,
+              Color(0xFFE2EAD6), // Extremely soft olive mix
+              AppColors.bgLight,
             ],
-            stops: const [0.0, 0.4, 0.8, 1.0],
+            stops: [0.0, 0.4, 0.8, 1.0],
           ),
         ),
         child: Stack(
@@ -180,8 +180,8 @@ class FloatingParticles extends StatelessWidget {
     final List<Color> brandColors = [
       AppColors.primary,
       AppColors.primaryLight,
-      AppColors.leaf,
-      AppColors.aloe,
+      AppColors.accent,
+      AppColors.secondary,
     ];
 
     return Stack(
