@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,6 +26,7 @@ class MainNavigationScreen extends GetView<MainNavigationController> {
     return Obx(
       () => Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        extendBody: true, // Extends screen content behind the glass nav bar
 
         body: AnimatedSwitcher(
           duration: const Duration(milliseconds: 320),
@@ -47,76 +49,83 @@ class MainNavigationScreen extends GetView<MainNavigationController> {
             child: screens[controller.currentIndex.value],
           ),
         ),
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.03),
-                blurRadius: 16,
-                offset: const Offset(0, -4),
-              ),
-            ],
-          ),
-          child: NavigationBarTheme(
-            data: NavigationBarThemeData(
-              indicatorColor: AppColors.primary.withOpacity(0.12),
-              labelTextStyle: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.selected)) {
-                  return TextStyle(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12,
-                  );
-                }
-                return TextStyle(
-                  color: AppColors.textSecondary,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 11,
-                );
-              }),
-              iconTheme: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.selected)) {
-                  return const IconThemeData(
-                    color: AppColors.primary,
-                    size: 24,
-                  );
-                }
-                return IconThemeData(color: AppColors.textSecondary, size: 22);
-              }),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.fromLTRB(18, 0, 18, 18),
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: AppColors.shadow2,
+              borderRadius: AppColors.radius2,
             ),
-            child: NavigationBar(
-              selectedIndex: controller.currentIndex.value,
-              onDestinationSelected: controller.changeIndex,
-              backgroundColor: Theme.of(context).colorScheme.surface,
-              elevation: 0,
-              height: 68,
-              destinations: const [
-                NavigationDestination(
-                  icon: Icon(Icons.home_outlined),
-                  selectedIcon: Icon(Icons.home_rounded),
-                  label: "Home",
+            child: ClipRRect(
+              borderRadius: AppColors.radius2,
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                child: Container(
+                  color: AppColors.panel,
+                  child: NavigationBarTheme(
+                    data: NavigationBarThemeData(
+                      indicatorColor: AppColors.primary.withOpacity(0.12),
+                      labelTextStyle: WidgetStateProperty.resolveWith((states) {
+                        if (states.contains(WidgetState.selected)) {
+                          return TextStyle(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 12,
+                          );
+                        }
+                        return TextStyle(
+                          color: AppColors.textSecondary,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 11,
+                        );
+                      }),
+                      iconTheme: WidgetStateProperty.resolveWith((states) {
+                        if (states.contains(WidgetState.selected)) {
+                          return const IconThemeData(
+                            color: AppColors.primary,
+                            size: 24,
+                          );
+                        }
+                        return IconThemeData(color: AppColors.textSecondary, size: 22);
+                      }),
+                    ),
+                    child: NavigationBar(
+                      selectedIndex: controller.currentIndex.value,
+                      onDestinationSelected: controller.changeIndex,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      height: 70,
+                      destinations: const [
+                        NavigationDestination(
+                          icon: Icon(Icons.home_outlined),
+                          selectedIcon: Icon(Icons.home_rounded),
+                          label: "Home",
+                        ),
+                        NavigationDestination(
+                          icon: Icon(Icons.grid_view_outlined),
+                          selectedIcon: Icon(Icons.grid_view_rounded),
+                          label: "Category",
+                        ),
+                        NavigationDestination(
+                          icon: Icon(Icons.favorite_border_rounded),
+                          selectedIcon: Icon(Icons.favorite_rounded),
+                          label: "Wishlist",
+                        ),
+                        NavigationDestination(
+                          icon: Icon(Icons.shopping_cart_outlined),
+                          selectedIcon: Icon(Icons.shopping_cart_rounded),
+                          label: "Cart",
+                        ),
+                        NavigationDestination(
+                          icon: Icon(Icons.person_outline_rounded),
+                          selectedIcon: Icon(Icons.person_rounded),
+                          label: "Profile",
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                NavigationDestination(
-                  icon: Icon(Icons.grid_view_outlined),
-                  selectedIcon: Icon(Icons.grid_view_rounded),
-                  label: "Category",
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.favorite_border_rounded),
-                  selectedIcon: Icon(Icons.favorite_rounded),
-                  label: "Wishlist",
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.shopping_cart_outlined),
-                  selectedIcon: Icon(Icons.shopping_cart_rounded),
-                  label: "Cart",
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.person_outline_rounded),
-                  selectedIcon: Icon(Icons.person_rounded),
-                  label: "Profile",
-                ),
-              ],
+              ),
             ),
           ),
         ),

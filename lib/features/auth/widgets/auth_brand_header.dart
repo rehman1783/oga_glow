@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:oga_glow/core/theme/app_colors.dart';
 import 'auth_wave_clipper.dart';
 
 class AuthBrandHeader extends StatefulWidget {
@@ -69,10 +70,10 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
           height: 300.h,
           width: double.infinity,
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
+            gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Color(0xFF6B8E23), Color(0xFFA8C686)],
+              colors: [AppColors.bannerGradientEnd, AppColors.bannerGradientStart],
             ),
           ),
           clipBehavior: Clip.hardEdge,
