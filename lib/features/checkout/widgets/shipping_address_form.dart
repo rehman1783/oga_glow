@@ -21,7 +21,7 @@ class ShippingAddressForm extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(20.r),
             border: Border.all(color: const Color(0xFFE5E0D8).withOpacity(0.8)),
           ),

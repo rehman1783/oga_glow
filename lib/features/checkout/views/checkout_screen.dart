@@ -60,14 +60,18 @@ class CheckoutScreen extends GetView<CheckoutController> {
                             children: [
                               Text(
                                 'Payment Method',
-                                style: AppTextStyles.heading2,
+                                style: AppTextStyles.heading2.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
+                                ),
                               ),
                               SizedBox(height: 12.h),
 
                               Container(
                                 padding: EdgeInsets.all(16.w),
                                 decoration: BoxDecoration(
-                                  color: AppColors.white,
+                                  color: Theme.of(context).cardColor,
                                   borderRadius: BorderRadius.circular(24.r),
                                   border: Border.all(
                                     color: AppColors.border.withOpacity(0.5),
@@ -134,8 +138,15 @@ class CheckoutScreen extends GetView<CheckoutController> {
                                                       style: AppTextStyles
                                                           .caption
                                                           .copyWith(
-                                                            color: AppColors
-                                                                .textSecondary,
+                                                            color:
+                                                                Theme.of(
+                                                                      context,
+                                                                    )
+                                                                    .colorScheme
+                                                                    .onSurface
+                                                                    .withOpacity(
+                                                                      0.7,
+                                                                    ),
                                                             height: 1.4,
                                                           ),
                                                     ),
@@ -166,7 +177,7 @@ class CheckoutScreen extends GetView<CheckoutController> {
                   child: Container(
                     padding: EdgeInsets.all(18.w),
                     decoration: BoxDecoration(
-                      color: AppColors.white,
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(24.r),
                       border: Border.all(
                         color: AppColors.border.withOpacity(0.5),
@@ -216,8 +227,10 @@ class CheckoutScreen extends GetView<CheckoutController> {
                                   'Fix details',
                                   'Please complete the required fields.',
                                   snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor: AppColors.cardBackground,
-                                  colorText: AppColors.textPrimary,
+                                  backgroundColor: Theme.of(context).cardColor,
+                                  colorText: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
                                   borderRadius: 14.r,
                                 );
                                 return;
@@ -227,8 +240,10 @@ class CheckoutScreen extends GetView<CheckoutController> {
                                 'Order placed',
                                 'Place Order will be connected to backend later.',
                                 snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor: AppColors.cardBackground,
-                                colorText: AppColors.textPrimary,
+                                backgroundColor: Theme.of(context).cardColor,
+                                colorText: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface,
                                 borderRadius: 14.r,
                               );
                             },
