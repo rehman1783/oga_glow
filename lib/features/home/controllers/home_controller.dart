@@ -57,23 +57,43 @@ final bestSellers = [
     "image": "assets/images/banner3.jpeg",
   },
 ];
-final newArrivals = [
-  {
-    "name": "Glow Face Wash",
-    "price": "1700",
-    "image": "assets/images/banner1.jpeg",
-  },
-  {
-    "name": "Hair Repair Shampoo",
-    "price": "2400",
-    "image": "assets/images/banner2.jpeg",
-  },
-  {
-    "name": "Body Care Kit",
-    "price": "2900",
-    "image": "assets/images/banner3.jpeg",
-  },
-];
+  final newArrivals = [
+    {
+      "name": "Glow Face Wash",
+      "price": "1700",
+      "image": "assets/images/banner1.jpeg",
+    },
+    {
+      "name": "Hair Repair Shampoo",
+      "price": "2400",
+      "image": "assets/images/banner2.jpeg",
+    },
+    {
+      "name": "Body Care Kit",
+      "price": "2900",
+      "image": "assets/images/banner3.jpeg",
+    },
+  ];
+
+  final hotDeals = [
+    {
+      "name": "Hyaluronic Acid Glow Kit",
+      "price": "3500",
+      "originalPrice": "5000",
+      "discount": "30% OFF",
+      "image": "assets/images/banner1.jpeg",
+      "timeLeft": "02h 45m",
+    },
+    {
+      "name": "Tea Tree Acne Clear Serum",
+      "price": "1400",
+      "originalPrice": "2000",
+      "discount": "30% OFF",
+      "image": "assets/images/banner3.jpeg",
+      "timeLeft": "05h 12m",
+    },
+  ];
+
   void updateBanner(int index) {
     currentBanner.value = index;
   }

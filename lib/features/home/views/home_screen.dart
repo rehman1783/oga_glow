@@ -8,6 +8,7 @@ import 'package:oga_glow/features/home/controllers/home_controller.dart';
 import 'package:oga_glow/features/home/widgets/home_app_bar.dart';
 import 'package:oga_glow/features/home/widgets/home_banner_slider.dart';
 import 'package:oga_glow/features/home/widgets/home_categories.dart';
+import 'package:oga_glow/features/home/widgets/home_hot_deals.dart';
 import 'package:oga_glow/features/home/widgets/home_search_bar.dart';
 import 'package:oga_glow/features/home/widgets/product_card.dart';
 import 'package:oga_glow/features/home/widgets/section_title.dart';
@@ -55,6 +56,13 @@ class HomeScreen extends GetView<HomeController> {
 
                 FadeSlideTransition(
                   index: 4,
+                  child: const HomeHotDeals(),
+                ),
+
+                const SizedBox(height: 20),
+
+                FadeSlideTransition(
+                  index: 5,
                   child: Column(
                     children: [
                       Padding(
@@ -93,7 +101,7 @@ class HomeScreen extends GetView<HomeController> {
                 SizedBox(height: 20.h),
                 
                 FadeSlideTransition(
-                  index: 5,
+                  index: 6,
                   child: Column(
                     children: [
                       Padding(
@@ -132,7 +140,7 @@ class HomeScreen extends GetView<HomeController> {
                 SizedBox(height: 20.h),
                 
                 FadeSlideTransition(
-                  index: 6,
+                  index: 7,
                   child: Column(
                     children: [
                       Padding(
