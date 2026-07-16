@@ -32,9 +32,10 @@ class HomeHotDeals extends GetView<HomeController> {
                   SizedBox(width: 6.w),
                   Text(
                     'Hot Deals',
-                    style: AppTextStyles.heading1.copyWith(
-                      fontSize: 18.sp,
-                      color: AppColors.textDark,
+                    style: AppTextStyles.heading2.copyWith(
+                      fontSize: 16.sp,
+                       color: cs.onSurface,
+                      // color: AppColors.textDark,
                     ),
                   ),
                 ],
@@ -46,12 +47,21 @@ class HomeHotDeals extends GetView<HomeController> {
                     arguments: {'category': 'All'},
                   );
                 },
-                child: Text(
-                  'See All',
+                child: TextButton(
+                  onPressed: (){
+                     Get.toNamed(
+                    AppRoutes.allProducts,
+                    arguments: {'category': 'All'},
+                  );
+                  },
+                  child:
+                 Text( 'See All',
                   style: AppTextStyles.caption.copyWith(
-                    fontWeight: FontWeight.w600,
+                    // fontWeight: FontWeight.w600,
+                    fontSize: 12.sp,
                     color: AppColors.primary,
                   ),
+                 ),
                 ),
               ),
             ],
@@ -71,7 +81,7 @@ class HomeHotDeals extends GetView<HomeController> {
                 width: 310.w,
                 padding: EdgeInsets.all(12.w),
                 decoration: BoxDecoration(
-                  color: AppColors.panelDark,
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(16.r),
                   border: Border.all(
                     color: AppColors.goldDark.withOpacity(0.25),
@@ -184,7 +194,7 @@ class HomeHotDeals extends GetView<HomeController> {
                               Text(
                                 'Rs. ${deal['originalPrice']}',
                                 style: AppTextStyles.caption.copyWith(
-                                  color: AppColors.mutedDark,
+                                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                                   decoration: TextDecoration.lineThrough,
                                   fontSize: 12.sp,
                                 ),
