@@ -5,8 +5,7 @@ import '../../../app/routes/app_routes.dart';
 
 import '../../../core/theme/app_colors.dart';
 
-// Drawer uses DrawerHeader, which doesn't take an initializer argument.
-// Keep widget simple to avoid constructor signature issues.
+import 'drawer_profile_item.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -17,7 +16,7 @@ class AppDrawer extends StatelessWidget {
       child: SafeArea(
         child: Column(
           children: [
-DrawerHeader(
+            DrawerHeader(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: AppColors.primary.withOpacity(0.08),
@@ -43,14 +42,11 @@ DrawerHeader(
                 ),
               ),
             ),
-            ListTile(
-              leading: const Icon(Icons.person_outline_rounded),
-              title: const Text('Profile'),
-              onTap: () {
-                Navigator.of(context).pop();
-                Get.toNamed(AppRoutes.profile);
-              },
+            DrawerProfileItem(
+              title: 'Profile',
+              icon: Icon(Icons.person_outline_rounded),
             ),
+            Divider(),
           ],
         ),
       ),
