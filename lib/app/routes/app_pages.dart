@@ -51,11 +51,11 @@ class AppPages {
       page: () => const MainNavigationScreen(),
       binding: MainNavigationBinding(),
     ),
-    GetPage(
-      name: AppRoutes.category,
-      page: () => const CategoryScreen(),
-      binding: CategoryBinding(),
-    ),
+    // GetPage(
+    //   name: AppRoutes.category,
+    //   page: () => const CategoryScreen(),
+    //   binding: CategoryBinding(),
+    // ),
     GetPage(
       name: AppRoutes.checkout,
       page: () => const CheckoutScreen(),
@@ -79,16 +79,16 @@ class AppPages {
       page: () => const ProductScreen(),
       binding: ProductBinding(),
     ),
-    GetPage(
-      name: AppRoutes.wishlist,
-      page: () => WishlistScreen(),
-      binding: WishlistBinding(),
-    ),
-    GetPage(
-      name: AppRoutes.cart,
-      page: () => CartScreen(),
-      binding: CartBinding(),
-    ),
+    // GetPage(
+    //   name: AppRoutes.wishlist,
+    //   page: () => WishlistScreen(),
+    //   binding: WishlistBinding(),
+    // ),
+    // GetPage(
+    //   name: AppRoutes.cart,
+    //   page: () => CartScreen(),
+    //   binding: CartBinding(),
+    // ),
     GetPage(name: AppRoutes.profile, page: () => const ProfileScreen()),
 
     // Auth routes

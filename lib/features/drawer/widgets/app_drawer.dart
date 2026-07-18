@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oga_glow/features/main_navigation/controllers/main_navigation_controller.dart';
 
 import '../../../app/routes/app_routes.dart';
 
@@ -42,22 +43,29 @@ class AppDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            DrawerProfileItem(
-              title: 'Wishlist',
-              icon: Icon(Icons.favorite_border_rounded),
-              onTapRoute: AppRoutes.mainNavigation,
-            ),
-            Divider(),
-            DrawerProfileItem(
-              title: 'Cart',
-              icon: Icon(Icons.shopping_cart_outlined),
-              onTapRoute: AppRoutes.mainNavigation,
-            ),
-            Divider(),
-            DrawerProfileItem(
+
+            DrawerItem(
               title: 'Profile',
-              icon: Icon(Icons.person_outline_rounded),
-              onTapRoute: AppRoutes.profile,
+              icon: Icon(Icons.shopping_cart_outlined),
+              onTap: () {
+                Get.toNamed(AppRoutes.profile);
+              },
+            ),
+            Divider(),
+            DrawerItem(
+              title: "Wishlist",
+              icon: Icon(Icons.favorite_border),
+              onTap: () {
+                Get.find<MainNavigationController>().changeIndex(2);
+              },
+            ),
+            Divider(),
+            DrawerItem(
+              title: "Cart",
+              icon: Icon(Icons.shopping_cart_outlined),
+              onTap: () {
+                Get.find<MainNavigationController>().changeIndex(3);
+              },
             ),
             Divider(),
           ],

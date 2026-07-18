@@ -11,11 +11,12 @@ class MainNavigationBinding extends Bindings {
   @override
   void dependencies() {
     // Get.put(MainNavigationController());
-    Get.put(HomeController());
-    Get.put(CategoryController());
+    Get.put(HomeController(),permanent: true);
+    Get.put(CategoryController(),permanent: true);
     Get.put<CartController>(
       CartController(),
       tag: CartController.tag,
+      permanent: true,
     );
     
 Get.put(

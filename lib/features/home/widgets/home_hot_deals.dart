@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:oga_glow/app/routes/app_routes.dart';
 import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/core/theme/app_text_styles.dart';
+import 'package:oga_glow/features/category/controllers/category_controller.dart';
 import 'package:oga_glow/features/home/controllers/home_controller.dart';
+import 'package:oga_glow/features/main_navigation/controllers/main_navigation_controller.dart';
 
 class HomeHotDeals extends GetView<HomeController> {
   const HomeHotDeals({super.key});
@@ -34,34 +36,28 @@ class HomeHotDeals extends GetView<HomeController> {
                     'Hot Deals',
                     style: AppTextStyles.heading2.copyWith(
                       fontSize: 16.sp,
-                       color: cs.onSurface,
+                      color: cs.onSurface,
                       // color: AppColors.textDark,
                     ),
                   ),
                 ],
               ),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed(
-                    AppRoutes.allProducts,
-                    arguments: {'category': 'All'},
-                  );
+              TextButton(
+                onPressed: () {
+                  final categoryController = Get.find<CategoryController>();
+                  final mainNavController =
+                      Get.find<MainNavigationController>();
+
+                  categoryController.openCategory("All");
+                  mainNavController.changeIndex(1);
                 },
-                child: TextButton(
-                  onPressed: (){
-                     Get.toNamed(
-                    AppRoutes.allProducts,
-                    arguments: {'category': 'All'},
-                  );
-                  },
-                  child:
-                 Text( 'See All',
+                child: Text(
+                  'See All',
                   style: AppTextStyles.caption.copyWith(
                     // fontWeight: FontWeight.w600,
                     fontSize: 12.sp,
                     color: AppColors.primary,
                   ),
-                 ),
                 ),
               ),
             ],
@@ -194,7 +190,9 @@ class HomeHotDeals extends GetView<HomeController> {
                               Text(
                                 'Rs. ${deal['originalPrice']}',
                                 style: AppTextStyles.caption.copyWith(
-                                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface.withOpacity(0.6),
                                   decoration: TextDecoration.lineThrough,
                                   fontSize: 12.sp,
                                 ),

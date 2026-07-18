@@ -15,7 +15,7 @@ class CategoryScreen extends GetView<CategoryController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.syncFromRouteArguments();
+    // controller.syncFromRouteArguments();
 
     return Scaffold(
       // drawer: const AppDrawer(),

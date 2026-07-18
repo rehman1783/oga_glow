@@ -32,25 +32,29 @@ class CategoryController extends GetxController {
     },
   ];
 
-  @override
-  void onInit() {
-    super.onInit();
-    // Don’t rely on navigation lifecycle alone; always sync from arguments.
-    syncFromRouteArguments();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   // Don’t rely on navigation lifecycle alone; always sync from arguments.
+  //   syncFromRouteArguments();
+  // }
 
   /// Call this from the screen whenever it builds/mounts.
-  void syncFromRouteArguments() {
-    final raw = Get.arguments?.toString();
-    if (raw == null) return;
+  // void syncFromRouteArguments() {
+  //   final raw = Get.arguments?.toString();
+  //   if (raw == null) return;
 
-    final normalized = raw.trim();
-    if (normalized.isEmpty) return;
+  //   final normalized = raw.trim();
+  //   if (normalized.isEmpty) return;
 
-    selectedCategory.value = categories.contains(normalized)
-        ? normalized
-        : 'All';
-  }
+  //   selectedCategory.value = categories.contains(normalized)
+  //       ? normalized
+  //       : 'All';
+  // }
+  void openCategory(String category) {
+  selectedCategory.value =
+      categories.contains(category) ? category : 'All';
+}
 
   void changeCategory(String category) {
     selectedCategory.value = category.trim();
