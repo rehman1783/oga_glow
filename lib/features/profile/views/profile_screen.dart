@@ -9,6 +9,8 @@ import '../widgets/profile_option_tile.dart';
 import '../../../core/widgets/bounce_tap.dart';
 import '../../../core/widgets/fade_slide_transition.dart';
 import '../../../core/theme/theme_controller.dart';
+import '../../main_navigation/controllers/main_navigation_controller.dart';
+
 import 'profile_screen_theme_option.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -104,8 +106,15 @@ class ProfileScreen extends StatelessWidget {
                       icon: Icons.favorite_border_outlined,
                       title: 'Wishlist',
                       onTap: () {
-                        Get.toNamed('/wishlist');
-                      },
+  
+
+
+    final mainNav = Get.find<MainNavigationController>();
+    mainNav.changeIndex(2);
+     Get.back();
+  } 
+    
+
                     ),
                   ),
                   SizedBox(height: 12.h),
@@ -116,11 +125,17 @@ class ProfileScreen extends StatelessWidget {
                       icon: Icons.shopping_cart_outlined,
                       title: 'Cart',
                       onTap: () {
-                        Get.toNamed('/cart');
-                      },
+  
+
+
+    final mainNav = Get.find<MainNavigationController>();
+    mainNav.changeIndex(3);
+     Get.back();
+  } 
                     ),
                   ),
                   SizedBox(height: 12.h),
+
 
                   FadeSlideTransition(
                     index: 5,

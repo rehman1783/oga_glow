@@ -10,11 +10,11 @@ import 'package:oga_glow/features/wishlist/controllers/wishlist_controller.dart'
 class MainNavigationBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(MainNavigationController());
+    // Get.put(MainNavigationController());
     Get.put(HomeController());
     Get.put(CategoryController());
-    Get.lazyPut<CartController>(
-      () => CartController(),
+    Get.put<CartController>(
+      CartController(),
       tag: CartController.tag,
     );
     

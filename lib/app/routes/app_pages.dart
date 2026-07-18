@@ -23,7 +23,8 @@ import '../../features/wishlist/bindings/wishlist_binding.dart';
 import '../../features/wishlist/views/wishlist_screen.dart';
 
 import '../../features/profile/views/profile_screen.dart';
-
+import '../../features/cart/views/cart_screen.dart';
+import '../../features/cart/bindings/cart_binding.dart';
 
 import 'app_routes.dart';
 import '../../features/auth/views/auth_entry_screen.dart';
@@ -84,10 +85,11 @@ class AppPages {
       binding: WishlistBinding(),
     ),
     GetPage(
-      name: AppRoutes.profile,
-      page: () => const ProfileScreen(),
+      name: AppRoutes.cart,
+      page: () => CartScreen(),
+      binding: CartBinding(),
     ),
-
+    GetPage(name: AppRoutes.profile, page: () => const ProfileScreen()),
 
     // Auth routes
     GetPage(
