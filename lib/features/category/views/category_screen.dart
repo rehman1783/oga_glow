@@ -24,6 +24,10 @@ class CategoryScreen extends GetView<CategoryController> {
         backgroundColor:
             Theme.of(context).appBarTheme.backgroundColor ??
             Theme.of(context).scaffoldBackgroundColor,
+        leading: IconButton(
+          onPressed: () => Scaffold.of(context).openDrawer(),
+          icon: const Icon(Icons.menu_book_sharp),
+        ),
         title: Text(
           'Categories',
           style: AppTextStyles.heading2.copyWith(

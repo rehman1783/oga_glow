@@ -10,12 +10,12 @@ class HomeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+      padding: EdgeInsets.only(right: 12.w, top: 12.h, bottom: 12.h),
       child: Row(
         children: [
           IconButton(
             onPressed: () => Scaffold.of(context).openDrawer(),
-            icon: const Icon(Icons.menu_rounded),
+            icon: const Icon(Icons.menu_book_sharp),
           ),
           Container(
             width: 50.w,

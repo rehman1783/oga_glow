@@ -29,6 +29,10 @@ class CartScreen extends StatelessWidget {
               Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
           centerTitle: true,
+          leading: IconButton(
+            onPressed: () => Scaffold.of(context).openDrawer(),
+            icon: const Icon(Icons.menu_book_sharp),
+          ),
           title: Text(
             'Cart',
             style: AppTextStyles.heading2.copyWith(
