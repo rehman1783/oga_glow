@@ -19,9 +19,8 @@ class HomeScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
+    return SafeArea(
+      child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
@@ -98,8 +97,8 @@ class HomeScreen extends GetView<HomeController> {
                   ),
                 ),
                 
+
                 SizedBox(height: 20.h),
-                
                 FadeSlideTransition(
                   index: 6,
                   child: Column(
@@ -181,7 +180,7 @@ class HomeScreen extends GetView<HomeController> {
             ),
           ),
         ),
-      ),
-    );
+      );
+  
   }
 }

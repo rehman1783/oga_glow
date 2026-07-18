@@ -22,6 +22,9 @@ import '../../features/splash/views/splash_screen.dart';
 import '../../features/wishlist/bindings/wishlist_binding.dart';
 import '../../features/wishlist/views/wishlist_screen.dart';
 
+import '../../features/profile/views/profile_screen.dart';
+
+
 import 'app_routes.dart';
 import '../../features/auth/views/auth_entry_screen.dart';
 import '../../features/checkout/views/checkout_screen.dart';
@@ -80,6 +83,11 @@ class AppPages {
       page: () => WishlistScreen(),
       binding: WishlistBinding(),
     ),
+    GetPage(
+      name: AppRoutes.profile,
+      page: () => const ProfileScreen(),
+    ),
+
 
     // Auth routes
     GetPage(

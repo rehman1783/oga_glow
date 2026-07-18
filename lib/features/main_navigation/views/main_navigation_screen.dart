@@ -8,6 +8,7 @@ import '../../profile/views/profile_screen.dart';
 import '../../wishlist/views/wishlist_screen.dart';
 import '../controllers/main_navigation_controller.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../drawer/widgets/app_drawer.dart';
 
 class MainNavigationScreen extends GetView<MainNavigationController> {
   const MainNavigationScreen({super.key});
@@ -19,13 +20,40 @@ class MainNavigationScreen extends GetView<MainNavigationController> {
       const CategoryScreen(),
       WishlistScreen(),
       CartScreen(),
-      const ProfileScreen(),
+      // const ProfileScreen(),
     ];
+
+    // final titles = const ['Home', 'Category', 'Wishlist', 'Cart', 'Profile'];
 
     return Obx(
       () => Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        drawer: const AppDrawer(),
 
+        // appBar: AppBar(
+        //   automaticallyImplyLeading: false,
+        //   centerTitle: true,
+        //   elevation: 0,
+        //   scrolledUnderElevation: 0,
+        //   backgroundColor:
+        //       Theme.of(context).appBarTheme.backgroundColor ??
+        //       Theme.of(context).scaffoldBackgroundColor,
+        //   title: Text(
+        //     [
+        //       'Home',
+        //       'Categories',
+        //       'Wishlist',
+        //       'Cart',
+        //     ][controller.currentIndex.value],
+        //     style: Theme.of(context).textTheme.titleMedium,
+        //   ),
+        //   leading: Builder(
+        //     builder: (context) => IconButton(
+        //       icon: const Icon(Icons.menu_rounded),
+        //       onPressed: () => Scaffold.of(context).openDrawer(),
+        //     ),
+        //   ),
+        // ),
         body: AnimatedSwitcher(
           duration: const Duration(milliseconds: 320),
           switchInCurve: Curves.easeInOutQuad,
@@ -111,11 +139,11 @@ class MainNavigationScreen extends GetView<MainNavigationController> {
                   selectedIcon: Icon(Icons.shopping_cart_rounded),
                   label: "Cart",
                 ),
-                NavigationDestination(
-                  icon: Icon(Icons.person_outline_rounded),
-                  selectedIcon: Icon(Icons.person_rounded),
-                  label: "Profile",
-                ),
+                // NavigationDestination(
+                //   icon: Icon(Icons.person_outline_rounded),
+                //   selectedIcon: Icon(Icons.person_rounded),
+                //   label: "Profile",
+                // ),
               ],
             ),
           ),

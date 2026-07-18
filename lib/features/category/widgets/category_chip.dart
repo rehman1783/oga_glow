@@ -21,7 +21,7 @@ class CategoryChip extends StatelessWidget {
         label: Text(
           title,
           style: TextStyle(
-            color: isSelected ? AppColors.white : AppColors.textPrimary,
+            color: isSelected ? AppColors.white : Theme.of(context).colorScheme.onSurface,
             fontWeight: FontWeight.w600,
           ),
         ),

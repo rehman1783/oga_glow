@@ -13,6 +13,10 @@ class HomeAppBar extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
       child: Row(
         children: [
+          IconButton(
+            onPressed: () => Scaffold.of(context).openDrawer(),
+            icon: const Icon(Icons.menu_rounded),
+          ),
           Container(
             width: 50.w,
             height: 50.h,
@@ -51,7 +55,7 @@ class HomeAppBar extends StatelessWidget {
             onPressed: () {},
             icon: Icon(
               Icons.notifications_none_rounded,
-              color: AppColors.textPrimary,
+              color: Theme.of(context).colorScheme.onSurface,
               size: 28.sp,
             ),
           ),

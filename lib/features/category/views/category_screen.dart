@@ -8,6 +8,7 @@ import 'package:oga_glow/features/category/widgets/category_product_card.dart';
 import '../controllers/category_controller.dart';
 import 'category_chip_row.dart';
 import '../../../core/widgets/fade_slide_transition.dart';
+import '../../drawer/widgets/app_drawer.dart';
 
 class CategoryScreen extends GetView<CategoryController> {
   const CategoryScreen({super.key});
@@ -17,9 +18,12 @@ class CategoryScreen extends GetView<CategoryController> {
     controller.syncFromRouteArguments();
 
     return Scaffold(
+      // drawer: const AppDrawer(),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor:
+            Theme.of(context).appBarTheme.backgroundColor ??
+            Theme.of(context).scaffoldBackgroundColor,
         title: Text(
           'Categories',
           style: AppTextStyles.heading2.copyWith(
@@ -29,6 +33,12 @@ class CategoryScreen extends GetView<CategoryController> {
         ),
         elevation: 0,
         scrolledUnderElevation: 0,
+        // leading: Builder(
+        //   builder: (context) => IconButton(
+        //     icon: const Icon(Icons.menu_rounded),
+        //     onPressed: () => Scaffold.of(context).openDrawer(),
+        //   ),
+        // ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -52,15 +62,22 @@ class CategoryScreen extends GetView<CategoryController> {
                       fillColor: Theme.of(context).cardColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide(color: AppColors.border.withOpacity(0.5)),
+                        borderSide: BorderSide(
+                          color: AppColors.border.withOpacity(0.5),
+                        ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide(color: AppColors.border.withOpacity(0.5)),
+                        borderSide: BorderSide(
+                          color: AppColors.border.withOpacity(0.5),
+                        ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+                        borderSide: const BorderSide(
+                          color: AppColors.primary,
+                          width: 1.5,
+                        ),
                       ),
                     ),
                   ),
@@ -68,7 +85,7 @@ class CategoryScreen extends GetView<CategoryController> {
                 ],
               ),
             ),
-            
+
             FadeSlideTransition(
               index: 1,
               child: Column(

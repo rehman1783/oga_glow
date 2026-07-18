@@ -1,11 +1,9 @@
 # TODO
 
-- [x] Understand theme + current AppTextField implementation
-- [x] Update `lib/features/checkout/widgets/app_text_field.dart` to use Theme-driven colors for:
-  - [x] Text color (typed input)
-  - [x] Hint color
-  - [x] Background/fill color (focused/unfocused)
-  - [x] Label color (focused/unfocused)
-  - [x] Border color (enabled/focused)
+- [x] Create drawer feature structure: `lib/features/drawer/widgets/app_drawer.dart`
+- [x] Implement Drawer widget with a Profile tile + navigation
+- [ ] Wire `/profile` route in `lib/app/routes/app_pages.dart` (if missing)
+- [x] Attach Drawer to `MainNavigationScreen` (`drawer:` property) and import widget
+- [x] Run `flutter analyze` to ensure build passes (no fatal errors; existing warnings remain)
 
 
