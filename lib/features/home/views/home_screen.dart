@@ -33,9 +33,9 @@ class HomeScreen extends GetView<HomeController> {
                 children: [
                   FadeSlideTransition(index: 0, child: HomeAppBar()),
 
-                  SizedBox(height: 20.h),
+                  // SizedBox(height: 20.h),
 
-                  FadeSlideTransition(index: 1, child: HomeSearchBar()),
+                  // FadeSlideTransition(index: 1, child: HomeSearchBar()),
 
                   SizedBox(height: 24.h),
 

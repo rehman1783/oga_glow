@@ -1,9 +1,22 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CategoryController extends GetxController {
-  final categories = ['All', 'Skin Care', 'Hair Care', 'Body Care', 'Kits'].obs;
+  final categories = [
+    'All',
+    'Skin Care',
+    'Hair Care',
+    'Body Care',
+    'Kits',
+  ].obs;
 
   final selectedCategory = 'All'.obs;
+
+  final searchController = TextEditingController();
+
+  final searchText = ''.obs;
+
+  final searchSuggestions = <Map<String, dynamic>>[].obs;
 
   final allProducts = [
     {
@@ -32,41 +45,78 @@ class CategoryController extends GetxController {
     },
   ];
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   // Don’t rely on navigation lifecycle alone; always sync from arguments.
-  //   syncFromRouteArguments();
-  // }
-
-  /// Call this from the screen whenever it builds/mounts.
-  // void syncFromRouteArguments() {
-  //   final raw = Get.arguments?.toString();
-  //   if (raw == null) return;
-
-  //   final normalized = raw.trim();
-  //   if (normalized.isEmpty) return;
-
-  //   selectedCategory.value = categories.contains(normalized)
-  //       ? normalized
-  //       : 'All';
-  // }
   void openCategory(String category) {
-  selectedCategory.value =
-      categories.contains(category) ? category : 'All';
-}
+    selectedCategory.value =
+        categories.contains(category) ? category : 'All';
+  }
 
   void changeCategory(String category) {
     selectedCategory.value = category.trim();
   }
 
-  List<Map<String, dynamic>> get filteredProducts {
-    if (selectedCategory.value == 'All') {
-      return allProducts;
+  /// Search
+  void onSearchChanged(String value) {
+    searchText.value = value;
+
+    if (value.trim().isEmpty) {
+      searchSuggestions.clear();
+      return;
     }
 
-    return allProducts
-        .where((product) => product['category'] == selectedCategory.value)
+    searchSuggestions.value = allProducts
+        .where(
+          (product) => product["name"]
+              .toString()
+              .toLowerCase()
+              .contains(value.toLowerCase()),
+        )
         .toList();
+  }
+
+  /// Suggestion click
+  void selectSuggestion(Map<String, dynamic> product) {
+    searchController.text = product["name"];
+
+    searchText.value = product["name"];
+
+    searchSuggestions.clear();
+  }
+
+  /// Products Filter
+  List<Map<String, dynamic>> get filteredProducts {
+    List<Map<String, dynamic>> products = allProducts;
+
+    // Category Filter
+    if (selectedCategory.value != "All") {
+      products = products
+          .where(
+            (product) =>
+                product["category"] ==
+                selectedCategory.value,
+          )
+          .toList();
+    }
+
+    // Search Filter
+    if (searchText.value.isNotEmpty) {
+      products = products
+          .where(
+            (product) => product["name"]
+                .toString()
+                .toLowerCase()
+                .contains(
+                  searchText.value.toLowerCase(),
+                ),
+          )
+          .toList();
+    }
+
+    return products;
+  }
+
+  @override
+  void onClose() {
+    searchController.dispose();
+    super.onClose();
   }
 }

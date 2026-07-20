@@ -58,33 +58,59 @@ class CategoryScreen extends GetView<CategoryController> {
                     child: CategoryChipRow(controller: controller),
                   ),
                   const SizedBox(height: 14),
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: "Search products...",
-                      prefixIcon: const Icon(Icons.search),
-                      filled: true,
-                      fillColor: Theme.of(context).cardColor,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide(
-                          color: AppColors.border.withOpacity(0.5),
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide(
-                          color: AppColors.border.withOpacity(0.5),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(
-                          color: AppColors.primary,
-                          width: 1.5,
-                        ),
-                      ),
-                    ),
-                  ),
+                 TextField(
+  controller: controller.searchController,
+  onChanged: controller.onSearchChanged,
+  decoration: InputDecoration(
+    hintText: "Search products...",
+    prefixIcon: const Icon(Icons.search),
+    filled: true,
+    fillColor: Theme.of(context).cardColor,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(14),
+    ),
+  ),
+),
+Obx(() {
+  if (controller.searchSuggestions.isEmpty) {
+    return const SizedBox();
+  }
+
+  return Container(
+    margin: const EdgeInsets.only(top: 8),
+    decoration: BoxDecoration(
+      color: Theme.of(context).cardColor,
+      borderRadius: BorderRadius.circular(12),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 8,
+        ),
+      ],
+    ),
+    child: ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: controller.searchSuggestions.length,
+      itemBuilder: (context, index) {
+        final product =
+            controller.searchSuggestions[index];
+
+        return ListTile(
+          leading: CircleAvatar(
+            backgroundImage:
+                AssetImage(product["image"]),
+          ),
+          title: Text(product["name"]),
+          subtitle: Text(product["category"]),
+          onTap: () {
+            controller.selectSuggestion(product);
+          },
+        );
+      },
+    ),
+  );
+}),
                   const SizedBox(height: 14),
                 ],
               ),
