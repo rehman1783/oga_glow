@@ -56,22 +56,22 @@ class CategoryController extends GetxController {
 
   /// Search
   void onSearchChanged(String value) {
-    searchText.value = value;
+  searchText.value = value;
 
-    if (value.trim().isEmpty) {
-      searchSuggestions.clear();
-      return;
-    }
-
-    searchSuggestions.value = allProducts
-        .where(
-          (product) => product["name"]
-              .toString()
-              .toLowerCase()
-              .contains(value.toLowerCase()),
-        )
-        .toList();
+  if (value.trim().isEmpty) {
+    searchSuggestions.clear();
+    return;
   }
+
+  final query = value.toLowerCase().trim();
+
+  searchSuggestions.value = allProducts.where((product) {
+    final name = product["name"].toString().toLowerCase();
+    final category = product["category"].toString().toLowerCase();
+
+    return name.contains(query) || category.contains(query);
+  }).toList();
+}
 
   /// Suggestion click
   void selectSuggestion(Map<String, dynamic> product) {
@@ -82,37 +82,30 @@ class CategoryController extends GetxController {
     searchSuggestions.clear();
   }
 
-  /// Products Filter
-  List<Map<String, dynamic>> get filteredProducts {
-    List<Map<String, dynamic>> products = allProducts;
+ List<Map<String, dynamic>> get filteredProducts {
+  List<Map<String, dynamic>> products = allProducts;
 
-    // Category Filter
-    if (selectedCategory.value != "All") {
-      products = products
-          .where(
-            (product) =>
-                product["category"] ==
-                selectedCategory.value,
-          )
-          .toList();
-    }
-
-    // Search Filter
-    if (searchText.value.isNotEmpty) {
-      products = products
-          .where(
-            (product) => product["name"]
-                .toString()
-                .toLowerCase()
-                .contains(
-                  searchText.value.toLowerCase(),
-                ),
-          )
-          .toList();
-    }
-
-    return products;
+  // Category Chip Filter
+  if (selectedCategory.value != "All") {
+    products = products.where((product) {
+      return product["category"] == selectedCategory.value;
+    }).toList();
   }
+
+  // Search Filter
+  if (searchText.value.isNotEmpty) {
+    final query = searchText.value.toLowerCase().trim();
+
+    products = products.where((product) {
+      final name = product["name"].toString().toLowerCase();
+      final category = product["category"].toString().toLowerCase();
+
+      return name.contains(query) || category.contains(query);
+    }).toList();
+  }
+
+  return products;
+}
 
   @override
   void onClose() {
