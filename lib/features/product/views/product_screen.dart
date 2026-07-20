@@ -79,7 +79,7 @@ class ProductScreen extends GetView<ProductController> {
                 child: const RelatedProductsSection(),
               ),
 
-              const SizedBox(height: 50),
+              const SizedBox(height: 40),
             ],
           ),
         ),

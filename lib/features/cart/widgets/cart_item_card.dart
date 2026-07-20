@@ -1,27 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
-import '../controllers/cart_controller.dart';
 import '../../../app/routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/bounce_tap.dart';
+import '../controllers/cart_controller.dart';
+import 'quantity_selector.dart';
 
 class CartItemCard extends StatelessWidget {
   final Map<String, dynamic> product;
   final int index;
 
-  const CartItemCard({super.key, required this.product, required this.index});
+  const CartItemCard({
+    super.key,
+    required this.product,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final cartController = Get.find<CartController>(tag: CartController.tag);
+
     final String name = product['name']?.toString() ?? '';
     final String category = product['category']?.toString() ?? '';
-    final String price = product['price']?.toString() ?? '';
+    final String price = product['price']?.toString() ?? '0';
     final String imagePath = product['image']?.toString() ?? '';
+    final int quantity =
+        int.tryParse(product['quantity']?.toString() ?? '1') ?? 1;
     final String description =
         product['description']?.toString() ?? 'No description available';
+
+    final double unitPrice = double.tryParse(
+          price.replaceAll(RegExp(r'[^0-9.]'), ''),
+        ) ??
+        0.0;
+    final double itemTotal = unitPrice * quantity;
+
+    final String formattedTotal = (itemTotal % 1 == 0)
+        ? itemTotal.toInt().toString()
+        : itemTotal.toStringAsFixed(2);
 
     final Map<String, dynamic> productData = {
       'name': name,
@@ -51,31 +70,67 @@ class CartItemCard extends StatelessWidget {
         ),
         child: Row(
           children: [
+            /// Product Image
             ClipRRect(
               borderRadius: BorderRadius.circular(14.r),
-              child: Image.asset(
-                imagePath,
-                width: 80.w,
-                height: 80.h,
-                fit: BoxFit.cover,
-              ),
+              child: imagePath.isNotEmpty
+                  ? Image.asset(
+                      imagePath,
+                      width: 80.w,
+                      height: 80.h,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        width: 80.w,
+                        height: 80.h,
+                        color: AppColors.secondary,
+                        child: const Icon(Icons.image_not_supported_outlined),
+                      ),
+                    )
+                  : Container(
+                      width: 80.w,
+                      height: 80.h,
+                      color: AppColors.secondary,
+                      child: const Icon(Icons.shopping_bag_outlined),
+                    ),
             ),
 
             SizedBox(width: 12.w),
 
+            /// Product Details + Quantity Controls
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.heading2.copyWith(fontSize: 14.sp),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.heading2.copyWith(fontSize: 14.sp),
+                        ),
+                      ),
+                      BounceTap(
+                        onTap: () {
+                          cartController.removeItem(index);
+                        },
+                        scaleBound: 0.9,
+                        child: Container(
+                          padding: EdgeInsets.all(4.r),
+                          child: const Icon(
+                            Icons.delete_outline_rounded,
+                            color: AppColors.accent,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
 
-                  SizedBox(height: 6.h),
+                  SizedBox(height: 4.h),
 
                   Container(
                     padding: EdgeInsets.symmetric(
@@ -99,40 +154,30 @@ class CartItemCard extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(height: 8.h),
-                  Text(
-                    'Rs. $price',
-                    style: AppTextStyles.heading2.copyWith(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14.sp,
-                    ),
+                  SizedBox(height: 10.h),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Rs. $formattedTotal',
+                        style: AppTextStyles.heading2.copyWith(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                      QuantitySelector(
+                        quantity: quantity,
+                        minQuantity: 1,
+                        height: 32,
+                        iconSize: 16,
+                        onIncrement: () => cartController.increaseQuantity(index),
+                        onDecrement: () => cartController.decreaseQuantity(index),
+                      ),
+                    ],
                   ),
                 ],
-              ),
-            ),
-
-            SizedBox(width: 10.w),
-
-            BounceTap(
-              onTap: () {
-                final cart = Get.find<CartController>(tag: CartController.tag);
-                cart.removeItem(index);
-              },
-              scaleBound: 0.9,
-              child: Container(
-                width: 38.w,
-                height: 38.h,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: AppColors.accent.withOpacity(0.15)),
-                ),
-                child: const Icon(
-                  Icons.delete_outline_rounded,
-                  color: AppColors.accent,
-                  size: 20,
-                ),
               ),
             ),
           ],

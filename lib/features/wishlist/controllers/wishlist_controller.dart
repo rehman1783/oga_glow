@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../cart/controllers/cart_controller.dart';
+import '../../cart/widgets/add_to_cart_bottom_sheet.dart';
 
 class WishlistController extends GetxController {
   static const String tag = 'wishlist';
@@ -40,10 +41,6 @@ class WishlistController extends GetxController {
   }
 
   void addToWishlist(Map<String, dynamic> product) {
-    // Debug: ensure method is hitting.
-    // ignore: avoid_print
-
-    // Ensure correct type (Get may pass IdentityMap internally).
     final normalized = <String, dynamic>{...product};
 
     if (isInWishlist(normalized)) {
@@ -91,17 +88,14 @@ class WishlistController extends GetxController {
     addToWishlist(normalized);
   }
 
-  /// Used by wishlist UI flow.
-  void addToCartDynamic(Map<String, dynamic> product) {
+  /// Used by wishlist UI flow. Opens the quantity selector bottom sheet.
+  void addToCartDynamic(BuildContext context, Map<String, dynamic> product) {
     final normalized = <String, dynamic>{...product};
-
-    final cart = Get.find<CartController>(tag: CartController.tag);
-
-    cart.addToCart(normalized);
+    AddToCartBottomSheet.show(context, normalized);
   }
 
   /// Alias to keep older code compiling
-  void addToCartLegacy(Map<String, dynamic> product) {
-    addToCartDynamic(product);
+  void addToCartLegacy(BuildContext context, Map<String, dynamic> product) {
+    addToCartDynamic(context, product);
   }
 }

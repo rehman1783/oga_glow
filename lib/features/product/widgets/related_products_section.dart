@@ -27,7 +27,7 @@ class RelatedProductsSection extends StatelessWidget {
               ),
               SizedBox(height: 12.h),
               SizedBox(
-                height: 280.h,
+                height: 320.h,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: related.length,

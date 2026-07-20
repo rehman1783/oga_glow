@@ -17,6 +17,13 @@ class CartScreen extends StatelessWidget {
     tag: CartController.tag,
   );
 
+  String _formatTotal(double val) {
+    if (val % 1 == 0) {
+      return val.toInt().toString();
+    }
+    return val.toStringAsFixed(2);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,10 +57,7 @@ class CartScreen extends StatelessWidget {
           return const EmptyCart();
         }
 
-        final total = items.fold<int>(0, (sum, item) {
-          final p = int.tryParse(item['price']?.toString() ?? '') ?? 0;
-          return sum + p;
-        });
+        final double subtotal = cartController.totalSubtotal;
 
         return Column(
           children: [
@@ -103,7 +107,7 @@ class CartScreen extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            'Rs. $total',
+                            'Rs. ${_formatTotal(subtotal)}',
                             style: AppTextStyles.heading2.copyWith(
                               color: AppColors.primary,
                               fontWeight: FontWeight.bold,

@@ -7,6 +7,7 @@ import '../../../app/routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/bounce_tap.dart';
+import '../../cart/widgets/add_to_cart_bottom_sheet.dart';
 
 class WishlistItemCard extends StatelessWidget {
   final Map<String, dynamic> product;
@@ -151,7 +152,7 @@ class WishlistItemCard extends StatelessWidget {
                   width: 100.w,
                   height: 36.h,
                   child: BounceTap(
-                    onTap: () => controller.addToCartDynamic(productData),
+                    onTap: () => AddToCartBottomSheet.show(context, productData),
                     child: Container(
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(

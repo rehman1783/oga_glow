@@ -94,7 +94,7 @@ mainNavController.changeIndex(1);
                         ),
                         const SizedBox(height: 20),
                         SizedBox(
-                          height: 280.h,
+                          height: 320.h,
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
                             itemCount: controller.featuredProducts.length,
@@ -135,7 +135,7 @@ mainNavController.changeIndex(1);
                         ),
                         SizedBox(height: 15.h),
                         SizedBox(
-                          height: 280.h,
+                          height: 320.h,
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
                             itemCount: controller.bestSellers.length,
@@ -175,7 +175,7 @@ mainNavController.changeIndex(1);
                         ),
                         SizedBox(height: 15.h),
                         SizedBox(
-                          height: 280.h,
+                          height: 320.h,
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
                             itemCount: controller.newArrivals.length,

@@ -8,6 +8,7 @@ import '../../../core/theme/app_text_styles.dart';
 import '../../wishlist/controllers/wishlist_controller.dart';
 import '../../wishlist/bindings/wishlist_binding.dart';
 import '../../../core/widgets/bounce_tap.dart';
+import '../../cart/widgets/add_to_cart_bottom_sheet.dart';
 
 class ProductCard extends StatelessWidget {
   final String name;
@@ -115,7 +116,7 @@ class ProductCard extends StatelessWidget {
               ),
             ),
 
-            /// Product Details
+            /// Product Details + Quick Add to Cart
             Expanded(
               flex: 3,
               child: Padding(
@@ -135,12 +136,36 @@ class ProductCard extends StatelessWidget {
 
                     const Spacer(),
 
-                    Text(
-                      'Rs $price',
-                      style: AppTextStyles.body.copyWith(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Rs $price',
+                          style: AppTextStyles.body.copyWith(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        BounceTap(
+                          onTap: () => AddToCartBottomSheet.show(
+                            context,
+                            _productData,
+                          ),
+                          scaleBound: 0.85,
+                          child: Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withOpacity(0.12),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.add_shopping_cart_rounded,
+                              size: 16,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../app/routes/app_routes.dart';
 import '../../cart/controllers/cart_controller.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
@@ -25,7 +26,10 @@ class ProductActionButtons extends GetView<ProductController> {
                   final cartController = Get.find<CartController>(
                     tag: CartController.tag,
                   );
-                  cartController.addToCart({...controller.product});
+                  cartController.addToCart(
+                    {...controller.product},
+                    quantity: controller.quantity.value,
+                  );
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -58,11 +62,14 @@ class ProductActionButtons extends GetView<ProductController> {
               height: 50,
               child: BounceTap(
                 onTap: () {
-                  // final cartController = Get.find<CartController>(
-                  //   tag: CartController.tag,
-                  // );
-                  // cartController.addToCart({...controller.product});
-                  // Get.toNamed('/cart');
+                  final cartController = Get.find<CartController>(
+                    tag: CartController.tag,
+                  );
+                  cartController.addToCart(
+                    {...controller.product},
+                    quantity: controller.quantity.value,
+                  );
+                  Get.toNamed(AppRoutes.checkout);
                 },
                 child: Container(
                   decoration: BoxDecoration(
