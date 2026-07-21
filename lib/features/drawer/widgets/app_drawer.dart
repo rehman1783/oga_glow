@@ -67,7 +67,15 @@ class AppDrawer extends StatelessWidget {
                 Get.find<MainNavigationController>().changeIndex(3);
               },
             ),
-            Divider(),
+            const Divider(),
+            DrawerItem(
+              title: 'Contact Us',
+              icon: const Icon(Icons.headset_mic_outlined),
+              onTap: () {
+                Get.toNamed(AppRoutes.contact);
+              },
+            ),
+            const Divider(),
           ],
         ),
       ),

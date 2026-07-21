@@ -30,6 +30,8 @@ import 'app_routes.dart';
 import '../../features/auth/views/auth_entry_screen.dart';
 import '../../features/checkout/views/checkout_screen.dart';
 import '../../features/checkout/bindings/checkout_binding.dart';
+import '../../features/contact/views/contact_screen.dart';
+import '../../features/contact/bindings/contact_binding.dart';
 
 class AppPages {
   AppPages._();
@@ -106,6 +108,13 @@ class AppPages {
       name: AppRoutes.entry,
       page: () => const AuthEntryScreen(),
       binding: AuthEntryBinding(),
+    ),
+
+    // Contact
+    GetPage(
+      name: AppRoutes.contact,
+      page: () => const ContactScreen(),
+      binding: ContactBinding(),
     ),
   ];
 }

@@ -21,5 +21,7 @@ abstract class AppRoutes {
   static const entry = '/entry';
   static const login = '/login';
   static const signup = '/signup';
-  
+
+  // Contact
+  static const contact = '/contact';
 }
