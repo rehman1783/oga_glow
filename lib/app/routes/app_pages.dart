@@ -32,6 +32,8 @@ import '../../features/checkout/views/checkout_screen.dart';
 import '../../features/checkout/bindings/checkout_binding.dart';
 import '../../features/contact/views/contact_screen.dart';
 import '../../features/contact/bindings/contact_binding.dart';
+import '../../features/about/views/about_screen.dart';
+import '../../features/about/bindings/about_binding.dart';
 
 class AppPages {
   AppPages._();
@@ -115,6 +117,13 @@ class AppPages {
       name: AppRoutes.contact,
       page: () => const ContactScreen(),
       binding: ContactBinding(),
+    ),
+
+    // About
+    GetPage(
+      name: AppRoutes.about,
+      page: () => const AboutScreen(),
+      binding: AboutBinding(),
     ),
   ];
 }

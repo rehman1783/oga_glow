@@ -24,4 +24,7 @@ abstract class AppRoutes {
 
   // Contact
   static const contact = '/contact';
+
+  // About
+  static const about = '/about';
 }

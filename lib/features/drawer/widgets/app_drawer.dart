@@ -69,6 +69,14 @@ class AppDrawer extends StatelessWidget {
             ),
             const Divider(),
             DrawerItem(
+              title: 'About Us',
+              icon: const Icon(Icons.info_outline_rounded),
+              onTap: () {
+                Get.toNamed(AppRoutes.about);
+              },
+            ),
+            const Divider(),
+            DrawerItem(
               title: 'Contact Us',
               icon: const Icon(Icons.headset_mic_outlined),
               onTap: () {

@@ -125,12 +125,12 @@ mainNavController.changeIndex(1);
                           child: SectionTitle(
                             title: 'Best Sellers',
                             onSeeAll: () {
-                             final categoryController = Get.find<CategoryController>();
+final categoryController = Get.find<CategoryController>();
 final mainNavController = Get.find<MainNavigationController>();
 
 categoryController.openCategory("All");
 mainNavController.changeIndex(1);
-                            },
+                            },                             
                           ),
                         ),
                         SizedBox(height: 15.h),
