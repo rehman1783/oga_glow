@@ -33,4 +33,7 @@ abstract class AppRoutes {
   static const termsOfService = '/legal/terms-of-service';
   static const privacyPolicy = '/legal/privacy-policy';
   static const returnRefundPolicy = '/legal/return-refund-policy';
+
+  // FAQ
+  static const faq = '/faq';
 }

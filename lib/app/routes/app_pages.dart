@@ -39,6 +39,8 @@ import '../../features/legal/views/terms_of_service_screen.dart';
 import '../../features/legal/views/privacy_policy_screen.dart';
 import '../../features/legal/views/return_refund_policy_screen.dart';
 import '../../features/legal/bindings/legal_binding.dart';
+import '../../features/faq/views/faq_screen.dart';
+import '../../features/faq/bindings/faq_binding.dart';
 
 class AppPages {
   AppPages._();
@@ -148,6 +150,13 @@ class AppPages {
     GetPage(
       name: AppRoutes.returnRefundPolicy,
       page: () => const ReturnRefundPolicyScreen(),
+    ),
+
+    // FAQ
+    GetPage(
+      name: AppRoutes.faq,
+      page: () => const FaqScreen(),
+      binding: FaqBinding(),
     ),
   ];
 }

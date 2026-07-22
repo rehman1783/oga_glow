@@ -52,22 +52,8 @@ class AppDrawer extends StatelessWidget {
               },
             ),
             Divider(),
-            DrawerItem(
-              title: "Wishlist",
-              icon: Icon(Icons.favorite_border),
-              onTap: () {
-                Get.find<MainNavigationController>().changeIndex(2);
-              },
-            ),
-            Divider(),
-            DrawerItem(
-              title: "Cart",
-              icon: Icon(Icons.shopping_cart_outlined),
-              onTap: () {
-                Get.find<MainNavigationController>().changeIndex(3);
-              },
-            ),
-            const Divider(),
+           
+            
             DrawerItem(
               title: 'About Us',
               icon: const Icon(Icons.info_outline_rounded),
@@ -81,6 +67,14 @@ class AppDrawer extends StatelessWidget {
               icon: const Icon(Icons.headset_mic_outlined),
               onTap: () {
                 Get.toNamed(AppRoutes.contact);
+              },
+            ),
+            const Divider(),
+            DrawerItem(
+              title: 'FAQ',
+              icon: const Icon(Icons.help_outline_rounded),
+              onTap: () {
+                Get.toNamed(AppRoutes.faq);
               },
             ),
             const Divider(),
