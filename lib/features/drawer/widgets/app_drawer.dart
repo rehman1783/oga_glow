@@ -55,6 +55,14 @@ class AppDrawer extends StatelessWidget {
            
             
             DrawerItem(
+              title: 'My Orders',
+              icon: const Icon(Icons.receipt_long_rounded),
+              onTap: () {
+                Get.toNamed(AppRoutes.orderHistory);
+              },
+            ),
+            const Divider(),
+            DrawerItem(
               title: 'About Us',
               icon: const Icon(Icons.info_outline_rounded),
               onTap: () {

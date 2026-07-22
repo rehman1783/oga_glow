@@ -41,6 +41,9 @@ import '../../features/legal/views/return_refund_policy_screen.dart';
 import '../../features/legal/bindings/legal_binding.dart';
 import '../../features/faq/views/faq_screen.dart';
 import '../../features/faq/bindings/faq_binding.dart';
+import '../../features/orders/views/order_history_screen.dart';
+import '../../features/orders/views/order_details_screen.dart';
+import '../../features/orders/bindings/order_binding.dart';
 
 class AppPages {
   AppPages._();
@@ -157,6 +160,17 @@ class AppPages {
       name: AppRoutes.faq,
       page: () => const FaqScreen(),
       binding: FaqBinding(),
+    ),
+
+    // Orders
+    GetPage(
+      name: AppRoutes.orderHistory,
+      page: () => const OrderHistoryScreen(),
+      binding: OrderBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.orderDetails,
+      page: () => const OrderDetailsScreen(),
     ),
   ];
 }

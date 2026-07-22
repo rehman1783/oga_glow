@@ -36,4 +36,8 @@ abstract class AppRoutes {
 
   // FAQ
   static const faq = '/faq';
+
+  // Orders
+  static const orderHistory = '/orders';
+  static const orderDetails = '/orders/details';
 }
