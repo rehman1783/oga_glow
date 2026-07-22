@@ -45,9 +45,9 @@ class FaqConstants {
           const FaqQuestion(
             question: 'How long does shipping take?',
             answer:
-                'Standard shipping within Pakistan typically takes **3–7 business days** '
+                'Standard shipping within Pakistan typically takes 3–7 business days '
                 'depending on your location. For international orders, delivery usually '
-                'takes **7–14 business days**. Express shipping options are available at '
+                'takes 7–14 business days. Express shipping options are available at '
                 'checkout for faster delivery.',
           ),
           const FaqQuestion(
@@ -68,7 +68,7 @@ class FaqConstants {
             question: 'What is the shipping cost?',
             answer:
                 'Shipping costs are calculated based on your location, order weight, and '
-                'the shipping method selected at checkout. We offer **free shipping** on '
+                'the shipping method selected at checkout. We offer free shipping on '
                 'orders above a certain amount — check our current promotions for details.',
           ),
           const FaqQuestion(
@@ -90,7 +90,7 @@ class FaqConstants {
           const FaqQuestion(
             question: 'What is your return window?',
             answer:
-                'You have **14 calendar days** from the date of delivery to request a return. '
+                'You have 14 calendar days from the date of delivery to request a return. '
                 'Items must be received by our warehouse within 7 days after the return request '
                 'is approved. Requests made after the 14-day window will not be accepted unless '
                 'the item is defective or damaged.',
@@ -115,7 +115,7 @@ class FaqConstants {
             question: 'How long does it take to receive my refund?',
             answer:
                 'Once we receive and inspect the returned item, your refund will be processed '
-                'within **5–7 business days**. The refund will be issued to your original '
+                'within 5–7 business days. The refund will be issued to your original '
                 'payment method. Depending on your bank or card issuer, it may take additional '
                 'time for the funds to appear in your account.',
           ),
@@ -139,15 +139,15 @@ class FaqConstants {
           const FaqQuestion(
             question: 'Which payment methods are accepted?',
             answer:
-                'We accept a variety of payment methods including **credit/debit cards** '
-                '(Visa, Mastercard), **bank transfers**, **JazzCash**, **Easypaisa**, and '
-                '**cash on delivery (COD)** for select locations. All payment transactions '
+                'We accept a variety of payment methods including credit/debit cards '
+                '(Visa, Mastercard), bank transfers, JazzCash, Easypaisa, and '
+                'cash on delivery (COD) for select locations. All payment transactions '
                 'are processed securely through encrypted gateways.',
           ),
           const FaqQuestion(
             question: 'Can I cancel my order?',
             answer:
-                'You can cancel your order within **24 hours** of placing it, as long as it '
+                'You can cancel your order within 24 hours of placing it, as long as it '
                 'has not yet been shipped. To cancel, log in to your account, go to "My Orders", '
                 'and click "Cancel Order". If the order has already been shipped, please refer '
                 'to our return policy.',
@@ -169,7 +169,7 @@ class FaqConstants {
           const FaqQuestion(
             question: 'Is my payment information secure?',
             answer:
-                'Absolutely. We use industry-standard **SSL encryption** to protect your '
+                'Absolutely. We use industry-standard SSL encryption to protect your '
                 'payment information. We do not store full credit card details on our servers. '
                 'All payments are processed through trusted third-party payment gateways with '
                 'the highest security standards.',
@@ -187,24 +187,24 @@ class FaqConstants {
           const FaqQuestion(
             question: 'How should I store skincare products?',
             answer:
-                'To maintain product efficacy, store your skincare products in a **cool, dry '
-                'place** away from direct sunlight and humidity. Avoid storing them in the '
+                'To maintain product efficacy, store your skincare products in a cool, dry '
+                'place away from direct sunlight and humidity. Avoid storing them in the '
                 'bathroom where temperature and moisture levels fluctuate. Always ensure the '
                 'lid is tightly closed after use.',
           ),
           const FaqQuestion(
             question: 'How long do products last after opening?',
             answer:
-                'Each product has a **Period After Opening (PAO)** symbol on its packaging, '
+                'Each product has a Period After Opening (PAO) symbol on its packaging, '
                 'indicating how many months it remains effective after opening (e.g., 6M, 12M). '
-                'Generally, most skincare products last **6–12 months** after opening. Always '
+                'Generally, most skincare products last 6–12 months after opening. Always '
                 'check the PAO symbol and discard products past their expiry.',
           ),
           const FaqQuestion(
             question: 'Are your products suitable for sensitive skin?',
             answer:
                 'Many of our products are formulated to be gentle and suitable for sensitive '
-                'skin. However, we always recommend performing a **patch test** on a small area '
+                'skin. However, we always recommend performing a patch test on a small area '
                 'of skin before full application. Each product listing includes detailed '
                 'ingredient information to help you make an informed choice.',
           ),
@@ -219,7 +219,7 @@ class FaqConstants {
             question: 'Do your products contain parabens or sulfates?',
             answer:
                 'Our product formulations vary by brand and type. Many of our products are '
-                '**paraben-free** and **sulfate-free**, but we encourage you to check the '
+                'paraben-free and sulfate-free, but we encourage you to check the '
                 'ingredient list on each product page for specific details. We clearly label '
                 'key product attributes to help you shop with confidence.',
           ),
@@ -236,7 +236,7 @@ class FaqConstants {
           const FaqQuestion(
             question: 'How do I reset my password?',
             answer:
-                'To reset your password, go to the login page and tap **"Forgot Password?"**. '
+                'To reset your password, go to the login page and tap "Forgot Password?". '
                 'Enter your registered email address, and we will send you a password reset '
                 'link. Follow the instructions in the email to create a new password. If you '
                 'don\'t receive the email, please check your spam folder.',
@@ -277,10 +277,10 @@ class FaqConstants {
             question: 'How do I contact support?',
             answer:
                 'You can reach our customer support team through multiple channels:\n\n'
-                '• **Email:** support@ogaglow.com\n'
-                '• **Phone:** +92 321 3270507\n'
-                '• **WhatsApp:** +92 321 3270507\n'
-                '• **Live Chat:** Available on our website\n\n'
+                '• Email: support@ogaglow.com\n'
+                '• Phone: +92 321 3270507\n'
+                '• WhatsApp: +92 321 3270507\n'
+                '• Live Chat: Available on our website\n\n'
                 'Our support team is available Monday to Saturday, 9:00 AM to 6:00 PM (PKT).',
           ),
           const FaqQuestion(
@@ -296,7 +296,7 @@ class FaqConstants {
             answer:
                 'If you encounter any issues with your order, product, or account, please '
                 'contact our support team immediately. You can also report issues through '
-                'your account under **"My Orders"** by selecting the relevant order and '
+                'your account under "My Orders" by selecting the relevant order and '
                 'choosing "Report an Issue". We strive to resolve all issues within 48 hours.',
           ),
           const FaqQuestion(
