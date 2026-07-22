@@ -34,6 +34,11 @@ import '../../features/contact/views/contact_screen.dart';
 import '../../features/contact/bindings/contact_binding.dart';
 import '../../features/about/views/about_screen.dart';
 import '../../features/about/bindings/about_binding.dart';
+import '../../features/legal/views/legal_screen.dart';
+import '../../features/legal/views/terms_of_service_screen.dart';
+import '../../features/legal/views/privacy_policy_screen.dart';
+import '../../features/legal/views/return_refund_policy_screen.dart';
+import '../../features/legal/bindings/legal_binding.dart';
 
 class AppPages {
   AppPages._();
@@ -124,6 +129,25 @@ class AppPages {
       name: AppRoutes.about,
       page: () => const AboutScreen(),
       binding: AboutBinding(),
+    ),
+
+    // Legal & Compliance
+    GetPage(
+      name: AppRoutes.legal,
+      page: () => const LegalScreen(),
+      binding: LegalBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.termsOfService,
+      page: () => const TermsOfServiceScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.privacyPolicy,
+      page: () => const PrivacyPolicyScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.returnRefundPolicy,
+      page: () => const ReturnRefundPolicyScreen(),
     ),
   ];
 }

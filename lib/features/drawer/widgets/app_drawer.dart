@@ -84,6 +84,14 @@ class AppDrawer extends StatelessWidget {
               },
             ),
             const Divider(),
+            DrawerItem(
+              title: 'Legal & Compliance',
+              icon: const Icon(Icons.gavel_rounded),
+              onTap: () {
+                Get.toNamed(AppRoutes.legal);
+              },
+            ),
+            const Divider(),
           ],
         ),
       ),
