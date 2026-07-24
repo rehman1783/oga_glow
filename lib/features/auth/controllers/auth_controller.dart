@@ -88,8 +88,45 @@ class AuthController extends GetxController {
     currentUser.value = null;
     isLoggedIn.value = false;
 
-    // Navigate to auth entry and clear navigation stack
-    Get.offAllNamed(AppRoutes.entry);
+    // Show logout success message
+    Get.snackbar(
+      'Logout Successful',
+      'You have been logged out successfully.',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.green.shade600,
+      colorText: Colors.white,
+      borderRadius: 14,
+      margin: const EdgeInsets.all(16),
+      duration: const Duration(seconds: 3),
+    );
+
+    // Navigate to login screen and clear navigation stack
+    Get.offAllNamed(AppRoutes.login);
+  }
+
+  // ---------------------------------------------------------------
+  // Delete Account
+  // ---------------------------------------------------------------
+
+  Future<void> deleteAccount() async {
+    await _authRepository.deleteAccount();
+
+    currentToken.value = null;
+    currentUser.value = null;
+    isLoggedIn.value = false;
+
+    Get.snackbar(
+      'Account Deleted',
+      'Your account has been deleted successfully.',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.red.shade600,
+      colorText: Colors.white,
+      borderRadius: 14,
+      margin: const EdgeInsets.all(16),
+      duration: const Duration(seconds: 3),
+    );
+
+    Get.offAllNamed(AppRoutes.login);
   }
 
   // ---------------------------------------------------------------

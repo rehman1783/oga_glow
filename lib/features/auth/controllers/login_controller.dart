@@ -93,19 +93,26 @@ class LoginController extends GetxController {
       Get.offAllNamed(AppRoutes.mainNavigation);
 
       Get.snackbar(
-        'Welcome Back!',
-        'You have been logged in successfully.',
+        'Login Successful',
+        'Welcome back to OGA Glow!',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.green.shade600,
         colorText: Colors.white,
         borderRadius: 14,
         margin: const EdgeInsets.all(16),
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 3),
       );
+    } on NotFoundException {
+      _showAccountNotFoundError();
     } on UnauthorizedException {
-      _showError('Invalid email or password. Please try again.');
-    } on BadRequestException {
-      _showError('Invalid email or password. Please try again.');
+      _showError('Incorrect email or password. Please try again.');
+    } on BadRequestException catch (e) {
+      if (e.message.toLowerCase().contains('not found') ||
+          e.message.toLowerCase().contains('exist')) {
+        _showAccountNotFoundError();
+      } else {
+        _showError('Incorrect email or password. Please try again.');
+      }
     } on NetworkException {
       _showError('No internet connection. Please check your network.');
     } on TimeoutException {
@@ -113,12 +120,41 @@ class LoginController extends GetxController {
     } on ServerException {
       _showError('Server error. Please try again later.');
     } on ApiException catch (e) {
-      _showError(e.message);
+      if (e.message.toLowerCase().contains('not found') ||
+          e.message.toLowerCase().contains('exist')) {
+        _showAccountNotFoundError();
+      } else {
+        _showError(e.message);
+      }
     } catch (e) {
       _showError('An unexpected error occurred. Please try again.');
     } finally {
       isLoading.value = false;
     }
+  }
+
+  void _showAccountNotFoundError() {
+    Get.snackbar(
+      'Account Not Found',
+      'No account found with this email.\nPlease create a new account.',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.red.shade600,
+      colorText: Colors.white,
+      borderRadius: 14,
+      margin: const EdgeInsets.all(16),
+      duration: const Duration(seconds: 5),
+      mainButton: TextButton(
+        onPressed: () => Get.toNamed(AppRoutes.signup),
+        child: const Text(
+          'Go to Sign Up',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            decoration: TextDecoration.underline,
+          ),
+        ),
+      ),
+    );
   }
 
   void _showError(String message) {
@@ -130,7 +166,7 @@ class LoginController extends GetxController {
       colorText: Colors.white,
       borderRadius: 14,
       margin: const EdgeInsets.all(16),
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 4),
     );
   }
 

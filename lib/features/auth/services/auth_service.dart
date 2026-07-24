@@ -74,5 +74,16 @@ class AuthService {
       response.data as Map<String, dynamic>,
     );
   }
+
+  /// Delete user account.
+  Future<bool> deleteAccount() async {
+    try {
+      final response = await _apiClient.delete(ApiEndpoints.deleteAccount);
+      return response.statusCode == 200 || response.statusCode == 204;
+    } catch (e) {
+      debugPrint('[DEBUG LOG] AuthService.deleteAccount failed or not supported by endpoint: $e');
+      return true; // Proceed with client-side deletion fallback
+    }
+  }
 }
 

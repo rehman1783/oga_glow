@@ -119,4 +119,13 @@ class AuthRepository {
   Future<void> logout() async {
     await _secureStorage.clearAll();
   }
+
+  /// Delete Account: notify API and clear stored auth data.
+  Future<void> deleteAccount() async {
+    try {
+      await _authService.deleteAccount();
+    } finally {
+      await _secureStorage.clearAll();
+    }
+  }
 }

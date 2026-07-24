@@ -43,20 +43,33 @@ class ProfileScreen extends StatelessWidget {
             children: [
               FadeSlideTransition(
                 index: 0,
-                child: ProfileHeaderCard(
-                  name: 'OGA Glow',
-                  email: 'oga.glow@example.com',
-                  onEdit: () {
-                    Get.snackbar(
-                      'Edit Profile',
-                      'Edit profile UI will be connected to controller later.',
-                      snackPosition: SnackPosition.BOTTOM,
-                      backgroundColor: AppColors.cardBackground,
-                      colorText: Theme.of(context).colorScheme.onSurface,
-                      borderRadius: 14.r,
-                    );
-                  },
-                ),
+                child: Obx(() {
+                  final authController = Get.find<AuthController>();
+                  final user = authController.currentUser.value;
+                  final name = (user?.name != null && user!.name.isNotEmpty)
+                      ? user.name
+                      : 'OGA Glow User';
+                  final email = (user?.email != null && user!.email.isNotEmpty)
+                      ? user.email
+                      : 'No email available';
+                  final joinedDate = user?.createdAt;
+
+                  return ProfileHeaderCard(
+                    name: name,
+                    email: email,
+                    joinedDate: joinedDate,
+                    onEdit: () {
+                      Get.snackbar(
+                        'Edit Profile',
+                        'Edit profile feature is available in settings.',
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Theme.of(context).cardColor,
+                        colorText: Theme.of(context).colorScheme.onSurface,
+                        borderRadius: 14.r,
+                      );
+                    },
+                  );
+                }),
               ),
               SizedBox(height: 16.h),
 
@@ -295,13 +308,46 @@ class ProfileScreen extends StatelessWidget {
                       height: 50,
                       child: BounceTap(
                         onTap: () {
-                          Get.snackbar(
-                            'Delete Account',
-                            'Delete account action is a placeholder.',
-                            snackPosition: SnackPosition.BOTTOM,
+                          final authController = Get.find<AuthController>();
+                          Get.defaultDialog(
+                            title: 'Delete Account?',
+                            titleStyle: TextStyle(
+                              color: AppColors.error,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.sp,
+                            ),
+                            middleText: 'This action is permanent and cannot be undone.',
+                            middleTextStyle: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontSize: 14.sp,
+                            ),
                             backgroundColor: Theme.of(context).cardColor,
-                            colorText: Theme.of(context).colorScheme.onSurface,
-                            borderRadius: 14.r,
+                            radius: 14.r,
+                            confirm: ElevatedButton(
+                              onPressed: () {
+                                Get.back();
+                                authController.deleteAccount();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.error,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                              ),
+                              child: const Text(
+                                'Delete',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            cancel: TextButton(
+                              onPressed: () => Get.back(),
+                              child: Text(
+                                'Cancel',
+                                style: TextStyle(
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                            ),
                           );
                         },
                         child: Container(

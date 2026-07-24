@@ -8,12 +8,14 @@ import '../../../core/widgets/bounce_tap.dart';
 class ProfileHeaderCard extends StatelessWidget {
   final String name;
   final String email;
+  final String? joinedDate;
   final VoidCallback? onEdit;
 
   const ProfileHeaderCard({
     super.key,
     required this.name,
     required this.email,
+    this.joinedDate,
     this.onEdit,
   });
 
@@ -65,6 +67,17 @@ class ProfileHeaderCard extends StatelessWidget {
                   email,
                   style: AppTextStyles.caption.copyWith(fontSize: 12.sp),
                 ),
+                if (joinedDate != null && joinedDate!.isNotEmpty) ...[
+                  SizedBox(height: 4.h),
+                  Text(
+                    'Joined: $joinedDate',
+                    style: AppTextStyles.caption.copyWith(
+                      fontSize: 11.sp,
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
                 SizedBox(height: 10.h),
                 SizedBox(
                   height: 32.h,

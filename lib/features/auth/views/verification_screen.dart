@@ -92,15 +92,35 @@ class VerificationScreen extends StatelessWidget {
                       const SizedBox(height: 36),
                       FadeSlideTransition(
                         index: 4,
-                        child: AuthSubmitButton(
-                          text: 'Back to Login',
-                          isLoading: false,
-                          onPressed: () {
-                            debugPrint(
-                              '[DEBUG LOG] VerificationScreen: Navigating back to Login',
-                            );
-                            Get.offAllNamed(AppRoutes.login);
-                          },
+                        child: Column(
+                          children: [
+                            AuthSubmitButton(
+                              text: 'I Have Verified My Email',
+                              isLoading: false,
+                              onPressed: () {
+                                debugPrint(
+                                  '[DEBUG LOG] VerificationScreen: User confirmed verification, navigating to Login',
+                                );
+                                Get.offAllNamed(AppRoutes.login);
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                            TextButton(
+                              onPressed: () {
+                                Get.offAllNamed(AppRoutes.login);
+                              },
+                              child: Text(
+                                'Continue to Login',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      color: AppColors.primary,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

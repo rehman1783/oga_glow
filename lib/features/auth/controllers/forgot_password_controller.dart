@@ -78,10 +78,10 @@ class ForgotPasswordController extends GetxController {
 
       // Show success
       Get.snackbar(
-        'Email Sent!',
-        result.message,
+        'Password Reset Link Sent',
+        'Password reset link has been sent successfully. Please check your email.',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.green.shade600,
         colorText: Colors.white,
         borderRadius: 14,
         margin: const EdgeInsets.all(16),
@@ -96,7 +96,7 @@ class ForgotPasswordController extends GetxController {
         Get.offAllNamed(AppRoutes.login);
       }
     } on NotFoundException {
-      _showError('No account found with this email address.');
+      _showError('No account exists with this email.');
     } on NetworkException {
       _showError('No internet connection. Please check your network.');
     } on TimeoutException {
@@ -104,7 +104,12 @@ class ForgotPasswordController extends GetxController {
     } on ServerException {
       _showError('Server error. Please try again later.');
     } on ApiException catch (e) {
-      _showError(e.message);
+      if (e.message.toLowerCase().contains('not found') ||
+          e.message.toLowerCase().contains('exist')) {
+        _showError('No account exists with this email.');
+      } else {
+        _showError(e.message);
+      }
     } catch (e) {
       _showError('An unexpected error occurred. Please try again.');
     } finally {

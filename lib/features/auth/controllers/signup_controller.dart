@@ -125,10 +125,8 @@ class SignupController extends GetxController {
         debugPrint('[DEBUG LOG] SignupController: Registration successful from backend response.');
         
         Get.snackbar(
-          'Account Created!',
-          response.message.isNotEmpty
-              ? response.message
-              : 'Please check your email to verify your account.',
+          'Account Created Successfully',
+          'Verification Email Sent. Please check your inbox to verify your account.',
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.green.shade600,
           colorText: Colors.white,
@@ -142,13 +140,18 @@ class SignupController extends GetxController {
         Get.offAllNamed(AppRoutes.verification, arguments: email);
       } else {
         debugPrint('[DEBUG LOG] SignupController: API returned success=false');
-        _showError(response.message.isNotEmpty ? response.message : 'Registration failed.');
+        if (response.message.toLowerCase().contains('already exists') ||
+            response.message.toLowerCase().contains('already registered')) {
+          _showAlreadyRegisteredError();
+        } else {
+          _showError(response.message.isNotEmpty ? response.message : 'Registration failed.');
+        }
       }
     } on BadRequestException catch (e) {
       debugPrint('[DEBUG LOG] SignupController: BadRequestException caught -> ${e.message}');
       if (e.message.toLowerCase().contains('already exists') ||
           e.message.toLowerCase().contains('already registered')) {
-        _showError('An account with this email already exists.');
+        _showAlreadyRegisteredError();
       } else {
         _showError(e.message);
       }
@@ -163,13 +166,42 @@ class SignupController extends GetxController {
       _showError('Server error. Please try again later.');
     } on ApiException catch (e) {
       debugPrint('[DEBUG LOG] SignupController: ApiException caught -> ${e.message}');
-      _showError(e.message);
+      if (e.message.toLowerCase().contains('already exists') ||
+          e.message.toLowerCase().contains('already registered')) {
+        _showAlreadyRegisteredError();
+      } else {
+        _showError(e.message);
+      }
     } catch (e, stack) {
       debugPrint('[DEBUG LOG] SignupController: Unexpected error caught -> $e\n$stack');
       _showError('An unexpected error occurred. Please try again.');
     } finally {
       isLoading.value = false;
     }
+  }
+
+  void _showAlreadyRegisteredError() {
+    Get.snackbar(
+      'Account Exists',
+      'This email is already registered.\nPlease login instead.',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.red.shade600,
+      colorText: Colors.white,
+      borderRadius: 14,
+      margin: const EdgeInsets.all(16),
+      duration: const Duration(seconds: 5),
+      mainButton: TextButton(
+        onPressed: () => Get.offAllNamed(AppRoutes.login),
+        child: const Text(
+          'Go to Login',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            decoration: TextDecoration.underline,
+          ),
+        ),
+      ),
+    );
   }
 
   void _showError(String message) {
@@ -181,7 +213,7 @@ class SignupController extends GetxController {
       colorText: Colors.white,
       borderRadius: 14,
       margin: const EdgeInsets.all(16),
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 4),
     );
   }
 
