@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:oga_glow/core/constants/legal_constants.dart';
 import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/core/theme/app_text_styles.dart';
@@ -18,8 +17,6 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -33,7 +30,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
           LegalConstants.privacyPageTitle,
           style: AppTextStyles.heading2.copyWith(
             fontSize: 18.sp,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: AppColors.of(context).textPrimary,
           ),
         ),
       ),
@@ -200,18 +197,19 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
   /// Builds a paragraph of text.
   Widget _buildParagraph(String text) {
-    final isDark = Get.context != null &&
-        Theme.of(Get.context!).brightness == Brightness.dark;
-
     return Padding(
       padding: EdgeInsets.only(bottom: 4.h),
-      child: Text(
-        text,
-        style: AppTextStyles.body.copyWith(
-          fontSize: 14.sp,
-          color: isDark ? AppColors.mutedDark : AppColors.mutedLight,
-          height: 1.6,
-        ),
+      child: Builder(
+        builder: (context) {
+          return Text(
+            text,
+            style: AppTextStyles.body.copyWith(
+              fontSize: 14.sp,
+              color: AppColors.of(context).textSecondary,
+              height: 1.6,
+            ),
+          );
+        },
       ),
     );
   }

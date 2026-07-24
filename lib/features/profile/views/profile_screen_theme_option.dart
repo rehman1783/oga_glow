@@ -44,6 +44,7 @@ class BounceLikeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
     return ListTile(
       contentPadding: EdgeInsets.zero,
       onTap: onTap,
@@ -52,18 +53,18 @@ class BounceLikeTile extends StatelessWidget {
         height: 36.w,
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.primary.withOpacity(0.14)
-              : AppColors.primary.withOpacity(0.06),
+              ? AppColors.primary.withValues(alpha: 0.14)
+              : AppColors.primary.withValues(alpha: 0.06),
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
             color: isSelected
-                ? AppColors.primary.withOpacity(0.35)
-                : AppColors.border.withOpacity(0.35),
+                ? AppColors.primary.withValues(alpha: 0.35)
+                : colors.border,
           ),
         ),
         child: Icon(
           isSelected ? Icons.check_rounded : Icons.circle_outlined,
-          color: isSelected ? AppColors.primary : AppColors.textSecondary,
+          color: isSelected ? AppColors.primary : colors.textSecondary,
           size: 18.sp,
         ),
       ),
@@ -72,13 +73,13 @@ class BounceLikeTile extends StatelessWidget {
         style: AppTextStyles.heading2.copyWith(
           fontSize: 14.sp,
           fontWeight: FontWeight.w700,
-          color: isSelected ? AppColors.primary : AppColors.textPrimary,
+          color: isSelected ? AppColors.primary : colors.textPrimary,
         ),
       ),
       trailing: Icon(
         Icons.chevron_right_rounded,
         size: 20.sp,
-        color: AppColors.textSecondary.withOpacity(isSelected ? 1 : 0.75),
+        color: colors.textSecondary.withValues(alpha: isSelected ? 1 : 0.75),
       ),
     );
   }

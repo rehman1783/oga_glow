@@ -104,13 +104,13 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
     return Container(
       padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 24.h),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: AppColors.of(context).cardBackground,
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(28.r),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
+            color: AppColors.black.withValues(alpha: 0.15),
             blurRadius: 20,
             offset: const Offset(0, -5),
           ),
@@ -128,7 +128,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                 width: 44.w,
                 height: 5.h,
                 decoration: BoxDecoration(
-                  color: isDark ? Colors.white24 : Colors.grey[300],
+                  color: AppColors.of(context).border,
                   borderRadius: BorderRadius.circular(10.r),
                 ),
               ),
@@ -152,14 +152,14 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                               Container(
                             width: 80.w,
                             height: 80.h,
-                            color: AppColors.secondary,
+                            color: AppColors.of(context).panelSecondary,
                             child: const Icon(Icons.image_not_supported_outlined),
                           ),
                         )
                       : Container(
                           width: 80.w,
                           height: 80.h,
-                          color: AppColors.secondary,
+                          color: AppColors.of(context).panelSecondary,
                           child: const Icon(Icons.shopping_bag_outlined),
                         ),
                 ),
@@ -176,7 +176,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.heading2.copyWith(
                           fontSize: 16.sp,
-                          color: Theme.of(context).colorScheme.onSurface,
+                          color: AppColors.of(context).textPrimary,
                         ),
                       ),
                       SizedBox(height: 6.h),
@@ -186,7 +186,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                           vertical: 3.h,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withOpacity(0.1),
+                          color: AppColors.primary.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Text(
@@ -217,13 +217,13 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                   child: Container(
                     padding: EdgeInsets.all(6.r),
                     decoration: BoxDecoration(
-                      color: isDark ? Colors.white10 : Colors.grey[100],
+                      color: AppColors.of(context).panelSecondary,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       Icons.close_rounded,
                       size: 20.sp,
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: AppColors.of(context).textPrimary,
                     ),
                   ),
                 ),
@@ -231,7 +231,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
             ),
 
             SizedBox(height: 20.h),
-            Divider(color: AppColors.border.withOpacity(0.5)),
+            Divider(color: AppColors.of(context).border),
             SizedBox(height: 16.h),
 
             /// Quantity Selector Row
@@ -243,7 +243,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                   style: AppTextStyles.body.copyWith(
                     fontWeight: FontWeight.w600,
                     fontSize: 14.sp,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: AppColors.of(context).textPrimary,
                   ),
                 ),
                 QuantitySelector(
@@ -268,7 +268,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                   style: AppTextStyles.body.copyWith(
                     fontWeight: FontWeight.w600,
                     fontSize: 14.sp,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: AppColors.of(context).textPrimary,
                   ),
                 ),
                 AnimatedSwitcher(
@@ -309,7 +309,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                     borderRadius: BorderRadius.circular(16.r),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primary.withOpacity(0.3),
+                        color: AppColors.primary.withValues(alpha: 0.3),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
@@ -320,7 +320,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                     children: [
                       const Icon(
                         Icons.shopping_cart_outlined,
-                        color: Colors.white,
+                        color: AppColors.white,
                       ),
                       SizedBox(width: 8.w),
                       Text(

@@ -25,15 +25,15 @@ class QuantitySelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool canDecrement = quantity > minQuantity;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colors = AppColors.of(context);
 
     return Container(
       height: height.h,
       decoration: BoxDecoration(
-        color: isDark ? Colors.white.withOpacity(0.05) : AppColors.secondary,
+        color: colors.panelSecondary,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(
-          color: AppColors.border.withOpacity(0.4),
+          color: colors.border,
         ),
       ),
       padding: EdgeInsets.symmetric(horizontal: 4.w),
@@ -48,13 +48,13 @@ class QuantitySelector extends StatelessWidget {
               height: (height - 8).h,
               decoration: BoxDecoration(
                 color: canDecrement
-                    ? (isDark ? Colors.white10 : Colors.white)
+                    ? colors.cardBackground
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(8.r),
                 boxShadow: canDecrement
                     ? [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.04),
+                          color: AppColors.black.withValues(alpha: 0.04),
                           blurRadius: 4,
                           offset: const Offset(0, 2),
                         ),
@@ -78,7 +78,7 @@ class QuantitySelector extends StatelessWidget {
               style: AppTextStyles.heading2.copyWith(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onSurface,
+                color: colors.textPrimary,
               ),
             ),
           ),
@@ -89,11 +89,11 @@ class QuantitySelector extends StatelessWidget {
               width: (height - 8).w,
               height: (height - 8).h,
               decoration: BoxDecoration(
-                color: isDark ? Colors.white10 : Colors.white,
+                color: colors.cardBackground,
                 borderRadius: BorderRadius.circular(8.r),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
+                    color: AppColors.black.withValues(alpha: 0.04),
                     blurRadius: 4,
                     offset: const Offset(0, 2),
                   ),

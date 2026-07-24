@@ -94,6 +94,7 @@ class _FieldState extends State<_Field> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       decoration: BoxDecoration(
@@ -101,7 +102,7 @@ class _FieldState extends State<_Field> {
         boxShadow: _isFocused
             ? [
                 BoxShadow(
-                  color: AppColors.primary.withOpacity(0.08),
+                  color: AppColors.primary.withValues(alpha: 0.08),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 )
@@ -115,20 +116,21 @@ class _FieldState extends State<_Field> {
         keyboardType: widget.keyboardType,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w500,
+              color: colors.textPrimary,
             ),
         decoration: InputDecoration(
           labelText: widget.label,
           hintText: widget.hint,
           labelStyle: TextStyle(
-            color: _isFocused ? AppColors.primary : AppColors.textSecondary,
+            color: _isFocused ? AppColors.primary : colors.textSecondary,
             fontWeight: _isFocused ? FontWeight.w600 : FontWeight.normal,
           ),
-          hintStyle: const TextStyle(color: Colors.black26),
+          hintStyle: TextStyle(color: colors.textSecondary.withValues(alpha: 0.6)),
           filled: true,
-          fillColor: _isFocused ? AppColors.white : AppColors.secondary.withOpacity(0.4),
+          fillColor: colors.inputBg,
           prefixIcon: Icon(
             widget.prefixIcon,
-            color: _isFocused ? AppColors.primary : AppColors.textSecondary.withOpacity(0.8),
+            color: _isFocused ? AppColors.primary : colors.textSecondary.withValues(alpha: 0.8),
           ),
           suffixIcon: widget.isPasswordField
               ? IconButton(
@@ -137,7 +139,7 @@ class _FieldState extends State<_Field> {
                     child: Icon(
                       _obscureText ? Icons.visibility_off_outlined : Icons.visibility_outlined,
                       key: ValueKey<bool>(_obscureText),
-                      color: _isFocused ? AppColors.primary : AppColors.textSecondary,
+                      color: _isFocused ? AppColors.primary : colors.textSecondary,
                     ),
                   ),
                   onPressed: () {
@@ -150,11 +152,11 @@ class _FieldState extends State<_Field> {
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14),
-            borderSide: BorderSide(color: AppColors.border.withOpacity(0.5)),
+            borderSide: BorderSide(color: colors.border),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14),
-            borderSide: BorderSide(color: AppColors.border.withOpacity(0.5)),
+            borderSide: BorderSide(color: colors.border),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14),

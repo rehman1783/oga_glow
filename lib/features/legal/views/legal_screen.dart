@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:oga_glow/core/constants/legal_constants.dart';
+import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/core/theme/app_text_styles.dart';
 import 'package:oga_glow/core/widgets/fade_slide_transition.dart';
 import '../controllers/legal_controller.dart';
@@ -31,7 +32,7 @@ class LegalScreen extends GetView<LegalController> {
           LegalConstants.pageTitle,
           style: AppTextStyles.heading2.copyWith(
             fontSize: 18.sp,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: AppColors.of(context).textPrimary,
           ),
         ),
       ),
@@ -55,13 +56,7 @@ class LegalScreen extends GetView<LegalController> {
                     LegalConstants.pageSubtitle,
                     style: AppTextStyles.body.copyWith(
                       fontSize: 14.sp,
-                      color: isDark
-                          ? Theme.of(
-                              context,
-                            ).colorScheme.onSurface.withOpacity(0.7)
-                          : Theme.of(
-                              context,
-                            ).colorScheme.onSurface.withOpacity(0.6),
+                      color: AppColors.of(context).textSecondary,
                       height: 1.5,
                     ),
                   ),
@@ -113,60 +108,60 @@ class LegalScreen extends GetView<LegalController> {
 
   /// Builds the header with an icon, title and subtitle.
   Widget _buildHeader(bool isDark) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Theme.of(Get.context!).colorScheme.primary.withOpacity(0.12),
-            Theme.of(Get.context!).colorScheme.primary.withOpacity(0.06),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(24.r),
-        border: Border.all(
-          color: Theme.of(Get.context!).colorScheme.primary.withOpacity(0.1),
-        ),
-      ),
-      child: Column(
-        children: [
-          Container(
-            width: 64.w,
-            height: 64.w,
-            decoration: BoxDecoration(
-              color: isDark
-                  ? Theme.of(Get.context!).colorScheme.primary.withOpacity(0.15)
-                  : Theme.of(Get.context!).cardColor,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(
-                    Get.context!,
-                  ).colorScheme.primary.withOpacity(0.15),
-                  blurRadius: 20,
-                  offset: const Offset(0, 6),
-                ),
+    return Builder(
+      builder: (context) {
+        return Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppColors.primary.withValues(alpha: 0.12),
+                AppColors.primary.withValues(alpha: 0.06),
               ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-            child: Icon(
-              Icons.gavel_rounded,
-              size: 30.sp,
-              color: Theme.of(Get.context!).colorScheme.primary,
-            ),
-          ),
-          SizedBox(height: 16.h),
-          Text(
-            LegalConstants.pageTitle,
-            style: AppTextStyles.heading1.copyWith(
-              fontSize: 22.sp,
-              fontWeight: FontWeight.w800,
-              color: Theme.of(Get.context!).colorScheme.onSurface,
+            borderRadius: BorderRadius.circular(24.r),
+            border: Border.all(
+              color: AppColors.primary.withValues(alpha: 0.1),
             ),
           ),
-        ],
-      ),
+          child: Column(
+            children: [
+              Container(
+                width: 64.w,
+                height: 64.w,
+                decoration: BoxDecoration(
+                  color: AppColors.of(context).cardBackground,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.15),
+                      blurRadius: 20,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  Icons.gavel_rounded,
+                  size: 30.sp,
+                  color: AppColors.primary,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Text(
+                LegalConstants.pageTitle,
+                style: AppTextStyles.heading1.copyWith(
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.of(context).textPrimary,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

@@ -13,26 +13,24 @@ class AboutHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 32.h, horizontal: 20.w),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primary.withOpacity(0.15),
-            AppColors.primaryLight.withOpacity(0.05),
-            AppColors.secondary.withOpacity(0.1),
+            AppColors.primary.withValues(alpha: 0.15),
+            AppColors.primaryLight.withValues(alpha: 0.05),
+            AppColors.of(context).panelSecondary,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(24.r),
-        border: Border.all(color: AppColors.primary.withOpacity(0.12)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.12)),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.06),
+            color: AppColors.primary.withValues(alpha: 0.06),
             blurRadius: 24,
             offset: const Offset(0, 8),
           ),
@@ -45,13 +43,11 @@ class AboutHeader extends StatelessWidget {
             width: 80.w,
             height: 80.w,
             decoration: BoxDecoration(
-              color: isDark
-                  ? AppColors.primary.withOpacity(0.15)
-                  : AppColors.white,
+              color: AppColors.of(context).cardBackground,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withOpacity(0.15),
+                  color: AppColors.primary.withValues(alpha: 0.15),
                   blurRadius: 24,
                   offset: const Offset(0, 8),
                 ),
@@ -72,7 +68,7 @@ class AboutHeader extends StatelessWidget {
             style: AppTextStyles.heading1.copyWith(
               fontSize: 26.sp,
               fontWeight: FontWeight.w800,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: AppColors.of(context).textPrimary,
               letterSpacing: -0.5,
             ),
           ),
@@ -84,7 +80,7 @@ class AboutHeader extends StatelessWidget {
             textAlign: TextAlign.center,
             style: AppTextStyles.body.copyWith(
               fontSize: 14.sp,
-              color: AppColors.textSecondary,
+              color: AppColors.of(context).textSecondary,
               height: 1.5,
             ),
           ),

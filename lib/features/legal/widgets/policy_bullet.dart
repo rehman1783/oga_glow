@@ -14,8 +14,6 @@ class PolicyBullet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Padding(
       padding: EdgeInsets.only(bottom: 8.h),
       child: Row(
@@ -38,7 +36,7 @@ class PolicyBullet extends StatelessWidget {
               text,
               style: AppTextStyles.body.copyWith(
                 fontSize: 14.sp,
-                color: isDark ? AppColors.mutedDark : AppColors.mutedLight,
+                color: AppColors.of(context).textSecondary,
                 height: 1.5,
               ),
             ),

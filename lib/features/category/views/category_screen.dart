@@ -32,17 +32,11 @@ class CategoryScreen extends GetView<CategoryController> {
           'Categories',
           style: AppTextStyles.heading2.copyWith(
             fontSize: 18,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: AppColors.of(context).textPrimary,
           ),
         ),
         elevation: 0,
         scrolledUnderElevation: 0,
-        // leading: Builder(
-        //   builder: (context) => IconButton(
-        //     icon: const Icon(Icons.menu_rounded),
-        //     onPressed: () => Scaffold.of(context).openDrawer(),
-        //   ),
-        // ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -58,59 +52,66 @@ class CategoryScreen extends GetView<CategoryController> {
                     child: CategoryChipRow(controller: controller),
                   ),
                   const SizedBox(height: 14),
-                 TextField(
-  controller: controller.searchController,
-  onChanged: controller.onSearchChanged,
-  decoration: InputDecoration(
-    hintText: "Search products...",
-    prefixIcon: const Icon(Icons.search),
-    filled: true,
-    fillColor: Theme.of(context).cardColor,
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(14),
-    ),
-  ),
-),
-Obx(() {
-  if (controller.searchSuggestions.isEmpty) {
-    return const SizedBox();
-  }
+                  TextField(
+                    controller: controller.searchController,
+                    onChanged: controller.onSearchChanged,
+                    style: TextStyle(color: AppColors.of(context).textPrimary),
+                    decoration: InputDecoration(
+                      hintText: "Search products...",
+                      prefixIcon: const Icon(Icons.search),
+                      filled: true,
+                      fillColor: AppColors.of(context).inputBg,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                  ),
+                  Obx(() {
+                    if (controller.searchSuggestions.isEmpty) {
+                      return const SizedBox();
+                    }
 
-  return Container(
-    margin: const EdgeInsets.only(top: 8),
-    decoration: BoxDecoration(
-      color: Theme.of(context).cardColor,
-      borderRadius: BorderRadius.circular(12),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black12,
-          blurRadius: 8,
-        ),
-      ],
-    ),
-    child: ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: controller.searchSuggestions.length,
-      itemBuilder: (context, index) {
-        final product =
-            controller.searchSuggestions[index];
+                    return Container(
+                      margin: const EdgeInsets.only(top: 8),
+                      decoration: BoxDecoration(
+                        color: AppColors.of(context).cardBackground,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.black.withValues(alpha: 0.1),
+                            blurRadius: 8,
+                          ),
+                        ],
+                      ),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: controller.searchSuggestions.length,
+                        itemBuilder: (context, index) {
+                          final product =
+                              controller.searchSuggestions[index];
 
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundImage:
-                AssetImage(product["image"]),
-          ),
-          title: Text(product["name"]),
-          subtitle: Text(product["category"]),
-          onTap: () {
-            controller.selectSuggestion(product);
-          },
-        );
-      },
-    ),
-  );
-}),
+                          return ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage:
+                                  AssetImage(product["image"]),
+                            ),
+                            title: Text(
+                              product["name"],
+                              style: TextStyle(color: AppColors.of(context).textPrimary),
+                            ),
+                            subtitle: Text(
+                              product["category"],
+                              style: TextStyle(color: AppColors.of(context).textSecondary),
+                            ),
+                            onTap: () {
+                              controller.selectSuggestion(product);
+                            },
+                          );
+                        },
+                      ),
+                    );
+                  }),
                   const SizedBox(height: 14),
                 ],
               ),
@@ -125,7 +126,10 @@ Obx(() {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Discover Our Products",
-                      style: AppTextStyles.heading2.copyWith(fontSize: 16),
+                      style: AppTextStyles.heading2.copyWith(
+                        fontSize: 16,
+                        color: AppColors.of(context).textPrimary,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -133,7 +137,9 @@ Obx(() {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Find the perfect product for your beauty needs",
-                      style: AppTextStyles.caption,
+                      style: AppTextStyles.caption.copyWith(
+                        color: AppColors.of(context).textSecondary,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 10),

@@ -27,7 +27,7 @@ class CheckoutScreen extends GetView<CheckoutController> {
           'Checkout',
           style: AppTextStyles.heading2.copyWith(
             fontSize: 18,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: AppColors.of(context).textPrimary,
           ),
         ),
         scrolledUnderElevation: 0,
@@ -61,9 +61,7 @@ class CheckoutScreen extends GetView<CheckoutController> {
                               Text(
                                 'Payment Method',
                                 style: AppTextStyles.heading2.copyWith(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSurface,
+                                  color: AppColors.of(context).textPrimary,
                                 ),
                               ),
                               SizedBox(height: 12.h),
@@ -71,14 +69,14 @@ class CheckoutScreen extends GetView<CheckoutController> {
                               Container(
                                 padding: EdgeInsets.all(16.w),
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).cardColor,
+                                  color: AppColors.of(context).cardBackground,
                                   borderRadius: BorderRadius.circular(24.r),
                                   border: Border.all(
-                                    color: AppColors.border.withOpacity(0.5),
+                                    color: AppColors.of(context).border,
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.02),
+                                      color: AppColors.black.withValues(alpha: 0.02),
                                       blurRadius: 10,
                                       offset: const Offset(0, 4),
                                     ),
@@ -138,15 +136,7 @@ class CheckoutScreen extends GetView<CheckoutController> {
                                                       style: AppTextStyles
                                                           .caption
                                                           .copyWith(
-                                                            color:
-                                                                Theme.of(
-                                                                      context,
-                                                                    )
-                                                                    .colorScheme
-                                                                    .onSurface
-                                                                    .withOpacity(
-                                                                      0.7,
-                                                                    ),
+                                                            color: AppColors.of(context).textSecondary,
                                                             height: 1.4,
                                                           ),
                                                     ),
@@ -177,14 +167,14 @@ class CheckoutScreen extends GetView<CheckoutController> {
                   child: Container(
                     padding: EdgeInsets.all(18.w),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
+                      color: AppColors.of(context).cardBackground,
                       borderRadius: BorderRadius.circular(24.r),
                       border: Border.all(
-                        color: AppColors.border.withOpacity(0.5),
+                        color: AppColors.of(context).border,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.03),
+                          color: AppColors.black.withValues(alpha: 0.03),
                           blurRadius: 16,
                           offset: const Offset(0, -4),
                         ),
@@ -200,6 +190,7 @@ class CheckoutScreen extends GetView<CheckoutController> {
                               style: AppTextStyles.caption.copyWith(
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w600,
+                                color: AppColors.of(context).textSecondary,
                               ),
                             ),
                             const Spacer(),
@@ -227,10 +218,8 @@ class CheckoutScreen extends GetView<CheckoutController> {
                                   'Fix details',
                                   'Please complete the required fields.',
                                   snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor: Theme.of(context).cardColor,
-                                  colorText: Theme.of(
-                                    context,
-                                  ).colorScheme.onSurface,
+                                  backgroundColor: AppColors.of(context).cardBackground,
+                                  colorText: AppColors.of(context).textPrimary,
                                   borderRadius: 14.r,
                                 );
                                 return;
@@ -240,10 +229,8 @@ class CheckoutScreen extends GetView<CheckoutController> {
                                 'Order placed',
                                 'Place Order will be connected to backend later.',
                                 snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor: Theme.of(context).cardColor,
-                                colorText: Theme.of(
-                                  context,
-                                ).colorScheme.onSurface,
+                                backgroundColor: AppColors.of(context).cardBackground,
+                                colorText: AppColors.of(context).textPrimary,
                                 borderRadius: 14.r,
                               );
                             },
@@ -258,7 +245,7 @@ class CheckoutScreen extends GetView<CheckoutController> {
                                 borderRadius: BorderRadius.circular(16.r),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppColors.primary.withOpacity(0.25),
+                                    color: AppColors.primary.withValues(alpha: 0.25),
                                     blurRadius: 12,
                                     offset: const Offset(0, 4),
                                   ),
@@ -269,7 +256,7 @@ class CheckoutScreen extends GetView<CheckoutController> {
                                 children: [
                                   const Icon(
                                     Icons.check_circle_rounded,
-                                    color: Colors.white,
+                                    color: AppColors.white,
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
@@ -301,76 +288,85 @@ class CheckoutScreen extends GetView<CheckoutController> {
     required String subtitle,
     required IconData icon,
   }) {
-    return Obx(() {
-      final selected = controller.paymentMethod.value == value;
-      return BounceTap(
-        onTap: () => controller.setPaymentMethod(value),
-        scaleBound: 0.97,
-        child: Container(
-          padding: EdgeInsets.all(12.w),
-          decoration: BoxDecoration(
-            color: selected
-                ? AppColors.secondary.withOpacity(0.4)
-                : AppColors.white,
-            borderRadius: BorderRadius.circular(16.r),
-            border: Border.all(
-              color: selected
-                  ? AppColors.primary
-                  : AppColors.border.withOpacity(0.6),
-              width: selected ? 1.5 : 1.0,
-            ),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 42.w,
-                height: 42.h,
-                decoration: BoxDecoration(
+    return Builder(
+      builder: (context) {
+        return Obx(() {
+          final selected = controller.paymentMethod.value == value;
+          final colors = AppColors.of(context);
+          return BounceTap(
+            onTap: () => controller.setPaymentMethod(value),
+            scaleBound: 0.97,
+            child: Container(
+              padding: EdgeInsets.all(12.w),
+              decoration: BoxDecoration(
+                color: selected
+                    ? colors.panelSecondary
+                    : colors.cardBackground,
+                borderRadius: BorderRadius.circular(16.r),
+                border: Border.all(
                   color: selected
                       ? AppColors.primary
-                      : AppColors.chipUnselected,
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                child: Icon(
-                  icon,
-                  color: selected ? AppColors.white : AppColors.textPrimary,
-                  size: 20,
+                      : colors.border,
+                  width: selected ? 1.5 : 1.0,
                 ),
               ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: AppTextStyles.heading2.copyWith(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 42.w,
+                    height: 42.h,
+                    decoration: BoxDecoration(
+                      color: selected
+                          ? AppColors.primary
+                          : colors.panelSecondary,
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      subtitle,
-                      style: AppTextStyles.caption.copyWith(fontSize: 11.sp),
+                    child: Icon(
+                      icon,
+                      color: selected ? AppColors.white : colors.textPrimary,
+                      size: 20,
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: AppTextStyles.heading2.copyWith(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w700,
+                            color: colors.textPrimary,
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                        Text(
+                          subtitle,
+                          style: AppTextStyles.caption.copyWith(
+                            fontSize: 11.sp,
+                            color: colors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Radio<String>(
+                    value: value,
+                    groupValue: controller.paymentMethod.value,
+                    activeColor: AppColors.primary,
+                    onChanged: (v) {
+                      if (v == null) return;
+                      controller.setPaymentMethod(v);
+                    },
+                  ),
+                ],
               ),
-              Radio<String>(
-                value: value,
-                groupValue: controller.paymentMethod.value,
-                activeColor: AppColors.primary,
-                onChanged: (v) {
-                  if (v == null) return;
-                  controller.setPaymentMethod(v);
-                },
-              ),
-            ],
-          ),
-        ),
-      );
-    });
+            ),
+          );
+        });
+      },
+    );
   }
 
   Widget _cardFields() {

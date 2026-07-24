@@ -27,16 +27,16 @@ class CategoryProductCard extends StatelessWidget {
       onTap: () => Get.toNamed(AppRoutes.products_details, arguments: product),
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
+          color: AppColors.of(context).cardBackground,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: AppColors.black.withValues(alpha: 0.04),
               blurRadius: 8.r,
               offset: const Offset(0, 4),
             ),
             BoxShadow(
-              color: AppColors.primary.withOpacity(0.03),
+              color: AppColors.primary.withValues(alpha: 0.03),
               blurRadius: 14.r,
               offset: const Offset(0, 8),
             ),
@@ -85,7 +85,7 @@ class CategoryProductCard extends StatelessWidget {
                             child: Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: Theme.of(context).cardColor,
+                                color: AppColors.of(context).cardBackground,
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(
@@ -94,8 +94,8 @@ class CategoryProductCard extends StatelessWidget {
                                     : Icons.favorite_border,
                                 size: 18,
                                 color: inWishlist
-                                    ? Colors.red
-                                    : Theme.of(context).colorScheme.onSurface,
+                                    ? AppColors.error
+                                    : AppColors.of(context).textPrimary,
                               ),
                             ),
                           );
@@ -121,6 +121,7 @@ class CategoryProductCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: AppTextStyles.body.copyWith(
                         fontWeight: FontWeight.w600,
+                        color: AppColors.of(context).textPrimary,
                       ),
                     ),
 
@@ -145,7 +146,7 @@ class CategoryProductCard extends StatelessWidget {
                           child: Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: AppColors.primary.withOpacity(0.12),
+                              color: AppColors.primary.withValues(alpha: 0.12),
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(

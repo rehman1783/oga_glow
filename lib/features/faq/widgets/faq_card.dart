@@ -19,21 +19,17 @@ class FAQCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Container(
       margin: EdgeInsets.only(bottom: 8.h),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: AppColors.of(context).cardBackground,
         borderRadius: BorderRadius.circular(14.r),
         border: Border.all(
-          color: isDark
-              ? AppColors.borderDark.withOpacity(0.4)
-              : AppColors.borderLight.withOpacity(0.4),
+          color: AppColors.of(context).border,
         ),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).shadowColor.withOpacity(0.03),
+            color: AppColors.black.withValues(alpha: 0.03),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -61,7 +57,7 @@ class FAQCard extends StatelessWidget {
             width: 36.w,
             height: 36.w,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10.r),
             ),
             child: Icon(
@@ -75,7 +71,7 @@ class FAQCard extends StatelessWidget {
             style: AppTextStyles.body.copyWith(
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: AppColors.of(context).textPrimary,
               height: 1.3,
             ),
             maxLines: 3,
@@ -84,12 +80,11 @@ class FAQCard extends StatelessWidget {
           trailing: Icon(
             Icons.expand_more_rounded,
             size: 22.sp,
-            color: isDark ? AppColors.mutedDark : AppColors.mutedLight,
+            color: AppColors.of(context).textSecondary,
           ),
           collapsedShape: const Border(),
           shape: const Border(),
-          collapsedIconColor:
-              isDark ? AppColors.mutedDark : AppColors.mutedLight,
+          collapsedIconColor: AppColors.of(context).textSecondary,
           iconColor: AppColors.primary,
           children: [
             // Answer section
@@ -97,19 +92,17 @@ class FAQCard extends StatelessWidget {
               width: double.infinity,
               padding: EdgeInsets.all(14.w),
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.05),
+                color: AppColors.primary.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(12.r),
                 border: Border.all(
-                  color: AppColors.primary.withOpacity(0.08),
+                  color: AppColors.primary.withValues(alpha: 0.08),
                 ),
               ),
               child: Text(
                 faq.answer,
                 style: AppTextStyles.body.copyWith(
                   fontSize: 13.sp,
-                  color: isDark
-                      ? AppColors.textDark.withOpacity(0.85)
-                      : AppColors.textLight.withOpacity(0.75),
+                  color: AppColors.of(context).textSecondary,
                   height: 1.6,
                 ),
               ),

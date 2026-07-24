@@ -35,7 +35,7 @@ class PolicySection extends StatelessWidget {
               style: AppTextStyles.heading2.copyWith(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
-                color: Theme.of(context).colorScheme.onSurface,
+                color: AppColors.of(context).textPrimary,
               ),
             ),
           ),

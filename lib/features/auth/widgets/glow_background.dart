@@ -44,7 +44,7 @@ class _GlowBackgroundState extends State<GlowBackground>
       children: [
         // Solid background base
         Container(
-          color: AppColors.background,
+          color: Theme.of(context).scaffoldBackgroundColor,
         ),
 
         // Animated glowing blobs
@@ -76,8 +76,8 @@ class _GlowBackgroundState extends State<GlowBackground>
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
                         colors: [
-                          primaryColor.withOpacity(0.15),
-                          primaryColor.withOpacity(0.04),
+                          primaryColor.withValues(alpha: 0.15),
+                          primaryColor.withValues(alpha: 0.04),
                           Colors.transparent,
                         ],
                         stops: const [0.0, 0.5, 1.0],
@@ -97,8 +97,8 @@ class _GlowBackgroundState extends State<GlowBackground>
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
                         colors: [
-                          secondaryColor.withOpacity(0.2),
-                          secondaryColor.withOpacity(0.05),
+                          secondaryColor.withValues(alpha: 0.2),
+                          secondaryColor.withValues(alpha: 0.05),
                           Colors.transparent,
                         ],
                         stops: const [0.0, 0.6, 1.0],
@@ -118,8 +118,8 @@ class _GlowBackgroundState extends State<GlowBackground>
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
                         colors: [
-                          accentColor.withOpacity(0.08),
-                          accentColor.withOpacity(0.02),
+                          accentColor.withValues(alpha: 0.08),
+                          accentColor.withValues(alpha: 0.02),
                           Colors.transparent,
                         ],
                         stops: const [0.0, 0.5, 1.0],

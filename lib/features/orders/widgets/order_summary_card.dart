@@ -21,18 +21,14 @@ class OrderSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: AppColors.of(context).cardBackground,
         borderRadius: BorderRadius.circular(14.r),
         border: Border.all(
-          color: isDark
-              ? AppColors.borderDark.withOpacity(0.4)
-              : AppColors.borderLight.withOpacity(0.4),
+          color: AppColors.of(context).border,
         ),
       ),
       child: Row(
@@ -43,7 +39,7 @@ class OrderSummaryCard extends StatelessWidget {
             width: 38.w,
             height: 38.w,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10.r),
             ),
             child: Icon(
@@ -64,7 +60,7 @@ class OrderSummaryCard extends StatelessWidget {
                   style: AppTextStyles.caption.copyWith(
                     fontSize: 11.sp,
                     fontWeight: FontWeight.w500,
-                    color: isDark ? AppColors.mutedDark : AppColors.mutedLight,
+                    color: AppColors.of(context).textSecondary,
                   ),
                 ),
                 SizedBox(height: 4.h),
@@ -73,7 +69,7 @@ class OrderSummaryCard extends StatelessWidget {
                   style: AppTextStyles.body.copyWith(
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: AppColors.of(context).textPrimary,
                     height: 1.3,
                   ),
                 ),

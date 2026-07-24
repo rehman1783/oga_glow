@@ -5,6 +5,7 @@ import 'package:oga_glow/features/main_navigation/controllers/main_navigation_co
 import '../../../app/routes/app_routes.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_text_styles.dart';
 
 import 'drawer_items.dart';
 
@@ -20,7 +21,7 @@ class AppDrawer extends StatelessWidget {
             DrawerHeader(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.08),
+                color: AppColors.primary.withValues(alpha: 0.08),
               ),
               child: Align(
                 alignment: Alignment.centerLeft,
@@ -30,14 +31,18 @@ class AppDrawer extends StatelessWidget {
                   children: [
                     Text(
                       'OGA Glow',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      style: AppTextStyles.heading2.copyWith(
+                        fontSize: 18,
                         fontWeight: FontWeight.w800,
+                        color: AppColors.of(context).textPrimary,
                       ),
                     ),
                     const SizedBox(height: 6),
                     Text(
                       'profile@oga.glow',
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: AppTextStyles.caption.copyWith(
+                        color: AppColors.of(context).textSecondary,
+                      ),
                     ),
                   ],
                 ),

@@ -13,20 +13,29 @@ class SplashScreen extends GetView<SplashController> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              AppColors.bgLight,
-              AppColors.secondary,
-              Color(0xFFE2EAD6), // Extremely soft olive mix
-              AppColors.bgLight,
-            ],
-            stops: [0.0, 0.4, 0.8, 1.0],
+            colors: isDark
+                ? const [
+                    AppColors.bgDark,
+                    AppColors.panelDark,
+                    Color(0xFF0D1C12),
+                    AppColors.bgDark,
+                  ]
+                : const [
+                    AppColors.bgLight,
+                    AppColors.secondary,
+                    Color(0xFFE2EAD6),
+                    AppColors.bgLight,
+                  ],
+            stops: const [0.0, 0.4, 0.8, 1.0],
           ),
         ),
         child: Stack(
@@ -56,12 +65,12 @@ class SplashScreen extends GetView<SplashController> {
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withOpacity(.18),
+                                color: AppColors.primary.withValues(alpha: .18),
                                 blurRadius: 50,
                                 spreadRadius: 15,
                               ),
                               BoxShadow(
-                                color: AppColors.primaryLight.withOpacity(.12),
+                                color: AppColors.primaryLight.withValues(alpha: .12),
                                 blurRadius: 80,
                                 spreadRadius: 30,
                               ),
@@ -92,7 +101,7 @@ class SplashScreen extends GetView<SplashController> {
                     style: GoogleFonts.inter(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
+                      color: AppColors.of(context).textPrimary,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -102,7 +111,7 @@ class SplashScreen extends GetView<SplashController> {
                     style: GoogleFonts.inter(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.textSecondary,
+                      color: AppColors.of(context).textSecondary,
                       letterSpacing: 2,
                     ),
                   ),
@@ -123,7 +132,7 @@ class SplashScreen extends GetView<SplashController> {
 
                   const SizedBox(height: 24),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 35,
                     height: 35,
                     child: CircularProgressIndicator(
@@ -135,7 +144,7 @@ class SplashScreen extends GetView<SplashController> {
                   const SizedBox(height: 20),
 
                   Shimmer.fromColors(
-                    baseColor: AppColors.textSecondary.withOpacity(0.5),
+                    baseColor: AppColors.of(context).textSecondary.withValues(alpha: 0.5),
                     highlightColor: AppColors.primaryLight,
                     child: const Text(
                       "LOADING...",
@@ -157,7 +166,7 @@ class SplashScreen extends GetView<SplashController> {
                 child: Text(
                   "Version 1.0.0",
                   style: TextStyle(
-                    color: AppColors.textSecondary,
+                    color: AppColors.of(context).textSecondary,
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
@@ -194,7 +203,7 @@ class FloatingParticles extends StatelessWidget {
             width: Random().nextDouble() * 8 + 4,
             height: Random().nextDouble() * 8 + 4,
             decoration: BoxDecoration(
-              color: brandColors[index % brandColors.length].withOpacity(.35),
+              color: brandColors[index % brandColors.length].withValues(alpha: .35),
               shape: BoxShape.circle,
             ),
           ),

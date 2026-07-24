@@ -51,6 +51,7 @@ class HomeBannerSlider extends GetView<HomeController> {
             count: controller.banners.length,
             effect: ExpandingDotsEffect(
               activeDotColor: AppColors.primary,
+              dotColor: AppColors.of(context).border,
               dotHeight: 8.h,
               dotWidth: 8.w,
             ),

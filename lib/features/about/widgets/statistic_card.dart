@@ -82,17 +82,15 @@ class _StatisticCardState extends State<StatisticCard>
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: AppColors.of(context).cardBackground,
         borderRadius: BorderRadius.circular(18.r),
-        border: Border.all(color: AppColors.border.withOpacity(0.3)),
+        border: Border.all(color: AppColors.of(context).border),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).shadowColor.withOpacity(0.04),
+            color: AppColors.black.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -109,8 +107,8 @@ class _StatisticCardState extends State<StatisticCard>
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  AppColors.primary.withOpacity(0.1),
-                  AppColors.primaryLight.withOpacity(0.05),
+                  AppColors.primary.withValues(alpha: 0.1),
+                  AppColors.primaryLight.withValues(alpha: 0.05),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -127,7 +125,7 @@ class _StatisticCardState extends State<StatisticCard>
             style: AppTextStyles.heading1.copyWith(
               fontSize: 22.sp,
               fontWeight: FontWeight.w800,
-              color: isDark ? AppColors.textDark : AppColors.textLight,
+              color: AppColors.of(context).textPrimary,
             ),
           ),
           SizedBox(height: 4.h),
@@ -138,7 +136,7 @@ class _StatisticCardState extends State<StatisticCard>
             textAlign: TextAlign.center,
             style: AppTextStyles.caption.copyWith(
               fontSize: 12.sp,
-              color: AppColors.textSecondary,
+              color: AppColors.of(context).textSecondary,
             ),
           ),
         ],

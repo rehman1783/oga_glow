@@ -26,7 +26,7 @@ class CategoryItem extends StatelessWidget {
             width: 70.w,
             height: 70.h,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(.08),
+              color: AppColors.primary.withValues(alpha: 0.08),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -40,7 +40,9 @@ class CategoryItem extends StatelessWidget {
 
           Text(
             title,
-            style: AppTextStyles.caption,
+            style: AppTextStyles.caption.copyWith(
+              color: AppColors.of(context).textPrimary,
+            ),
             textAlign: TextAlign.center,
           ),
         ],

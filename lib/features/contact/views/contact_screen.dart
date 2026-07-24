@@ -35,7 +35,7 @@ class ContactScreen extends GetView<ContactController> {
           ContactConstants.heroTitle,
           style: AppTextStyles.heading2.copyWith(
             fontSize: 18.sp,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: AppColors.of(context).textPrimary,
           ),
         ),
       ),
@@ -104,7 +104,7 @@ class ContactScreen extends GetView<ContactController> {
                       ),
                       Divider(
                         height: 1,
-                        color: AppColors.border.withOpacity(0.3),
+                        color: AppColors.of(context).border,
                       ),
                       ContactRow(
                         icon: Icons.call_rounded,
@@ -166,7 +166,7 @@ class ContactScreen extends GetView<ContactController> {
                       ),
                       Divider(
                         height: 1,
-                        color: AppColors.border.withOpacity(0.3),
+                        color: AppColors.of(context).border,
                       ),
                       ContactRow(
                         icon: Icons.facebook_rounded,
@@ -178,7 +178,7 @@ class ContactScreen extends GetView<ContactController> {
                       ),
                       Divider(
                         height: 1,
-                        color: AppColors.border.withOpacity(0.3),
+                        color: AppColors.of(context).border,
                       ),
                       // Instagram (no native icon, using photo_camera)
                       ContactRow(
@@ -191,7 +191,7 @@ class ContactScreen extends GetView<ContactController> {
                       ),
                       Divider(
                         height: 1,
-                        color: AppColors.border.withOpacity(0.3),
+                        color: AppColors.of(context).border,
                       ),
                       // LinkedIn
                       ContactRow(
@@ -204,7 +204,7 @@ class ContactScreen extends GetView<ContactController> {
                       ),
                       Divider(
                         height: 1,
-                        color: AppColors.border.withOpacity(0.3),
+                        color: AppColors.of(context).border,
                       ),
                       // WhatsApp
                       ContactRow(
@@ -229,69 +229,71 @@ class ContactScreen extends GetView<ContactController> {
 
   /// Builds the hero / header section with an icon, heading, and subtitle.
   Widget _buildHeroSection(bool isDark) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.primary.withOpacity(0.12),
-            AppColors.primaryLight.withOpacity(0.06),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(24.r),
-        border: Border.all(color: AppColors.primary.withOpacity(0.1)),
-      ),
-      child: Column(
-        children: [
-          // Icon
-          Container(
-            width: 64.w,
-            height: 64.w,
-            decoration: BoxDecoration(
-              color: isDark
-                  ? AppColors.primary.withOpacity(0.15)
-                  : AppColors.white,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary.withOpacity(0.15),
-                  blurRadius: 20,
-                  offset: const Offset(0, 6),
-                ),
+    return Builder(
+      builder: (context) {
+        return Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppColors.primary.withValues(alpha: 0.12),
+                AppColors.primaryLight.withValues(alpha: 0.06),
               ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-            child: Icon(
-              Icons.headset_mic_rounded,
-              size: 30.sp,
-              color: AppColors.primary,
-            ),
+            borderRadius: BorderRadius.circular(24.r),
+            border: Border.all(color: AppColors.primary.withValues(alpha: 0.1)),
           ),
-          SizedBox(height: 16.h),
-          // Heading
-          Text(
-            ContactConstants.heroTitle,
-            style: AppTextStyles.heading1.copyWith(
-              fontSize: 22.sp,
-              fontWeight: FontWeight.w800,
-              color: Theme.of(Get.context!).colorScheme.onSurface,
-            ),
+          child: Column(
+            children: [
+              // Icon
+              Container(
+                width: 64.w,
+                height: 64.w,
+                decoration: BoxDecoration(
+                  color: AppColors.of(context).cardBackground,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.15),
+                      blurRadius: 20,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  Icons.headset_mic_rounded,
+                  size: 30.sp,
+                  color: AppColors.primary,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              // Heading
+              Text(
+                ContactConstants.heroTitle,
+                style: AppTextStyles.heading1.copyWith(
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.of(context).textPrimary,
+                ),
+              ),
+              SizedBox(height: 8.h),
+              // Subtitle
+              Text(
+                ContactConstants.heroSubtitle,
+                textAlign: TextAlign.center,
+                style: AppTextStyles.body.copyWith(
+                  fontSize: 14.sp,
+                  color: AppColors.of(context).textSecondary,
+                  height: 1.4,
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 8.h),
-          // Subtitle
-          Text(
-            ContactConstants.heroSubtitle,
-            textAlign: TextAlign.center,
-            style: AppTextStyles.body.copyWith(
-              fontSize: 14.sp,
-              color: AppColors.textSecondary,
-              height: 1.4,
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

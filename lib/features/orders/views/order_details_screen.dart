@@ -34,7 +34,7 @@ class OrderDetailsScreen extends StatelessWidget {
           'Order Details',
           style: AppTextStyles.heading2.copyWith(
             fontSize: 18.sp,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: AppColors.of(context).textPrimary,
           ),
         ),
       ),
@@ -122,16 +122,14 @@ class OrderDetailsScreen extends StatelessWidget {
                   width: double.infinity,
                   padding: EdgeInsets.all(16.w),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
+                    color: AppColors.of(context).cardBackground,
                     borderRadius: BorderRadius.circular(18.r),
                     border: Border.all(
-                      color: isDark
-                          ? AppColors.borderDark.withOpacity(0.4)
-                          : AppColors.borderLight.withOpacity(0.4),
+                      color: AppColors.of(context).border,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Theme.of(context).shadowColor.withOpacity(0.04),
+                        color: AppColors.black.withValues(alpha: 0.04),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
@@ -151,140 +149,144 @@ class OrderDetailsScreen extends StatelessWidget {
 
   /// Builds the product header section with image, name, order ID and status.
   Widget _buildProductHeader(OrderModel order, bool isDark) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: Theme.of(Get.context!).cardColor,
-        borderRadius: BorderRadius.circular(18.r),
-        border: Border.all(
-          color: isDark
-              ? AppColors.borderDark.withOpacity(0.4)
-              : AppColors.borderLight.withOpacity(0.4),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(Get.context!).shadowColor.withOpacity(0.04),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          // Product image placeholder
-          Container(
-            width: 80.w,
-            height: 80.w,
-            decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.08),
-              borderRadius: BorderRadius.circular(16.r),
+    return Builder(
+      builder: (context) {
+        return Container(
+          width: double.infinity,
+          padding: EdgeInsets.all(16.w),
+          decoration: BoxDecoration(
+            color: AppColors.of(context).cardBackground,
+            borderRadius: BorderRadius.circular(18.r),
+            border: Border.all(
+              color: AppColors.of(context).border,
             ),
-            child: Center(
-              child: Icon(
-                Icons.shopping_bag_rounded,
-                size: 32.sp,
-                color: AppColors.primary.withOpacity(0.4),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.black.withValues(alpha: 0.04),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
               ),
-            ),
+            ],
           ),
-          SizedBox(width: 14.w),
+          child: Row(
+            children: [
+              // Product image placeholder
+              Container(
+                width: 80.w,
+                height: 80.w,
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.shopping_bag_rounded,
+                    size: 32.sp,
+                    color: AppColors.primary.withValues(alpha: 0.4),
+                  ),
+                ),
+              ),
+              SizedBox(width: 14.w),
 
-          // Product info
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  order.productName,
-                  style: AppTextStyles.heading2.copyWith(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w700,
-                    color: Theme.of(Get.context!).colorScheme.onSurface,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+              // Product info
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      order.productName,
+                      style: AppTextStyles.heading2.copyWith(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.of(context).textPrimary,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 6.h),
+                    Text(
+                      'Order: ${order.orderId}',
+                      style: AppTextStyles.caption.copyWith(
+                        fontSize: 11.sp,
+                        color: AppColors.of(context).textSecondary,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    OrderStatusChip(status: order.status),
+                  ],
                 ),
-                SizedBox(height: 6.h),
-                Text(
-                  'Order: ${order.orderId}',
-                  style: AppTextStyles.caption.copyWith(
-                    fontSize: 11.sp,
-                    color: isDark ? AppColors.mutedDark : AppColors.mutedLight,
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                OrderStatusChip(status: order.status),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
   /// Builds the order summary card with quantity, unit price, total etc.
   Widget _buildOrderSummaryCard(OrderModel order, bool isDark) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: Theme.of(Get.context!).cardColor,
-        borderRadius: BorderRadius.circular(18.r),
-        border: Border.all(
-          color: isDark
-              ? AppColors.borderDark.withOpacity(0.4)
-              : AppColors.borderLight.withOpacity(0.4),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(Get.context!).shadowColor.withOpacity(0.04),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          _summaryRow('Quantity', '${order.quantity}', isDark),
-          const Divider(height: 20),
-          _summaryRow(
-            'Unit Price',
-            '\$${order.unitPrice.toStringAsFixed(2)}',
-            isDark,
-          ),
-          const Divider(height: 20),
-          _summaryRow('Payment Method', order.paymentMethod, isDark),
-          const Divider(height: 20),
-          _summaryRow('Order Date', order.orderDate, isDark),
-          const Divider(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Total Price',
-                style: AppTextStyles.body.copyWith(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w700,
-                  color: Theme.of(Get.context!).colorScheme.onSurface,
-                ),
-              ),
-              Text(
-                '\$${order.totalPrice.toStringAsFixed(2)}',
-                style: AppTextStyles.body.copyWith(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.primary,
-                ),
+    return Builder(
+      builder: (context) {
+        return Container(
+          width: double.infinity,
+          padding: EdgeInsets.all(16.w),
+          decoration: BoxDecoration(
+            color: AppColors.of(context).cardBackground,
+            borderRadius: BorderRadius.circular(18.r),
+            border: Border.all(
+              color: AppColors.of(context).border,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.black.withValues(alpha: 0.04),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
               ),
             ],
           ),
-        ],
-      ),
+          child: Column(
+            children: [
+              _summaryRow(context, 'Quantity', '${order.quantity}'),
+              Divider(height: 20, color: AppColors.of(context).border),
+              _summaryRow(
+                context,
+                'Unit Price',
+                '\$${order.unitPrice.toStringAsFixed(2)}',
+              ),
+              Divider(height: 20, color: AppColors.of(context).border),
+              _summaryRow(context, 'Payment Method', order.paymentMethod),
+              Divider(height: 20, color: AppColors.of(context).border),
+              _summaryRow(context, 'Order Date', order.orderDate),
+              Divider(height: 20, color: AppColors.of(context).border),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Total Price',
+                    style: AppTextStyles.body.copyWith(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.of(context).textPrimary,
+                    ),
+                  ),
+                  Text(
+                    '\$${order.totalPrice.toStringAsFixed(2)}',
+                    style: AppTextStyles.body.copyWith(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
-  Widget _summaryRow(String label, String value, bool isDark) {
+  Widget _summaryRow(BuildContext context, String label, String value) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -292,7 +294,7 @@ class OrderDetailsScreen extends StatelessWidget {
           label,
           style: AppTextStyles.body.copyWith(
             fontSize: 13.sp,
-            color: isDark ? AppColors.mutedDark : AppColors.mutedLight,
+            color: AppColors.of(context).textSecondary,
           ),
         ),
         Text(
@@ -300,7 +302,7 @@ class OrderDetailsScreen extends StatelessWidget {
           style: AppTextStyles.body.copyWith(
             fontSize: 13.sp,
             fontWeight: FontWeight.w600,
-            color: Theme.of(Get.context!).colorScheme.onSurface,
+            color: AppColors.of(context).textPrimary,
           ),
         ),
       ],
@@ -309,32 +311,36 @@ class OrderDetailsScreen extends StatelessWidget {
 
   /// Builds a section title with an accent bar and icon.
   Widget _buildSectionTitle(String title, IconData icon) {
-    return Row(
-      children: [
-        Container(
-          width: 4.w,
-          height: 22.h,
-          decoration: BoxDecoration(
-            color: AppColors.primary,
-            borderRadius: BorderRadius.circular(2.r),
-          ),
-        ),
-        SizedBox(width: 10.w),
-        Icon(
-          icon,
-          size: 20.sp,
-          color: AppColors.primary,
-        ),
-        SizedBox(width: 8.w),
-        Text(
-          title,
-          style: AppTextStyles.heading2.copyWith(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w700,
-            color: Theme.of(Get.context!).colorScheme.onSurface,
-          ),
-        ),
-      ],
+    return Builder(
+      builder: (context) {
+        return Row(
+          children: [
+            Container(
+              width: 4.w,
+              height: 22.h,
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(2.r),
+              ),
+            ),
+            SizedBox(width: 10.w),
+            Icon(
+              icon,
+              size: 20.sp,
+              color: AppColors.primary,
+            ),
+            SizedBox(width: 8.w),
+            Text(
+              title,
+              style: AppTextStyles.heading2.copyWith(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w700,
+                color: AppColors.of(context).textPrimary,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

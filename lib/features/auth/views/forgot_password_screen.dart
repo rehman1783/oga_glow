@@ -52,6 +52,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
   // Step 1: Email entry
   // ------------------------------------------------------------------
   Widget _buildEmailStep(BuildContext context) {
+    final colors = AppColors.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -63,15 +64,15 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
             duration: const Duration(milliseconds: 350),
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: AppColors.white.withOpacity(0.95),
+              color: colors.panel,
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: AppColors.border.withOpacity(0.6),
+                color: colors.border,
                 width: 1,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: AppColors.black.withValues(alpha: 0.05),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -86,7 +87,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                     'Email Address',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: AppColors.textPrimary,
+                      color: colors.textPrimary,
                     ),
                   ),
                   SizedBox(height: 8.h),
@@ -97,22 +98,23 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                     validator: controller.validateEmail,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
+                      color: colors.textPrimary,
                     ),
                     decoration: InputDecoration(
                       hintText: 'Enter your email',
                       prefixIcon: const Icon(Icons.mail_outline),
                       filled: true,
-                      fillColor: AppColors.white,
+                      fillColor: colors.inputBg,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
                         borderSide: BorderSide(
-                          color: AppColors.border.withOpacity(0.5),
+                          color: colors.border,
                         ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
                         borderSide: BorderSide(
-                          color: AppColors.border.withOpacity(0.5),
+                          color: colors.border,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
@@ -125,14 +127,14 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
                         borderSide: const BorderSide(
-                          color: Colors.red,
+                          color: AppColors.error,
                           width: 1.5,
                         ),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
                         borderSide: const BorderSide(
-                          color: Colors.red,
+                          color: AppColors.error,
                           width: 1.8,
                         ),
                       ),
@@ -162,12 +164,12 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: AppColors.white,
-                  disabledBackgroundColor: AppColors.primary.withOpacity(0.6),
+                  disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.6),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
                   elevation: 4,
-                  shadowColor: AppColors.primary.withOpacity(0.25),
+                  shadowColor: AppColors.primary.withValues(alpha: 0.25),
                 ),
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 250),
@@ -201,7 +203,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
               child: RichText(
                 text: TextSpan(
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.textSecondary,
+                    color: colors.textSecondary,
                   ),
                   children: const [
                     TextSpan(text: 'Remember your password? '),
@@ -226,6 +228,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
   // Step 2: OTP entry (future support)
   // ------------------------------------------------------------------
   Widget _buildOtpStep(BuildContext context) {
+    final colors = AppColors.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -236,7 +239,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
           child: Text(
             'We\'ve sent a verification code to your email.',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.textSecondary,
+              color: colors.textSecondary,
               height: 1.5,
             ),
           ),
@@ -251,15 +254,15 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
             duration: const Duration(milliseconds: 350),
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: AppColors.white.withOpacity(0.95),
+              color: colors.panel,
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: AppColors.border.withOpacity(0.6),
+                color: colors.border,
                 width: 1,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: AppColors.black.withValues(alpha: 0.05),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -271,7 +274,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                   'Verification Code',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
+                    color: colors.textPrimary,
                   ),
                 ),
                 SizedBox(height: 12.h),
@@ -283,22 +286,23 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w700,
                     letterSpacing: 8,
+                    color: colors.textPrimary,
                   ),
                   decoration: InputDecoration(
                     hintText: '000000',
                     counterText: '',
                     filled: true,
-                    fillColor: AppColors.white,
+                    fillColor: colors.inputBg,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
                       borderSide: BorderSide(
-                        color: AppColors.border.withOpacity(0.5),
+                        color: colors.border,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
                       borderSide: BorderSide(
-                        color: AppColors.border.withOpacity(0.5),
+                        color: colors.border,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(

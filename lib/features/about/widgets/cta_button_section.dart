@@ -32,22 +32,20 @@ class CTAButtonSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(24.w),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primary.withOpacity(0.10),
-            AppColors.primaryLight.withOpacity(0.05),
+            AppColors.primary.withValues(alpha: 0.10),
+            AppColors.primaryLight.withValues(alpha: 0.05),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(24.r),
-        border: Border.all(color: AppColors.primary.withOpacity(0.12)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.12)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +56,7 @@ class CTAButtonSection extends StatelessWidget {
             style: AppTextStyles.heading2.copyWith(
               fontSize: 18.sp,
               fontWeight: FontWeight.w700,
-              color: isDark ? AppColors.textDark : AppColors.textLight,
+              color: AppColors.of(context).textPrimary,
             ),
           ),
           SizedBox(height: 8.h),
@@ -66,7 +64,7 @@ class CTAButtonSection extends StatelessWidget {
             AboutConstants.ctaSubtitle,
             style: AppTextStyles.body.copyWith(
               fontSize: 13.sp,
-              color: AppColors.textSecondary,
+              color: AppColors.of(context).textSecondary,
               height: 1.4,
             ),
           ),
@@ -86,13 +84,13 @@ class CTAButtonSection extends StatelessWidget {
               _CTAButton(
                 icon: Icons.headset_mic_rounded,
                 label: AboutConstants.contactUsLabel,
-                color: AppColors.accent,
+                color: AppColors.primary,
                 onTap: onContactUs,
               ),
               _CTAButton(
                 icon: Icons.chat_rounded,
                 label: AboutConstants.talkToExpertsLabel,
-                color: AppColors.goldLight,
+                color: AppColors.primary,
                 onTap: onTalkToExperts,
               ),
               _CTAButton(
@@ -125,8 +123,6 @@ class _CTAButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return BounceTap(
       onTap: onTap,
       child: Container(
@@ -135,7 +131,7 @@ class _CTAButton extends StatelessWidget {
           gradient: LinearGradient(
             colors: [
               color,
-              color.withOpacity(0.8),
+              color.withValues(alpha: 0.8),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -143,7 +139,7 @@ class _CTAButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(14.r),
           boxShadow: [
             BoxShadow(
-              color: color.withOpacity(0.25),
+              color: color.withValues(alpha: 0.25),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -155,14 +151,14 @@ class _CTAButton extends StatelessWidget {
             Icon(
               icon,
               size: 18.sp,
-              color: isDark ? AppColors.textDark : Colors.white,
+              color: AppColors.white,
             ),
             SizedBox(width: 8.w),
             Text(
               label,
               style: AppTextStyles.button.copyWith(
                 fontSize: 13.sp,
-                color: isDark ? AppColors.textDark : Colors.white,
+                color: AppColors.white,
               ),
             ),
           ],

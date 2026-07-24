@@ -23,8 +23,6 @@ class OrderFilterChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     // Define filter options
     final filters = <_FilterOption>[
       _FilterOption(label: 'All', status: null),
@@ -55,21 +53,17 @@ class OrderFilterChips extends StatelessWidget {
               decoration: BoxDecoration(
                 color: isSelected
                     ? AppColors.primary
-                    : isDark
-                        ? AppColors.panelDark
-                        : Colors.white,
+                    : AppColors.of(context).cardBackground,
                 borderRadius: BorderRadius.circular(20.r),
                 border: Border.all(
                   color: isSelected
                       ? AppColors.primary
-                      : isDark
-                          ? AppColors.borderDark.withOpacity(0.5)
-                          : AppColors.borderLight.withOpacity(0.5),
+                      : AppColors.of(context).border,
                 ),
                 boxShadow: isSelected
                     ? [
                         BoxShadow(
-                          color: AppColors.primary.withOpacity(0.25),
+                          color: AppColors.primary.withValues(alpha: 0.25),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -83,10 +77,8 @@ class OrderFilterChips extends StatelessWidget {
                     fontSize: 12.sp,
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                     color: isSelected
-                        ? Colors.white
-                        : isDark
-                            ? AppColors.textDark.withOpacity(0.8)
-                            : AppColors.textLight.withOpacity(0.7),
+                        ? AppColors.white
+                        : AppColors.of(context).textSecondary,
                   ),
                 ),
               ),

@@ -26,12 +26,12 @@ class CompanyStorySection extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.all(20.w),
           decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
+            color: AppColors.of(context).cardBackground,
             borderRadius: BorderRadius.circular(18.r),
-            border: Border.all(color: AppColors.border.withOpacity(0.4)),
+            border: Border.all(color: AppColors.of(context).border),
             boxShadow: [
               BoxShadow(
-                color: Theme.of(context).shadowColor.withOpacity(0.04),
+                color: AppColors.black.withValues(alpha: 0.04),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -40,13 +40,13 @@ class CompanyStorySection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _storyParagraph(AboutConstants.storyContent1),
+              _storyParagraph(context, AboutConstants.storyContent1),
               SizedBox(height: 16.h),
-              _storyParagraph(AboutConstants.storyContent2),
+              _storyParagraph(context, AboutConstants.storyContent2),
               SizedBox(height: 16.h),
-              _storyParagraph(AboutConstants.storyContent3),
+              _storyParagraph(context, AboutConstants.storyContent3),
               SizedBox(height: 16.h),
-              _storyParagraph(AboutConstants.storyContent4),
+              _storyParagraph(context, AboutConstants.storyContent4),
             ],
           ),
         ),
@@ -54,12 +54,12 @@ class CompanyStorySection extends StatelessWidget {
     );
   }
 
-  Widget _storyParagraph(String text) {
+  Widget _storyParagraph(BuildContext context, String text) {
     return Text(
       text,
       style: AppTextStyles.body.copyWith(
         fontSize: 14.sp,
-        color: AppColors.textSecondary,
+        color: AppColors.of(context).textSecondary,
         height: 1.6,
       ),
     );

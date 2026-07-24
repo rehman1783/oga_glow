@@ -24,12 +24,12 @@ class ProfileOptionTile extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
         decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
+          color: AppColors.of(context).cardBackground,
           borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: AppColors.border.withOpacity(0.5)),
+          border: Border.all(color: AppColors.of(context).border),
           boxShadow: [
             BoxShadow(
-              color: Theme.of(context).shadowColor.withOpacity(0.08),
+              color: AppColors.black.withValues(alpha: 0.04),
               blurRadius: 8,
               offset: const Offset(0, 3),
             ),
@@ -41,7 +41,7 @@ class ProfileOptionTile extends StatelessWidget {
               width: 42.w,
               height: 42.w,
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
+                color: AppColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Icon(icon, color: AppColors.primary, size: 20.sp),
@@ -53,12 +53,13 @@ class ProfileOptionTile extends StatelessWidget {
                 style: AppTextStyles.heading2.copyWith(
                   fontWeight: FontWeight.w600,
                   fontSize: 14.sp,
+                  color: AppColors.of(context).textPrimary,
                 ),
               ),
             ),
             Icon(
               Icons.chevron_right_rounded,
-              color: AppColors.textSecondary,
+              color: AppColors.of(context).textSecondary,
               size: 22.sp,
             ),
           ],

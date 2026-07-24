@@ -48,7 +48,7 @@ class FAQCategoryHeader extends StatelessWidget {
             style: AppTextStyles.heading2.copyWith(
               fontSize: 16.sp,
               fontWeight: FontWeight.w700,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: AppColors.of(context).textPrimary,
             ),
           ),
           const Spacer(),
@@ -56,7 +56,7 @@ class FAQCategoryHeader extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20.r),
             ),
             child: Text(

@@ -21,7 +21,7 @@ class HomeAppBar extends StatelessWidget {
             width: 50.w,
             height: 50.h,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -37,7 +37,12 @@ class HomeAppBar extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Welcome Back', style: AppTextStyles.caption),
+                Text(
+                  'Welcome Back',
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.of(context).textSecondary,
+                  ),
+                ),
 
                 SizedBox(height: 2.h),
 

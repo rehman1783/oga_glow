@@ -46,7 +46,7 @@ class AuthEntryScreen extends StatelessWidget {
                             fontSize: 38.sp,
                             fontWeight: FontWeight.w800,
                             letterSpacing: -0.5,
-                            color: Colors.black54,
+                            color: AppColors.of(context).textPrimary,
                           ),
                         ),
                       ),
@@ -58,7 +58,7 @@ class AuthEntryScreen extends StatelessWidget {
                         child: Text(
                           "Discover natural beauty products carefully crafted for your skin and hair care journey.",
                           style: AppTextStyles.body.copyWith(
-                            color: AppColors.textSecondary,
+                            color: AppColors.of(context).textSecondary,
                             fontSize: 16.sp,
                             height: 1.6,
                           ),
@@ -77,7 +77,7 @@ class AuthEntryScreen extends StatelessWidget {
                               Text(
                                 "Continue",
                                 style: AppTextStyles.body.copyWith(
-                                  color: AppColors.textPrimary,
+                                  color: AppColors.of(context).textPrimary,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16.sp,
                                 ),
@@ -149,7 +149,7 @@ class _PulsingCircleButtonState extends State<PulsingCircleButton>
                 height: 52.h + _controller.value * 24.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: AppColors.primary.withOpacity(1.0 - _controller.value),
+                  color: AppColors.primary.withValues(alpha: (1.0 - _controller.value).clamp(0.0, 1.0)),
                 ),
               ),
               // Inner solid button
@@ -165,7 +165,7 @@ class _PulsingCircleButtonState extends State<PulsingCircleButton>
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withOpacity(0.3),
+                      color: AppColors.primary.withValues(alpha: 0.3),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -173,7 +173,7 @@ class _PulsingCircleButtonState extends State<PulsingCircleButton>
                 ),
                 child: Icon(
                   Icons.arrow_forward,
-                  color: Colors.white,
+                  color: AppColors.white,
                   size: 24.sp,
                 ),
               ),

@@ -21,20 +21,16 @@ class OrderSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: AppColors.of(context).cardBackground,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
-          color: isDark
-              ? AppColors.borderDark.withOpacity(0.5)
-              : AppColors.borderLight.withOpacity(0.5),
+          color: AppColors.of(context).border,
         ),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).shadowColor.withOpacity(0.04),
+            color: AppColors.black.withValues(alpha: 0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -45,25 +41,25 @@ class OrderSearchBar extends StatelessWidget {
         onChanged: onChanged,
         style: AppTextStyles.body.copyWith(
           fontSize: 14.sp,
-          color: Theme.of(context).colorScheme.onSurface,
+          color: AppColors.of(context).textPrimary,
         ),
         decoration: InputDecoration(
           hintText: 'Search by Order ID or Product Name...',
           hintStyle: AppTextStyles.body.copyWith(
             fontSize: 14.sp,
-            color: isDark ? AppColors.mutedDark : AppColors.mutedLight,
+            color: AppColors.of(context).textSecondary,
           ),
           prefixIcon: Icon(
             Icons.search_rounded,
             size: 22.sp,
-            color: isDark ? AppColors.mutedDark : AppColors.mutedLight,
+            color: AppColors.of(context).textSecondary,
           ),
           suffixIcon: controller != null && controller!.text.isNotEmpty
               ? IconButton(
                   icon: Icon(
                     Icons.close_rounded,
                     size: 20.sp,
-                    color: isDark ? AppColors.mutedDark : AppColors.mutedLight,
+                    color: AppColors.of(context).textSecondary,
                   ),
                   onPressed: () {
                     controller?.clear();

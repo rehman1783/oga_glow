@@ -35,7 +35,7 @@ class FaqScreen extends GetView<FaqController> {
           FaqConstants.pageTitle,
           style: AppTextStyles.heading2.copyWith(
             fontSize: 18.sp,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: AppColors.of(context).textPrimary,
           ),
         ),
       ),
@@ -59,13 +59,7 @@ class FaqScreen extends GetView<FaqController> {
                     FaqConstants.pageIntroduction,
                     style: AppTextStyles.body.copyWith(
                       fontSize: 14.sp,
-                      color: isDark
-                          ? Theme.of(
-                              context,
-                            ).colorScheme.onSurface.withOpacity(0.7)
-                          : Theme.of(
-                              context,
-                            ).colorScheme.onSurface.withOpacity(0.6),
+                      color: AppColors.of(context).textSecondary,
                       height: 1.5,
                     ),
                   ),
@@ -126,70 +120,70 @@ class FaqScreen extends GetView<FaqController> {
 
   /// Builds the header with an icon and page title.
   Widget _buildHeader(bool isDark) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Theme.of(Get.context!).colorScheme.primary.withOpacity(0.12),
-            Theme.of(Get.context!).colorScheme.primary.withOpacity(0.06),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(24.r),
-        border: Border.all(
-          color: Theme.of(Get.context!).colorScheme.primary.withOpacity(0.1),
-        ),
-      ),
-      child: Column(
-        children: [
-          Container(
-            width: 64.w,
-            height: 64.w,
-            decoration: BoxDecoration(
-              color: isDark
-                  ? Theme.of(Get.context!).colorScheme.primary.withOpacity(0.15)
-                  : Theme.of(Get.context!).cardColor,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(
-                    Get.context!,
-                  ).colorScheme.primary.withOpacity(0.15),
-                  blurRadius: 20,
-                  offset: const Offset(0, 6),
-                ),
+    return Builder(
+      builder: (context) {
+        return Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppColors.primary.withValues(alpha: 0.12),
+                AppColors.primary.withValues(alpha: 0.06),
               ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-            child: Icon(
-              Icons.help_outline_rounded,
-              size: 30.sp,
-              color: Theme.of(Get.context!).colorScheme.primary,
-            ),
-          ),
-          SizedBox(height: 16.h),
-          Text(
-            FaqConstants.pageTitle,
-            style: AppTextStyles.heading1.copyWith(
-              fontSize: 22.sp,
-              fontWeight: FontWeight.w800,
-              color: Theme.of(Get.context!).colorScheme.onSurface,
+            borderRadius: BorderRadius.circular(24.r),
+            border: Border.all(
+              color: AppColors.primary.withValues(alpha: 0.1),
             ),
           ),
-          SizedBox(height: 8.h),
-          Text(
-            FaqConstants.pageSubtitle,
-            textAlign: TextAlign.center,
-            style: AppTextStyles.body.copyWith(
-              fontSize: 14.sp,
-              color: isDark ? AppColors.mutedDark : AppColors.mutedLight,
-              height: 1.4,
-            ),
+          child: Column(
+            children: [
+              Container(
+                width: 64.w,
+                height: 64.w,
+                decoration: BoxDecoration(
+                  color: AppColors.of(context).cardBackground,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.15),
+                      blurRadius: 20,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  Icons.help_outline_rounded,
+                  size: 30.sp,
+                  color: AppColors.primary,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Text(
+                FaqConstants.pageTitle,
+                style: AppTextStyles.heading1.copyWith(
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.of(context).textPrimary,
+                ),
+              ),
+              SizedBox(height: 8.h),
+              Text(
+                FaqConstants.pageSubtitle,
+                textAlign: TextAlign.center,
+                style: AppTextStyles.body.copyWith(
+                  fontSize: 14.sp,
+                  color: AppColors.of(context).textSecondary,
+                  height: 1.4,
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

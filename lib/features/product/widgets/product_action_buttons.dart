@@ -39,7 +39,7 @@ class ProductActionButtons extends GetView<ProductController> {
                     borderRadius: BorderRadius.circular(14.r),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primary.withOpacity(0.2),
+                        color: AppColors.primary.withValues(alpha: 0.2),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
@@ -73,7 +73,7 @@ class ProductActionButtons extends GetView<ProductController> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppColors.white,
+                    color: AppColors.of(context).cardBackground,
                     border: Border.all(color: AppColors.primary, width: 1.5),
                     borderRadius: BorderRadius.circular(14.r),
                   ),

@@ -46,9 +46,9 @@ class VerificationScreen extends StatelessWidget {
                           height: 90,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: AppColors.primary.withOpacity(0.1),
+                            color: AppColors.primary.withValues(alpha: 0.1),
                             border: Border.all(
-                              color: AppColors.primary.withOpacity(0.3),
+                              color: AppColors.primary.withValues(alpha: 0.3),
                               width: 2,
                             ),
                           ),
@@ -69,7 +69,7 @@ class VerificationScreen extends StatelessWidget {
                               .headlineSmall
                               ?.copyWith(
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.textPrimary,
+                                color: AppColors.of(context).textPrimary,
                               ),
                           textAlign: TextAlign.center,
                         ),
@@ -83,7 +83,7 @@ class VerificationScreen extends StatelessWidget {
                               .textTheme
                               .bodyMedium
                               ?.copyWith(
-                                color: AppColors.textSecondary,
+                                color: AppColors.of(context).textSecondary,
                                 height: 1.5,
                               ),
                           textAlign: TextAlign.center,

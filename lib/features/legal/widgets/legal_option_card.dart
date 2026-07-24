@@ -23,26 +23,22 @@ class LegalOptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Card(
       elevation: 2,
-      shadowColor: AppColors.primary.withOpacity(0.1),
+      shadowColor: AppColors.primary.withValues(alpha: 0.1),
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.r)),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(18.r),
-        splashColor: AppColors.primary.withOpacity(0.08),
-        highlightColor: AppColors.primary.withOpacity(0.04),
+        splashColor: AppColors.primary.withValues(alpha: 0.08),
+        highlightColor: AppColors.primary.withValues(alpha: 0.04),
         child: Container(
           padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18.r),
             border: Border.all(
-              color: isDark
-                  ? AppColors.borderDark.withOpacity(0.5)
-                  : AppColors.borderLight.withOpacity(0.5),
+              color: AppColors.of(context).border,
             ),
           ),
           child: Row(
@@ -52,7 +48,7 @@ class LegalOptionCard extends StatelessWidget {
                 width: 52.w,
                 height: 52.w,
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: AppColors.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(14.r),
                 ),
                 child: Icon(icon, size: 26.sp, color: AppColors.primary),
@@ -69,7 +65,7 @@ class LegalOptionCard extends StatelessWidget {
                       style: AppTextStyles.heading2.copyWith(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w600,
-                        color: Theme.of(context).colorScheme.onSurface,
+                        color: AppColors.of(context).textPrimary,
                       ),
                     ),
                     SizedBox(height: 4.h),
@@ -77,9 +73,7 @@ class LegalOptionCard extends StatelessWidget {
                       description,
                       style: AppTextStyles.caption.copyWith(
                         fontSize: 12.sp,
-                        color: isDark
-                            ? AppColors.mutedDark
-                            : AppColors.mutedLight,
+                        color: AppColors.of(context).textSecondary,
                         height: 1.3,
                       ),
                       maxLines: 2,
@@ -94,7 +88,7 @@ class LegalOptionCard extends StatelessWidget {
               Icon(
                 Icons.chevron_right_rounded,
                 size: 24.sp,
-                color: isDark ? AppColors.mutedDark : AppColors.mutedLight,
+                color: AppColors.of(context).textSecondary,
               ),
             ],
           ),

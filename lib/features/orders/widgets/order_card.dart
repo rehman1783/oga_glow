@@ -22,22 +22,18 @@ class OrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Container(
       width: double.infinity,
       margin: EdgeInsets.only(bottom: 14.h),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: AppColors.of(context).cardBackground,
         borderRadius: BorderRadius.circular(18.r),
         border: Border.all(
-          color: isDark
-              ? AppColors.borderDark.withOpacity(0.4)
-              : AppColors.borderLight.withOpacity(0.4),
+          color: AppColors.of(context).border,
         ),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).shadowColor.withOpacity(0.04),
+            color: AppColors.black.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -57,14 +53,14 @@ class OrderCard extends StatelessWidget {
                   width: 70.w,
                   height: 70.w,
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.08),
+                    color: AppColors.primary.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(14.r),
                   ),
                   child: Center(
                     child: Icon(
                       Icons.shopping_bag_rounded,
                       size: 28.sp,
-                      color: AppColors.primary.withOpacity(0.4),
+                      color: AppColors.primary.withValues(alpha: 0.4),
                     ),
                   ),
                 ),
@@ -81,7 +77,7 @@ class OrderCard extends StatelessWidget {
                         style: AppTextStyles.heading2.copyWith(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
-                          color: Theme.of(context).colorScheme.onSurface,
+                          color: AppColors.of(context).textPrimary,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -93,9 +89,7 @@ class OrderCard extends StatelessWidget {
                         'Order: ${order.orderId}',
                         style: AppTextStyles.caption.copyWith(
                           fontSize: 11.sp,
-                          color: isDark
-                              ? AppColors.mutedDark
-                              : AppColors.mutedLight,
+                          color: AppColors.of(context).textSecondary,
                         ),
                       ),
                       SizedBox(height: 2.h),
@@ -107,9 +101,7 @@ class OrderCard extends StatelessWidget {
                             'Qty: ${order.quantity}',
                             style: AppTextStyles.caption.copyWith(
                               fontSize: 11.sp,
-                              color: isDark
-                                  ? AppColors.mutedDark
-                                  : AppColors.mutedLight,
+                              color: AppColors.of(context).textSecondary,
                             ),
                           ),
                           SizedBox(width: 12.w),
@@ -129,7 +121,10 @@ class OrderCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: 12.h),
-            const Divider(height: 1),
+            Divider(
+              height: 1,
+              color: AppColors.of(context).border,
+            ),
 
             // ---- Bottom Row: Date, Payment, Status ----
             Padding(
@@ -140,15 +135,14 @@ class OrderCard extends StatelessWidget {
                   Icon(
                     Icons.calendar_today_rounded,
                     size: 12.sp,
-                    color: isDark ? AppColors.mutedDark : AppColors.mutedLight,
+                    color: AppColors.of(context).textSecondary,
                   ),
                   SizedBox(width: 4.w),
                   Text(
                     order.orderDate,
                     style: AppTextStyles.caption.copyWith(
                       fontSize: 11.sp,
-                      color:
-                          isDark ? AppColors.mutedDark : AppColors.mutedLight,
+                      color: AppColors.of(context).textSecondary,
                     ),
                   ),
                   SizedBox(width: 12.w),
@@ -157,7 +151,7 @@ class OrderCard extends StatelessWidget {
                   Icon(
                     Icons.payment_rounded,
                     size: 12.sp,
-                    color: isDark ? AppColors.mutedDark : AppColors.mutedLight,
+                    color: AppColors.of(context).textSecondary,
                   ),
                   SizedBox(width: 4.w),
                   Expanded(
@@ -165,9 +159,7 @@ class OrderCard extends StatelessWidget {
                       order.paymentMethod,
                       style: AppTextStyles.caption.copyWith(
                         fontSize: 11.sp,
-                        color: isDark
-                            ? AppColors.mutedDark
-                            : AppColors.mutedLight,
+                        color: AppColors.of(context).textSecondary,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -178,7 +170,10 @@ class OrderCard extends StatelessWidget {
                 ],
               ),
             ),
-            const Divider(height: 1),
+            Divider(
+              height: 1,
+              color: AppColors.of(context).border,
+            ),
 
             // ---- View Details Button ----
             SizedBox(height: 8.h),
@@ -188,7 +183,7 @@ class OrderCard extends StatelessWidget {
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(vertical: 10.h),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.08),
+                  color: AppColors.primary.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Row(

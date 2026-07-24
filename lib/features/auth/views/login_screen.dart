@@ -46,15 +46,15 @@ class LoginScreen extends GetView<LoginController> {
                           duration: const Duration(milliseconds: 350),
                           padding: const EdgeInsets.all(18),
                           decoration: BoxDecoration(
-                            color: AppColors.white.withOpacity(0.95),
+                            color: AppColors.of(context).panel,
                             borderRadius: BorderRadius.circular(24),
                             border: Border.all(
-                              color: AppColors.border.withOpacity(0.6),
+                              color: AppColors.of(context).border,
                               width: 1,
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.05),
+                                color: AppColors.black.withValues(alpha: 0.05),
                                 blurRadius: 20,
                                 offset: const Offset(0, 10),
                               ),
@@ -113,7 +113,7 @@ class LoginScreen extends GetView<LoginController> {
                           children: [
                             Expanded(
                               child: Divider(
-                                color: AppColors.border.withOpacity(0.8),
+                                color: AppColors.of(context).border,
                                 thickness: 1,
                               ),
                             ),
@@ -122,7 +122,7 @@ class LoginScreen extends GetView<LoginController> {
                               'OR',
                               style: Theme.of(context).textTheme.bodySmall
                                   ?.copyWith(
-                                    color: AppColors.textSecondary,
+                                    color: AppColors.of(context).textSecondary,
                                     letterSpacing: 1.5,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -130,7 +130,7 @@ class LoginScreen extends GetView<LoginController> {
                             const SizedBox(width: 14),
                             Expanded(
                               child: Divider(
-                                color: AppColors.border.withOpacity(0.8),
+                                color: AppColors.of(context).border,
                                 thickness: 1,
                               ),
                             ),
@@ -149,9 +149,9 @@ class LoginScreen extends GetView<LoginController> {
                           child: OutlinedButton(
                             onPressed: () {},
                             style: OutlinedButton.styleFrom(
-                              backgroundColor: AppColors.white,
+                              backgroundColor: AppColors.of(context).cardBackground,
                               side: BorderSide(
-                                color: AppColors.border.withOpacity(0.8),
+                                color: AppColors.of(context).border,
                               ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(14),
@@ -160,7 +160,6 @@ class LoginScreen extends GetView<LoginController> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                // Simple colored Google icon simulation using standard icons or style
                                 const Icon(
                                   Icons.g_mobiledata,
                                   color: Colors.redAccent,
@@ -173,7 +172,7 @@ class LoginScreen extends GetView<LoginController> {
                                       ?.copyWith(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 15,
-                                        color: Colors.black54,
+                                        color: AppColors.of(context).textPrimary,
                                       ),
                                 ),
                               ],
@@ -193,7 +192,7 @@ class LoginScreen extends GetView<LoginController> {
                             child: RichText(
                               text: TextSpan(
                                 style: Theme.of(context).textTheme.bodyMedium
-                                    ?.copyWith(color: AppColors.textSecondary),
+                                    ?.copyWith(color: AppColors.of(context).textSecondary),
                                 children: const [
                                   TextSpan(text: "Don't have an account? "),
                                   TextSpan(

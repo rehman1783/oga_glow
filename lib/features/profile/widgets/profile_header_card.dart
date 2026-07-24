@@ -24,12 +24,12 @@ class ProfileHeaderCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(18.w),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: AppColors.of(context).cardBackground,
         borderRadius: BorderRadius.circular(24.r),
-        border: Border.all(color: AppColors.border.withOpacity(0.5)),
+        border: Border.all(color: AppColors.of(context).border),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: AppColors.black.withValues(alpha: 0.02),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -42,9 +42,9 @@ class ProfileHeaderCard extends StatelessWidget {
             width: 72.w,
             height: 72.w,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.12),
+              color: AppColors.primary.withValues(alpha: 0.12),
               shape: BoxShape.circle,
-              border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+              border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
             ),
             child: Icon(
               Icons.person_rounded,
@@ -60,12 +60,18 @@ class ProfileHeaderCard extends StatelessWidget {
               children: [
                 Text(
                   name,
-                  style: AppTextStyles.heading2.copyWith(fontSize: 16.sp),
+                  style: AppTextStyles.heading2.copyWith(
+                    fontSize: 16.sp,
+                    color: AppColors.of(context).textPrimary,
+                  ),
                 ),
                 SizedBox(height: 4.h),
                 Text(
                   email,
-                  style: AppTextStyles.caption.copyWith(fontSize: 12.sp),
+                  style: AppTextStyles.caption.copyWith(
+                    fontSize: 12.sp,
+                    color: AppColors.of(context).textSecondary,
+                  ),
                 ),
                 if (joinedDate != null && joinedDate!.isNotEmpty) ...[
                   SizedBox(height: 4.h),
@@ -86,11 +92,11 @@ class ProfileHeaderCard extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 14.w),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor,
+                        color: AppColors.of(context).cardBackground,
 
                         borderRadius: BorderRadius.circular(10.r),
                         border: Border.all(
-                          color: AppColors.primary.withOpacity(0.35),
+                          color: AppColors.primary.withValues(alpha: 0.35),
                         ),
                       ),
                       child: Row(
@@ -107,7 +113,7 @@ class ProfileHeaderCard extends StatelessWidget {
                             style: AppTextStyles.body.copyWith(
                               fontWeight: FontWeight.w700,
                               fontSize: 12.sp,
-                              color: AppColors.bannerGradientStart,
+                              color: AppColors.primary,
                             ),
                           ),
                         ],

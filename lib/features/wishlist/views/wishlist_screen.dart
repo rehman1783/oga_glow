@@ -37,7 +37,7 @@ class WishlistScreen extends StatelessWidget {
             'Wishlist',
             style: AppTextStyles.heading2.copyWith(
               fontSize: 18,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: AppColors.of(context).textPrimary,
             ),
           ),
           scrolledUnderElevation: 0,

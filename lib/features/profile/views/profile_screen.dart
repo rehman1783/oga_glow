@@ -31,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
           'Profile',
           style: AppTextStyles.heading2.copyWith(
             fontSize: 18,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: AppColors.of(context).textPrimary,
           ),
         ),
         scrolledUnderElevation: 0,
@@ -63,8 +63,8 @@ class ProfileScreen extends StatelessWidget {
                         'Edit Profile',
                         'Edit profile feature is available in settings.',
                         snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Theme.of(context).cardColor,
-                        colorText: Theme.of(context).colorScheme.onSurface,
+                        backgroundColor: AppColors.of(context).cardBackground,
+                        colorText: AppColors.of(context).textPrimary,
                         borderRadius: 14.r,
                       );
                     },
@@ -86,8 +86,8 @@ class ProfileScreen extends StatelessWidget {
                           'My Orders',
                           'Orders screen is not wired yet in this demo.',
                           snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: AppColors.cardBackground,
-                          colorText: AppColors.textPrimary,
+                          backgroundColor: AppColors.of(context).cardBackground,
+                          colorText: AppColors.of(context).textPrimary,
                           borderRadius: 14.r,
                         );
                       },
@@ -105,8 +105,8 @@ class ProfileScreen extends StatelessWidget {
                           'Shipping Address',
                           'Address screen will be wired with routing later.',
                           snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: AppColors.cardBackground,
-                          colorText: AppColors.textPrimary,
+                          backgroundColor: AppColors.of(context).cardBackground,
+                          colorText: AppColors.of(context).textPrimary,
                           borderRadius: 14.r,
                         );
                       },
@@ -120,15 +120,10 @@ class ProfileScreen extends StatelessWidget {
                       icon: Icons.favorite_border_outlined,
                       title: 'Wishlist',
                       onTap: () {
-  
-
-
-    final mainNav = Get.find<MainNavigationController>();
-    mainNav.changeIndex(2);
-     Get.back();
-  } 
-    
-
+                        final mainNav = Get.find<MainNavigationController>();
+                        mainNav.changeIndex(2);
+                        Get.back();
+                      },
                     ),
                   ),
                   SizedBox(height: 12.h),
@@ -139,17 +134,13 @@ class ProfileScreen extends StatelessWidget {
                       icon: Icons.shopping_cart_outlined,
                       title: 'Cart',
                       onTap: () {
-  
-
-
-    final mainNav = Get.find<MainNavigationController>();
-    mainNav.changeIndex(3);
-     Get.back();
-  } 
+                        final mainNav = Get.find<MainNavigationController>();
+                        mainNav.changeIndex(3);
+                        Get.back();
+                      },
                     ),
                   ),
                   SizedBox(height: 12.h),
-
 
                   FadeSlideTransition(
                     index: 5,
@@ -162,7 +153,7 @@ class ProfileScreen extends StatelessWidget {
                         await Get.bottomSheet(
                           Container(
                             decoration: BoxDecoration(
-                              color: AppColors.cardBackground,
+                              color: AppColors.of(context).cardBackground,
                               borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(18.r),
                               ),
@@ -176,6 +167,7 @@ class ProfileScreen extends StatelessWidget {
                                   style: AppTextStyles.heading2.copyWith(
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w700,
+                                    color: AppColors.of(context).textPrimary,
                                   ),
                                 ),
                                 SizedBox(height: 12.h),
@@ -222,7 +214,7 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(height: 24.h),
               FadeSlideTransition(
                 index: 6,
-                child: Divider(color: AppColors.border.withOpacity(0.5)),
+                child: Divider(color: AppColors.of(context).border),
               ),
               SizedBox(height: 20.h),
 
@@ -240,14 +232,14 @@ class ProfileScreen extends StatelessWidget {
                           Get.defaultDialog(
                             title: 'Logout',
                             titleStyle: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurface,
+                              color: AppColors.of(context).textPrimary,
                               fontWeight: FontWeight.w600,
                             ),
                             middleText: 'Are you sure you want to logout?',
                             middleTextStyle: TextStyle(
-                              color: AppColors.textSecondary,
+                              color: AppColors.of(context).textSecondary,
                             ),
-                            backgroundColor: Theme.of(context).cardColor,
+                            backgroundColor: AppColors.of(context).cardBackground,
                             radius: 14,
                             confirm: ElevatedButton(
                               onPressed: () {
@@ -267,7 +259,7 @@ class ProfileScreen extends StatelessWidget {
                               child: Text(
                                 'Cancel',
                                 style: TextStyle(
-                                  color: AppColors.textSecondary,
+                                  color: AppColors.of(context).textSecondary,
                                 ),
                               ),
                             ),
@@ -275,25 +267,25 @@ class ProfileScreen extends StatelessWidget {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
+                            color: AppColors.of(context).cardBackground,
                             borderRadius: BorderRadius.circular(14.r),
                             border: Border.all(
-                              color: AppColors.accent.withOpacity(0.35),
+                              color: AppColors.of(context).border,
                             ),
                           ),
                           alignment: Alignment.center,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.logout_rounded,
-                                color: AppColors.accent,
+                                color: AppColors.of(context).earth,
                               ),
                               const SizedBox(width: 8),
                               Text(
                                 'Logout',
                                 style: AppTextStyles.button.copyWith(
-                                  color: AppColors.accent,
+                                  color: AppColors.of(context).earth,
                                   fontSize: 14.sp,
                                 ),
                               ),
@@ -318,10 +310,10 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             middleText: 'This action is permanent and cannot be undone.',
                             middleTextStyle: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurface,
+                              color: AppColors.of(context).textPrimary,
                               fontSize: 14.sp,
                             ),
-                            backgroundColor: Theme.of(context).cardColor,
+                            backgroundColor: AppColors.of(context).cardBackground,
                             radius: 14.r,
                             confirm: ElevatedButton(
                               onPressed: () {
@@ -344,7 +336,7 @@ class ProfileScreen extends StatelessWidget {
                               child: Text(
                                 'Cancel',
                                 style: TextStyle(
-                                  color: AppColors.textSecondary,
+                                  color: AppColors.of(context).textSecondary,
                                 ),
                               ),
                             ),
@@ -352,10 +344,10 @@ class ProfileScreen extends StatelessWidget {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
+                            color: AppColors.of(context).cardBackground,
                             borderRadius: BorderRadius.circular(14.r),
                             border: Border.all(
-                              color: AppColors.error.withOpacity(0.4),
+                              color: AppColors.error.withValues(alpha: 0.4),
                             ),
                           ),
                           alignment: Alignment.center,

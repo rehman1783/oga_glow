@@ -25,17 +25,13 @@ class OfficeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: isDark
-            ? AppColors.panelDark
-            : AppColors.primary.withOpacity(0.06),
+        color: AppColors.of(context).panelSecondary,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppColors.primary.withOpacity(0.15)),
+        border: Border.all(color: AppColors.of(context).border),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +41,7 @@ class OfficeCard extends StatelessWidget {
             width: 44.w,
             height: 44.w,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.12),
+              color: AppColors.primary.withValues(alpha: 0.12),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -76,7 +72,7 @@ class OfficeCard extends StatelessWidget {
                   style: AppTextStyles.heading2.copyWith(
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w700,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: AppColors.of(context).textPrimary,
                   ),
                 ),
                 SizedBox(height: 4.h),
@@ -84,7 +80,7 @@ class OfficeCard extends StatelessWidget {
                   address,
                   style: AppTextStyles.body.copyWith(
                     fontSize: 13.sp,
-                    color: AppColors.textSecondary,
+                    color: AppColors.of(context).textSecondary,
                   ),
                 ),
               ],

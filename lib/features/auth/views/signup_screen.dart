@@ -43,15 +43,15 @@ class SignupScreen extends GetView<SignupController> {
                           duration: const Duration(milliseconds: 350),
                           padding: const EdgeInsets.all(18),
                           decoration: BoxDecoration(
-                            color: AppColors.white.withOpacity(0.95),
+                            color: AppColors.of(context).panel,
                             borderRadius: BorderRadius.circular(24),
                             border: Border.all(
-                              color: AppColors.border.withOpacity(0.6),
+                              color: AppColors.of(context).border,
                               width: 1,
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.05),
+                                color: AppColors.black.withValues(alpha: 0.05),
                                 blurRadius: 20,
                                 offset: const Offset(0, 10),
                               ),
@@ -76,7 +76,7 @@ class SignupScreen extends GetView<SignupController> {
                           child: Text(
                             'By continuing, you agree to our Terms & Privacy Policy.',
                             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: AppColors.textSecondary,
+                                  color: AppColors.of(context).textSecondary,
                                   height: 1.4,
                                 ),
                           ),
@@ -108,7 +108,7 @@ class SignupScreen extends GetView<SignupController> {
                             child: RichText(
                               text: TextSpan(
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                      color: AppColors.textSecondary,
+                                      color: AppColors.of(context).textSecondary,
                                     ),
                                 children: const [
                                   TextSpan(text: "Already have an account? "),

@@ -43,7 +43,7 @@ class ContactRow extends StatelessWidget {
               width: 42.w,
               height: 42.w,
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
+                color: AppColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Icon(icon, size: 20.sp, color: AppColors.primary),
@@ -59,7 +59,7 @@ class ContactRow extends StatelessWidget {
                     label,
                     style: AppTextStyles.caption.copyWith(
                       fontSize: 12.sp,
-                      color: AppColors.textSecondary,
+                      color: AppColors.of(context).textSecondary,
                     ),
                   ),
                   SizedBox(height: 2.h),
@@ -68,7 +68,7 @@ class ContactRow extends StatelessWidget {
                     style: AppTextStyles.body.copyWith(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: AppColors.of(context).textPrimary,
                     ),
                   ),
                 ],
@@ -78,7 +78,7 @@ class ContactRow extends StatelessWidget {
             Icon(
               Icons.chevron_right_rounded,
               size: 22.sp,
-              color: AppColors.textSecondary,
+              color: AppColors.of(context).textSecondary,
             ),
           ],
         ),

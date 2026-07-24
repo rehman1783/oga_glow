@@ -21,8 +21,6 @@ class TrackingStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,16 +37,12 @@ class TrackingStep extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: step.isCompleted
                         ? AppColors.primary
-                        : isDark
-                            ? AppColors.panelDark
-                            : AppColors.borderLight.withOpacity(0.5),
+                        : AppColors.of(context).panelSecondary,
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: step.isCompleted
                           ? AppColors.primary
-                          : isDark
-                              ? AppColors.borderDark
-                              : AppColors.borderLight,
+                          : AppColors.of(context).border,
                       width: 2,
                     ),
                   ),
@@ -58,10 +52,8 @@ class TrackingStep extends StatelessWidget {
                         : Icons.circle_rounded,
                     size: step.isCompleted ? 14.sp : 8.sp,
                     color: step.isCompleted
-                        ? Colors.white
-                        : isDark
-                            ? AppColors.mutedDark
-                            : AppColors.mutedLight,
+                        ? AppColors.white
+                        : AppColors.of(context).textSecondary,
                   ),
                 ),
                 // Connecting line
@@ -70,10 +62,8 @@ class TrackingStep extends StatelessWidget {
                     child: Container(
                       width: 2.w,
                       color: step.isCompleted
-                          ? AppColors.primary.withOpacity(0.4)
-                          : isDark
-                              ? AppColors.borderDark.withOpacity(0.3)
-                              : AppColors.borderLight.withOpacity(0.3),
+                          ? AppColors.primary.withValues(alpha: 0.4)
+                          : AppColors.of(context).border,
                     ),
                   ),
               ],
@@ -96,10 +86,8 @@ class TrackingStep extends StatelessWidget {
                       fontWeight:
                           step.isCompleted ? FontWeight.w700 : FontWeight.w500,
                       color: step.isCompleted
-                          ? Theme.of(context).colorScheme.onSurface
-                          : isDark
-                              ? AppColors.mutedDark
-                              : AppColors.mutedLight,
+                          ? AppColors.of(context).textPrimary
+                          : AppColors.of(context).textSecondary,
                     ),
                   ),
                   SizedBox(height: 2.h),
@@ -112,9 +100,7 @@ class TrackingStep extends StatelessWidget {
                         fontSize: 11.sp,
                         color: step.isCompleted
                             ? AppColors.primary
-                            : isDark
-                                ? AppColors.mutedDark
-                                : AppColors.mutedLight,
+                            : AppColors.of(context).textSecondary,
                       ),
                     ),
                   SizedBox(height: 4.h),
@@ -124,9 +110,7 @@ class TrackingStep extends StatelessWidget {
                     step.description,
                     style: AppTextStyles.caption.copyWith(
                       fontSize: 11.sp,
-                      color: isDark
-                          ? AppColors.mutedDark.withOpacity(0.8)
-                          : AppColors.mutedLight.withOpacity(0.8),
+                      color: AppColors.of(context).textSecondary,
                       height: 1.3,
                     ),
                   ),

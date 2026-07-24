@@ -43,17 +43,15 @@ class ValuesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: AppColors.of(context).cardBackground,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppColors.border.withOpacity(0.3)),
+        border: Border.all(color: AppColors.of(context).border),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).shadowColor.withOpacity(0.03),
+            color: AppColors.black.withValues(alpha: 0.03),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -82,9 +80,7 @@ class ValuesCard extends StatelessWidget {
             width: 44.w,
             height: 44.w,
             decoration: BoxDecoration(
-              color: isDark
-                  ? AppColors.primary.withOpacity(0.15)
-                  : AppColors.primary.withOpacity(0.08),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Icon(_getIcon(), size: 22.sp, color: AppColors.primary),
@@ -102,7 +98,7 @@ class ValuesCard extends StatelessWidget {
                   style: AppTextStyles.heading2.copyWith(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: AppColors.of(context).textPrimary,
                   ),
                 ),
                 SizedBox(height: 4.h),
@@ -110,7 +106,7 @@ class ValuesCard extends StatelessWidget {
                   description,
                   style: AppTextStyles.body.copyWith(
                     fontSize: 12.sp,
-                    color: AppColors.textSecondary,
+                    color: AppColors.of(context).textSecondary,
                     height: 1.4,
                   ),
                 ),

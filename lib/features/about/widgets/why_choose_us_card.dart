@@ -45,17 +45,15 @@ class WhyChooseUsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: AppColors.of(context).cardBackground,
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: AppColors.border.withOpacity(0.3)),
+        border: Border.all(color: AppColors.of(context).border),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).shadowColor.withOpacity(0.03),
+            color: AppColors.black.withValues(alpha: 0.03),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -70,9 +68,7 @@ class WhyChooseUsCard extends StatelessWidget {
             width: 36.w,
             height: 36.w,
             decoration: BoxDecoration(
-              color: isDark
-                  ? AppColors.primary.withOpacity(0.15)
-                  : AppColors.primary.withOpacity(0.08),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10.r),
             ),
             child: Icon(_getIcon(), size: 18.sp, color: AppColors.primary),
@@ -87,7 +83,7 @@ class WhyChooseUsCard extends StatelessWidget {
             style: AppTextStyles.heading2.copyWith(
               fontSize: 13.sp,
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: AppColors.of(context).textPrimary,
             ),
           ),
           SizedBox(height: 2.h),
@@ -99,7 +95,7 @@ class WhyChooseUsCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: AppTextStyles.body.copyWith(
               fontSize: 11.sp,
-              color: AppColors.textSecondary,
+              color: AppColors.of(context).textSecondary,
               height: 1.3,
             ),
           ),

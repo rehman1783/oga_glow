@@ -44,7 +44,7 @@ class CartScreen extends StatelessWidget {
             'Cart',
             style: AppTextStyles.heading2.copyWith(
               fontSize: 18,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: AppColors.of(context).textPrimary,
             ),
           ),
           scrolledUnderElevation: 0,
@@ -81,14 +81,14 @@ class CartScreen extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(18.w),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
+                    color: AppColors.of(context).cardBackground,
                     borderRadius: BorderRadius.circular(24.r),
                     border: Border.all(
-                      color: AppColors.border.withOpacity(0.5),
+                      color: AppColors.of(context).border,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.03),
+                        color: AppColors.black.withValues(alpha: 0.03),
                         blurRadius: 16,
                         offset: const Offset(0, -4),
                       ),
@@ -103,6 +103,7 @@ class CartScreen extends StatelessWidget {
                             style: AppTextStyles.caption.copyWith(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
+                              color: AppColors.of(context).textSecondary,
                             ),
                           ),
                           const Spacer(),
@@ -135,7 +136,7 @@ class CartScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(16.r),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColors.primary.withOpacity(0.25),
+                                  color: AppColors.primary.withValues(alpha: 0.25),
                                   blurRadius: 12,
                                   offset: const Offset(0, 4),
                                 ),
@@ -146,7 +147,7 @@ class CartScreen extends StatelessWidget {
                               children: [
                                 const Icon(
                                   Icons.payment_rounded,
-                                  color: Colors.white,
+                                  color: AppColors.white,
                                 ),
                                 const SizedBox(width: 8),
                                 Text(

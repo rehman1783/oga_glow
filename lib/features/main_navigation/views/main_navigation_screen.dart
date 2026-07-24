@@ -79,7 +79,7 @@ class MainNavigationScreen extends GetView<MainNavigationController> {
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.03),
+                color: AppColors.black.withValues(alpha: 0.03),
                 blurRadius: 16,
                 offset: const Offset(0, -4),
               ),
@@ -87,17 +87,17 @@ class MainNavigationScreen extends GetView<MainNavigationController> {
           ),
           child: NavigationBarTheme(
             data: NavigationBarThemeData(
-              indicatorColor: AppColors.primary.withOpacity(0.12),
+              indicatorColor: AppColors.primary.withValues(alpha: 0.12),
               labelTextStyle: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) {
-                  return TextStyle(
+                  return const TextStyle(
                     color: AppColors.primary,
                     fontWeight: FontWeight.w700,
                     fontSize: 12,
                   );
                 }
                 return TextStyle(
-                  color: AppColors.textSecondary,
+                  color: AppColors.of(context).textSecondary,
                   fontWeight: FontWeight.w500,
                   fontSize: 11,
                 );
@@ -109,13 +109,16 @@ class MainNavigationScreen extends GetView<MainNavigationController> {
                     size: 24,
                   );
                 }
-                return IconThemeData(color: AppColors.textSecondary, size: 22);
+                return IconThemeData(
+                  color: AppColors.of(context).textSecondary,
+                  size: 22,
+                );
               }),
             ),
             child: NavigationBar(
               selectedIndex: controller.currentIndex.value,
               onDestinationSelected: controller.changeIndex,
-              backgroundColor: Theme.of(context).colorScheme.surface,
+              backgroundColor: AppColors.of(context).cardBackground,
               elevation: 0,
               height: 68,
               destinations: const [

@@ -26,18 +26,16 @@ class MissionVisionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: AppColors.of(context).cardBackground,
         borderRadius: BorderRadius.circular(18.r),
-        border: Border.all(color: AppColors.primary.withOpacity(0.12)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.12)),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.06),
+            color: AppColors.primary.withValues(alpha: 0.06),
             blurRadius: 16,
             offset: const Offset(0, 6),
           ),
@@ -51,7 +49,7 @@ class MissionVisionCard extends StatelessWidget {
             width: 52.w,
             height: 52.w,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 colors: [AppColors.primary, AppColors.primaryLight],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -59,13 +57,13 @@ class MissionVisionCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(14.r),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withOpacity(0.2),
+                  color: AppColors.primary.withValues(alpha: 0.2),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
               ],
             ),
-            child: Icon(icon, size: 26.sp, color: Colors.white),
+            child: Icon(icon, size: 26.sp, color: AppColors.white),
           ),
           SizedBox(height: 16.h),
 
@@ -75,7 +73,7 @@ class MissionVisionCard extends StatelessWidget {
             style: AppTextStyles.heading2.copyWith(
               fontSize: 18.sp,
               fontWeight: FontWeight.w700,
-              color: isDark ? AppColors.textDark : AppColors.textLight,
+              color: AppColors.of(context).textPrimary,
             ),
           ),
           SizedBox(height: 8.h),
@@ -85,7 +83,7 @@ class MissionVisionCard extends StatelessWidget {
             description,
             style: AppTextStyles.body.copyWith(
               fontSize: 14.sp,
-              color: AppColors.textSecondary,
+              color: AppColors.of(context).textSecondary,
               height: 1.6,
             ),
           ),

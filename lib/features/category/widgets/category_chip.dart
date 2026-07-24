@@ -21,16 +21,16 @@ class CategoryChip extends StatelessWidget {
         label: Text(
           title,
           style: TextStyle(
-            color: isSelected ? AppColors.white : Theme.of(context).colorScheme.onSurface,
+            color: isSelected ? AppColors.white : AppColors.of(context).textPrimary,
             fontWeight: FontWeight.w600,
           ),
         ),
         selected: isSelected,
         selectedColor: AppColors.primary,
-        backgroundColor: Theme.of(context).cardColor,
+        backgroundColor: AppColors.of(context).cardBackground,
         showCheckmark: false,
         side: BorderSide(
-          color: isSelected ? AppColors.primary : AppColors.border,
+          color: isSelected ? AppColors.primary : AppColors.of(context).border,
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         onSelected: (_) => onTap(),

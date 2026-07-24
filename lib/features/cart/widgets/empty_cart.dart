@@ -19,14 +19,14 @@ class EmptyCart extends StatelessWidget {
               width: 92.w,
               height: 92.h,
               decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
+                color: AppColors.of(context).cardBackground,
                 borderRadius: BorderRadius.circular(26.r),
-                border: Border.all(color: AppColors.border.withOpacity(0.7)),
+                border: Border.all(color: AppColors.of(context).border),
               ),
               child: Icon(
                 Icons.shopping_cart_outlined,
                 size: 48.sp,
-                color: AppColors.accent,
+                color: AppColors.of(context).earth,
               ),
             ),
 
@@ -34,7 +34,9 @@ class EmptyCart extends StatelessWidget {
 
             Text(
               'Your Cart is Empty',
-              style: AppTextStyles.heading2,
+              style: AppTextStyles.heading2.copyWith(
+                color: AppColors.of(context).textPrimary,
+              ),
               textAlign: TextAlign.center,
             ),
 
@@ -42,7 +44,9 @@ class EmptyCart extends StatelessWidget {
 
             Text(
               'Add products to see them here.',
-              style: AppTextStyles.caption,
+              style: AppTextStyles.caption.copyWith(
+                color: AppColors.of(context).textSecondary,
+              ),
               textAlign: TextAlign.center,
             ),
           ],

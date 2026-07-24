@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../core/theme/app_colors.dart';
 import '../controllers/checkout_controller.dart';
 import 'app_text_field.dart';
 import 'section_title.dart';
@@ -21,9 +22,9 @@ class ShippingAddressForm extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
+            color: AppColors.of(context).cardBackground,
             borderRadius: BorderRadius.circular(20.r),
-            border: Border.all(color: const Color(0xFFE5E0D8).withOpacity(0.8)),
+            border: Border.all(color: AppColors.of(context).border),
           ),
           child: Column(
             children: [

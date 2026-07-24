@@ -47,6 +47,7 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       decoration: BoxDecoration(
@@ -54,7 +55,7 @@ class _AppTextFieldState extends State<AppTextField> {
         boxShadow: _isFocused
             ? [
                 BoxShadow(
-                  color: AppColors.primary.withOpacity(0.08),
+                  color: AppColors.primary.withValues(alpha: 0.08),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -69,27 +70,23 @@ class _AppTextFieldState extends State<AppTextField> {
         validator: widget.validator,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
           fontWeight: FontWeight.w500,
-          color: Theme.of(context).colorScheme.onSurface,
+          color: colors.textPrimary,
         ),
         decoration: InputDecoration(
           labelText: widget.label,
           hintText: widget.hint,
           labelStyle: TextStyle(
             color: _isFocused
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.onSurfaceVariant,
+                ? AppColors.primary
+                : colors.textSecondary,
             fontWeight: _isFocused ? FontWeight.w600 : FontWeight.normal,
             fontSize: 13.sp,
           ),
           hintStyle: TextStyle(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurfaceVariant.withOpacity(0.7),
+            color: colors.textSecondary.withValues(alpha: 0.7),
           ),
           filled: true,
-          fillColor: _isFocused
-              ? Theme.of(context).colorScheme.surface
-              : Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.55),
+          fillColor: colors.inputBg,
           contentPadding: EdgeInsets.symmetric(
             horizontal: 14.w,
             vertical: widget.maxLines > 1 ? 14.h : 12.h,
@@ -97,21 +94,21 @@ class _AppTextFieldState extends State<AppTextField> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14.r),
             borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.outlineVariant,
+              color: colors.border,
               width: 1,
             ),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14.r),
             borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.outlineVariant,
+              color: colors.border,
               width: 1,
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14.r),
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.primary,
+            borderSide: const BorderSide(
+              color: AppColors.primary,
               width: 1.8,
             ),
           ),

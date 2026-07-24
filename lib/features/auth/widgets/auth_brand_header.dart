@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:oga_glow/core/theme/app_colors.dart';
 import 'auth_wave_clipper.dart';
 
 class AuthBrandHeader extends StatefulWidget {
@@ -68,11 +69,11 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
         child: Container(
           height: 300.h,
           width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Color(0xFF6B8E23), Color(0xFFA8C686)],
+              colors: [AppColors.primary, AppColors.primaryLight],
             ),
           ),
           clipBehavior: Clip.hardEdge,
@@ -99,9 +100,9 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.black.withOpacity(0.3),
+                        AppColors.black.withValues(alpha: 0.3),
                         Colors.transparent,
-                        Colors.black.withOpacity(0.1),
+                        AppColors.black.withValues(alpha: 0.1),
                       ],
                     ),
                   ),
@@ -119,7 +120,7 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                       widget.title,
                       style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.w800,
-                        color: Colors.white,
+                        color: AppColors.white,
                         fontSize: 28.sp,
                         shadows: const [
                           Shadow(
@@ -134,7 +135,7 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                     Text(
                       widget.subtitle,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.white.withOpacity(0.95),
+                        color: AppColors.white.withValues(alpha: 0.95),
                         fontWeight: FontWeight.w500,
                         shadows: const [
                           Shadow(

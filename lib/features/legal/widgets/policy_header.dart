@@ -23,23 +23,21 @@ class PolicyHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primary.withOpacity(0.15),
-            AppColors.primaryLight.withOpacity(0.05),
-            AppColors.secondary.withOpacity(isDark ? 0.0 : 0.1),
+            AppColors.primary.withValues(alpha: 0.15),
+            AppColors.primaryLight.withValues(alpha: 0.05),
+            AppColors.of(context).panelSecondary,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(24.r),
-        border: Border.all(color: AppColors.primary.withOpacity(0.12)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.12)),
       ),
       child: Column(
         children: [
@@ -48,13 +46,11 @@ class PolicyHeader extends StatelessWidget {
             width: 64.w,
             height: 64.w,
             decoration: BoxDecoration(
-              color: isDark
-                  ? AppColors.primary.withOpacity(0.15)
-                  : AppColors.white,
+              color: AppColors.of(context).cardBackground,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withOpacity(0.15),
+                  color: AppColors.primary.withValues(alpha: 0.15),
                   blurRadius: 20,
                   offset: const Offset(0, 6),
                 ),
@@ -71,7 +67,7 @@ class PolicyHeader extends StatelessWidget {
             style: AppTextStyles.heading1.copyWith(
               fontSize: 22.sp,
               fontWeight: FontWeight.w800,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: AppColors.of(context).textPrimary,
             ),
           ),
           SizedBox(height: 6.h),
@@ -94,7 +90,7 @@ class PolicyHeader extends StatelessWidget {
             textAlign: TextAlign.center,
             style: AppTextStyles.body.copyWith(
               fontSize: 14.sp,
-              color: isDark ? AppColors.mutedDark : AppColors.mutedLight,
+              color: AppColors.of(context).textSecondary,
               height: 1.5,
             ),
           ),

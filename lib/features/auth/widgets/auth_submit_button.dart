@@ -80,12 +80,12 @@ class _AuthSubmitButtonState extends State<AuthSubmitButton>
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                   ),
-            color: widget.isLoading ? AppColors.primary.withOpacity(0.6) : null,
+            color: widget.isLoading ? AppColors.primary.withValues(alpha: 0.6) : null,
             boxShadow: widget.isLoading
                 ? []
                 : [
                     BoxShadow(
-                      color: AppColors.primary.withOpacity(0.25),
+                      color: AppColors.primary.withValues(alpha: 0.25),
                       blurRadius: 12,
                       offset: const Offset(0, 6),
                     ),

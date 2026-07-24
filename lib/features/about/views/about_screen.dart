@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:oga_glow/core/constants/about_constants.dart';
+import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/core/theme/app_text_styles.dart';
 import 'package:oga_glow/core/widgets/fade_slide_transition.dart';
 import '../controllers/about_controller.dart';
@@ -37,7 +38,7 @@ class AboutScreen extends GetView<AboutController> {
           AboutConstants.heroTitle,
           style: AppTextStyles.heading2.copyWith(
             fontSize: 18.sp,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: AppColors.of(context).textPrimary,
           ),
         ),
       ),

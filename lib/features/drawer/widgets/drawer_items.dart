@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-import '../../../app/routes/app_routes.dart';
+import '../../../core/theme/app_colors.dart';
 
 class DrawerItem extends StatelessWidget {
   final String title;
@@ -12,21 +10,21 @@ class DrawerItem extends StatelessWidget {
     super.key,
     required this.title,
     required this.icon,
-      required this.onTap,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = AppColors.of(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       child: InkWell(
         borderRadius: BorderRadius.circular(14),
-       onTap: () {
-    Navigator.of(context).pop();
-    onTap();
-  },
+        onTap: () {
+          Navigator.of(context).pop();
+          onTap();
+        },
         child: Ink(
           padding: const EdgeInsets.symmetric(
             horizontal: 14,
@@ -38,8 +36,8 @@ class DrawerItem extends StatelessWidget {
           child: Row(
             children: [
               IconTheme(
-                data: IconThemeData(
-                  color: theme.colorScheme.primary,
+                data: const IconThemeData(
+                  color: AppColors.primary,
                   size: 24,
                 ),
                 child: icon,
@@ -50,13 +48,17 @@ class DrawerItem extends StatelessWidget {
               Expanded(
                 child: Text(
                   title,
-                  style: theme.textTheme.titleMedium,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: colors.textPrimary,
+                  ),
                 ),
               ),
 
               Icon(
                 Icons.chevron_right_rounded,
-                color: theme.hintColor,
+                color: colors.textSecondary,
                 size: 22,
               ),
             ],

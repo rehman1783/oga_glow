@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-// import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 
 class SectionTitle extends StatelessWidget {
@@ -14,11 +12,16 @@ class SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(title, style: AppTextStyles.heading2),
+        Text(
+          title,
+          style: AppTextStyles.heading2.copyWith(
+            color: AppColors.of(context).textPrimary,
+          ),
+        ),
 
         const Spacer(),
 
-        TextButton(onPressed: onSeeAll, child: Text("See All")),
+        TextButton(onPressed: onSeeAll, child: const Text("See All")),
       ],
     );
   }
