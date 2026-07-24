@@ -13,8 +13,11 @@ import 'package:oga_glow/features/product/bindings/product_binding.dart';
 import 'package:oga_glow/features/product/views/product_screen.dart';
 import 'package:oga_glow/features/auth/bindings/login_binding.dart';
 import 'package:oga_glow/features/auth/bindings/signup_binding.dart';
+import 'package:oga_glow/features/auth/bindings/forgot_password_binding.dart';
 import 'package:oga_glow/features/auth/views/login_screen.dart';
 import 'package:oga_glow/features/auth/views/signup_screen.dart';
+import 'package:oga_glow/features/auth/views/forgot_password_screen.dart';
+import 'package:oga_glow/features/auth/views/verification_screen.dart';
 
 import '../../features/splash/bindings/splash_binding.dart';
 import '../../features/splash/views/splash_screen.dart';
@@ -107,6 +110,11 @@ class AppPages {
 
     // Auth routes
     GetPage(
+      name: AppRoutes.entry,
+      page: () => const AuthEntryScreen(),
+      binding: AuthEntryBinding(),
+    ),
+    GetPage(
       name: AppRoutes.login,
       page: () => const LoginScreen(),
       binding: LoginBinding(),
@@ -117,9 +125,13 @@ class AppPages {
       binding: SignupBinding(),
     ),
     GetPage(
-      name: AppRoutes.entry,
-      page: () => const AuthEntryScreen(),
-      binding: AuthEntryBinding(),
+      name: AppRoutes.forgotPassword,
+      page: () => const ForgotPasswordScreen(),
+      binding: ForgotPasswordBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.verification,
+      page: () => const VerificationScreen(),
     ),
 
     // Contact

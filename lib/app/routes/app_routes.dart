@@ -21,6 +21,8 @@ abstract class AppRoutes {
   static const entry = '/entry';
   static const login = '/login';
   static const signup = '/signup';
+  static const forgotPassword = '/forgot-password';
+  static const verification = '/verification';
 
   // Contact
   static const contact = '/contact';

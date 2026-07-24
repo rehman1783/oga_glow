@@ -10,6 +10,7 @@ import '../../../core/widgets/bounce_tap.dart';
 import '../../../core/widgets/fade_slide_transition.dart';
 import '../../../core/theme/theme_controller.dart';
 import '../../main_navigation/controllers/main_navigation_controller.dart';
+import '../../auth/controllers/auth_controller.dart';
 
 import 'profile_screen_theme_option.dart';
 
@@ -222,13 +223,41 @@ class ProfileScreen extends StatelessWidget {
                       height: 50,
                       child: BounceTap(
                         onTap: () {
-                          Get.snackbar(
-                            'Logout',
-                            'Logout action will be wired with auth controller.',
-                            snackPosition: SnackPosition.BOTTOM,
+                          final authController = Get.find<AuthController>();
+                          Get.defaultDialog(
+                            title: 'Logout',
+                            titleStyle: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            middleText: 'Are you sure you want to logout?',
+                            middleTextStyle: TextStyle(
+                              color: AppColors.textSecondary,
+                            ),
                             backgroundColor: Theme.of(context).cardColor,
-                            colorText: AppColors.textPrimary,
-                            borderRadius: 14.r,
+                            radius: 14,
+                            confirm: ElevatedButton(
+                              onPressed: () {
+                                Get.back();
+                                authController.logout();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: const Text('Logout'),
+                            ),
+                            cancel: TextButton(
+                              onPressed: () => Get.back(),
+                              child: Text(
+                                'Cancel',
+                                style: TextStyle(
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                            ),
                           );
                         },
                         child: Container(
