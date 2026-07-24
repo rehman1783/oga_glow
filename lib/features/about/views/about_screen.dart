@@ -6,20 +6,20 @@ import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/core/theme/app_text_styles.dart';
 import 'package:oga_glow/core/widgets/fade_slide_transition.dart';
 import '../controllers/about_controller.dart';
+import '../widgets/about_body_image_card.dart';
+import '../widgets/about_empty_widget.dart';
+import '../widgets/about_error_widget.dart';
+import '../widgets/about_faq_item.dart';
 import '../widgets/about_header.dart';
+import '../widgets/about_highlight_card.dart';
 import '../widgets/about_section_title.dart';
-import '../widgets/company_story_section.dart';
+import '../widgets/about_shimmer_loading.dart';
 import '../widgets/cta_button_section.dart';
-import '../widgets/mission_vision_card.dart';
-import '../widgets/statistic_card.dart';
-import '../widgets/values_card.dart';
-import '../widgets/why_choose_us_card.dart';
 
 /// About Us screen.
 ///
-/// A premium, fully responsive About Us page that showcases the company
-/// story, mission, vision, values, statistics, and call-to-action buttons
-/// in a clean Material 3 design.
+/// Fully API-driven About Us page that showcases the company hero banner,
+/// highlight cards, call-to-action buttons, body images, and dynamic FAQ items.
 class AboutScreen extends GetView<AboutController> {
   const AboutScreen({super.key});
 
@@ -43,172 +43,170 @@ class AboutScreen extends GetView<AboutController> {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // ---- Hero / Header Section ----
-              FadeSlideTransition(index: 0, child: const AboutHeader()),
-              SizedBox(height: 24.h),
+        child: Obx(() {
+          // 1. Loading State
+          if (controller.isLoading.value) {
+            return const AboutShimmerLoading();
+          }
 
-              // ---- Our Story Section ----
-              FadeSlideTransition(index: 1, child: const CompanyStorySection()),
-              SizedBox(height: 24.h),
+          // 2. Error State
+          if (controller.isError.value) {
+            return AboutErrorWidget(
+              message: controller.errorMessage.value,
+              onRetry: controller.fetchAboutUs,
+            );
+          }
 
-              // ---- Our Mission Section ----
-              FadeSlideTransition(
-                index: 2,
-                child: const AboutSectionTitle(
-                  icon: Icons.flag_rounded,
-                  title: AboutConstants.missionTitle,
-                ),
-              ),
-              SizedBox(height: 4.h),
-              FadeSlideTransition(
-                index: 3,
-                child: MissionVisionCard(
-                  icon: Icons.flag_rounded,
-                  title: AboutConstants.missionTitle,
-                  description: AboutConstants.missionContent,
-                ),
-              ),
-              SizedBox(height: 24.h),
+          final data = controller.aboutData.value;
 
-              // ---- Our Vision Section ----
-              FadeSlideTransition(
-                index: 4,
-                child: const AboutSectionTitle(
-                  icon: Icons.travel_explore_rounded,
-                  title: AboutConstants.visionTitle,
-                ),
-              ),
-              SizedBox(height: 4.h),
-              FadeSlideTransition(
-                index: 5,
-                child: MissionVisionCard(
-                  icon: Icons.travel_explore_rounded,
-                  title: AboutConstants.visionTitle,
-                  description: AboutConstants.visionContent,
-                ),
-              ),
-              SizedBox(height: 24.h),
+          // 3. Empty State
+          if (data == null || controller.isEmptyState) {
+            return const AboutEmptyWidget();
+          }
 
-              // ---- Why Choose Us Section ----
-              FadeSlideTransition(
-                index: 6,
-                child: const AboutSectionTitle(
-                  icon: Icons.thumb_up_alt_rounded,
-                  title: AboutConstants.whyChooseUsTitle,
-                ),
-              ),
-              SizedBox(height: 4.h),
-              FadeSlideTransition(index: 7, child: _buildWhyChooseUsGrid()),
-              SizedBox(height: 24.h),
+          final banner = data.banner;
 
-              // ---- Company Values Section ----
-              FadeSlideTransition(
-                index: 8,
-                child: const AboutSectionTitle(
-                  icon: Icons.diamond_rounded,
-                  title: AboutConstants.valuesTitle,
-                ),
-              ),
-              SizedBox(height: 4.h),
-              FadeSlideTransition(index: 9, child: _buildValuesGrid()),
-              SizedBox(height: 24.h),
+          return RefreshIndicator(
+            onRefresh: controller.fetchAboutUs,
+            color: AppColors.primary,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // ---- Hero / Header Section ----
+                  FadeSlideTransition(
+                    index: 0,
+                    child: AboutHeader(
+                      imageUrl: banner?.image,
+                      paragraph: banner?.paragraph,
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
 
-              // ---- Company Statistics Section ----
-              FadeSlideTransition(
-                index: 10,
-                child: const AboutSectionTitle(
-                  icon: Icons.bar_chart_rounded,
-                  title: AboutConstants.statisticsTitle,
-                ),
-              ),
-              SizedBox(height: 4.h),
-              FadeSlideTransition(index: 11, child: _buildStatisticsGrid()),
-              SizedBox(height: 24.h),
+                  // ---- Highlight Cards (card1, card2, card3) ----
+                  if (banner?.card1?.trim().isNotEmpty == true)
+                    FadeSlideTransition(
+                      index: 1,
+                      child: AboutHighlightCard(
+                        title: banner!.card1!,
+                        icon: Icons.star_rounded,
+                      ),
+                    ),
+                  if (banner?.card2?.trim().isNotEmpty == true)
+                    FadeSlideTransition(
+                      index: 2,
+                      child: AboutHighlightCard(
+                        title: banner!.card2!,
+                        icon: Icons.verified_user_rounded,
+                      ),
+                    ),
+                  if (banner?.card3?.trim().isNotEmpty == true)
+                    FadeSlideTransition(
+                      index: 3,
+                      child: AboutHighlightCard(
+                        title: banner!.card3!,
+                        icon: Icons.workspace_premium_rounded,
+                      ),
+                    ),
+                  if (banner?.card1?.isNotEmpty == true ||
+                      banner?.card2?.isNotEmpty == true ||
+                      banner?.card3?.isNotEmpty == true)
+                    SizedBox(height: 12.h),
 
-              // ---- CTA Section ----
-              FadeSlideTransition(
-                index: 12,
-                child: CTAButtonSection(
-                  onShopNow: controller.shopNow,
-                  onContactUs: controller.contactUs,
-                  onTalkToExperts: controller.talkToExperts,
-                  onViewProducts: controller.viewProducts,
-                ),
+                  // ---- First Body Image ----
+                  if (data.firstImage?.trim().isNotEmpty == true) ...[
+                    FadeSlideTransition(
+                      index: 4,
+                      child: AboutBodyImageCard(
+                        imageUrl: data.firstImage,
+                        height: 200.h,
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                  ],
+
+                  // ---- Second Body Image ----
+                  if (data.secondImage?.trim().isNotEmpty == true) ...[
+                    FadeSlideTransition(
+                      index: 5,
+                      child: AboutBodyImageCard(
+                        imageUrl: data.secondImage,
+                        height: 200.h,
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                  ],
+
+                  // ---- Call-To-Action Section ----
+                  FadeSlideTransition(
+                    index: 6,
+                    child: CTAButtonSection(
+                      leftButtonTitle: banner?.leftButton,
+                      rightButtonTitle: banner?.rightButton,
+                      onShopNow: controller.shopNow,
+                      onContactUs: controller.contactUs,
+                      onTalkToExperts: controller.talkToExperts,
+                      onViewProducts: controller.viewProducts,
+                    ),
+                  ),
+                  SizedBox(height: 24.h),
+
+                  // ---- FAQ Section ----
+                  if (data.faqImage?.trim().isNotEmpty == true ||
+                      !controller.isFaqEmpty) ...[
+                    FadeSlideTransition(
+                      index: 7,
+                      child: const AboutSectionTitle(
+                        icon: Icons.help_center_rounded,
+                        title: 'Frequently Asked Questions',
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+
+                    // FaqImage Section Banner
+                    if (data.faqImage?.trim().isNotEmpty == true)
+                      FadeSlideTransition(
+                        index: 8,
+                        child: AboutBodyImageCard(
+                          imageUrl: data.faqImage,
+                          height: 160.h,
+                        ),
+                      ),
+
+                    // Dynamic FAQ items list
+                    if (!controller.isFaqEmpty)
+                      ...List.generate(
+                        data.faq!.length,
+                        (index) {
+                          final faqItem = data.faq![index];
+                          return FadeSlideTransition(
+                            index: 9 + index,
+                            child: AboutFaqItem(
+                              question: faqItem.question ?? '',
+                              answer: faqItem.answer ?? '',
+                            ),
+                          );
+                        },
+                      )
+                    else
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.h),
+                        child: const AboutEmptyWidget(
+                          title: 'No FAQ Items',
+                          message: 'No FAQs are available right now.',
+                        ),
+                      ),
+                  ],
+
+                  SizedBox(height: 32.h),
+                ],
               ),
-              SizedBox(height: 32.h),
-            ],
-          ),
-        ),
+            ),
+          );
+        }),
       ),
-    );
-  }
-
-  /// Builds the "Why Choose Us" grid with 2 columns.
-  Widget _buildWhyChooseUsGrid() {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10.w,
-        mainAxisSpacing: 10.h,
-        childAspectRatio: 1.0,
-      ),
-      itemCount: AboutConstants.whyChooseUsFeatures.length,
-      itemBuilder: (context, index) {
-        final feature = AboutConstants.whyChooseUsFeatures[index];
-        return WhyChooseUsCard(
-          title: feature['title']!,
-          description: feature['description']!,
-          iconName: feature['icon']!,
-        );
-      },
-    );
-  }
-
-  /// Builds the company values list.
-  Widget _buildValuesGrid() {
-    return Column(
-      children: AboutConstants.companyValues.map((value) {
-        return Padding(
-          padding: EdgeInsets.only(bottom: 10.h),
-          child: ValuesCard(
-            title: value['title']!,
-            description: value['description']!,
-            iconName: value['icon']!,
-          ),
-        );
-      }).toList(),
-    );
-  }
-
-  /// Builds the statistics grid with 2 columns.
-  Widget _buildStatisticsGrid() {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10.w,
-        mainAxisSpacing: 10.h,
-        childAspectRatio: 0.9,
-      ),
-      itemCount: AboutConstants.statistics.length,
-      itemBuilder: (context, index) {
-        final stat = AboutConstants.statistics[index];
-        return StatisticCard(
-          value: stat['value'] as int,
-          suffix: stat['suffix'] as String,
-          label: stat['label'] as String,
-          iconName: stat['icon'] as String,
-        );
-      },
     );
   }
 }

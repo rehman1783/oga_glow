@@ -1,23 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oga_glow/app/routes/app_routes.dart';
+import 'package:oga_glow/core/constants/about_constants.dart';
+import 'package:oga_glow/core/network/api_exception.dart';
+import 'package:oga_glow/features/about/models/about_us_model.dart';
+import 'package:oga_glow/features/about/repositories/about_repository.dart';
 import 'package:oga_glow/features/category/controllers/category_controller.dart';
 import 'package:oga_glow/features/main_navigation/controllers/main_navigation_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:oga_glow/app/routes/app_routes.dart';
-import 'package:oga_glow/core/constants/about_constants.dart';
 
 /// Controller for the About Us screen.
 ///
-/// Provides navigation actions for CTA buttons and utility methods
-/// for launching external apps.
+/// Manages API state (Loading, Success, Error, Empty) using GetX observables
+/// and handles navigation/external launcher actions.
 class AboutController extends GetxController {
+  final AboutRepository _repository;
+
+  AboutController({AboutRepository? repository})
+      : _repository = repository ?? AboutRepository();
+
+  // Observable States
+  final isLoading = true.obs;
+  final isError = false.obs;
+  final errorMessage = ''.obs;
+  final aboutData = Rxn<AboutUsModel>();
+
+  /// Helper getter to check if FAQ list is empty
+  bool get isFaqEmpty {
+    final faqs = aboutData.value?.faq;
+    return faqs == null || faqs.isEmpty;
+  }
+
+  /// Helper getter to check if entire data is empty
+  bool get isEmptyState {
+    final data = aboutData.value;
+    if (data == null) return true;
+    final banner = data.banner;
+    final hasBannerText = banner?.paragraph?.isNotEmpty == true ||
+        banner?.card1?.isNotEmpty == true ||
+        banner?.card2?.isNotEmpty == true ||
+        banner?.card3?.isNotEmpty == true;
+    final hasImages = data.firstImage?.isNotEmpty == true ||
+        data.secondImage?.isNotEmpty == true ||
+        data.faqImage?.isNotEmpty == true;
+    final hasFaq = data.faq != null && data.faq!.isNotEmpty;
+    return !hasBannerText && !hasImages && !hasFaq;
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchAboutUs();
+  }
+
+  /// Fetches About Us details from backend API.
+  Future<void> fetchAboutUs() async {
+    try {
+      isLoading.value = true;
+      isError.value = false;
+      errorMessage.value = '';
+
+      final result = await _repository.getAboutUs();
+      aboutData.value = result;
+    } on ApiException catch (e) {
+      isError.value = true;
+      errorMessage.value = e.message;
+    } catch (e) {
+      isError.value = true;
+      errorMessage.value = 'An unexpected error occurred while loading About Us.';
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   /// Navigate to the All Products screen.
   void shopNow() {
-   final categoryController = Get.find<CategoryController>();
-final mainNavController = Get.find<MainNavigationController>();
-
-categoryController.openCategory("All");
-mainNavController.changeIndex(1);
+    if (Get.isRegistered<CategoryController>() && Get.isRegistered<MainNavigationController>()) {
+      final categoryController = Get.find<CategoryController>();
+      final mainNavController = Get.find<MainNavigationController>();
+      categoryController.openCategory("All");
+      mainNavController.changeIndex(1);
+    }
   }
 
   /// Navigate to the Contact Us screen.
@@ -31,7 +94,6 @@ mainNavController.changeIndex(1);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
-      // Fallback to phone dialer
       final phoneUri = Uri.parse(AboutConstants.phoneDial);
       if (await canLaunchUrl(phoneUri)) {
         await launchUrl(phoneUri);
@@ -43,11 +105,12 @@ mainNavController.changeIndex(1);
 
   /// Navigate to the All Products / Product Listing page.
   void viewProducts() {
-   final categoryController = Get.find<CategoryController>();
-final mainNavController = Get.find<MainNavigationController>();
-
-categoryController.openCategory("All");
-mainNavController.changeIndex(1);
+    if (Get.isRegistered<CategoryController>() && Get.isRegistered<MainNavigationController>()) {
+      final categoryController = Get.find<CategoryController>();
+      final mainNavController = Get.find<MainNavigationController>();
+      categoryController.openCategory("All");
+      mainNavController.changeIndex(1);
+    }
   }
 
   /// Shows an error snackbar when a launch fails.
@@ -57,7 +120,7 @@ mainNavController.changeIndex(1);
         'Error',
         message,
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withOpacity(0.9),
+        backgroundColor: Colors.red.withValues(alpha: 0.9),
         colorText: Colors.white,
         borderRadius: 14,
         margin: const EdgeInsets.all(16),

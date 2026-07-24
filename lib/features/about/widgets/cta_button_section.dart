@@ -7,13 +7,18 @@ import 'package:oga_glow/core/widgets/bounce_tap.dart';
 
 /// Call-to-action button section for the About Us screen.
 ///
-/// Displays multiple CTA buttons (Shop Now, Contact Us, etc.)
-/// with modern styling, icons, and proper responsive sizing.
+/// Displays CTA buttons with dynamic API button labels.
 class CTAButtonSection extends StatelessWidget {
-  /// Callback for "Shop Now" button.
+  /// Dynamic title for the left button (from banner.leftButton)
+  final String? leftButtonTitle;
+
+  /// Dynamic title for the right button (from banner.rightButton)
+  final String? rightButtonTitle;
+
+  /// Callback for Left Button / "Shop Now" button.
   final VoidCallback onShopNow;
 
-  /// Callback for "Contact Us" button.
+  /// Callback for Right Button / "Contact Us" button.
   final VoidCallback onContactUs;
 
   /// Callback for "Talk to Experts" button.
@@ -24,6 +29,8 @@ class CTAButtonSection extends StatelessWidget {
 
   const CTAButtonSection({
     super.key,
+    this.leftButtonTitle,
+    this.rightButtonTitle,
     required this.onShopNow,
     required this.onContactUs,
     required this.onTalkToExperts,
@@ -32,9 +39,17 @@ class CTAButtonSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final effectiveLeftButton = (leftButtonTitle != null && leftButtonTitle!.trim().isNotEmpty)
+        ? leftButtonTitle!
+        : AboutConstants.shopNowLabel;
+
+    final effectiveRightButton = (rightButtonTitle != null && rightButtonTitle!.trim().isNotEmpty)
+        ? rightButtonTitle!
+        : AboutConstants.contactUsLabel;
+
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(24.w),
+      padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -59,7 +74,7 @@ class CTAButtonSection extends StatelessWidget {
               color: AppColors.of(context).textPrimary,
             ),
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: 6.h),
           Text(
             AboutConstants.ctaSubtitle,
             style: AppTextStyles.body.copyWith(
@@ -68,25 +83,29 @@ class CTAButtonSection extends StatelessWidget {
               height: 1.4,
             ),
           ),
-          SizedBox(height: 20.h),
+          SizedBox(height: 18.h),
 
-          // CTA Buttons in a responsive grid
+          // CTA Buttons with API dynamic titles
           Wrap(
             spacing: 10.w,
             runSpacing: 10.h,
             children: [
+              // Left Button (dynamic title from banner.leftButton)
               _CTAButton(
                 icon: Icons.shopping_bag_rounded,
-                label: AboutConstants.shopNowLabel,
+                label: effectiveLeftButton,
                 color: AppColors.primary,
                 onTap: onShopNow,
               ),
+
+              // Right Button (dynamic title from banner.rightButton)
               _CTAButton(
                 icon: Icons.headset_mic_rounded,
-                label: AboutConstants.contactUsLabel,
+                label: effectiveRightButton,
                 color: AppColors.primary,
                 onTap: onContactUs,
               ),
+
               _CTAButton(
                 icon: Icons.chat_rounded,
                 label: AboutConstants.talkToExpertsLabel,
@@ -167,4 +186,3 @@ class _CTAButton extends StatelessWidget {
     );
   }
 }
-

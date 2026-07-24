@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oga_glow/core/constants/about_constants.dart';
@@ -6,16 +7,29 @@ import 'package:oga_glow/core/theme/app_text_styles.dart';
 
 /// Hero / Header section for the About Us screen.
 ///
-/// Displays a logo icon, large heading, and a premium subtitle
-/// inside a gradient container with soft shadows.
+/// Displays banner image, heading, and banner paragraph from API.
 class AboutHeader extends StatelessWidget {
-  const AboutHeader({super.key});
+  final String? imageUrl;
+  final String? paragraph;
+  final String? title;
+
+  const AboutHeader({
+    super.key,
+    this.imageUrl,
+    this.paragraph,
+    this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final effectiveTitle = title ?? AboutConstants.heroTitle;
+    final effectiveParagraph = (paragraph != null && paragraph!.trim().isNotEmpty)
+        ? paragraph!
+        : AboutConstants.heroSubtitle;
+
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 32.h, horizontal: 20.w),
+      padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 20.w),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -38,35 +52,52 @@ class AboutHeader extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Logo / Icon
-          Container(
-            width: 80.w,
-            height: 80.w,
-            decoration: BoxDecoration(
-              color: AppColors.of(context).cardBackground,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.15),
-                  blurRadius: 24,
-                  offset: const Offset(0, 8),
+          // Banner Image (using CachedNetworkImage) or default logo icon
+          if (imageUrl != null && imageUrl!.trim().isNotEmpty) ...[
+            Container(
+              height: 140.h,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.12),
+                    blurRadius: 16,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16.r),
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl!,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  placeholder: (context, url) => Container(
+                    color: AppColors.of(context).cardBackground,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => _buildLogoCircle(context),
                 ),
-              ],
+              ),
             ),
-            child: Icon(
-              Icons.spa_rounded,
-              size: 38.sp,
-              color: AppColors.primary,
-            ),
-          ),
-          SizedBox(height: 20.h),
+            SizedBox(height: 20.h),
+          ] else ...[
+            _buildLogoCircle(context),
+            SizedBox(height: 20.h),
+          ],
 
           // Heading
           Text(
-            AboutConstants.heroTitle,
+            effectiveTitle,
             textAlign: TextAlign.center,
             style: AppTextStyles.heading1.copyWith(
-              fontSize: 26.sp,
+              fontSize: 24.sp,
               fontWeight: FontWeight.w800,
               color: AppColors.of(context).textPrimary,
               letterSpacing: -0.5,
@@ -74,9 +105,9 @@ class AboutHeader extends StatelessWidget {
           ),
           SizedBox(height: 12.h),
 
-          // Subtitle
+          // Paragraph / Subtitle
           Text(
-            AboutConstants.heroSubtitle,
+            effectiveParagraph,
             textAlign: TextAlign.center,
             style: AppTextStyles.body.copyWith(
               fontSize: 14.sp,
@@ -85,6 +116,29 @@ class AboutHeader extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLogoCircle(BuildContext context) {
+    return Container(
+      width: 72.w,
+      height: 72.w,
+      decoration: BoxDecoration(
+        color: AppColors.of(context).cardBackground,
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.15),
+            blurRadius: 20,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Icon(
+        Icons.spa_rounded,
+        size: 34.sp,
+        color: AppColors.primary,
       ),
     );
   }
