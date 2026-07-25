@@ -11,5 +11,9 @@ class ApiEndpoints {
 
   // About Us endpoint
   static const String aboutUs = '/ogaglow/about-us';
+
+  // Products endpoints
+  static const String products = '/ogaglow/products';
+  static String productDetails(String id) => '/ogaglow/products/$id';
 }
 

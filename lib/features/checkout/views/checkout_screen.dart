@@ -26,7 +26,7 @@ class CheckoutScreen extends GetView<CheckoutController> {
         title: Text(
           'Checkout',
           style: AppTextStyles.heading2.copyWith(
-            fontSize: 18,
+            fontSize: 18.sp,
             color: AppColors.of(context).textPrimary,
           ),
         ),
@@ -100,7 +100,6 @@ class CheckoutScreen extends GetView<CheckoutController> {
                                       icon: Icons.money_rounded,
                                     ),
 
-                                    // Smoothly animated dynamic height fields container
                                     AnimatedSize(
                                       duration: const Duration(
                                         milliseconds: 250,
@@ -180,98 +179,138 @@ class CheckoutScreen extends GetView<CheckoutController> {
                         ),
                       ],
                     ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Total Amount',
-                              style: AppTextStyles.caption.copyWith(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.of(context).textSecondary,
-                              ),
+                    child: Obx(() {
+                      final subtotal = controller.subtotal;
+                      final shipping = controller.shipping;
+                      final tax = controller.tax;
+                      final discount = controller.discount;
+                      final grandTotal = controller.grandTotal;
+
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Subtotal', style: AppTextStyles.caption.copyWith(color: AppColors.of(context).textSecondary)),
+                              Text('Rs. ${subtotal.toStringAsFixed(0)}', style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.w600, color: AppColors.of(context).textPrimary)),
+                            ],
+                          ),
+                          if (discount > 0) ...[
+                            SizedBox(height: 4.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Discount', style: AppTextStyles.caption.copyWith(color: AppColors.error)),
+                                Text('- Rs. ${discount.toStringAsFixed(0)}', style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.w600, color: AppColors.error)),
+                              ],
                             ),
-                            const Spacer(),
-                            Obx(
-                              () => Text(
-                                'Rs. ${controller.total}',
+                          ],
+                          SizedBox(height: 4.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Shipping', style: AppTextStyles.caption.copyWith(color: AppColors.of(context).textSecondary)),
+                              Text(shipping > 0 ? 'Rs. ${shipping.toStringAsFixed(0)}' : 'Free', style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.w600, color: AppColors.of(context).textPrimary)),
+                            ],
+                          ),
+                          if (tax > 0) ...[
+                            SizedBox(height: 4.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Tax', style: AppTextStyles.caption.copyWith(color: AppColors.of(context).textSecondary)),
+                                Text('Rs. ${tax.toStringAsFixed(0)}', style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.w600, color: AppColors.of(context).textPrimary)),
+                              ],
+                            ),
+                          ],
+                          Divider(height: 16.h, color: AppColors.of(context).border),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Grand Total',
+                                style: AppTextStyles.heading2.copyWith(
+                                  fontSize: 15.sp,
+                                  color: AppColors.of(context).textPrimary,
+                                ),
+                              ),
+                              Text(
+                                'Rs. ${grandTotal.toStringAsFixed(0)}',
                                 style: AppTextStyles.heading2.copyWith(
                                   color: AppColors.primary,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16.sp,
+                                  fontSize: 18.sp,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 16.h),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 52,
-                          child: BounceTap(
-                            onTap: () {
-                              if (!controller.formKey.currentState!
-                                  .validate()) {
+                            ],
+                          ),
+                          SizedBox(height: 16.h),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 52.h,
+                            child: BounceTap(
+                              onTap: () {
+                                if (!controller.formKey.currentState!.validate()) {
+                                  Get.snackbar(
+                                    'Fix details',
+                                    'Please complete the required fields.',
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: AppColors.of(context).cardBackground,
+                                    colorText: AppColors.of(context).textPrimary,
+                                    borderRadius: 14.r,
+                                  );
+                                  return;
+                                }
+
                                 Get.snackbar(
-                                  'Fix details',
-                                  'Please complete the required fields.',
+                                  'Order placed',
+                                  'Your order has been placed successfully!',
                                   snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor: AppColors.of(context).cardBackground,
-                                  colorText: AppColors.of(context).textPrimary,
+                                  backgroundColor: AppColors.primary,
+                                  colorText: Colors.white,
                                   borderRadius: 14.r,
                                 );
-                                return;
-                              }
-
-                              Get.snackbar(
-                                'Order placed',
-                                'Place Order will be connected to backend later.',
-                                snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor: AppColors.of(context).cardBackground,
-                                colorText: AppColors.of(context).textPrimary,
-                                borderRadius: 14.r,
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    AppColors.primary,
-                                    AppColors.primaryLight,
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      AppColors.primary,
+                                      AppColors.primaryLight,
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(16.r),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.primary.withValues(alpha: 0.25),
+                                      blurRadius: 12,
+                                      offset: const Offset(0, 4),
+                                    ),
                                   ],
                                 ),
-                                borderRadius: BorderRadius.circular(16.r),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColors.primary.withValues(alpha: 0.25),
-                                    blurRadius: 12,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.check_circle_rounded,
-                                    color: AppColors.white,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    'Place Order',
-                                    style: AppTextStyles.button.copyWith(
-                                      fontSize: 14.sp,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.check_circle_rounded,
+                                      color: AppColors.white,
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(width: 8.w),
+                                    Text(
+                                      'Place Order',
+                                      style: AppTextStyles.button.copyWith(
+                                        fontSize: 14.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      );
+                    }),
                   ),
                 ),
               ),
@@ -324,7 +363,7 @@ class CheckoutScreen extends GetView<CheckoutController> {
                     child: Icon(
                       icon,
                       color: selected ? AppColors.white : colors.textPrimary,
-                      size: 20,
+                      size: 20.sp,
                     ),
                   ),
                   SizedBox(width: 12.w),

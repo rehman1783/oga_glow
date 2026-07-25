@@ -1,67 +1,98 @@
 import 'dart:async';
-
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-
+import 'package:oga_glow/data/models/product_model.dart';
+import 'package:oga_glow/data/repositories/product_repository.dart';
 
 class ProductController extends GetxController {
+  final ProductRepository _productRepository;
+
+  ProductController({ProductRepository? productRepository})
+      : _productRepository = productRepository ?? ProductRepository();
+
   final quantity = 1.obs;
   final currentImageIndex = 0.obs;
-
-  final productImages = [
-    'assets/images/banner1.jpeg',
-    'assets/images/banner2.jpeg',
-    'assets/images/banner3.jpeg',
-  ].obs;
-
-  // Used by ProductImageSection.
   final pageController = PageController(initialPage: 0);
 
-  void changeImage(int index) {
-    currentImageIndex.value = index;
-  }
+  final isLoading = true.obs;
+  final hasError = false.obs;
+  final errorMessage = ''.obs;
 
-  late Map<String, dynamic> product;
+  final Rx<ProductModel?> productModel = Rx<ProductModel?>(null);
+  final productImages = <String>[].obs;
+  final relatedProducts = <ProductModel>[].obs;
 
-  // Mock related products (can be replaced with API later)
-  final relatedProducts = <Map<String, dynamic>>[
-    {
-      'name': 'Related Product 1',
-      'price': '1600',
-      'image': 'assets/images/banner1.jpeg',
-      'category': 'General',
-    },
-    {
-      'name': 'Related Product 2',
-      'price': '2400',
-      'image': 'assets/images/banner2.jpeg',
-      'category': 'General',
-    },
-    {
-      'name': 'Related Product 3',
-      'price': '3100',
-      'image': 'assets/images/banner3.jpeg',
-      'category': 'General',
-    },
-  ];
+  String? productId;
+  Timer? _autoPlayTimer;
+  int _autoImageIndex = 0;
 
   @override
   void onInit() {
     super.onInit();
-    product = Get.arguments ?? {};
-
-    // If the route passes a single image, make it first.
-    final imageFromArgs = product['image']?.toString();
-    if (imageFromArgs != null && imageFromArgs.isNotEmpty) {
-      productImages.insert(0, imageFromArgs);
-      // De-dupe while preserving order.
-      final seen = <String>{};
-      productImages.value = productImages.where((e) {
-        if (seen.contains(e)) return false;
-        seen.add(e);
-        return true;
-      }).toList();
+    _extractProductId();
+    if (productId != null && productId!.isNotEmpty) {
+      fetchProductDetails(productId!);
+    } else {
+      isLoading.value = false;
+      hasError.value = true;
+      errorMessage.value = 'Product ID not provided.';
     }
+  }
+
+  void _extractProductId() {
+    final args = Get.arguments;
+    if (args is String) {
+      productId = args;
+    } else if (args is Map && args.containsKey('id')) {
+      productId = args['id']?.toString();
+    } else if (args is ProductModel) {
+      productId = args.id;
+    }
+  }
+
+  Future<void> fetchProductDetails(String id) async {
+    try {
+      isLoading.value = true;
+      hasError.value = false;
+      errorMessage.value = '';
+
+      final details = await _productRepository.getProductById(id);
+      productModel.value = details;
+
+      // Extract image URLs
+      productImages.value = details.images.map((img) => img.url).where((url) => url.isNotEmpty).toList();
+
+      // Fetch related products (e.g., from same category or fallback list)
+      _fetchRelatedProducts(details);
+
+      _startAutoPlay();
+    } catch (e) {
+      hasError.value = true;
+      errorMessage.value = e.toString().replaceAll('Exception: ', '');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> _fetchRelatedProducts(ProductModel current) async {
+    try {
+      final all = await _productRepository.getProducts();
+      relatedProducts.value = all
+          .where((p) => p.id != current.id && (p.category == current.category || p.categoryDisplayName == current.categoryDisplayName))
+          .take(6)
+          .toList();
+
+      // Fallback if no matching category products
+      if (relatedProducts.isEmpty) {
+        relatedProducts.value = all.where((p) => p.id != current.id).take(6).toList();
+      }
+    } catch (e) {
+      // Ignore error for related products list
+    }
+  }
+
+  void changeImage(int index) {
+    currentImageIndex.value = index;
   }
 
   void increaseQuantity() {
@@ -74,11 +105,23 @@ class ProductController extends GetxController {
     }
   }
 
-  // Auto change images when details screen opens.
-  @override
-  void onReady() {
-    super.onReady();
-    _startAutoPlay();
+  void _startAutoPlay() {
+    _autoPlayTimer?.cancel();
+    if (productImages.length <= 1) return;
+
+    _autoImageIndex = currentImageIndex.value;
+    _autoPlayTimer = Timer.periodic(const Duration(seconds: 4), (_) {
+      if (productImages.isEmpty) return;
+      _autoImageIndex = (_autoImageIndex + 1) % productImages.length;
+      currentImageIndex.value = _autoImageIndex;
+      if (pageController.hasClients) {
+        pageController.animateToPage(
+          _autoImageIndex,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
   }
 
   @override
@@ -87,24 +130,4 @@ class ProductController extends GetxController {
     pageController.dispose();
     super.onClose();
   }
-
-  int _autoImageIndex = 0;
-  Timer? _autoPlayTimer;
-
-  void _startAutoPlay() {
-    _autoPlayTimer?.cancel();
-    _autoImageIndex = currentImageIndex.value;
-
-    _autoPlayTimer = Timer.periodic(const Duration(seconds: 3), (_) {
-      if (productImages.isEmpty) return;
-      _autoImageIndex = (_autoImageIndex + 1) % productImages.length;
-      currentImageIndex.value = _autoImageIndex;
-      pageController.animateToPage(
-        _autoImageIndex,
-        duration: const Duration(milliseconds: 350),
-        curve: Curves.easeInOut,
-      );
-    });
-  }
 }
-

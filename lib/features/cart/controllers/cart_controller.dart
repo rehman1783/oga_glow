@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:oga_glow/data/models/product_model.dart';
 import '../../../core/theme/app_colors.dart';
 
 class CartController extends GetxController {
   static const String tag = 'cart';
 
-  /// Stored as maps to keep UI/product fields flexible.
-  /// Expected keys: name, category, price, image, quantity
   final RxList<Map<String, dynamic>> cartItems = <Map<String, dynamic>>[].obs;
 
   bool _isSameProduct(Map<String, dynamic> a, Map<String, dynamic> b) {
+    if (a['id'] != null && b['id'] != null && a['id'].toString().isNotEmpty && b['id'].toString().isNotEmpty) {
+      return a['id'].toString() == b['id'].toString();
+    }
     return a['name'] == b['name'] &&
         a['image'] == b['image'] &&
         a['price'] == b['price'];
@@ -29,7 +31,7 @@ class CartController extends GetxController {
     return double.tryParse(cleaned) ?? 0.0;
   }
 
-  /// Calculates total subtotal of all items in cart.
+  /// Calculates total subtotal (sum of item price * qty)
   double get totalSubtotal {
     return cartItems.fold<double>(0.0, (sum, item) {
       final price = _parsePrice(item['price']);
@@ -38,18 +40,61 @@ class CartController extends GetxController {
     });
   }
 
-  /// Adds product to cart or updates its quantity if already exists.
-  /// Returns `true` if item was updated (existed), `false` if newly added.
+  /// Calculates total shipping cost
+  double get totalShipping {
+    return cartItems.fold<double>(0.0, (sum, item) {
+      final model = item['productModel'];
+      if (model is ProductModel) {
+        return sum + model.shippingPrice;
+      }
+      final ship = _parsePrice(item['shippingPrice']);
+      return sum + ship;
+    });
+  }
+
+  /// Calculates total tax amount
+  double get totalTax {
+    return cartItems.fold<double>(0.0, (sum, item) {
+      final price = _parsePrice(item['price']);
+      final qty = int.tryParse(item['quantity']?.toString() ?? '1') ?? 1;
+      final model = item['productModel'];
+      final taxRate = (model is ProductModel) ? model.taxRate : _parsePrice(item['taxRate']);
+      return sum + (price * qty * taxRate);
+    });
+  }
+
+  /// Calculates total discount amount saved
+  double get totalDiscount {
+    return cartItems.fold<double>(0.0, (sum, item) {
+      final origPrice = _parsePrice(item['originalPrice']);
+      final finalPrice = _parsePrice(item['price']);
+      final qty = int.tryParse(item['quantity']?.toString() ?? '1') ?? 1;
+      if (origPrice > finalPrice) {
+        return sum + ((origPrice - finalPrice) * qty);
+      }
+      return sum;
+    });
+  }
+
+  /// Grand Total = Subtotal + Shipping + Tax
+  double get grandTotal {
+    return totalSubtotal + totalShipping + totalTax;
+  }
+
+  /// Adds product to cart or updates quantity
   bool addToCart(
     Map<String, dynamic> product, {
     int quantity = 1,
     bool showSnackbar = true,
   }) {
     final normalized = <String, dynamic>{
+      'id': product['id']?.toString() ?? '',
       'name': product['name']?.toString() ?? 'Product',
       'price': product['price']?.toString() ?? '0',
+      'originalPrice': product['originalPrice']?.toString() ?? product['price']?.toString() ?? '0',
       'image': product['image']?.toString() ?? '',
       'category': product['category']?.toString() ?? 'General',
+      'productModel': product['productModel'],
       'quantity': quantity,
     };
 
@@ -76,7 +121,6 @@ class CartController extends GetxController {
     return isExisting;
   }
 
-  /// Displays success snackbar showing dynamic quantity added to cart.
   void showSuccessSnackbar({
     required int quantity,
     bool isExisting = false,
@@ -127,5 +171,9 @@ class CartController extends GetxController {
     if (index >= 0 && index < cartItems.length) {
       cartItems.removeAt(index);
     }
+  }
+
+  void clearCart() {
+    cartItems.clear();
   }
 }

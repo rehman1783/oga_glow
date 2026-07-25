@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
@@ -96,10 +98,9 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     final String name = widget.product['name']?.toString() ?? 'Product';
     final String category = widget.product['category']?.toString() ?? 'General';
-    final String imagePath = widget.product['image']?.toString() ?? '';
+    final String imageUrl = widget.product['image']?.toString() ?? '';
 
     return Container(
       padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 24.h),
@@ -142,26 +143,28 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(16.r),
-                  child: imagePath.isNotEmpty
-                      ? Image.asset(
-                          imagePath,
-                          width: 80.w,
-                          height: 80.h,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) =>
-                              Container(
-                            width: 80.w,
-                            height: 80.h,
+                  child: SizedBox(
+                    width: 80.w,
+                    height: 80.h,
+                    child: imageUrl.isNotEmpty
+                        ? CachedNetworkImage(
+                            imageUrl: imageUrl,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: AppColors.of(context).cardBackground,
+                              highlightColor: AppColors.primary.withValues(alpha: 0.1),
+                              child: Container(color: AppColors.of(context).cardBackground),
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              color: AppColors.of(context).panelSecondary,
+                              child: const Icon(Icons.image_not_supported_outlined),
+                            ),
+                          )
+                        : Container(
                             color: AppColors.of(context).panelSecondary,
-                            child: const Icon(Icons.image_not_supported_outlined),
+                            child: const Icon(Icons.shopping_bag_outlined),
                           ),
-                        )
-                      : Container(
-                          width: 80.w,
-                          height: 80.h,
-                          color: AppColors.of(context).panelSecondary,
-                          child: const Icon(Icons.shopping_bag_outlined),
-                        ),
+                  ),
                 ),
 
                 SizedBox(width: 14.w),

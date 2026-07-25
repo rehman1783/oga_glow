@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
@@ -23,14 +25,13 @@ class CartItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartController = Get.find<CartController>(tag: CartController.tag);
 
+    final String id = product['id']?.toString() ?? '';
     final String name = product['name']?.toString() ?? '';
     final String category = product['category']?.toString() ?? '';
     final String price = product['price']?.toString() ?? '0';
-    final String imagePath = product['image']?.toString() ?? '';
+    final String imageUrl = product['image']?.toString() ?? '';
     final int quantity =
         int.tryParse(product['quantity']?.toString() ?? '1') ?? 1;
-    final String description =
-        product['description']?.toString() ?? 'No description available';
 
     final double unitPrice = double.tryParse(
           price.replaceAll(RegExp(r'[^0-9.]'), ''),
@@ -42,17 +43,9 @@ class CartItemCard extends StatelessWidget {
         ? itemTotal.toInt().toString()
         : itemTotal.toStringAsFixed(2);
 
-    final Map<String, dynamic> productData = {
-      'name': name,
-      'price': price,
-      'image': imagePath,
-      'category': category,
-      'description': description,
-    };
-
     return BounceTap(
       onTap: () {
-        Get.toNamed(AppRoutes.products_details, arguments: productData);
+        Get.toNamed(AppRoutes.products_details, arguments: id.isNotEmpty ? id : product);
       },
       child: Container(
         padding: EdgeInsets.all(12.w),
@@ -73,25 +66,28 @@ class CartItemCard extends StatelessWidget {
             /// Product Image
             ClipRRect(
               borderRadius: BorderRadius.circular(14.r),
-              child: imagePath.isNotEmpty
-                  ? Image.asset(
-                      imagePath,
-                      width: 80.w,
-                      height: 80.h,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        width: 80.w,
-                        height: 80.h,
+              child: SizedBox(
+                width: 80.w,
+                height: 80.h,
+                child: imageUrl.isNotEmpty
+                    ? CachedNetworkImage(
+                        imageUrl: imageUrl,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Shimmer.fromColors(
+                          baseColor: AppColors.of(context).cardBackground,
+                          highlightColor: AppColors.primary.withValues(alpha: 0.1),
+                          child: Container(color: AppColors.of(context).cardBackground),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          color: AppColors.of(context).panelSecondary,
+                          child: const Icon(Icons.image_not_supported_outlined),
+                        ),
+                      )
+                    : Container(
                         color: AppColors.of(context).panelSecondary,
-                        child: const Icon(Icons.image_not_supported_outlined),
+                        child: const Icon(Icons.shopping_bag_outlined),
                       ),
-                    )
-                  : Container(
-                      width: 80.w,
-                      height: 80.h,
-                      color: AppColors.of(context).panelSecondary,
-                      child: const Icon(Icons.shopping_bag_outlined),
-                    ),
+              ),
             ),
 
             SizedBox(width: 12.w),

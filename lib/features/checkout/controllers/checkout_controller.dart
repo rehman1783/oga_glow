@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oga_glow/features/cart/controllers/cart_controller.dart';
+import 'package:oga_glow/features/cart/bindings/cart_binding.dart';
 
 class CheckoutController extends GetxController {
   final formKey = GlobalKey<FormState>();
-
-  // Demo cart items (until Cart module connects)
-  final cartItems = <Map<String, dynamic>>[
-    {'name': 'Glow Serum', 'price': '799'},
-    {'name': 'Herbal Moisturizer', 'price': '599'},
-  ].obs;
 
   final paymentMethod = 'card'.obs; // 'card' | 'cod'
 
@@ -19,10 +15,20 @@ class CheckoutController extends GetxController {
   final cityController = TextEditingController();
   final pincodeController = TextEditingController();
 
-  int get total => cartItems.fold<int>(0, (sum, item) {
-        final p = int.tryParse(item['price']?.toString() ?? '') ?? 0;
-        return sum + p;
-      });
+  CartController get _cartController {
+    if (!Get.isRegistered<CartController>(tag: CartController.tag)) {
+      CartBinding().dependencies();
+    }
+    return Get.find<CartController>(tag: CartController.tag);
+  }
+
+  List<Map<String, dynamic>> get cartItems => _cartController.cartItems;
+
+  double get subtotal => _cartController.totalSubtotal;
+  double get shipping => _cartController.totalShipping;
+  double get tax => _cartController.totalTax;
+  double get discount => _cartController.totalDiscount;
+  double get grandTotal => _cartController.grandTotal;
 
   @override
   void onClose() {
@@ -36,4 +42,3 @@ class CheckoutController extends GetxController {
 
   void setPaymentMethod(String v) => paymentMethod.value = v;
 }
-

@@ -6,28 +6,13 @@ import '../../cart/widgets/add_to_cart_bottom_sheet.dart';
 class WishlistController extends GetxController {
   static const String tag = 'wishlist';
 
-  /// Wishlist items are stored as maps to match current UI.
-  /// (name, category, price, image)
-  final RxList<Map<String, dynamic>> wishlistItems = <Map<String, dynamic>>[
-    {
-      "name": "Glow Face Wash",
-      "category": "Skin Care",
-      "price": "1500",
-      "image": "assets/images/banner1.jpeg",
-      "description":
-          "A gentle face wash that helps cleanse, refresh, and support a healthy glow.",
-    },
-    {
-      "name": "Hair Growth Serum",
-      "category": "Hair Care",
-      "price": "2200",
-      "image": "assets/images/banner2.jpeg",
-      "description":
-          "A lightweight serum formulated to nourish hair and support the appearance of stronger growth.",
-    },
-  ].obs;
+  /// Wishlist items stored dynamically from API product data.
+  final RxList<Map<String, dynamic>> wishlistItems = <Map<String, dynamic>>[].obs;
 
   bool _isSameProduct(Map<String, dynamic> a, Map<String, dynamic> b) {
+    if (a['id'] != null && b['id'] != null && a['id'].toString().isNotEmpty && b['id'].toString().isNotEmpty) {
+      return a['id'].toString() == b['id'].toString();
+    }
     return a['name'] == b['name'] &&
         a['image'] == b['image'] &&
         a['price'] == b['price'];
@@ -64,7 +49,9 @@ class WishlistController extends GetxController {
   }
 
   void removeItem(int index) {
-    wishlistItems.removeAt(index);
+    if (index >= 0 && index < wishlistItems.length) {
+      wishlistItems.removeAt(index);
+    }
   }
 
   void toggleWishlistItem(Map<String, dynamic> product) {

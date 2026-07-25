@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:oga_glow/features/wishlist/controllers/wishlist_controller.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
@@ -25,24 +27,27 @@ class WishlistItemCard extends StatelessWidget {
       tag: WishlistController.tag,
     );
 
+    final String id = product['id']?.toString() ?? '';
     final String name = product['name']?.toString() ?? '';
     final String category = product['category']?.toString() ?? '';
     final String price = product['price']?.toString() ?? '';
-    final String imagePath = product['image']?.toString() ?? '';
+    final String imageUrl = product['image']?.toString() ?? '';
     final String description =
-        product['description']?.toString() ?? 'No description available';
+        product['description']?.toString() ?? '';
 
     final Map<String, dynamic> productData = {
+      'id': id,
       'name': name,
       'price': price,
-      'image': imagePath,
+      'image': imageUrl,
       'category': category,
       'description': description,
+      ...product,
     };
 
     return BounceTap(
       onTap: () {
-        Get.toNamed(AppRoutes.products_details, arguments: productData);
+        Get.toNamed(AppRoutes.products_details, arguments: id.isNotEmpty ? id : productData);
       },
       child: Container(
         padding: EdgeInsets.all(12.w),
@@ -62,11 +67,27 @@ class WishlistItemCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(14.r),
-              child: Image.asset(
-                imagePath,
+              child: SizedBox(
                 width: 80.w,
                 height: 80.h,
-                fit: BoxFit.cover,
+                child: imageUrl.isNotEmpty
+                    ? CachedNetworkImage(
+                        imageUrl: imageUrl,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Shimmer.fromColors(
+                          baseColor: AppColors.of(context).cardBackground,
+                          highlightColor: AppColors.primary.withValues(alpha: 0.1),
+                          child: Container(color: AppColors.of(context).cardBackground),
+                        ),
+                        errorWidget: (context, url, error) => Icon(
+                          Icons.image_not_supported_outlined,
+                          color: AppColors.textSecondary,
+                        ),
+                      )
+                    : Icon(
+                        Icons.image_not_supported_outlined,
+                        color: AppColors.textSecondary,
+                      ),
               ),
             ),
 

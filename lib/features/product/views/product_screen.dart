@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:oga_glow/core/theme/app_colors.dart';
+import 'package:oga_glow/core/theme/app_text_styles.dart';
 import 'package:oga_glow/features/product/widgets/product_image_slider.dart';
 
 import '../controllers/product_controller.dart';
-
 import '../widgets/product_action_buttons.dart';
-import '../widgets/product_benefits_section.dart';
-import '../widgets/product_description_section.dart';
 import '../widgets/product_info_section.dart';
 import '../widgets/quantity_selector.dart';
 import '../widgets/related_products_section.dart';
@@ -17,8 +17,6 @@ class ProductScreen extends GetView<ProductController> {
 
   @override
   Widget build(BuildContext context) {
-    controller;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Details'),
@@ -26,63 +24,109 @@ class ProductScreen extends GetView<ProductController> {
         elevation: 0,
         scrolledUnderElevation: 0,
       ),
-      bottomNavigationBar: const ProductActionButtons(),
+      bottomNavigationBar: Obx(() {
+        if (controller.isLoading.value || controller.hasError.value || controller.productModel.value == null) {
+          return const SizedBox.shrink();
+        }
+        return const ProductActionButtons();
+      }),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              FadeSlideTransition(index: 0, child: const ProductImageSection()),
+        child: Obx(() {
+          if (controller.isLoading.value) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: AppColors.primary,
+              ),
+            );
+          }
 
-              FadeSlideTransition(
-                index: 1,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface,
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(24),
+          if (controller.hasError.value) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.all(24.w),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.error_outline_rounded,
+                      size: 56.sp,
+                      color: AppColors.error,
+                    ),
+                    SizedBox(height: 16.h),
+                    Text(
+                      controller.errorMessage.value.isNotEmpty
+                          ? controller.errorMessage.value
+                          : 'Unable to load product details.',
+                      textAlign: TextAlign.center,
+                      style: AppTextStyles.body.copyWith(
+                        color: AppColors.of(context).textPrimary,
+                        fontSize: 14.sp,
                       ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 12),
-                        ProductInfoSection(product: controller.product),
-                        const SizedBox(height: 4),
-                      ],
+                    SizedBox(height: 20.h),
+                    if (controller.productId != null)
+                      ElevatedButton.icon(
+                        onPressed: () => controller.fetchProductDetails(controller.productId!),
+                        icon: const Icon(Icons.refresh_rounded),
+                        label: const Text('Try Again'),
+                      ),
+                  ],
+                ),
+              ),
+            );
+          }
+
+          final product = controller.productModel.value;
+          if (product == null) {
+            return Center(
+              child: Text(
+                'Product not found.',
+                style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+              ),
+            );
+          }
+
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                FadeSlideTransition(index: 0, child: const ProductImageSection()),
+
+                FadeSlideTransition(
+                  index: 1,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 16.h),
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(24.r),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 12.h),
+                          ProductInfoSection(product: product),
+                          SizedBox(height: 4.h),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
 
-              FadeSlideTransition(
-                index: 2,
-                child: ProductDescriptionSection(
-                  description:
-                      controller.product['description'] ??
-                      'No description available',
+                FadeSlideTransition(index: 2, child: const QuantitySelector()),
+
+                FadeSlideTransition(
+                  index: 3,
+                  child: const RelatedProductsSection(),
                 ),
-              ),
 
-              FadeSlideTransition(
-                index: 3,
-                child: const ProductBenefitsSection(),
-              ),
-
-              FadeSlideTransition(index: 4, child: const QuantitySelector()),
-
-              FadeSlideTransition(
-                index: 5,
-                child: const RelatedProductsSection(),
-              ),
-
-              const SizedBox(height: 40),
-            ],
-          ),
-        ),
+                SizedBox(height: 40.h),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }
