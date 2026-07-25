@@ -4,9 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../app/routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/bounce_tap.dart';
+import '../../main_navigation/controllers/main_navigation_controller.dart';
 import '../controllers/cart_controller.dart';
 import 'quantity_selector.dart';
 
@@ -84,8 +86,6 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
 
     if (Get.isBottomSheetOpen == true) {
       Get.back();
-    } else {
-      Get.back();
     }
 
     Future.delayed(const Duration(milliseconds: 150), () {
@@ -94,6 +94,31 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
         isExisting: isExisting,
       );
     });
+  }
+
+  void _onViewCart() {
+    final CartController cartController = Get.find<CartController>(
+      tag: CartController.tag,
+    );
+
+    // Also add current selection to cart if not already present
+    cartController.addToCart(
+      widget.product,
+      quantity: quantity,
+      showSnackbar: false,
+    );
+
+    if (Get.isBottomSheetOpen == true) {
+      Get.back();
+    }
+
+    // Switch MainNavigationController to Cart tab (index 3)
+    if (Get.isRegistered<MainNavigationController>()) {
+      Get.find<MainNavigationController>().changeIndex(3);
+      Get.until((route) => route.settings.name == AppRoutes.mainNavigation || route.isFirst);
+    } else {
+      Get.toNamed(AppRoutes.mainNavigation);
+    }
   }
 
   @override
@@ -295,48 +320,100 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
 
             SizedBox(height: 24.h),
 
-            /// Full-width Add to Cart Button
-            SizedBox(
-              width: double.infinity,
-              height: 52.h,
-              child: BounceTap(
-                onTap: _onAddToCart,
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
-                        AppColors.primary,
-                        AppColors.primaryLight,
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(16.r),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.3),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.shopping_cart_outlined,
-                        color: AppColors.white,
-                      ),
-                      SizedBox(width: 8.w),
-                      Text(
-                        'Add to Cart',
-                        style: AppTextStyles.button.copyWith(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.bold,
+            /// TWO Action Buttons: Add To Cart & View Cart
+            Row(
+              children: [
+                // Button 1: Add To Cart
+                Expanded(
+                  child: SizedBox(
+                    height: 50.h,
+                    child: BounceTap(
+                      onTap: _onAddToCart,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [
+                              AppColors.primary,
+                              AppColors.primaryLight,
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(16.r),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.primary.withValues(alpha: 0.25),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.add_shopping_cart_rounded,
+                              color: AppColors.white,
+                              size: 18,
+                            ),
+                            SizedBox(width: 6.w),
+                            FittedBox(
+                              child: Text(
+                                'Add To Cart',
+                                style: AppTextStyles.button.copyWith(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+
+                SizedBox(width: 12.w),
+
+                // Button 2: View Cart
+                Expanded(
+                  child: SizedBox(
+                    height: 50.h,
+                    child: BounceTap(
+                      onTap: _onViewCart,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.of(context).cardBackground,
+                          border: Border.all(
+                            color: AppColors.primary,
+                            width: 1.5,
+                          ),
+                          borderRadius: BorderRadius.circular(16.r),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.shopping_bag_outlined,
+                              color: AppColors.primary,
+                              size: 18,
+                            ),
+                            SizedBox(width: 6.w),
+                            FittedBox(
+                              child: Text(
+                                'View Cart',
+                                style: AppTextStyles.button.copyWith(
+                                  color: AppColors.primary,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

@@ -1,4 +1,4 @@
-/// Data models for the Order History module.
+// Data models for the Order History module.
 
 /// Enum representing possible order statuses.
 enum OrderStatus {

@@ -50,19 +50,30 @@ class ProductController extends GetxController {
     }
   }
 
+  /// Ensures fresh product details are fetched via Single Product API when navigating
+  Future<void> loadProductById(String id) async {
+    productId = id;
+    await fetchProductDetails(id);
+  }
+
   Future<void> fetchProductDetails(String id) async {
     try {
       isLoading.value = true;
       hasError.value = false;
       errorMessage.value = '';
+      quantity.value = 1;
+      currentImageIndex.value = 0;
 
       final details = await _productRepository.getProductById(id);
       productModel.value = details;
 
       // Extract image URLs
-      productImages.value = details.images.map((img) => img.url).where((url) => url.isNotEmpty).toList();
+      productImages.value = details.images
+          .map((img) => img.url)
+          .where((url) => url.isNotEmpty)
+          .toList();
 
-      // Fetch related products (e.g., from same category or fallback list)
+      // Fetch related products from same category or fallback list
       _fetchRelatedProducts(details);
 
       _startAutoPlay();
@@ -78,13 +89,17 @@ class ProductController extends GetxController {
     try {
       final all = await _productRepository.getProducts();
       relatedProducts.value = all
-          .where((p) => p.id != current.id && (p.category == current.category || p.categoryDisplayName == current.categoryDisplayName))
+          .where((p) =>
+              p.id != current.id &&
+              (p.category == current.category ||
+                  p.categoryDisplayName == current.categoryDisplayName))
           .take(6)
           .toList();
 
       // Fallback if no matching category products
       if (relatedProducts.isEmpty) {
-        relatedProducts.value = all.where((p) => p.id != current.id).take(6).toList();
+        relatedProducts.value =
+            all.where((p) => p.id != current.id).take(6).toList();
       }
     } catch (e) {
       // Ignore error for related products list

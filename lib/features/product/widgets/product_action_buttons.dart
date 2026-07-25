@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
-import '../../../app/routes/app_routes.dart';
-import '../../cart/controllers/cart_controller.dart';
-import '../../cart/bindings/cart_binding.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
-import '../controllers/product_controller.dart';
 import '../../../core/widgets/bounce_tap.dart';
+import '../../cart/bindings/cart_binding.dart';
+import '../../cart/controllers/cart_controller.dart';
+import '../../cart/widgets/add_to_cart_bottom_sheet.dart';
+import '../controllers/product_controller.dart';
 
 class ProductActionButtons extends GetView<ProductController> {
   const ProductActionButtons({super.key});
@@ -45,15 +45,10 @@ class ProductActionButtons extends GetView<ProductController> {
                 child: BounceTap(
                   onTap: isOutOfStock
                       ? () {}
-                      : () {
-                          final cartController = Get.find<CartController>(
-                            tag: CartController.tag,
-                          );
-                          cartController.addToCart(
+                      : () => AddToCartBottomSheet.show(
+                            context,
                             legacyMap,
-                            quantity: controller.quantity.value,
-                          );
-                        },
+                          ),
                   child: Container(
                     decoration: BoxDecoration(
                       gradient: isOutOfStock
@@ -91,16 +86,10 @@ class ProductActionButtons extends GetView<ProductController> {
                 child: BounceTap(
                   onTap: isOutOfStock
                       ? () {}
-                      : () {
-                          final cartController = Get.find<CartController>(
-                            tag: CartController.tag,
-                          );
-                          cartController.addToCart(
+                      : () => AddToCartBottomSheet.show(
+                            context,
                             legacyMap,
-                            quantity: controller.quantity.value,
-                          );
-                          Get.toNamed(AppRoutes.checkout);
-                        },
+                          ),
                   child: Container(
                     decoration: BoxDecoration(
                       color: isOutOfStock

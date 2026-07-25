@@ -51,7 +51,7 @@ class WishlistScreen extends StatelessWidget {
         return ListView.separated(
           padding: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 24.h),
           itemCount: controller.wishlistItems.length,
-          separatorBuilder: (_, __) => SizedBox(height: 12.h),
+          separatorBuilder: (context, index) => SizedBox(height: 12.h),
           itemBuilder: (context, index) {
             return FadeSlideTransition(
               index: index,

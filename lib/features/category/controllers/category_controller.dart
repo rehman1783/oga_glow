@@ -9,7 +9,15 @@ class CategoryController extends GetxController {
   CategoryController({ProductRepository? productRepository})
       : _productRepository = productRepository ?? ProductRepository();
 
-  final categories = <String>['All'].obs;
+  static const List<String> defaultCategories = [
+    'All',
+    'Skin Care',
+    'Hair Care',
+    'Body Care',
+    'Kits',
+  ];
+
+  final categories = <String>[...defaultCategories].obs;
   final selectedCategory = 'All'.obs;
 
   final searchController = TextEditingController();
@@ -47,7 +55,7 @@ class CategoryController extends GetxController {
   }
 
   void _updateDynamicCategories() {
-    final catSet = <String>{'All'};
+    final catSet = <String>{...defaultCategories};
     for (final p in allProducts) {
       if (p.categoryDisplayName.isNotEmpty) {
         catSet.add(p.categoryDisplayName);
@@ -61,12 +69,27 @@ class CategoryController extends GetxController {
       selectedCategory.value = 'All';
       return;
     }
-    
-    // Check match by display name or raw key
+
+    final target = category.trim();
+
+    // Check match by display name or slug
     final matched = categories.firstWhere(
-      (c) => c.toLowerCase() == category.toLowerCase().trim() ||
-             c.replaceAll(' ', '-').toLowerCase() == category.toLowerCase().trim(),
-      orElse: () => 'All',
+      (c) =>
+          c.toLowerCase() == target.toLowerCase() ||
+          c.replaceAll(' ', '-').toLowerCase() == target.toLowerCase() ||
+          c.replaceAll('-', ' ').toLowerCase() == target.toLowerCase(),
+      orElse: () {
+        // If not in categories, format title case and add if valid
+        final formatted = target
+            .split(RegExp(r'[-_ ]'))
+            .map((w) => w.isNotEmpty ? '${w[0].toUpperCase()}${w.substring(1).toLowerCase()}' : '')
+            .join(' ');
+        if (formatted.isNotEmpty && !categories.contains(formatted)) {
+          categories.add(formatted);
+          return formatted;
+        }
+        return 'All';
+      },
     );
     selectedCategory.value = matched;
   }
@@ -115,9 +138,11 @@ class CategoryController extends GetxController {
 
     // Category Chip Filter
     if (selectedCategory.value != "All") {
+      final selLower = selectedCategory.value.toLowerCase().replaceAll('-', ' ');
       products = products.where((product) {
-        return product.categoryDisplayName.toLowerCase() == selectedCategory.value.toLowerCase() ||
-            product.category.toLowerCase() == selectedCategory.value.toLowerCase();
+        final catDispLower = product.categoryDisplayName.toLowerCase().replaceAll('-', ' ');
+        final catRawLower = product.category.toLowerCase().replaceAll('-', ' ');
+        return catDispLower == selLower || catRawLower == selLower;
       }).toList();
     }
 

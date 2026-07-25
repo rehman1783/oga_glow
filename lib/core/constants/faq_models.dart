@@ -1,4 +1,4 @@
-/// Data models for FAQ categories and questions.
+// Data models for FAQ categories and questions.
 
 /// Represents a single FAQ category with a list of questions.
 class FaqCategory {

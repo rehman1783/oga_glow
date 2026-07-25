@@ -2,11 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/core/theme/app_text_styles.dart';
+import 'package:oga_glow/core/widgets/custom_empty_state.dart';
 import 'package:oga_glow/features/category/widgets/category_product_card.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../controllers/category_controller.dart';
 import 'category_chip_row.dart';
@@ -179,7 +180,7 @@ class CategoryScreen extends GetView<CategoryController> {
                       crossAxisCount: 2,
                       crossAxisSpacing: 12.w,
                       mainAxisSpacing: 12.h,
-                      childAspectRatio: 0.68,
+                      childAspectRatio: 0.63,
                     ),
                     itemBuilder: (context, index) => Shimmer.fromColors(
                       baseColor: AppColors.of(context).cardBackground,
@@ -195,59 +196,52 @@ class CategoryScreen extends GetView<CategoryController> {
                 }
 
                 if (controller.hasError.value) {
-                  return Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.wifi_off_rounded,
-                            size: 48.sp,
-                            color: AppColors.error,
-                          ),
-                          SizedBox(height: 12.h),
-                          Text(
-                            controller.errorMessage.value.isNotEmpty
-                                ? controller.errorMessage.value
-                                : 'Failed to load products',
-                            textAlign: TextAlign.center,
-                            style: AppTextStyles.body.copyWith(
-                              color: AppColors.of(context).textPrimary,
-                            ),
-                          ),
-                          SizedBox(height: 16.h),
-                          ElevatedButton.icon(
-                            onPressed: () => controller.fetchCategoryProducts(),
-                            icon: const Icon(Icons.refresh_rounded),
-                            label: const Text('Try Again'),
-                          ),
-                        ],
-                      ),
-                    ),
+                  return CustomEmptyState(
+                    icon: Icons.wifi_off_rounded,
+                    title: 'Connection Issue',
+                    description: controller.errorMessage.value.isNotEmpty
+                        ? controller.errorMessage.value
+                        : 'Unable to connect to the store. Please check your network.',
+                    buttonText: 'Try Again',
+                    onButtonPressed: () => controller.fetchCategoryProducts(),
                   );
                 }
 
                 if (controller.filteredProducts.isEmpty) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.search_off_rounded,
-                          size: 48.sp,
-                          color: AppColors.textSecondary,
-                        ),
-                        SizedBox(height: 12.h),
-                        Text(
-                          "No Products Found",
-                          style: AppTextStyles.body.copyWith(
-                            color: AppColors.textSecondary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
+                  // Empty search state
+                  if (controller.searchText.value.isNotEmpty) {
+                    return CustomEmptyState(
+                      icon: Icons.search_off_rounded,
+                      title: 'No Products Found',
+                      description:
+                          'No products matched "${controller.searchText.value}". Try searching with different keywords.',
+                      buttonText: 'Clear Search',
+                      onButtonPressed: () {
+                        controller.searchController.clear();
+                        controller.onSearchChanged('');
+                      },
+                    );
+                  }
+
+                  // Empty category state
+                  if (controller.selectedCategory.value != "All") {
+                    return CustomEmptyState(
+                      icon: Icons.category_outlined,
+                      title: 'No Products Available',
+                      description:
+                          'Products for "${controller.selectedCategory.value}" will be available soon.',
+                      buttonText: 'View All Products',
+                      onButtonPressed: () => controller.changeCategory('All'),
+                    );
+                  }
+
+                  // General empty product list
+                  return CustomEmptyState(
+                    icon: Icons.inventory_2_outlined,
+                    title: 'No Products Available',
+                    description: 'There are currently no products in the catalog.',
+                    buttonText: 'Refresh Catalog',
+                    onButtonPressed: () => controller.fetchCategoryProducts(),
                   );
                 }
 
@@ -257,7 +251,7 @@ class CategoryScreen extends GetView<CategoryController> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 12.w,
                     mainAxisSpacing: 12.h,
-                    childAspectRatio: 0.68,
+                    childAspectRatio: 0.63,
                   ),
                   itemBuilder: (context, index) {
                     return FadeSlideTransition(

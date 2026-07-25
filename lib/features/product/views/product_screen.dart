@@ -8,7 +8,6 @@ import 'package:oga_glow/features/product/widgets/product_image_slider.dart';
 import '../controllers/product_controller.dart';
 import '../widgets/product_action_buttons.dart';
 import '../widgets/product_info_section.dart';
-import '../widgets/quantity_selector.dart';
 import '../widgets/related_products_section.dart';
 import '../../../core/widgets/fade_slide_transition.dart';
 
@@ -17,6 +16,19 @@ class ProductScreen extends GetView<ProductController> {
 
   @override
   Widget build(BuildContext context) {
+    final args = Get.arguments;
+    final targetId = args is String
+        ? args
+        : (args is Map ? args['id']?.toString() : null);
+
+    if (targetId != null &&
+        targetId.isNotEmpty &&
+        targetId != controller.productId) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        controller.loadProductById(targetId);
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Details'),
@@ -25,7 +37,9 @@ class ProductScreen extends GetView<ProductController> {
         scrolledUnderElevation: 0,
       ),
       bottomNavigationBar: Obx(() {
-        if (controller.isLoading.value || controller.hasError.value || controller.productModel.value == null) {
+        if (controller.isLoading.value ||
+            controller.hasError.value ||
+            controller.productModel.value == null) {
           return const SizedBox.shrink();
         }
         return const ProductActionButtons();
@@ -66,7 +80,8 @@ class ProductScreen extends GetView<ProductController> {
                     SizedBox(height: 20.h),
                     if (controller.productId != null)
                       ElevatedButton.icon(
-                        onPressed: () => controller.fetchProductDetails(controller.productId!),
+                        onPressed: () =>
+                            controller.fetchProductDetails(controller.productId!),
                         icon: const Icon(Icons.refresh_rounded),
                         label: const Text('Try Again'),
                       ),
@@ -81,15 +96,18 @@ class ProductScreen extends GetView<ProductController> {
             return Center(
               child: Text(
                 'Product not found.',
-                style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+                style: AppTextStyles.body
+                    .copyWith(color: AppColors.of(context).textSecondary),
               ),
             );
           }
 
           return SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
-                FadeSlideTransition(index: 0, child: const ProductImageSection()),
+                FadeSlideTransition(
+                    index: 0, child: const ProductImageSection()),
 
                 FadeSlideTransition(
                   index: 1,
@@ -115,10 +133,8 @@ class ProductScreen extends GetView<ProductController> {
                   ),
                 ),
 
-                FadeSlideTransition(index: 2, child: const QuantitySelector()),
-
                 FadeSlideTransition(
-                  index: 3,
+                  index: 2,
                   child: const RelatedProductsSection(),
                 ),
 

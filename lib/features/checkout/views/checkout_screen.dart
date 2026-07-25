@@ -390,10 +390,13 @@ class CheckoutScreen extends GetView<CheckoutController> {
                       ],
                     ),
                   ),
+                  // ignore: deprecated_member_use
                   Radio<String>(
                     value: value,
+                    // ignore: deprecated_member_use
                     groupValue: controller.paymentMethod.value,
                     activeColor: AppColors.primary,
+                    // ignore: deprecated_member_use
                     onChanged: (v) {
                       if (v == null) return;
                       controller.setPaymentMethod(v);

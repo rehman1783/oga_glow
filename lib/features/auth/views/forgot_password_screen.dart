@@ -335,12 +335,12 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: AppColors.white,
-                  disabledBackgroundColor: AppColors.primary.withOpacity(0.6),
+                  disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.6),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
                   elevation: 4,
-                  shadowColor: AppColors.primary.withOpacity(0.25),
+                  shadowColor: AppColors.primary.withValues(alpha: 0.25),
                 ),
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 250),

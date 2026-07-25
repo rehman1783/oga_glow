@@ -46,7 +46,7 @@ class ContactController extends GetxController {
         'Error',
         message,
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withOpacity(0.9),
+        backgroundColor: Colors.red.withValues(alpha: 0.9),
         colorText: Colors.white,
         borderRadius: 14,
         margin: const EdgeInsets.all(16),

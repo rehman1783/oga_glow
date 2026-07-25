@@ -17,7 +17,7 @@ class OgaGlowApp extends StatelessWidget {
       designSize: const Size(390, 844),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (_, __) {
+      builder: (context, child) {
         final themeController = Get.put(ThemeController(), permanent: true);
 
         return Obx(

@@ -39,7 +39,7 @@ class OrderFilterChips extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         itemCount: filters.length,
-        separatorBuilder: (_, __) => SizedBox(width: 8.w),
+        separatorBuilder: (context, index) => SizedBox(width: 8.w),
         itemBuilder: (context, index) {
           final filter = filters[index];
           final isSelected = selectedStatus == filter.status;

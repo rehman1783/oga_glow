@@ -14,7 +14,9 @@ abstract class AppRoutes {
   static const allProducts = '/all-products';
 
   static const products = '/products';
+  // ignore: constant_identifier_names
   static const products_details = '/products-details';
+  static const productsDetails = '/products-details';
 
   // Auth
   static const auth = '/auth';

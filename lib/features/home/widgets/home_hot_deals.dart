@@ -77,7 +77,7 @@ class HomeHotDeals extends GetView<HomeController> {
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               itemCount: hotDeals.length,
-              separatorBuilder: (_, __) => SizedBox(width: 14.w),
+              separatorBuilder: (context, index) => SizedBox(width: 14.w),
               itemBuilder: (context, index) {
                 final deal = hotDeals[index];
                 final colors = AppColors.of(context);

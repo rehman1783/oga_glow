@@ -31,15 +31,14 @@ class RelatedProductsSection extends GetView<ProductController> {
             ),
             SizedBox(height: 12.h),
             SizedBox(
-              height: 260.h,
+              height: 320.h,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
                 itemCount: related.length,
-                separatorBuilder: (_, __) => SizedBox(width: 0.w),
+                separatorBuilder: (context, index) => SizedBox(width: 4.w),
                 itemBuilder: (context, index) {
-                  return ProductCard(
-                    product: related[index],
-                  );
+                  return ProductCard(product: related[index]);
                 },
               ),
             ),

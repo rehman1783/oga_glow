@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 
-import 'package:oga_glow/app/routes/app_routes.dart';
 import 'package:oga_glow/features/auth/controllers/auth_controller.dart';
 
 class SplashController extends GetxController {

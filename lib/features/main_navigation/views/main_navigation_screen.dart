@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../../cart/views/cart_screen.dart';
 import '../../category/views/category_screen.dart';
 import '../../home/views/home_screen.dart';
-import '../../profile/views/profile_screen.dart';
 import '../../wishlist/views/wishlist_screen.dart';
 import '../controllers/main_navigation_controller.dart';
 import '../../../core/theme/app_colors.dart';

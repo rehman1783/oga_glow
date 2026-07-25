@@ -29,12 +29,12 @@ class HomeScreen extends GetView<HomeController> {
 
   Widget _buildProductListShimmer(BuildContext context) {
     return SizedBox(
-      height: 250.h,
+      height: 270.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         itemCount: 4,
-        separatorBuilder: (_, __) => SizedBox(width: 8.w),
+        separatorBuilder: (context, index) => SizedBox(width: 8.w),
         itemBuilder: (context, index) => Shimmer.fromColors(
           baseColor: AppColors.of(context).cardBackground,
           highlightColor: AppColors.primary.withValues(alpha: 0.1),
@@ -54,6 +54,7 @@ class HomeScreen extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.all(12.w),
           child: Column(
@@ -107,7 +108,10 @@ class HomeScreen extends GetView<HomeController> {
                 if (controller.hasError.value) {
                   return Center(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 20.w),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 30.h,
+                        horizontal: 20.w,
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -145,7 +149,7 @@ class HomeScreen extends GetView<HomeController> {
                       child: Text(
                         'No products available right now.',
                         style: AppTextStyles.body.copyWith(
-                          color: AppColors.textSecondary,
+                          color: AppColors.of(context).textSecondary,
                         ),
                       ),
                     ),
@@ -169,11 +173,12 @@ class HomeScreen extends GetView<HomeController> {
                             ),
                             SizedBox(height: 12.h),
                             SizedBox(
-                              height: 260.h,
+                              height: 320.h,
                               child: ListView.separated(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: controller.featuredProducts.length,
-                                separatorBuilder: (_, __) => SizedBox(width: 0.w),
+                                separatorBuilder: (context, index) =>
+                                    SizedBox(width: 0.w),
                                 itemBuilder: (context, index) {
                                   return ProductCard(
                                     product: controller.featuredProducts[index],
@@ -202,11 +207,12 @@ class HomeScreen extends GetView<HomeController> {
                             ),
                             SizedBox(height: 12.h),
                             SizedBox(
-                              height: 260.h,
+                              height: 320.h,
                               child: ListView.separated(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: controller.bestSellers.length,
-                                separatorBuilder: (_, __) => SizedBox(width: 0.w),
+                                separatorBuilder: (context, index) =>
+                                    SizedBox(width: 0.w),
                                 itemBuilder: (context, index) {
                                   return ProductCard(
                                     product: controller.bestSellers[index],
@@ -235,11 +241,12 @@ class HomeScreen extends GetView<HomeController> {
                             ),
                             SizedBox(height: 12.h),
                             SizedBox(
-                              height: 260.h,
+                              height: 320.h,
                               child: ListView.separated(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: controller.newArrivals.length,
-                                separatorBuilder: (_, __) => SizedBox(width: 0.w),
+                                separatorBuilder: (context, index) =>
+                                    SizedBox(width: 0.w),
                                 itemBuilder: (context, index) {
                                   return ProductCard(
                                     product: controller.newArrivals[index],

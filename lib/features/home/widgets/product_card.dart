@@ -41,12 +41,19 @@ class ProductCard extends StatelessWidget {
       tag: WishlistController.tag,
     );
 
+    final rating = product.averageRating > 0 ? product.averageRating : 4.5;
+    final reviews = product.totalReviews > 0 ? product.totalReviews : 12;
+
     return BounceTap(
       onTap: () {
-        Get.toNamed(AppRoutes.products_details, arguments: product.id);
+        Get.toNamed(
+          AppRoutes.products_details,
+          arguments: product.id,
+          preventDuplicates: false,
+        );
       },
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
+        margin: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.h),
         width: 165.w,
         decoration: BoxDecoration(
           color: AppColors.of(context).cardBackground,
@@ -66,11 +73,10 @@ class ProductCard extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
           children: [
             /// Product Image + Discount Badge + Wishlist Icon
             Expanded(
-              flex: 6,
+              flex: 5,
               child: Stack(
                 children: [
                   ClipRRect(
@@ -93,7 +99,7 @@ class ProductCard extends StatelessWidget {
                                 color: AppColors.of(context).cardBackground,
                                 child: Icon(
                                   Icons.image_not_supported_outlined,
-                                  color: AppColors.textSecondary,
+                                  color: AppColors.of(context).textSecondary,
                                 ),
                               ),
                             )
@@ -101,7 +107,7 @@ class ProductCard extends StatelessWidget {
                               color: AppColors.of(context).cardBackground,
                               child: Icon(
                                 Icons.image_not_supported_outlined,
-                                color: AppColors.textSecondary,
+                                color: AppColors.of(context).textSecondary,
                               ),
                             ),
                     ),
@@ -110,20 +116,20 @@ class ProductCard extends StatelessWidget {
                   /// Discount Savings Badge
                   if (product.hasDiscount)
                     Positioned(
-                      top: 10,
-                      left: 10,
+                      top: 8.h,
+                      left: 8.w,
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                        padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 3.h),
                         decoration: BoxDecoration(
                           color: AppColors.error,
-                          borderRadius: BorderRadius.circular(8.r),
+                          borderRadius: BorderRadius.circular(6.r),
                         ),
                         child: Text(
                           '${product.discountPercentage}% OFF',
                           style: AppTextStyles.caption.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 10.sp,
+                            fontSize: 9.sp,
                           ),
                         ),
                       ),
@@ -131,8 +137,8 @@ class ProductCard extends StatelessWidget {
 
                   /// Wishlist Icon
                   Positioned(
-                    top: 10,
-                    right: 10,
+                    top: 8.h,
+                    right: 8.w,
                     child: Obx(() {
                       final inWishlist = wishlistController.isInWishlist(
                         _legacyProductMap,
@@ -144,14 +150,14 @@ class ProductCard extends StatelessWidget {
                           wishlistController.toggleWishlistItem(_legacyProductMap);
                         },
                         child: Container(
-                          padding: const EdgeInsets.all(8),
+                          padding: EdgeInsets.all(6.r),
                           decoration: BoxDecoration(
                             color: AppColors.of(context).cardBackground.withValues(alpha: 0.9),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
                             inWishlist ? Icons.favorite : Icons.favorite_border,
-                            size: 18,
+                            size: 16.sp,
                             color: inWishlist
                                 ? AppColors.error
                                 : AppColors.of(context).textPrimary,
@@ -164,38 +170,72 @@ class ProductCard extends StatelessWidget {
               ),
             ),
 
-            /// Product Details + Quick Add to Cart
+            /// Product Details + Rating + Quick Add to Cart
             Expanded(
               flex: 4,
               child: Padding(
-                padding: EdgeInsets.all(10.w),
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      product.name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTextStyles.body.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.of(context).textPrimary,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.body.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13.sp,
+                            color: AppColors.of(context).textPrimary,
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                product.categoryDisplayName,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTextStyles.caption.copyWith(
+                                  color: AppColors.of(context).textSecondary,
+                                  fontSize: 10.sp,
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.star_rounded,
+                                  size: 12.sp,
+                                  color: Colors.amber,
+                                ),
+                                SizedBox(width: 2.w),
+                                Text(
+                                  rating.toStringAsFixed(1),
+                                  style: AppTextStyles.caption.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 10.sp,
+                                    color: AppColors.of(context).textPrimary,
+                                  ),
+                                ),
+                                Text(
+                                  ' ($reviews)',
+                                  style: AppTextStyles.caption.copyWith(
+                                    fontSize: 9.sp,
+                                    color: AppColors.of(context).textSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-
-                    SizedBox(height: 2.h),
-
-                    Text(
-                      product.categoryDisplayName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTextStyles.caption.copyWith(
-                        color: AppColors.textSecondary,
-                        fontSize: 11.sp,
-                      ),
-                    ),
-
-                    const Spacer(),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -206,24 +246,34 @@ class ProductCard extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               if (product.hasDiscount)
-                                Text(
-                                  'Rs ${product.price.toStringAsFixed(0)}',
-                                  style: AppTextStyles.caption.copyWith(
-                                    color: AppColors.textSecondary,
-                                    decoration: TextDecoration.lineThrough,
-                                    fontSize: 10.sp,
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Rs ${product.price.toStringAsFixed(0)}',
+                                    style: AppTextStyles.caption.copyWith(
+                                      color: AppColors.of(context).textSecondary,
+                                      decoration: TextDecoration.lineThrough,
+                                      fontSize: 9.sp,
+                                    ),
                                   ),
                                 ),
-                              Text(
-                                'Rs ${product.finalPrice.toStringAsFixed(0)}',
-                                style: AppTextStyles.body.copyWith(
-                                  color: AppColors.primary,
-                                  fontWeight: FontWeight.bold,
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Rs ${product.finalPrice.toStringAsFixed(0)}',
+                                  style: AppTextStyles.body.copyWith(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13.sp,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
+                        SizedBox(width: 4.w),
                         BounceTap(
                           onTap: () => AddToCartBottomSheet.show(
                             context,
@@ -231,14 +281,14 @@ class ProductCard extends StatelessWidget {
                           ),
                           scaleBound: 0.85,
                           child: Container(
-                            padding: const EdgeInsets.all(6),
+                            padding: EdgeInsets.all(6.r),
                             decoration: BoxDecoration(
                               color: AppColors.primary.withValues(alpha: 0.12),
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.add_shopping_cart_rounded,
-                              size: 16,
+                              size: 15.sp,
                               color: AppColors.primary,
                             ),
                           ),

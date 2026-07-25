@@ -22,12 +22,7 @@ import 'package:oga_glow/features/auth/views/verification_screen.dart';
 import '../../features/splash/bindings/splash_binding.dart';
 import '../../features/splash/views/splash_screen.dart';
 
-import '../../features/wishlist/bindings/wishlist_binding.dart';
-import '../../features/wishlist/views/wishlist_screen.dart';
-
 import '../../features/profile/views/profile_screen.dart';
-import '../../features/cart/views/cart_screen.dart';
-import '../../features/cart/bindings/cart_binding.dart';
 
 import 'app_routes.dart';
 import '../../features/auth/views/auth_entry_screen.dart';
@@ -68,44 +63,22 @@ class AppPages {
       page: () => const MainNavigationScreen(),
       binding: MainNavigationBinding(),
     ),
-    // GetPage(
-    //   name: AppRoutes.category,
-    //   page: () => const CategoryScreen(),
-    //   binding: CategoryBinding(),
-    // ),
     GetPage(
       name: AppRoutes.checkout,
       page: () => const CheckoutScreen(),
       binding: CheckoutBinding(),
     ),
-
     GetPage(
       name: AppRoutes.allProducts,
       page: () => const CategoryScreen(),
       binding: CategoryBinding(),
       arguments: 'All',
     ),
-
-    // GetPage(
-    //   name: AppRoutes.products,
-    //   page: () => const ProductScreen(),
-    //   binding: ProductBinding(),
-    // ),
     GetPage(
       name: AppRoutes.products_details,
       page: () => const ProductScreen(),
       binding: ProductBinding(),
     ),
-    // GetPage(
-    //   name: AppRoutes.wishlist,
-    //   page: () => WishlistScreen(),
-    //   binding: WishlistBinding(),
-    // ),
-    // GetPage(
-    //   name: AppRoutes.cart,
-    //   page: () => CartScreen(),
-    //   binding: CartBinding(),
-    // ),
     GetPage(name: AppRoutes.profile, page: () => const ProfileScreen()),
 
     // Auth routes
