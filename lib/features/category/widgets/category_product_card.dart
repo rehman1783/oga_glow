@@ -69,7 +69,7 @@ class CategoryProductCard extends StatelessWidget {
           children: [
             /// Product Image + Discount Badge + Wishlist Button
             Expanded(
-              flex: 5,
+              flex: 8,
               child: Stack(
                 children: [
                   ClipRRect(
@@ -85,8 +85,12 @@ class CategoryProductCard extends StatelessWidget {
                               fit: BoxFit.cover,
                               placeholder: (context, url) => Shimmer.fromColors(
                                 baseColor: AppColors.of(context).cardBackground,
-                                highlightColor: AppColors.primary.withValues(alpha: 0.1),
-                                child: Container(color: AppColors.of(context).cardBackground),
+                                highlightColor: AppColors.primary.withValues(
+                                  alpha: 0.1,
+                                ),
+                                child: Container(
+                                  color: AppColors.of(context).cardBackground,
+                                ),
                               ),
                               errorWidget: (context, url, error) => Container(
                                 color: AppColors.of(context).cardBackground,
@@ -112,7 +116,10 @@ class CategoryProductCard extends StatelessWidget {
                       top: 8.h,
                       left: 8.w,
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 3.h),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 7.w,
+                          vertical: 3.h,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.error,
                           borderRadius: BorderRadius.circular(6.r),
@@ -147,13 +154,13 @@ class CategoryProductCard extends StatelessWidget {
                         child: Container(
                           padding: EdgeInsets.all(6.r),
                           decoration: BoxDecoration(
-                            color: AppColors.of(context).cardBackground.withValues(alpha: 0.9),
+                            color: AppColors.of(
+                              context,
+                            ).cardBackground.withValues(alpha: 0.9),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
-                            inWishlist
-                                ? Icons.favorite
-                                : Icons.favorite_border,
+                            inWishlist ? Icons.favorite : Icons.favorite_border,
                             size: 16.sp,
                             color: inWishlist
                                 ? AppColors.error
@@ -249,7 +256,9 @@ class CategoryProductCard extends StatelessWidget {
                                   child: Text(
                                     'Rs ${product.price.toStringAsFixed(0)}',
                                     style: AppTextStyles.caption.copyWith(
-                                      color: AppColors.of(context).textSecondary,
+                                      color: AppColors.of(
+                                        context,
+                                      ).textSecondary,
                                       decoration: TextDecoration.lineThrough,
                                       fontSize: 9.sp,
                                     ),
