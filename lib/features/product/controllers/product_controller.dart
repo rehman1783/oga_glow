@@ -3,12 +3,13 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:oga_glow/data/models/product_model.dart';
 import 'package:oga_glow/data/repositories/product_repository.dart';
+import 'package:oga_glow/features/product/controllers/product_reviews_controller.dart';
 
 class ProductController extends GetxController {
   final ProductRepository _productRepository;
 
   ProductController({ProductRepository? productRepository})
-      : _productRepository = productRepository ?? ProductRepository();
+    : _productRepository = productRepository ?? ProductRepository();
 
   final quantity = 1.obs;
   final currentImageIndex = 0.obs;
@@ -21,14 +22,17 @@ class ProductController extends GetxController {
   final Rx<ProductModel?> productModel = Rx<ProductModel?>(null);
   final productImages = <String>[].obs;
   final relatedProducts = <ProductModel>[].obs;
+  late final ProductReviewsController reviewsController;
 
   String? productId;
   Timer? _autoPlayTimer;
   int _autoImageIndex = 0;
 
   @override
+  @override
   void onInit() {
     super.onInit();
+    reviewsController = Get.find<ProductReviewsController>();
     _extractProductId();
     if (productId != null && productId!.isNotEmpty) {
       fetchProductDetails(productId!);
@@ -75,6 +79,8 @@ class ProductController extends GetxController {
 
       // Fetch related products from same category or fallback list
       _fetchRelatedProducts(details);
+      reviewsController.setProductId(id);
+      await reviewsController.loadReviews(id);
 
       _startAutoPlay();
     } catch (e) {
@@ -89,17 +95,21 @@ class ProductController extends GetxController {
     try {
       final all = await _productRepository.getProducts();
       relatedProducts.value = all
-          .where((p) =>
-              p.id != current.id &&
-              (p.category == current.category ||
-                  p.categoryDisplayName == current.categoryDisplayName))
+          .where(
+            (p) =>
+                p.id != current.id &&
+                (p.category == current.category ||
+                    p.categoryDisplayName == current.categoryDisplayName),
+          )
           .take(6)
           .toList();
 
       // Fallback if no matching category products
       if (relatedProducts.isEmpty) {
-        relatedProducts.value =
-            all.where((p) => p.id != current.id).take(6).toList();
+        relatedProducts.value = all
+            .where((p) => p.id != current.id)
+            .take(6)
+            .toList();
       }
     } catch (e) {
       // Ignore error for related products list

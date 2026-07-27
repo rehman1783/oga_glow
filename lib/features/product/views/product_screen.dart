@@ -9,6 +9,8 @@ import '../controllers/product_controller.dart';
 import '../widgets/product_action_buttons.dart';
 import '../widgets/product_info_section.dart';
 import '../widgets/related_products_section.dart';
+import '../widgets/review_form_card.dart';
+import '../widgets/review_list_card.dart';
 import '../../../core/widgets/fade_slide_transition.dart';
 
 class ProductScreen extends GetView<ProductController> {
@@ -48,9 +50,7 @@ class ProductScreen extends GetView<ProductController> {
         child: Obx(() {
           if (controller.isLoading.value) {
             return const Center(
-              child: CircularProgressIndicator(
-                color: AppColors.primary,
-              ),
+              child: CircularProgressIndicator(color: AppColors.primary),
             );
           }
 
@@ -80,8 +80,9 @@ class ProductScreen extends GetView<ProductController> {
                     SizedBox(height: 20.h),
                     if (controller.productId != null)
                       ElevatedButton.icon(
-                        onPressed: () =>
-                            controller.fetchProductDetails(controller.productId!),
+                        onPressed: () => controller.fetchProductDetails(
+                          controller.productId!,
+                        ),
                         icon: const Icon(Icons.refresh_rounded),
                         label: const Text('Try Again'),
                       ),
@@ -96,8 +97,9 @@ class ProductScreen extends GetView<ProductController> {
             return Center(
               child: Text(
                 'Product not found.',
-                style: AppTextStyles.body
-                    .copyWith(color: AppColors.of(context).textSecondary),
+                style: AppTextStyles.body.copyWith(
+                  color: AppColors.of(context).textSecondary,
+                ),
               ),
             );
           }
@@ -107,7 +109,9 @@ class ProductScreen extends GetView<ProductController> {
             child: Column(
               children: [
                 FadeSlideTransition(
-                    index: 0, child: const ProductImageSection()),
+                  index: 0,
+                  child: const ProductImageSection(),
+                ),
 
                 FadeSlideTransition(
                   index: 1,
@@ -135,6 +139,77 @@ class ProductScreen extends GetView<ProductController> {
 
                 FadeSlideTransition(
                   index: 2,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 8.h,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 8.h),
+                        Text(
+                          'Customer Reviews',
+                          style: AppTextStyles.heading2.copyWith(
+                            color: AppColors.of(context).textPrimary,
+                            fontSize: 18.sp,
+                          ),
+                        ),
+                        SizedBox(height: 12.h),
+                        const ReviewFormCard(),
+                        SizedBox(height: 16.h),
+                        Obx(() {
+                          if (controller
+                              .reviewsController
+                              .isReviewsLoading
+                              .value) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.primary,
+                              ),
+                            );
+                          }
+                          if (controller
+                              .reviewsController
+                              .reviewsError
+                              .value
+                              .isNotEmpty) {
+                            return Text(
+                              controller.reviewsController.reviewsError.value,
+                              style: AppTextStyles.body.copyWith(
+                                color: AppColors.error,
+                              ),
+                            );
+                          }
+                          final reviews = controller.reviewsController.reviews;
+                          if (reviews.isEmpty) {
+                            return Container(
+                              padding: EdgeInsets.all(16.w),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.surface,
+                                borderRadius: BorderRadius.circular(16.r),
+                              ),
+                              child: Text(
+                                'No reviews yet. Be the first to review this product.',
+                                style: AppTextStyles.body.copyWith(
+                                  color: AppColors.of(context).textSecondary,
+                                ),
+                              ),
+                            );
+                          }
+                          return Column(
+                            children: reviews
+                                .map((review) => ReviewListCard(review: review))
+                                .toList(),
+                          );
+                        }),
+                      ],
+                    ),
+                  ),
+                ),
+
+                FadeSlideTransition(
+                  index: 3,
                   child: const RelatedProductsSection(),
                 ),
 

@@ -5,11 +5,10 @@ import 'package:oga_glow/core/constants/contact_constants.dart';
 import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/core/theme/app_text_styles.dart';
 import 'package:oga_glow/core/widgets/fade_slide_transition.dart';
+import 'package:oga_glow/core/widgets/loading_widget.dart';
 import '../controllers/contact_controller.dart';
-import '../widgets/contact_info_card.dart';
-import '../widgets/contact_row.dart';
-import '../widgets/contact_section_title.dart';
-import '../widgets/office_card.dart';
+import '../widgets/contact_form_card.dart';
+import '../widgets/contact_info_section.dart';
 
 /// Contact Us screen.
 ///
@@ -40,187 +39,51 @@ class ContactScreen extends GetView<ContactController> {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // ---- Hero / Header Section ----
-              FadeSlideTransition(index: 0, child: _buildHeroSection(isDark)),
-              SizedBox(height: 24.h),
-
-              // ---- Office Information Section ----
-              FadeSlideTransition(
-                index: 1,
-                child: ContactSectionTitle(
-                  icon: Icons.business_rounded,
-                  title: 'Our Offices',
-                ),
-              ),
-              SizedBox(height: 4.h),
-              FadeSlideTransition(
-                index: 2,
-                child: ContactInfoCard(
-                  child: Column(
-                    children: [
-                      OfficeCard(
-                        title: ContactConstants.headOfficeTitle,
-                        city: ContactConstants.headOfficeCity,
-                        address: ContactConstants.headOfficeAddress,
+        child: RefreshIndicator(
+          onRefresh: controller.fetchContactInfo,
+          color: AppColors.primary,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FadeSlideTransition(index: 0, child: _buildHeroSection(isDark)),
+                SizedBox(height: 24.h),
+                Obx(() {
+                  if (controller.isLoading.value) {
+                    return const LoadingWidget();
+                  }
+                  if (controller.errorMessage.value.isNotEmpty) {
+                    return Container(
+                      padding: EdgeInsets.all(16.w),
+                      decoration: BoxDecoration(
+                        color: AppColors.error.withValues(alpha: 0.08),
+                        borderRadius: BorderRadius.circular(16.r),
                       ),
-                      SizedBox(height: 12.h),
-                      OfficeCard(
-                        title: ContactConstants.subOfficeTitle,
-                        city: ContactConstants.subOfficeCity,
-                        address: ContactConstants.subOfficeAddress,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 24.h),
-
-              // ---- Contact Numbers Section ----
-              FadeSlideTransition(
-                index: 3,
-                child: ContactSectionTitle(
-                  icon: Icons.phone_rounded,
-                  title: 'Phone Numbers',
-                ),
-              ),
-              SizedBox(height: 4.h),
-              FadeSlideTransition(
-                index: 4,
-                child: ContactInfoCard(
-                  child: Column(
-                    children: [
-                      ContactRow(
-                        icon: Icons.call_rounded,
-                        label: ContactConstants.phoneLabel1,
-                        value: ContactConstants.phoneNumber1,
-                        onTap: () =>
-                            controller.launchPhone(ContactConstants.phoneDial1),
-                      ),
-                      Divider(
-                        height: 1,
-                        color: AppColors.of(context).border,
-                      ),
-                      ContactRow(
-                        icon: Icons.call_rounded,
-                        label: ContactConstants.phoneLabel2,
-                        value: ContactConstants.phoneNumber2,
-                        onTap: () =>
-                            controller.launchPhone(ContactConstants.phoneDial2),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 24.h),
-
-              // ---- Email Section ----
-              FadeSlideTransition(
-                index: 5,
-                child: ContactSectionTitle(
-                  icon: Icons.email_rounded,
-                  title: 'Email',
-                ),
-              ),
-              SizedBox(height: 4.h),
-              FadeSlideTransition(
-                index: 6,
-                child: ContactInfoCard(
-                  child: ContactRow(
-                    icon: Icons.email_outlined,
-                    label: ContactConstants.emailLabel,
-                    value: ContactConstants.emailAddress,
-                    onTap: () =>
-                        controller.launchEmail(ContactConstants.emailUri),
-                  ),
-                ),
-              ),
-              SizedBox(height: 24.h),
-
-              // ---- Global Connectivity Section ----
-              FadeSlideTransition(
-                index: 7,
-                child: ContactSectionTitle(
-                  icon: Icons.public_rounded,
-                  title: ContactConstants.connectivityTitle,
-                ),
-              ),
-              SizedBox(height: 4.h),
-              FadeSlideTransition(
-                index: 8,
-                child: ContactInfoCard(
-                  child: Column(
-                    children: [
-                      ContactRow(
-                        icon: Icons.language_rounded,
-                        label: ContactConstants.websiteLabel,
-                        value: ContactConstants.websiteUrl,
-                        onTap: () => controller.launchUrlString(
-                          ContactConstants.websiteUrl,
+                      child: Text(
+                        controller.errorMessage.value,
+                        style: AppTextStyles.body.copyWith(
+                          color: AppColors.error,
                         ),
                       ),
-                      Divider(
-                        height: 1,
-                        color: AppColors.of(context).border,
-                      ),
-                      ContactRow(
-                        icon: Icons.facebook_rounded,
-                        label: ContactConstants.facebookLabel,
-                        value: ContactConstants.facebookUrl,
-                        onTap: () => controller.launchUrlString(
-                          ContactConstants.facebookUrl,
-                        ),
-                      ),
-                      Divider(
-                        height: 1,
-                        color: AppColors.of(context).border,
-                      ),
-                      // Instagram (no native icon, using photo_camera)
-                      ContactRow(
-                        icon: Icons.camera_alt_rounded,
-                        label: ContactConstants.instagramLabel,
-                        value: ContactConstants.instagramUrl,
-                        onTap: () => controller.launchUrlString(
-                          ContactConstants.instagramUrl,
-                        ),
-                      ),
-                      Divider(
-                        height: 1,
-                        color: AppColors.of(context).border,
-                      ),
-                      // LinkedIn
-                      ContactRow(
-                        icon: Icons.work_outline_rounded,
-                        label: ContactConstants.linkedInLabel,
-                        value: ContactConstants.linkedInUrl,
-                        onTap: () => controller.launchUrlString(
-                          ContactConstants.linkedInUrl,
-                        ),
-                      ),
-                      Divider(
-                        height: 1,
-                        color: AppColors.of(context).border,
-                      ),
-                      // WhatsApp
-                      ContactRow(
-                        icon: Icons.chat_rounded,
-                        label: ContactConstants.whatsAppLabel,
-                        value: ContactConstants.whatsAppUrl,
-                        onTap: () => controller.launchUrlString(
-                          ContactConstants.whatsAppUrl,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 32.h),
-            ],
+                    );
+                  }
+                  return FadeSlideTransition(
+                    index: 1,
+                    child: ContactInfoSection(
+                      contactInfo: controller.contactInfo.value,
+                      onPhoneTap: controller.launchPhone,
+                      onEmailTap: controller.launchEmail,
+                      onUrlTap: controller.launchUrlString,
+                    ),
+                  );
+                }),
+                SizedBox(height: 24.h),
+                FadeSlideTransition(index: 2, child: const ContactFormCard()),
+                SizedBox(height: 32.h),
+              ],
+            ),
           ),
         ),
       ),

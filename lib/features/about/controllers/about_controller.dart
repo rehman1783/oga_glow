@@ -7,6 +7,8 @@ import 'package:oga_glow/features/about/models/about_us_model.dart';
 import 'package:oga_glow/features/about/repositories/about_repository.dart';
 import 'package:oga_glow/features/category/controllers/category_controller.dart';
 import 'package:oga_glow/features/main_navigation/controllers/main_navigation_controller.dart';
+import 'package:oga_glow/features/product/models/review_model.dart';
+import 'package:oga_glow/features/product/repositories/review_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Controller for the About Us screen.
@@ -15,15 +17,22 @@ import 'package:url_launcher/url_launcher.dart';
 /// and handles navigation/external launcher actions.
 class AboutController extends GetxController {
   final AboutRepository _repository;
+  final ReviewRepository _reviewRepository;
 
-  AboutController({AboutRepository? repository})
-      : _repository = repository ?? AboutRepository();
+  AboutController({
+    AboutRepository? repository,
+    ReviewRepository? reviewRepository,
+  }) : _repository = repository ?? AboutRepository(),
+       _reviewRepository = reviewRepository ?? ReviewRepository();
 
   // Observable States
   final isLoading = true.obs;
   final isError = false.obs;
   final errorMessage = ''.obs;
   final aboutData = Rxn<AboutUsModel>();
+  final testimonials = <ReviewModel>[].obs;
+  final isTestimonialsLoading = false.obs;
+  final testimonialsError = ''.obs;
 
   /// Helper getter to check if FAQ list is empty
   bool get isFaqEmpty {
@@ -36,11 +45,13 @@ class AboutController extends GetxController {
     final data = aboutData.value;
     if (data == null) return true;
     final banner = data.banner;
-    final hasBannerText = banner?.paragraph?.isNotEmpty == true ||
+    final hasBannerText =
+        banner?.paragraph?.isNotEmpty == true ||
         banner?.card1?.isNotEmpty == true ||
         banner?.card2?.isNotEmpty == true ||
         banner?.card3?.isNotEmpty == true;
-    final hasImages = data.firstImage?.isNotEmpty == true ||
+    final hasImages =
+        data.firstImage?.isNotEmpty == true ||
         data.secondImage?.isNotEmpty == true ||
         data.faqImage?.isNotEmpty == true;
     final hasFaq = data.faq != null && data.faq!.isNotEmpty;
@@ -48,9 +59,26 @@ class AboutController extends GetxController {
   }
 
   @override
+  @override
   void onInit() {
     super.onInit();
     fetchAboutUs();
+    fetchTestimonials();
+  }
+
+  Future<void> fetchTestimonials() async {
+    try {
+      isTestimonialsLoading.value = true;
+      testimonialsError.value = '';
+      final result = await _reviewRepository.getFakeTestimonials();
+      testimonials.assignAll(result);
+    } on ApiException catch (e) {
+      testimonialsError.value = e.message;
+    } catch (e) {
+      testimonialsError.value = 'Unable to load testimonials.';
+    } finally {
+      isTestimonialsLoading.value = false;
+    }
   }
 
   /// Fetches About Us details from backend API.
@@ -67,7 +95,8 @@ class AboutController extends GetxController {
       errorMessage.value = e.message;
     } catch (e) {
       isError.value = true;
-      errorMessage.value = 'An unexpected error occurred while loading About Us.';
+      errorMessage.value =
+          'An unexpected error occurred while loading About Us.';
     } finally {
       isLoading.value = false;
     }
@@ -75,7 +104,8 @@ class AboutController extends GetxController {
 
   /// Navigate to the All Products screen.
   void shopNow() {
-    if (Get.isRegistered<CategoryController>() && Get.isRegistered<MainNavigationController>()) {
+    if (Get.isRegistered<CategoryController>() &&
+        Get.isRegistered<MainNavigationController>()) {
       final categoryController = Get.find<CategoryController>();
       final mainNavController = Get.find<MainNavigationController>();
       categoryController.openCategory("All");
@@ -105,7 +135,8 @@ class AboutController extends GetxController {
 
   /// Navigate to the All Products / Product Listing page.
   void viewProducts() {
-    if (Get.isRegistered<CategoryController>() && Get.isRegistered<MainNavigationController>()) {
+    if (Get.isRegistered<CategoryController>() &&
+        Get.isRegistered<MainNavigationController>()) {
       final categoryController = Get.find<CategoryController>();
       final mainNavController = Get.find<MainNavigationController>();
       categoryController.openCategory("All");
