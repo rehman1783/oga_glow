@@ -1,3 +1,5 @@
+import 'package:oga_glow/core/constants/contact_constants.dart';
+
 class OfficeModel {
   final String? city;
   final String? address;
@@ -66,6 +68,30 @@ class ContactInfoModel {
           .map((e) => e.toString())
           .where((e) => e.isNotEmpty)
           .toList(),
+    );
+  }
+
+  factory ContactInfoModel.fallback() {
+    return ContactInfoModel(
+      headOffice: OfficeModel(
+        city: ContactConstants.headOfficeCity,
+        address: ContactConstants.headOfficeAddress,
+      ),
+      subOffices: [
+        OfficeModel(
+          city: ContactConstants.subOfficeCity,
+          address: ContactConstants.subOfficeAddress,
+        ),
+      ],
+      emails: [ContactConstants.emailAddress],
+      phoneNumbers: [ContactConstants.phoneNumber1],
+      socialLinks: [
+        ContactConstants.websiteUrl,
+        ContactConstants.facebookUrl,
+        ContactConstants.instagramUrl,
+        ContactConstants.linkedInUrl,
+        ContactConstants.whatsAppUrl,
+      ],
     );
   }
 

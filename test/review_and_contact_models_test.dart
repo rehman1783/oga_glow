@@ -35,5 +35,13 @@ void main() {
       expect(contact.emails, contains('support@ogaglow.com'));
       expect(contact.phoneNumbers, contains('+92-300-1234567'));
     });
+
+    test('ContactInfoModel fallback uses built-in contact constants', () {
+      final contact = ContactInfoModel.fallback();
+
+      expect(contact.headOffice?.city, 'Karachi');
+      expect(contact.emails, contains('wholcure@gmail.com'));
+      expect(contact.phoneNumbers, contains('+92 321 3270507'));
+    });
   });
 }

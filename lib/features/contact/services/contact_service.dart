@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:oga_glow/core/network/api_client.dart';
+import 'package:oga_glow/core/network/api_exception.dart';
 import 'package:oga_glow/features/contact/models/contact_info_model.dart';
 
 class ContactService {
@@ -11,7 +12,7 @@ class ContactService {
   Future<ContactInfoModel> fetchContactInfo() async {
     debugPrint('[ContactService] Fetching contact info');
     try {
-      final response = await _apiClient.get('/ogaglow/contact-info');
+      final response = await _apiClient.get('/settings/contactinfo');
       final data = response.data;
       if (data is Map<String, dynamic>) {
         final payload = data['data'] ?? data;
@@ -19,11 +20,22 @@ class ContactService {
           return ContactInfoModel.fromJson(payload);
         }
       }
+      if (data is List) {
+        final payload = data.firstWhere(
+          (item) => item is Map<String, dynamic>,
+          orElse: () => null,
+        );
+        if (payload is Map<String, dynamic>) {
+          return ContactInfoModel.fromJson(payload);
+        }
+      }
+    } on ApiException catch (e) {
+      debugPrint('[ContactService] Fetch contact info failed: ${e.message}');
     } catch (e) {
       debugPrint('[ContactService] Fetch contact info failed: $e');
     }
 
-    return ContactInfoModel();
+    return ContactInfoModel.fallback();
   }
 
   Future<void> submitContactForm({
@@ -40,6 +52,11 @@ class ContactService {
       'message': message.trim(),
     };
 
-    await _apiClient.post('/ogaglow/contact-us', data: payload);
+    try {
+      await _apiClient.post('/ogaglow/contact-us', data: payload);
+    } on ApiException catch (e) {
+      debugPrint('[ContactService] Submit contact form failed: ${e.message}');
+      rethrow;
+    }
   }
 }

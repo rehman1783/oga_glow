@@ -12,7 +12,7 @@ class ReviewService {
     debugPrint('[ReviewService] Fetching reviews for product: $productId');
     try {
       final response = await _apiClient.get(
-        '/ogaglow/products/$productId/reviews',
+        '/ogaglow/reviews/product/$productId',
       );
       final data = response.data;
       if (data is Map<String, dynamic>) {
@@ -33,6 +33,10 @@ class ReviewService {
             .map(ReviewModel.fromJson)
             .toList();
       }
+    } on DioException catch (e) {
+      debugPrint(
+        '[ReviewService] Fetch reviews failed: ${e.response?.statusCode ?? e.type}',
+      );
     } catch (e) {
       debugPrint('[ReviewService] Fetch reviews failed: $e');
     }
@@ -50,24 +54,32 @@ class ReviewService {
     debugPrint('[ReviewService] Creating review for product: $productId');
     final payload = {
       'productId': productId,
-      'name': name.trim(),
-      'email': email.trim(),
+      'customerName': name.trim(),
+      'customerEmail': email.trim(),
       'rating': rating,
-      'review': review.trim(),
+      'comment': review.trim(),
     };
 
-    final response = await _apiClient.post(
-      '/ogaglow/reviews/create',
-      data: payload,
-      options: Options(headers: {'Content-Type': 'application/json'}),
-    );
+    try {
+      final response = await _apiClient.post(
+        '/ogaglow/reviews/create',
+        data: payload,
+        options: Options(headers: {'Content-Type': 'application/json'}),
+      );
 
-    final data = response.data;
-    if (data is Map<String, dynamic>) {
-      final reviewData = data['data'] ?? data['review'] ?? data;
-      if (reviewData is Map<String, dynamic>) {
-        return ReviewModel.fromJson(reviewData);
+      final data = response.data;
+      if (data is Map<String, dynamic>) {
+        final reviewData = data['data'] ?? data['review'] ?? data;
+        if (reviewData is Map<String, dynamic>) {
+          return ReviewModel.fromJson(reviewData);
+        }
       }
+    } on DioException catch (e) {
+      debugPrint(
+        '[ReviewService] Create review failed: ${e.response?.statusCode ?? e.type}',
+      );
+    } catch (e) {
+      debugPrint('[ReviewService] Create review failed: $e');
     }
 
     return ReviewModel(
