@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:oga_glow/core/network/api_client.dart';
 import 'package:oga_glow/features/about/models/fake_review_model.dart';

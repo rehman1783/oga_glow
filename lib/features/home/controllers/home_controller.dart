@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oga_glow/core/network/api_exception.dart';
 import 'package:oga_glow/data/models/product_model.dart';
 import 'package:oga_glow/data/repositories/product_repository.dart';
+import 'package:oga_glow/features/home/models/brand_features_model.dart';
+import 'package:oga_glow/features/home/repositories/brand_features_repository.dart';
 
 class HomeController extends GetxController {
   final ProductRepository _productRepository;
+  final BrandFeaturesRepository _brandFeaturesRepository;
 
-  HomeController({ProductRepository? productRepository})
-      : _productRepository = productRepository ?? ProductRepository();
+  HomeController({
+    ProductRepository? productRepository,
+    BrandFeaturesRepository? brandFeaturesRepository,
+  })  : _productRepository = productRepository ?? ProductRepository(),
+        _brandFeaturesRepository =
+            brandFeaturesRepository ?? BrandFeaturesRepository();
 
   final currentBanner = 0.obs;
 
@@ -44,6 +52,11 @@ class HomeController extends GetxController {
   final hasError = false.obs;
   final errorMessage = ''.obs;
 
+  final isBrandFeaturesLoading = false.obs;
+  final hasBrandFeaturesError = false.obs;
+  final brandFeaturesErrorMessage = ''.obs;
+  final brandFeatures = Rxn<BrandFeaturesModel>();
+
   final allProducts = <ProductModel>[].obs;
 
   List<ProductModel> get featuredProducts => allProducts;
@@ -56,6 +69,7 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     fetchHomeProducts();
+    fetchBrandFeatures();
   }
 
   Future<void> fetchHomeProducts() async {
@@ -71,6 +85,29 @@ class HomeController extends GetxController {
       errorMessage.value = e.toString().replaceAll('Exception: ', '');
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> fetchBrandFeatures() async {
+    if (brandFeatures.value != null) {
+      return;
+    }
+
+    try {
+      isBrandFeaturesLoading.value = true;
+      hasBrandFeaturesError.value = false;
+      brandFeaturesErrorMessage.value = '';
+
+      final data = await _brandFeaturesRepository.getBrandFeatures();
+      brandFeatures.value = data;
+    } on ApiException catch (e) {
+      hasBrandFeaturesError.value = true;
+      brandFeaturesErrorMessage.value = e.message;
+    } catch (e) {
+      hasBrandFeaturesError.value = true;
+      brandFeaturesErrorMessage.value = 'Unable to load brand features right now.';
+    } finally {
+      isBrandFeaturesLoading.value = false;
     }
   }
 

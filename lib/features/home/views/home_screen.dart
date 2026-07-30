@@ -5,6 +5,7 @@ import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/core/theme/app_text_styles.dart';
 import 'package:oga_glow/features/category/controllers/category_controller.dart';
 import 'package:oga_glow/features/home/controllers/home_controller.dart';
+import 'package:oga_glow/features/home/widgets/brand_features_section.dart';
 import 'package:oga_glow/features/home/widgets/home_app_bar.dart';
 import 'package:oga_glow/features/home/widgets/home_banner_slider.dart';
 import 'package:oga_glow/features/home/widgets/home_categories.dart';
@@ -66,10 +67,14 @@ class HomeScreen extends GetView<HomeController> {
 
               FadeSlideTransition(index: 2, child: HomeBannerSlider()),
 
-              SizedBox(height: 30.h),
+              SizedBox(height: 20.h),
+
+              FadeSlideTransition(index: 3, child: const BrandFeaturesSection()),
+
+              SizedBox(height: 20.h),
 
               FadeSlideTransition(
-                index: 3,
+                index: 4,
                 child: Column(
                   children: [
                     Row(
@@ -89,7 +94,7 @@ class HomeScreen extends GetView<HomeController> {
 
               SizedBox(height: 20.h),
 
-              FadeSlideTransition(index: 4, child: const HomeHotDeals()),
+              FadeSlideTransition(index: 5, child: const HomeHotDeals()),
 
               SizedBox(height: 20.h),
 
