@@ -13,9 +13,9 @@ class HomeController extends GetxController {
   HomeController({
     ProductRepository? productRepository,
     BrandFeaturesRepository? brandFeaturesRepository,
-  })  : _productRepository = productRepository ?? ProductRepository(),
-        _brandFeaturesRepository =
-            brandFeaturesRepository ?? BrandFeaturesRepository();
+  }) : _productRepository = productRepository ?? ProductRepository(),
+       _brandFeaturesRepository =
+           brandFeaturesRepository ?? BrandFeaturesRepository();
 
   final currentBanner = 0.obs;
 
@@ -41,11 +41,7 @@ class HomeController extends GetxController {
       "categoryKey": "body-care",
       "icon": Icons.self_improvement_outlined,
     },
-    {
-      "name": "Kits",
-      "categoryKey": "kits",
-      "icon": Icons.inventory_2_outlined,
-    },
+    {"name": "Kits", "categoryKey": "kits", "icon": Icons.inventory_2_outlined},
   ];
 
   final isLoading = true.obs;
@@ -105,7 +101,8 @@ class HomeController extends GetxController {
       brandFeaturesErrorMessage.value = e.message;
     } catch (e) {
       hasBrandFeaturesError.value = true;
-      brandFeaturesErrorMessage.value = 'Unable to load brand features right now.';
+      brandFeaturesErrorMessage.value =
+          'Unable to load brand features right now.';
     } finally {
       isBrandFeaturesLoading.value = false;
     }

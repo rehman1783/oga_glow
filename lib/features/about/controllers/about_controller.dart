@@ -71,7 +71,6 @@ class AboutController extends GetxController {
   void onInit() {
     super.onInit();
     fetchAboutUs();
-    fetchTestimonials();
     getFakeReviews();
   }
 

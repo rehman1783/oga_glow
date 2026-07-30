@@ -7,13 +7,15 @@ class BrandFeaturesService {
   final ApiClient _apiClient;
 
   BrandFeaturesService({ApiClient? apiClient})
-      : _apiClient = apiClient ?? ApiClient();
+    : _apiClient = apiClient ?? ApiClient();
 
   Future<BrandFeaturesModel> fetchBrandFeatures() async {
     debugPrint('[BrandFeaturesService] Fetching brand features...');
     final response = await _apiClient.get(ApiEndpoints.brandFeatures);
 
-    debugPrint('[BrandFeaturesService] Response received: ${response.statusCode}');
+    debugPrint(
+      '[BrandFeaturesService] Response received: ${response.statusCode}',
+    );
 
     if (response.data is Map<String, dynamic>) {
       final payload = BrandFeaturesResponse.fromJson(

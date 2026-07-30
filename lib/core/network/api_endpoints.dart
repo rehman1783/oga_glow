@@ -19,4 +19,3 @@ class ApiEndpoints {
   static const String products = '/ogaglow/products';
   static String productDetails(String id) => '/ogaglow/products/$id';
 }
-

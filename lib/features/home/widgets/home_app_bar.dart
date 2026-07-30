@@ -15,7 +15,7 @@ class HomeAppBar extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () => Scaffold.of(context).openDrawer(),
-            icon: const Icon(Icons.menu_book_sharp),
+            icon: const Icon(Icons.more_vert_rounded),
           ),
           Container(
             width: 50.w,

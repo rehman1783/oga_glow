@@ -28,10 +28,9 @@ class WishlistScreen extends StatelessWidget {
               Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
           centerTitle: true,
-          leading: 
-          IconButton(
+          leading: IconButton(
             onPressed: () => Scaffold.of(context).openDrawer(),
-            icon: const Icon(Icons.menu_book_sharp),
+            icon: const Icon(Icons.more_vert_rounded),
           ),
           title: Text(
             'Wishlist',

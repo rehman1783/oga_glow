@@ -32,7 +32,9 @@ class BrandFeaturesSection extends GetView<HomeController> {
         return const SizedBox.shrink();
       }
 
-      final intro = brandFeatures.info.isNotEmpty ? brandFeatures.info.first : null;
+      final intro = brandFeatures.info.isNotEmpty
+          ? brandFeatures.info.first
+          : null;
 
       return Container(
         width: double.infinity,
@@ -71,11 +73,23 @@ class BrandFeaturesSection extends GetView<HomeController> {
               ),
               SizedBox(height: 16.h),
             ],
-            _buildCardRow(context, brandFeatures.card1, icons: [Icons.auto_awesome]),
+            _buildCardRow(
+              context,
+              brandFeatures.card1,
+              icons: [Icons.auto_awesome],
+            ),
             if (brandFeatures.card2.isNotEmpty) SizedBox(height: 12.h),
-            _buildCardRow(context, brandFeatures.card2, icons: [Icons.eco_rounded]),
+            _buildCardRow(
+              context,
+              brandFeatures.card2,
+              icons: [Icons.eco_rounded],
+            ),
             if (brandFeatures.card3.isNotEmpty) SizedBox(height: 12.h),
-            _buildCardRow(context, brandFeatures.card3, icons: [Icons.recycling_rounded]),
+            _buildCardRow(
+              context,
+              brandFeatures.card3,
+              icons: [Icons.recycling_rounded],
+            ),
             if (brandFeatures.card4.isNotEmpty) ...[
               SizedBox(height: 12.h),
               _buildCard4(context, brandFeatures.card4.first),
@@ -136,7 +150,11 @@ class BrandFeaturesSection extends GetView<HomeController> {
       ),
       child: Column(
         children: [
-          Icon(Icons.error_outline_rounded, size: 28.sp, color: AppColors.error),
+          Icon(
+            Icons.error_outline_rounded,
+            size: 28.sp,
+            color: AppColors.error,
+          ),
           SizedBox(height: 8.h),
           Text(
             controller.brandFeaturesErrorMessage.value.isNotEmpty
@@ -175,7 +193,11 @@ class BrandFeaturesSection extends GetView<HomeController> {
     );
   }
 
-  Widget _buildFeatureCard(BuildContext context, FeatureCardModel card, IconData icon) {
+  Widget _buildFeatureCard(
+    BuildContext context,
+    FeatureCardModel card,
+    IconData icon,
+  ) {
     final colors = AppColors.of(context);
 
     return Container(
@@ -260,12 +282,18 @@ class BrandFeaturesSection extends GetView<HomeController> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.check_circle_rounded, size: 16.sp, color: AppColors.primary),
+                    Icon(
+                      Icons.check_circle_rounded,
+                      size: 16.sp,
+                      color: AppColors.primary,
+                    ),
                     SizedBox(width: 8.w),
                     Expanded(
                       child: Text(
                         point,
-                        style: AppTextStyles.body.copyWith(color: colors.textSecondary),
+                        style: AppTextStyles.body.copyWith(
+                          color: colors.textSecondary,
+                        ),
                       ),
                     ),
                   ],

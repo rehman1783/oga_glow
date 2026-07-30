@@ -38,7 +38,7 @@ class CartScreen extends StatelessWidget {
           centerTitle: true,
           leading: IconButton(
             onPressed: () => Scaffold.of(context).openDrawer(),
-            icon: const Icon(Icons.menu_book_sharp),
+            icon: const Icon(Icons.more_vert_rounded),
           ),
           title: Text(
             'Cart',
@@ -83,9 +83,7 @@ class CartScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppColors.of(context).cardBackground,
                     borderRadius: BorderRadius.circular(24.r),
-                    border: Border.all(
-                      color: AppColors.of(context).border,
-                    ),
+                    border: Border.all(color: AppColors.of(context).border),
                     boxShadow: [
                       BoxShadow(
                         color: AppColors.black.withValues(alpha: 0.03),
@@ -136,7 +134,9 @@ class CartScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(16.r),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColors.primary.withValues(alpha: 0.25),
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.25,
+                                  ),
                                   blurRadius: 12,
                                   offset: const Offset(0, 4),
                                 ),

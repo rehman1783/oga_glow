@@ -26,7 +26,7 @@ class CategoryScreen extends GetView<CategoryController> {
             Theme.of(context).scaffoldBackgroundColor,
         leading: IconButton(
           onPressed: () => Scaffold.of(context).openDrawer(),
-          icon: const Icon(Icons.menu_book_sharp),
+          icon: const Icon(Icons.more_vert_rounded),
         ),
         title: Text(
           'Categories',
@@ -100,20 +100,28 @@ class CategoryScreen extends GetView<CategoryController> {
                                     ? CachedNetworkImage(
                                         imageUrl: product.mainImageUrl,
                                         fit: BoxFit.cover,
-                                        errorWidget: (context, url, error) => const Icon(
-                                          Icons.image_not_supported_outlined,
-                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(
+                                              Icons
+                                                  .image_not_supported_outlined,
+                                            ),
                                       )
-                                    : const Icon(Icons.image_not_supported_outlined),
+                                    : const Icon(
+                                        Icons.image_not_supported_outlined,
+                                      ),
                               ),
                             ),
                             title: Text(
                               product.name,
-                              style: TextStyle(color: AppColors.of(context).textPrimary),
+                              style: TextStyle(
+                                color: AppColors.of(context).textPrimary,
+                              ),
                             ),
                             subtitle: Text(
                               product.categoryDisplayName,
-                              style: TextStyle(color: AppColors.of(context).textSecondary),
+                              style: TextStyle(
+                                color: AppColors.of(context).textSecondary,
+                              ),
                             ),
                             onTap: () {
                               controller.selectSuggestion(product);
@@ -239,7 +247,8 @@ class CategoryScreen extends GetView<CategoryController> {
                   return CustomEmptyState(
                     icon: Icons.inventory_2_outlined,
                     title: 'No Products Available',
-                    description: 'There are currently no products in the catalog.',
+                    description:
+                        'There are currently no products in the catalog.',
                     buttonText: 'Refresh Catalog',
                     onButtonPressed: () => controller.fetchCategoryProducts(),
                   );

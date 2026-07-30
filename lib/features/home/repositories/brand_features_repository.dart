@@ -7,7 +7,7 @@ class BrandFeaturesRepository {
   final BrandFeaturesService _service;
 
   BrandFeaturesRepository({BrandFeaturesService? service})
-      : _service = service ?? BrandFeaturesService();
+    : _service = service ?? BrandFeaturesService();
 
   Future<BrandFeaturesModel> getBrandFeatures() async {
     try {

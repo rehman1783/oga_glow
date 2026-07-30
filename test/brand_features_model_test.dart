@@ -7,23 +7,23 @@ void main() {
       final payload = {
         '_id': 'abc123',
         'info': [
-          {'mainHeading': 'Rooted in Ayurveda', 'para': 'A calm ritual'}
+          {'mainHeading': 'Rooted in Ayurveda', 'para': 'A calm ritual'},
         ],
         'card1': [
-          {'title': 'Traditional formulation', 'description': 'Ancient herbs'}
+          {'title': 'Traditional formulation', 'description': 'Ancient herbs'},
         ],
         'card2': [
-          {'title': 'Organic leaf botanical', 'description': 'Plant extracts'}
+          {'title': 'Organic leaf botanical', 'description': 'Plant extracts'},
         ],
         'card3': [
-          {'title': 'Sustainability commitment', 'description': 'Less ink'}
+          {'title': 'Sustainability commitment', 'description': 'Less ink'},
         ],
         'card4': [
           {
             'title': 'A calm ritual',
             'description': 'Balance in life',
             'bulletPoints': ['One', 'Two', 'Three'],
-          }
+          },
         ],
       };
 

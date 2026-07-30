@@ -67,9 +67,7 @@ class HomeScreen extends GetView<HomeController> {
 
               FadeSlideTransition(index: 2, child: HomeBannerSlider()),
 
-              SizedBox(height: 20.h),
-
-              FadeSlideTransition(index: 3, child: const BrandFeaturesSection()),
+             
 
               SizedBox(height: 20.h),
 
@@ -95,6 +93,13 @@ class HomeScreen extends GetView<HomeController> {
               SizedBox(height: 20.h),
 
               FadeSlideTransition(index: 5, child: const HomeHotDeals()),
+
+              SizedBox(height: 20.h),
+
+              FadeSlideTransition(
+                index: 3,
+                child: const BrandFeaturesSection(),
+              ),
 
               SizedBox(height: 20.h),
 

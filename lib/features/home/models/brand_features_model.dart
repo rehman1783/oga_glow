@@ -3,11 +3,7 @@ class BrandFeaturesResponse {
   final BrandFeaturesModel? data;
   final String? message;
 
-  const BrandFeaturesResponse({
-    required this.success,
-    this.data,
-    this.message,
-  });
+  const BrandFeaturesResponse({required this.success, this.data, this.message});
 
   factory BrandFeaturesResponse.fromJson(Map<String, dynamic> json) {
     final dataJson = json['data'];
@@ -22,11 +18,7 @@ class BrandFeaturesResponse {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'success': success,
-      'data': data?.toJson(),
-      'message': message,
-    };
+    return {'success': success, 'data': data?.toJson(), 'message': message};
   }
 }
 
@@ -51,9 +43,18 @@ class BrandFeaturesModel {
     return BrandFeaturesModel(
       id: json['_id']?.toString(),
       info: _parseList<InfoModel>(json['info'], InfoModel.fromJson),
-      card1: _parseList<FeatureCardModel>(json['card1'], FeatureCardModel.fromJson),
-      card2: _parseList<FeatureCardModel>(json['card2'], FeatureCardModel.fromJson),
-      card3: _parseList<FeatureCardModel>(json['card3'], FeatureCardModel.fromJson),
+      card1: _parseList<FeatureCardModel>(
+        json['card1'],
+        FeatureCardModel.fromJson,
+      ),
+      card2: _parseList<FeatureCardModel>(
+        json['card2'],
+        FeatureCardModel.fromJson,
+      ),
+      card3: _parseList<FeatureCardModel>(
+        json['card3'],
+        FeatureCardModel.fromJson,
+      ),
       card4: _parseList<Card4Model>(json['card4'], Card4Model.fromJson),
     );
   }
@@ -74,10 +75,7 @@ class BrandFeaturesModel {
     T Function(Map<String, dynamic>) parser,
   ) {
     if (value is List) {
-      return value
-          .whereType<Map<String, dynamic>>()
-          .map(parser)
-          .toList();
+      return value.whereType<Map<String, dynamic>>().map(parser).toList();
     }
     return <T>[];
   }
@@ -97,10 +95,7 @@ class InfoModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'mainHeading': mainHeading,
-      'para': para,
-    };
+    return {'mainHeading': mainHeading, 'para': para};
   }
 }
 
@@ -118,10 +113,7 @@ class FeatureCardModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'title': title,
-      'description': description,
-    };
+    return {'title': title, 'description': description};
   }
 }
 
@@ -143,7 +135,10 @@ class Card4Model {
       title: json['title']?.toString(),
       description: json['description']?.toString(),
       bulletPoints: bulletPoints is List
-          ? bulletPoints.whereType<String>().where((item) => item.isNotEmpty).toList()
+          ? bulletPoints
+                .whereType<String>()
+                .where((item) => item.isNotEmpty)
+                .toList()
           : const <String>[],
     );
   }

@@ -16,7 +16,6 @@ import '../widgets/about_section_title.dart';
 import '../widgets/about_shimmer_loading.dart';
 import '../widgets/cta_button_section.dart';
 import '../widgets/reviews_section.dart';
-import '../widgets/testimonial_card.dart';
 
 /// About Us screen.
 ///
@@ -155,59 +154,8 @@ class AboutScreen extends GetView<AboutController> {
                   ),
                   SizedBox(height: 24.h),
 
-                  // ---- Testimonials Section ----
-                  FadeSlideTransition(
-                    index: 7,
-                    child: const AboutSectionTitle(
-                      icon: Icons.sentiment_satisfied_alt_rounded,
-                      title: 'What Our Customers Say',
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-                  FadeSlideTransition(
-                    index: 8,
-                    child: Obx(() {
-                      if (controller.isTestimonialsLoading.value) {
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            color: AppColors.primary,
-                          ),
-                        );
-                      }
-                      if (controller.testimonialsError.value.isNotEmpty) {
-                        return Text(
-                          controller.testimonialsError.value,
-                          style: AppTextStyles.body.copyWith(
-                            color: AppColors.error,
-                          ),
-                        );
-                      }
-                      if (controller.testimonials.isEmpty) {
-                        return Text(
-                          'No testimonials to display right now.',
-                          style: AppTextStyles.body.copyWith(
-                            color: AppColors.of(context).textSecondary,
-                          ),
-                        );
-                      }
-                      return SizedBox(
-                        height: 220.h,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: controller.testimonials.length,
-                          itemBuilder: (context, index) {
-                            return TestimonialCard(
-                              review: controller.testimonials[index],
-                            );
-                          },
-                        ),
-                      );
-                    }),
-                  ),
-                  SizedBox(height: 24.h),
-
                   // ---- Customer Reviews Section ----
-                  FadeSlideTransition(index: 12, child: const ReviewsSection()),
+                  FadeSlideTransition(index: 7, child: const ReviewsSection()),
                   SizedBox(height: 24.h),
 
                   // ---- FAQ Section ----
