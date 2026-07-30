@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/core/theme/app_text_styles.dart';
+import 'package:oga_glow/core/utils/date_formatter.dart';
 import 'package:oga_glow/features/product/models/review_model.dart';
 
 class ReviewListCard extends StatelessWidget {
@@ -61,7 +62,9 @@ class ReviewListCard extends StatelessWidget {
           if (review.createdAt != null && review.createdAt!.isNotEmpty) ...[
             SizedBox(height: 8.h),
             Text(
-              review.createdAt!,
+              DateFormatter.formatPakistanDateTime(
+                DateTime.tryParse(review.createdAt ?? '') ?? DateTime.now(),
+              ),
               style: AppTextStyles.caption.copyWith(
                 color: colors.textSecondary,
               ),

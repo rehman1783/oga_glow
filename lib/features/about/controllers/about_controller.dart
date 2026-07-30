@@ -4,7 +4,9 @@ import 'package:oga_glow/app/routes/app_routes.dart';
 import 'package:oga_glow/core/constants/about_constants.dart';
 import 'package:oga_glow/core/network/api_exception.dart';
 import 'package:oga_glow/features/about/models/about_us_model.dart';
+import 'package:oga_glow/features/about/models/fake_review_model.dart';
 import 'package:oga_glow/features/about/repositories/about_repository.dart';
+import 'package:oga_glow/features/about/repositories/fake_review_repository.dart';
 import 'package:oga_glow/features/category/controllers/category_controller.dart';
 import 'package:oga_glow/features/main_navigation/controllers/main_navigation_controller.dart';
 import 'package:oga_glow/features/product/models/review_model.dart';
@@ -18,12 +20,15 @@ import 'package:url_launcher/url_launcher.dart';
 class AboutController extends GetxController {
   final AboutRepository _repository;
   final ReviewRepository _reviewRepository;
+  final FakeReviewRepository _fakeReviewRepository;
 
   AboutController({
     AboutRepository? repository,
     ReviewRepository? reviewRepository,
+    FakeReviewRepository? fakeReviewRepository,
   }) : _repository = repository ?? AboutRepository(),
-       _reviewRepository = reviewRepository ?? ReviewRepository();
+       _reviewRepository = reviewRepository ?? ReviewRepository(),
+       _fakeReviewRepository = fakeReviewRepository ?? FakeReviewRepository();
 
   // Observable States
   final isLoading = true.obs;
@@ -33,6 +38,9 @@ class AboutController extends GetxController {
   final testimonials = <ReviewModel>[].obs;
   final isTestimonialsLoading = false.obs;
   final testimonialsError = ''.obs;
+  final fakeReviews = <FakeReview>[].obs;
+  final isFakeReviewsLoading = false.obs;
+  final fakeReviewsError = ''.obs;
 
   /// Helper getter to check if FAQ list is empty
   bool get isFaqEmpty {
@@ -64,6 +72,7 @@ class AboutController extends GetxController {
     super.onInit();
     fetchAboutUs();
     fetchTestimonials();
+    getFakeReviews();
   }
 
   Future<void> fetchTestimonials() async {
@@ -78,6 +87,21 @@ class AboutController extends GetxController {
       testimonialsError.value = 'Unable to load testimonials.';
     } finally {
       isTestimonialsLoading.value = false;
+    }
+  }
+
+  Future<void> getFakeReviews() async {
+    try {
+      isFakeReviewsLoading.value = true;
+      fakeReviewsError.value = '';
+      final response = await _fakeReviewRepository.getAllFakeReviews();
+      fakeReviews.assignAll(response.reviews);
+    } on ApiException catch (e) {
+      fakeReviewsError.value = e.message;
+    } catch (e) {
+      fakeReviewsError.value = 'Unable to load customer reviews.';
+    } finally {
+      isFakeReviewsLoading.value = false;
     }
   }
 

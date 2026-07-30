@@ -15,6 +15,7 @@ import '../widgets/about_highlight_card.dart';
 import '../widgets/about_section_title.dart';
 import '../widgets/about_shimmer_loading.dart';
 import '../widgets/cta_button_section.dart';
+import '../widgets/reviews_section.dart';
 import '../widgets/testimonial_card.dart';
 
 /// About Us screen.
@@ -203,6 +204,10 @@ class AboutScreen extends GetView<AboutController> {
                       );
                     }),
                   ),
+                  SizedBox(height: 24.h),
+
+                  // ---- Customer Reviews Section ----
+                  FadeSlideTransition(index: 12, child: const ReviewsSection()),
                   SizedBox(height: 24.h),
 
                   // ---- FAQ Section ----
