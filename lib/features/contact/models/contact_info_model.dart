@@ -36,27 +36,110 @@ class OfficeModel {
   }
 }
 
+class PhoneChannelModel {
+  final String label;
+  final String number;
+  final String? badge;
+  final bool hasWhatsApp;
+
+  const PhoneChannelModel({
+    required this.label,
+    required this.number,
+    this.badge,
+    this.hasWhatsApp = false,
+  });
+
+  factory PhoneChannelModel.fromJson(dynamic json, int index) {
+    if (json is Map<String, dynamic>) {
+      final num = json['number']?.toString() ??
+          json['phone']?.toString() ??
+          json['value']?.toString() ??
+          '';
+      final lbl = json['label']?.toString() ??
+          json['title']?.toString() ??
+          json['name']?.toString() ??
+          (index == 0 ? 'OgaGlow Helpline' : 'Wholcure Care');
+      final bdg = json['badge']?.toString() ?? (index == 0 ? 'Primary' : null);
+      final wa = json['whatsapp'] == true ||
+          json['hasWhatsApp'] == true ||
+          (index == 0);
+      return PhoneChannelModel(
+        label: lbl,
+        number: num,
+        badge: bdg,
+        hasWhatsApp: wa,
+      );
+    }
+    final str = json.toString().trim();
+    final isPrimary = index == 0;
+    return PhoneChannelModel(
+      label: isPrimary ? 'OgaGlow Helpline' : 'Wholcure Care',
+      number: str,
+      badge: isPrimary ? 'Primary' : 'Support',
+      hasWhatsApp: isPrimary,
+    );
+  }
+}
+
+class EmailChannelModel {
+  final String label;
+  final String email;
+  final String? badge;
+
+  const EmailChannelModel({
+    required this.label,
+    required this.email,
+    this.badge,
+  });
+
+  factory EmailChannelModel.fromJson(dynamic json, int index) {
+    if (json is Map<String, dynamic>) {
+      final em = json['email']?.toString() ??
+          json['address']?.toString() ??
+          json['value']?.toString() ??
+          '';
+      final lbl = json['label']?.toString() ??
+          json['title']?.toString() ??
+          json['name']?.toString() ??
+          'Customer Support';
+      final bdg = json['badge']?.toString() ?? 'Official';
+      return EmailChannelModel(label: lbl, email: em, badge: bdg);
+    }
+    return EmailChannelModel(
+      label: index == 0 ? 'Customer Support' : 'Inquiries & Orders',
+      email: json.toString().trim(),
+      badge: 'Official',
+    );
+  }
+}
+
 class ContactInfoModel {
   final OfficeModel? headOffice;
   final List<OfficeModel> subOffices;
   final List<String> emails;
   final List<String> phoneNumbers;
+  final List<PhoneChannelModel> structuredPhones;
+  final List<EmailChannelModel> structuredEmails;
   final List<String> socialLinks;
   final String? whatsApp;
   final String? website;
+  final String workingHours;
 
   ContactInfoModel({
     this.headOffice,
     this.subOffices = const [],
     this.emails = const [],
     this.phoneNumbers = const [],
+    this.structuredPhones = const [],
+    this.structuredEmails = const [],
     this.socialLinks = const [],
     this.whatsApp,
     this.website,
+    this.workingHours = 'Mon - Sat: 09:00 AM - 06:00 PM',
   });
 
   factory ContactInfoModel.fromJson(Map<String, dynamic> json) {
-    // 1. Head Office parsing (handles 'headOffice', 'head_office', 'main_office', 'office')
+    // 1. Head Office parsing
     final rawHeadOffice = json['headOffice'] ??
         json['head_office'] ??
         json['main_office'] ??
@@ -72,7 +155,7 @@ class ContactInfoModel {
       );
     }
 
-    // 2. Sub offices parsing (handles 'subOffices', 'sub_offices', 'branches', 'branch_offices', 'other_offices')
+    // 2. Sub offices parsing
     final rawSubOffices = json['subOffices'] ??
         json['sub_offices'] ??
         json['branches'] ??
@@ -90,8 +173,9 @@ class ContactInfoModel {
       }
     }
 
-    // 3. Emails parsing (handles 'emails', 'email', 'support_email', 'contact_email', 'contact_emails')
+    // 3. Emails parsing
     final List<String> emails = [];
+    final List<EmailChannelModel> structuredEmails = [];
     final rawEmails = json['emails'] ??
         json['email'] ??
         json['support_email'] ??
@@ -99,17 +183,28 @@ class ContactInfoModel {
         json['contact_emails'];
 
     if (rawEmails is List) {
-      emails.addAll(
-        rawEmails
-            .map((e) => e.toString().trim())
-            .where((e) => e.isNotEmpty),
-      );
+      for (int i = 0; i < rawEmails.length; i++) {
+        final item = rawEmails[i];
+        if (item is Map<String, dynamic>) {
+          final model = EmailChannelModel.fromJson(item, i);
+          if (model.email.isNotEmpty) {
+            emails.add(model.email);
+            structuredEmails.add(model);
+          }
+        } else if (item != null && item.toString().trim().isNotEmpty) {
+          final emailStr = item.toString().trim();
+          emails.add(emailStr);
+          structuredEmails.add(EmailChannelModel.fromJson(emailStr, i));
+        }
+      }
     } else if (rawEmails is String && rawEmails.trim().isNotEmpty) {
       emails.add(rawEmails.trim());
+      structuredEmails.add(EmailChannelModel.fromJson(rawEmails.trim(), 0));
     }
 
-    // 4. Phone numbers parsing (handles 'phoneNumbers', 'phone_numbers', 'phones', 'phone', 'contact_numbers', 'hotline', 'mobile')
+    // 4. Phone numbers parsing
     final List<String> phoneNumbers = [];
+    final List<PhoneChannelModel> structuredPhones = [];
     final rawPhones = json['phoneNumbers'] ??
         json['phone_numbers'] ??
         json['phones'] ??
@@ -119,13 +214,23 @@ class ContactInfoModel {
         json['mobile'];
 
     if (rawPhones is List) {
-      phoneNumbers.addAll(
-        rawPhones
-            .map((e) => e.toString().trim())
-            .where((e) => e.isNotEmpty),
-      );
+      for (int i = 0; i < rawPhones.length; i++) {
+        final item = rawPhones[i];
+        if (item is Map<String, dynamic>) {
+          final model = PhoneChannelModel.fromJson(item, i);
+          if (model.number.isNotEmpty) {
+            phoneNumbers.add(model.number);
+            structuredPhones.add(model);
+          }
+        } else if (item != null && item.toString().trim().isNotEmpty) {
+          final phoneStr = item.toString().trim();
+          phoneNumbers.add(phoneStr);
+          structuredPhones.add(PhoneChannelModel.fromJson(phoneStr, i));
+        }
+      }
     } else if (rawPhones is String && rawPhones.trim().isNotEmpty) {
       phoneNumbers.add(rawPhones.trim());
+      structuredPhones.add(PhoneChannelModel.fromJson(rawPhones.trim(), 0));
     }
 
     // 5. Social links parsing
@@ -149,7 +254,6 @@ class ContactInfoModel {
       });
     }
 
-    // Individual social handles if present
     for (final key in ['facebook', 'instagram', 'linkedin', 'twitter', 'youtube', 'tiktok']) {
       final val = json[key]?.toString().trim();
       if (val != null && val.isNotEmpty && !socialLinks.contains(val)) {
@@ -165,14 +269,47 @@ class ContactInfoModel {
         json['web']?.toString() ??
         json['site']?.toString();
 
+    final workingHours = json['working_hours']?.toString() ??
+        json['workingHours']?.toString() ??
+        json['timings']?.toString() ??
+        'Mon - Sat: 09:00 AM - 06:00 PM';
+
     return ContactInfoModel(
       headOffice: headOffice,
       subOffices: subOffices,
-      emails: emails,
-      phoneNumbers: phoneNumbers,
+      emails: emails.isNotEmpty ? emails : [ContactConstants.emailAddress],
+      phoneNumbers: phoneNumbers.isNotEmpty
+          ? phoneNumbers
+          : [ContactConstants.phoneNumber1, ContactConstants.phoneNumber2],
+      structuredPhones: structuredPhones.isNotEmpty
+          ? structuredPhones
+          : [
+              const PhoneChannelModel(
+                label: 'OgaGlow Helpline',
+                number: ContactConstants.phoneNumber1,
+                badge: 'Primary',
+                hasWhatsApp: true,
+              ),
+              const PhoneChannelModel(
+                label: 'Wholcure Support',
+                number: ContactConstants.phoneNumber2,
+                badge: 'Support',
+                hasWhatsApp: false,
+              ),
+            ],
+      structuredEmails: structuredEmails.isNotEmpty
+          ? structuredEmails
+          : [
+              const EmailChannelModel(
+                label: 'Customer Support Desk',
+                email: ContactConstants.emailAddress,
+                badge: 'Official',
+              ),
+            ],
       socialLinks: socialLinks,
       whatsApp: whatsApp,
       website: website,
+      workingHours: workingHours,
     );
   }
 
@@ -199,6 +336,27 @@ class ContactInfoModel {
         ContactConstants.phoneNumber1,
         ContactConstants.phoneNumber2,
       ],
+      structuredPhones: [
+        const PhoneChannelModel(
+          label: 'OgaGlow Hotline',
+          number: ContactConstants.phoneNumber1,
+          badge: 'Primary',
+          hasWhatsApp: true,
+        ),
+        const PhoneChannelModel(
+          label: 'Wholcure Support',
+          number: ContactConstants.phoneNumber2,
+          badge: 'Helpline',
+          hasWhatsApp: false,
+        ),
+      ],
+      structuredEmails: [
+        const EmailChannelModel(
+          label: 'Customer Support Desk',
+          email: ContactConstants.emailAddress,
+          badge: 'Official Response',
+        ),
+      ],
       socialLinks: [
         ContactConstants.whatsAppUrl,
         ContactConstants.websiteUrl,
@@ -208,6 +366,7 @@ class ContactInfoModel {
       ],
       whatsApp: ContactConstants.whatsAppUrl,
       website: ContactConstants.websiteUrl,
+      workingHours: 'Mon - Sat: 09:00 AM - 06:00 PM',
     );
   }
 
@@ -248,7 +407,9 @@ class ContactInfoModel {
       'socialLinks': socialLinks,
       if (whatsApp != null) 'whatsapp': whatsApp,
       if (website != null) 'website': website,
+      'workingHours': workingHours,
     };
   }
 }
+
 

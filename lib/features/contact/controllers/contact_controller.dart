@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:oga_glow/core/network/api_exception.dart';
 import 'package:oga_glow/core/widgets/custom_snackbar.dart';
@@ -9,7 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 /// Controller for the Contact Us screen.
 ///
 /// Provides actions for launching WhatsApp, phone dialer, email composer,
-/// and external URLs.
+/// clipboard copying, and external URLs.
 class ContactController extends GetxController {
   final ContactRepository _repository;
 
@@ -110,6 +111,15 @@ class ContactController extends GetxController {
     formError.value = '';
   }
 
+  /// Copies text to clipboard and shows floating feedback.
+  Future<void> copyToClipboard(String text, String label) async {
+    await Clipboard.setData(ClipboardData(text: text));
+    CustomSnackbar.showSuccess(
+      title: '$label Copied',
+      message: text,
+    );
+  }
+
   /// Opens the WhatsApp direct chat link.
   Future<void> launchWhatsApp([String? target]) async {
     final raw = target ?? contactInfo.value.effectiveWhatsAppUrl;
@@ -198,4 +208,5 @@ class ContactController extends GetxController {
     super.onClose();
   }
 }
+
 

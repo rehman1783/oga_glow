@@ -66,6 +66,8 @@ class ContactScreen extends GetView<ContactController> {
                       onEmailTap: controller.launchEmail,
                       onUrlTap: controller.launchUrlString,
                       onWhatsAppTap: controller.launchWhatsApp,
+                      onWhatsAppNumberTap: controller.launchWhatsApp,
+                      onCopyTap: controller.copyToClipboard,
                     ),
                   );
                 }),
