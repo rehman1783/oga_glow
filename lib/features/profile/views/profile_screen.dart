@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../app/routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widgets/custom_snackbar.dart';
 import '../widgets/profile_header_card.dart';
 import '../widgets/profile_option_tile.dart';
 import '../../../core/widgets/bounce_tap.dart';
@@ -47,11 +49,11 @@ class ProfileScreen extends StatelessWidget {
                   final authController = Get.find<AuthController>();
                   final user = authController.currentUser.value;
                   final name = (user?.name != null && user!.name.isNotEmpty)
-                      ? user.name
-                      : 'OGA Glow User';
+                  ? user.name
+                  : 'OGA Glow User';
                   final email = (user?.email != null && user!.email.isNotEmpty)
-                      ? user.email
-                      : 'No email available';
+                  ? user.email
+                  : 'No email available';
                   final joinedDate = user?.createdAt;
 
                   return ProfileHeaderCard(
@@ -59,13 +61,9 @@ class ProfileScreen extends StatelessWidget {
                     email: email,
                     joinedDate: joinedDate,
                     onEdit: () {
-                      Get.snackbar(
-                        'Edit Profile',
-                        'Edit profile feature is available in settings.',
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: AppColors.of(context).cardBackground,
-                        colorText: AppColors.of(context).textPrimary,
-                        borderRadius: 14.r,
+                      CustomSnackbar.showInfo(
+                        title: 'Edit Profile',
+                        message: 'Edit profile feature is available in account settings.',
                       );
                     },
                   );
@@ -79,17 +77,10 @@ class ProfileScreen extends StatelessWidget {
                   FadeSlideTransition(
                     index: 1,
                     child: ProfileOptionTile(
-                      icon: Icons.shopping_bag_outlined,
+                      icon: Icons.receipt_long_rounded,
                       title: 'My Orders',
                       onTap: () {
-                        Get.snackbar(
-                          'My Orders',
-                          'Orders screen is not wired yet in this demo.',
-                          snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: AppColors.of(context).cardBackground,
-                          colorText: AppColors.of(context).textPrimary,
-                          borderRadius: 14.r,
-                        );
+                        Get.toNamed(AppRoutes.orderHistory);
                       },
                     ),
                   ),
@@ -101,13 +92,9 @@ class ProfileScreen extends StatelessWidget {
                       icon: Icons.location_on_outlined,
                       title: 'Shipping Address',
                       onTap: () {
-                        Get.snackbar(
-                          'Shipping Address',
-                          'Address screen will be wired with routing later.',
-                          snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: AppColors.of(context).cardBackground,
-                          colorText: AppColors.of(context).textPrimary,
-                          borderRadius: 14.r,
+                        CustomSnackbar.showInfo(
+                          title: 'Shipping Address',
+                          message: 'Manage your addresses in checkout or contact support.',
                         );
                       },
                     ),

@@ -43,5 +43,26 @@ void main() {
       expect(contact.emails, contains('wholcure@gmail.com'));
       expect(contact.phoneNumbers, contains('+92 321 3270507'));
     });
+
+    test('ContactInfoModel parses snake_case and alternative API keys', () {
+      final contact = ContactInfoModel.fromJson({
+        'head_office': {'city': 'Rawalpindi', 'address': 'Saddar Bazar'},
+        'branches': [
+          {'city': 'Peshawar', 'address': 'University Road'},
+        ],
+        'email': 'support@wholcure.com',
+        'phone': '+92 300 9988776',
+        'whatsapp': 'https://wa.me/923009988776',
+        'facebook': 'https://facebook.com/ogaglow',
+      });
+
+      expect(contact.headOffice?.city, 'Rawalpindi');
+      expect(contact.allOffices.length, 2);
+      expect(contact.primaryEmail, 'support@wholcure.com');
+      expect(contact.primaryPhone, '+92 300 9988776');
+      expect(contact.effectiveWhatsAppUrl, 'https://wa.me/923009988776');
+      expect(contact.socialLinks, contains('https://facebook.com/ogaglow'));
+    });
   });
 }
+

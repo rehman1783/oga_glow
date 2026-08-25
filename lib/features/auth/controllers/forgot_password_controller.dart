@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:oga_glow/app/routes/app_routes.dart';
 import 'package:oga_glow/core/network/api_exception.dart';
+import 'package:oga_glow/core/widgets/custom_snackbar.dart';
 import 'package:oga_glow/features/auth/repositories/auth_repository.dart';
 
 /// Controller for the Forgot Password screen.
@@ -70,22 +71,12 @@ class ForgotPasswordController extends GetxController {
         email: emailController.text.trim(),
       );
 
-      // Success — determine if it's an OTP or email-link flow
-      // Based on response we can infer flow type.
-      // For now we assume email-link by default, but the architecture
-      // supports OTP verification by setting isOtpFlow = true.
       isOtpFlow.value = _detectFlowType(result.message);
 
       // Show success
-      Get.snackbar(
-        'Password Reset Link Sent',
-        'Password reset link has been sent successfully. Please check your email.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green.shade600,
-        colorText: Colors.white,
-        borderRadius: 14,
-        margin: const EdgeInsets.all(16),
-        duration: const Duration(seconds: 4),
+      CustomSnackbar.showSuccess(
+        title: 'Password Reset Link Sent',
+        message: 'Password reset link has been sent successfully. Please check your email.',
       );
 
       // If it's an OTP flow, move to next step
@@ -123,35 +114,17 @@ class ForgotPasswordController extends GetxController {
     return lower.contains('otp') || lower.contains('code') || lower.contains('verification');
   }
 
-  // ------------------------------------------------------------------
-  // Future: Verify OTP / Reset Password
-  // ------------------------------------------------------------------
-
-  /// This method can be extended when the backend supports OTP-based
-  /// password reset. For now it's a placeholder for future use.
   Future<void> verifyOtpAndResetPassword() async {
-    // TODO: Implement when OTP/reset endpoint is available.
-    Get.snackbar(
-      'Coming Soon',
-      'OTP verification will be available soon.',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.orange,
-      colorText: Colors.white,
-      borderRadius: 14,
-      margin: const EdgeInsets.all(16),
+    CustomSnackbar.showInfo(
+      title: 'Coming Soon',
+      message: 'OTP verification will be available soon.',
     );
   }
 
   void _showError(String message) {
-    Get.snackbar(
-      'Failed',
-      message,
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.red.shade600,
-      colorText: Colors.white,
-      borderRadius: 14,
-      margin: const EdgeInsets.all(16),
-      duration: const Duration(seconds: 3),
+    CustomSnackbar.showError(
+      title: 'Reset Failed',
+      message: message,
     );
   }
 

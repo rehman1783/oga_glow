@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/core/theme/app_text_styles.dart';
+import 'package:oga_glow/core/widgets/bounce_tap.dart';
 import 'package:oga_glow/features/contact/models/contact_info_model.dart';
 
 class ContactInfoSection extends StatelessWidget {
@@ -9,6 +10,7 @@ class ContactInfoSection extends StatelessWidget {
   final Function(String) onPhoneTap;
   final Function(String) onEmailTap;
   final Function(String) onUrlTap;
+  final VoidCallback? onWhatsAppTap;
 
   const ContactInfoSection({
     super.key,
@@ -16,104 +18,281 @@ class ContactInfoSection extends StatelessWidget {
     required this.onPhoneTap,
     required this.onEmailTap,
     required this.onUrlTap,
+    this.onWhatsAppTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (contactInfo == null) {
-      return const SizedBox.shrink();
-    }
+    final info = contactInfo ?? ContactInfoModel.fallback();
+    final colors = AppColors.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle(context, 'Head Office', Icons.business_rounded),
-        if (contactInfo!.headOffice != null) ...[
-          SizedBox(height: 8.h),
-          _buildInfoCard(
+        // 1. Quick Direct Communication Action Row
+        Row(
+          children: [
+            Expanded(
+              child: _buildQuickActionButton(
+                context,
+                title: 'Call Support',
+                subtitle: 'Direct Helpline',
+                icon: Icons.phone_in_talk_rounded,
+                accentColor: AppColors.primary,
+                onTap: () => onPhoneTap(info.primaryPhone),
+              ),
+            ),
+            SizedBox(width: 10.w),
+            Expanded(
+              child: _buildQuickActionButton(
+                context,
+                title: 'WhatsApp',
+                subtitle: 'Instant Chat',
+                icon: Icons.chat_rounded,
+                accentColor: const Color(0xFF25D366),
+                onTap: () {
+                  if (onWhatsAppTap != null) {
+                    onWhatsAppTap!();
+                  } else {
+                    onUrlTap(info.effectiveWhatsAppUrl);
+                  }
+                },
+              ),
+            ),
+            SizedBox(width: 10.w),
+            Expanded(
+              child: _buildQuickActionButton(
+                context,
+                title: 'Email Us',
+                subtitle: 'Send Mail',
+                icon: Icons.mail_outline_rounded,
+                accentColor: AppColors.accent,
+                onTap: () => onEmailTap(info.primaryEmail),
+              ),
+            ),
+          ],
+        ),
+
+        SizedBox(height: 24.h),
+
+        // 2. Office Locations
+        _buildSectionHeader(
+          context,
+          title: 'Office Locations',
+          icon: Icons.business_rounded,
+        ),
+        SizedBox(height: 10.h),
+        ...info.allOffices.map((office) {
+          final isHead = office == info.headOffice ||
+              (office.title != null && office.title!.toLowerCase().contains('head'));
+          return Padding(
+            padding: EdgeInsets.only(bottom: 10.h),
+            child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(16.w),
+              decoration: BoxDecoration(
+                color: colors.cardBackground,
+                borderRadius: BorderRadius.circular(18.r),
+                border: Border.all(
+                  color: isHead
+                      ? AppColors.primary.withValues(alpha: 0.3)
+                      : colors.border.withValues(alpha: 0.6),
+                  width: isHead ? 1.5 : 1,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.black.withValues(alpha: 0.03),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(8.w),
+                        decoration: BoxDecoration(
+                          color: isHead
+                              ? AppColors.primary.withValues(alpha: 0.12)
+                              : colors.panelSecondary,
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        child: Icon(
+                          isHead ? Icons.location_city_rounded : Icons.apartment_rounded,
+                          color: isHead ? AppColors.primary : colors.textPrimary,
+                          size: 20.sp,
+                        ),
+                      ),
+                      SizedBox(width: 10.w),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              office.title ?? (isHead ? 'Head Office' : 'Branch Office'),
+                              style: AppTextStyles.body.copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 14.sp,
+                                color: colors.textPrimary,
+                              ),
+                            ),
+                            if (office.city != null && office.city!.isNotEmpty)
+                              Text(
+                                office.city!,
+                                style: AppTextStyles.caption.copyWith(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 11.sp,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      if (isHead)
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(6.r),
+                          ),
+                          child: Text(
+                            'Main HQ',
+                            style: AppTextStyles.caption.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 9.sp,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                  SizedBox(height: 10.h),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.pin_drop_outlined,
+                        size: 16.sp,
+                        color: colors.textSecondary,
+                      ),
+                      SizedBox(width: 6.w),
+                      Expanded(
+                        child: Text(
+                          office.address ?? 'Address unavailable',
+                          style: AppTextStyles.body.copyWith(
+                            fontSize: 13.sp,
+                            color: colors.textSecondary,
+                            height: 1.3,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        }),
+
+        SizedBox(height: 16.h),
+
+        // 3. Contact Numbers & Emails Detailed
+        _buildSectionHeader(
+          context,
+          title: 'Direct Channels',
+          icon: Icons.contact_phone_rounded,
+        ),
+        SizedBox(height: 10.h),
+        ...info.phoneNumbers.map((phone) => Padding(
+              padding: EdgeInsets.only(bottom: 8.h),
+              child: _buildInteractiveTile(
+                context,
+                title: phone,
+                subtitle: 'Tap to call helpline',
+                icon: Icons.phone_rounded,
+                actionIcon: Icons.call_made_rounded,
+                iconBg: AppColors.primary.withValues(alpha: 0.1),
+                iconColor: AppColors.primary,
+                onTap: () => onPhoneTap(phone),
+              ),
+            )),
+        ...info.emails.map((email) => Padding(
+              padding: EdgeInsets.only(bottom: 8.h),
+              child: _buildInteractiveTile(
+                context,
+                title: email,
+                subtitle: 'Tap to compose email',
+                icon: Icons.email_rounded,
+                actionIcon: Icons.send_rounded,
+                iconBg: AppColors.accent.withValues(alpha: 0.1),
+                iconColor: AppColors.accent,
+                onTap: () => onEmailTap(email),
+              ),
+            )),
+
+        SizedBox(height: 16.h),
+
+        // 4. Social Connectivity
+        if (info.socialLinks.isNotEmpty) ...[
+          _buildSectionHeader(
             context,
-            title: contactInfo!.headOffice!.city ?? 'Head Office',
-            subtitle: contactInfo!.headOffice!.address ?? 'Address unavailable',
-            icon: Icons.location_on_rounded,
+            title: 'Social & Connectivity',
+            icon: Icons.public_rounded,
+          ),
+          SizedBox(height: 10.h),
+          Wrap(
+            spacing: 8.w,
+            runSpacing: 8.h,
+            children: info.socialLinks.map((link) {
+              final linkData = _detectSocialMeta(link);
+              return BounceTap(
+                onTap: () => onUrlTap(link),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+                  decoration: BoxDecoration(
+                    color: colors.cardBackground,
+                    borderRadius: BorderRadius.circular(14.r),
+                    border: Border.all(color: colors.border.withValues(alpha: 0.7)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.black.withValues(alpha: 0.02),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        linkData.icon,
+                        size: 16.sp,
+                        color: linkData.color,
+                      ),
+                      SizedBox(width: 8.w),
+                      Text(
+                        linkData.title,
+                        style: AppTextStyles.body.copyWith(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                          color: colors.textPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
           ),
         ],
-        SizedBox(height: 16.h),
-        _buildSectionTitle(context, 'Sub Offices', Icons.location_city_rounded),
-        SizedBox(height: 8.h),
-        if (contactInfo!.subOffices.isNotEmpty)
-          ...contactInfo!.subOffices.map(
-            (office) => Padding(
-              padding: EdgeInsets.only(bottom: 8.h),
-              child: _buildInfoCard(
-                context,
-                title: office.city ?? 'Office',
-                subtitle: office.address ?? 'Address unavailable',
-                icon: Icons.apartment_rounded,
-              ),
-            ),
-          )
-        else
-          _buildInfoCard(
-            context,
-            title: 'No sub offices',
-            subtitle: 'No additional office details currently available.',
-            icon: Icons.apartment_rounded,
-          ),
-        SizedBox(height: 16.h),
-        _buildSectionTitle(context, 'Emails', Icons.email_rounded),
-        SizedBox(height: 8.h),
-        if (contactInfo!.emails.isNotEmpty)
-          ...contactInfo!.emails.map(
-            (email) => Padding(
-              padding: EdgeInsets.only(bottom: 8.h),
-              child: GestureDetector(
-                onTap: () => onEmailTap(email),
-                child: _buildInfoCard(
-                  context,
-                  title: email,
-                  subtitle: 'Tap to send an email',
-                  icon: Icons.mail_outline_rounded,
-                ),
-              ),
-            ),
-          )
-        else
-          _buildInfoCard(
-            context,
-            title: 'Email unavailable',
-            subtitle: 'No email address available right now.',
-            icon: Icons.mail_outline_rounded,
-          ),
-        SizedBox(height: 16.h),
-        _buildSectionTitle(context, 'Phone Numbers', Icons.phone_rounded),
-        SizedBox(height: 8.h),
-        if (contactInfo!.phoneNumbers.isNotEmpty)
-          ...contactInfo!.phoneNumbers.map(
-            (phone) => Padding(
-              padding: EdgeInsets.only(bottom: 8.h),
-              child: GestureDetector(
-                onTap: () => onPhoneTap(phone),
-                child: _buildInfoCard(
-                  context,
-                  title: phone,
-                  subtitle: 'Tap to call',
-                  icon: Icons.call_rounded,
-                ),
-              ),
-            ),
-          )
-        else
-          _buildInfoCard(
-            context,
-            title: 'Phone unavailable',
-            subtitle: 'No phone number available right now.',
-            icon: Icons.call_rounded,
-          ),
       ],
     );
   }
 
-  Widget _buildSectionTitle(BuildContext context, String title, IconData icon) {
+  Widget _buildSectionHeader(BuildContext context, {required String title, required IconData icon}) {
     return Row(
       children: [
         Icon(icon, color: AppColors.primary, size: 18.sp),
@@ -123,61 +302,165 @@ class ContactInfoSection extends StatelessWidget {
           style: AppTextStyles.heading2.copyWith(
             color: AppColors.of(context).textPrimary,
             fontSize: 15.sp,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildInfoCard(
+  Widget _buildQuickActionButton(
     BuildContext context, {
     required String title,
     required String subtitle,
     required IconData icon,
+    required Color accentColor,
+    required VoidCallback onTap,
   }) {
     final colors = AppColors.of(context);
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(14.w),
-      decoration: BoxDecoration(
-        color: colors.cardBackground,
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.25)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(10.w),
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(12.r),
+    return BounceTap(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 8.w),
+        decoration: BoxDecoration(
+          color: colors.cardBackground,
+          borderRadius: BorderRadius.circular(16.r),
+          border: Border.all(color: accentColor.withValues(alpha: 0.2)),
+          boxShadow: [
+            BoxShadow(
+              color: accentColor.withValues(alpha: 0.06),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
-            child: Icon(icon, color: AppColors.primary, size: 18.sp),
-          ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: AppTextStyles.body.copyWith(
-                    color: colors.textPrimary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  subtitle,
-                  style: AppTextStyles.caption.copyWith(
-                    color: colors.textSecondary,
-                  ),
-                ),
-              ],
+          ],
+        ),
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(10.w),
+              decoration: BoxDecoration(
+                color: accentColor.withValues(alpha: 0.12),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: accentColor, size: 20.sp),
             ),
-          ),
-        ],
+            SizedBox(height: 8.h),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: AppTextStyles.body.copyWith(
+                fontWeight: FontWeight.w700,
+                fontSize: 12.sp,
+                color: colors.textPrimary,
+              ),
+            ),
+            SizedBox(height: 2.h),
+            Text(
+              subtitle,
+              textAlign: TextAlign.center,
+              style: AppTextStyles.caption.copyWith(
+                fontSize: 9.sp,
+                color: colors.textSecondary,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+
+  Widget _buildInteractiveTile(
+    BuildContext context, {
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required IconData actionIcon,
+    required Color iconBg,
+    required Color iconColor,
+    required VoidCallback onTap,
+  }) {
+    final colors = AppColors.of(context);
+    return BounceTap(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(12.w),
+        decoration: BoxDecoration(
+          color: colors.cardBackground,
+          borderRadius: BorderRadius.circular(14.r),
+          border: Border.all(color: colors.border.withValues(alpha: 0.6)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(8.w),
+              decoration: BoxDecoration(
+                color: iconBg,
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Icon(icon, color: iconColor, size: 18.sp),
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: AppTextStyles.body.copyWith(
+                      color: colors.textPrimary,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13.sp,
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                  Text(
+                    subtitle,
+                    style: AppTextStyles.caption.copyWith(
+                      color: colors.textSecondary,
+                      fontSize: 11.sp,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              actionIcon,
+              size: 16.sp,
+              color: colors.textSecondary,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _SocialMeta _detectSocialMeta(String link) {
+    final lower = link.toLowerCase();
+    if (lower.contains('wa.me') || lower.contains('whatsapp')) {
+      return _SocialMeta('WhatsApp', Icons.chat_rounded, const Color(0xFF25D366));
+    }
+    if (lower.contains('facebook')) {
+      return _SocialMeta('Facebook', Icons.facebook_rounded, const Color(0xFF1877F2));
+    }
+    if (lower.contains('instagram')) {
+      return _SocialMeta('Instagram', Icons.camera_alt_rounded, const Color(0xFFE4405F));
+    }
+    if (lower.contains('linkedin')) {
+      return _SocialMeta('LinkedIn', Icons.work_rounded, const Color(0xFF0A66C2));
+    }
+    if (lower.contains('youtube')) {
+      return _SocialMeta('YouTube', Icons.play_circle_fill_rounded, const Color(0xFFFF0000));
+    }
+    return _SocialMeta('Official Website', Icons.language_rounded, AppColors.primary);
+  }
 }
+
+class _SocialMeta {
+  final String title;
+  final IconData icon;
+  final Color color;
+
+  const _SocialMeta(this.title, this.icon, this.color);
+}
+

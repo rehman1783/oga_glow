@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:oga_glow/app/routes/app_routes.dart';
 import 'package:oga_glow/core/network/api_exception.dart';
+import 'package:oga_glow/core/widgets/custom_snackbar.dart';
 import 'package:oga_glow/features/auth/controllers/auth_controller.dart';
 import 'package:oga_glow/features/auth/repositories/auth_repository.dart';
 
@@ -17,6 +18,8 @@ class LoginController extends GetxController {
 
   final isLoading = false.obs;
   final obscurePassword = true.obs;
+  final errorMessage = ''.obs;
+  final isAccountNotFound = false.obs;
 
   // Form validation keys
   final formKey = GlobalKey<FormState>();
@@ -26,6 +29,11 @@ class LoginController extends GetxController {
     emailController.dispose();
     passwordController.dispose();
     super.onClose();
+  }
+
+  void dismissError() {
+    errorMessage.value = '';
+    isAccountNotFound.value = false;
   }
 
   // ------------------------------------------------------------------
@@ -62,7 +70,9 @@ class LoginController extends GetxController {
   // ------------------------------------------------------------------
 
   Future<void> login() async {
-    // Manual validation (existing UI uses TextField, not TextFormField)
+    dismissError();
+
+    // Manual validation
     final emailError = validateEmail(emailController.text);
     final passwordError = validatePassword(passwordController.text);
 
@@ -77,30 +87,26 @@ class LoginController extends GetxController {
     isLoading.value = true;
     try {
       // Call repository
-      await _authRepository.login(
+      final result = await _authRepository.login(
         email: emailController.text.trim(),
         password: passwordController.text,
       );
 
-      // Update auth controller state
-      final authController = Get.find<AuthController>();
-      await authController.login(
-        email: emailController.text.trim(),
-        password: passwordController.text,
-      );
+      // Update auth controller state directly
+      if (Get.isRegistered<AuthController>()) {
+        final authController = Get.find<AuthController>();
+        authController.setSession(
+          token: result.token,
+          user: result.user,
+        );
+      }
 
       // Navigate to main navigation
       Get.offAllNamed(AppRoutes.mainNavigation);
 
-      Get.snackbar(
-        'Login Successful',
-        'Welcome back to OGA Glow!',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green.shade600,
-        colorText: Colors.white,
-        borderRadius: 14,
-        margin: const EdgeInsets.all(16),
-        duration: const Duration(seconds: 3),
+      CustomSnackbar.showSuccess(
+        title: 'Login Successful',
+        message: 'Welcome back to OGA Glow!',
       );
     } on NotFoundException {
       _showAccountNotFoundError();
@@ -134,39 +140,23 @@ class LoginController extends GetxController {
   }
 
   void _showAccountNotFoundError() {
-    Get.snackbar(
-      'Account Not Found',
-      'No account found with this email.\nPlease create a new account.',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.red.shade600,
-      colorText: Colors.white,
-      borderRadius: 14,
-      margin: const EdgeInsets.all(16),
-      duration: const Duration(seconds: 5),
-      mainButton: TextButton(
-        onPressed: () => Get.toNamed(AppRoutes.signup),
-        child: const Text(
-          'Go to Sign Up',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            decoration: TextDecoration.underline,
-          ),
-        ),
-      ),
+    errorMessage.value =
+        'No account found with this email.\nPlease create a new account to continue.';
+    isAccountNotFound.value = true;
+
+    CustomSnackbar.showError(
+      title: 'Account Not Found',
+      message: 'No account found with this email. Please sign up.',
     );
   }
 
   void _showError(String message) {
-    Get.snackbar(
-      'Login Failed',
-      message,
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.red.shade600,
-      colorText: Colors.white,
-      borderRadius: 14,
-      margin: const EdgeInsets.all(16),
-      duration: const Duration(seconds: 4),
+    errorMessage.value = message;
+    isAccountNotFound.value = false;
+
+    CustomSnackbar.showError(
+      title: 'Login Failed',
+      message: message,
     );
   }
 
@@ -182,3 +172,4 @@ class LoginController extends GetxController {
     Get.toNamed(AppRoutes.forgotPassword);
   }
 }
+

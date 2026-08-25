@@ -67,8 +67,6 @@ class HomeScreen extends GetView<HomeController> {
 
               FadeSlideTransition(index: 2, child: HomeBannerSlider()),
 
-             
-
               SizedBox(height: 20.h),
 
               FadeSlideTransition(

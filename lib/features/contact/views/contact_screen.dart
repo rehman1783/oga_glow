@@ -12,15 +12,13 @@ import '../widgets/contact_info_section.dart';
 
 /// Contact Us screen.
 ///
-/// Displays office addresses, phone numbers, email, and social connectivity
-/// links in a clean, premium Material 3 design.
+/// Displays office addresses, phone numbers, email, WhatsApp, and social connectivity
+/// links in a clean, luxury skincare brand design.
 class ContactScreen extends GetView<ContactController> {
   const ContactScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -34,6 +32,7 @@ class ContactScreen extends GetView<ContactController> {
           ContactConstants.heroTitle,
           style: AppTextStyles.heading2.copyWith(
             fontSize: 18.sp,
+            fontWeight: FontWeight.w700,
             color: AppColors.of(context).textPrimary,
           ),
         ),
@@ -43,32 +42,22 @@ class ContactScreen extends GetView<ContactController> {
           onRefresh: controller.fetchContactInfo,
           color: AppColors.primary,
           child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics(),
+            ),
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                FadeSlideTransition(index: 0, child: _buildHeroSection(isDark)),
-                SizedBox(height: 24.h),
+                FadeSlideTransition(index: 0, child: _buildHeroSection(context)),
+                SizedBox(height: 20.h),
+
+                // Live Contact Info from API
                 Obx(() {
-                  if (controller.isLoading.value) {
+                  if (controller.isLoading.value && controller.contactInfo.value.allOffices.isEmpty) {
                     return const LoadingWidget();
                   }
-                  if (controller.errorMessage.value.isNotEmpty) {
-                    return Container(
-                      padding: EdgeInsets.all(16.w),
-                      decoration: BoxDecoration(
-                        color: AppColors.error.withValues(alpha: 0.08),
-                        borderRadius: BorderRadius.circular(16.r),
-                      ),
-                      child: Text(
-                        controller.errorMessage.value,
-                        style: AppTextStyles.body.copyWith(
-                          color: AppColors.error,
-                        ),
-                      ),
-                    );
-                  }
+
                   return FadeSlideTransition(
                     index: 1,
                     child: ContactInfoSection(
@@ -76,10 +65,14 @@ class ContactScreen extends GetView<ContactController> {
                       onPhoneTap: controller.launchPhone,
                       onEmailTap: controller.launchEmail,
                       onUrlTap: controller.launchUrlString,
+                      onWhatsAppTap: controller.launchWhatsApp,
                     ),
                   );
                 }),
+
                 SizedBox(height: 24.h),
+
+                // Inquiry Form Card
                 FadeSlideTransition(index: 2, child: const ContactFormCard()),
                 SizedBox(height: 32.h),
               ],
@@ -90,73 +83,121 @@ class ContactScreen extends GetView<ContactController> {
     );
   }
 
-  /// Builds the hero / header section with an icon, heading, and subtitle.
-  Widget _buildHeroSection(bool isDark) {
-    return Builder(
-      builder: (context) {
-        return Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                AppColors.primary.withValues(alpha: 0.12),
-                AppColors.primaryLight.withValues(alpha: 0.06),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(24.r),
-            border: Border.all(color: AppColors.primary.withValues(alpha: 0.1)),
+  /// Builds the hero / header section with luxury brand banner and quick support badge.
+  Widget _buildHeroSection(BuildContext context) {
+    final colors = AppColors.of(context);
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 20.w),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            AppColors.primary.withValues(alpha: 0.14),
+            AppColors.primaryLight.withValues(alpha: 0.08),
+            colors.cardBackground,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(24.r),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.04),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
           ),
-          child: Column(
+        ],
+      ),
+      child: Column(
+        children: [
+          // Top row: Brand icon + Status chip
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Icon
               Container(
-                width: 64.w,
-                height: 64.w,
+                width: 52.w,
+                height: 52.w,
                 decoration: BoxDecoration(
-                  color: AppColors.of(context).cardBackground,
+                  color: colors.cardBackground,
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.15),
-                      blurRadius: 20,
-                      offset: const Offset(0, 6),
+                      color: AppColors.primary.withValues(alpha: 0.2),
+                      blurRadius: 14,
+                      offset: const Offset(0, 4),
                     ),
                   ],
                 ),
                 child: Icon(
                   Icons.headset_mic_rounded,
-                  size: 30.sp,
+                  size: 26.sp,
                   color: AppColors.primary,
                 ),
               ),
-              SizedBox(height: 16.h),
-              // Heading
-              Text(
-                ContactConstants.heroTitle,
-                style: AppTextStyles.heading1.copyWith(
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.of(context).textPrimary,
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                decoration: BoxDecoration(
+                  color: Colors.green.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(20.r),
+                  border: Border.all(color: Colors.green.withValues(alpha: 0.3)),
                 ),
-              ),
-              SizedBox(height: 8.h),
-              // Subtitle
-              Text(
-                ContactConstants.heroSubtitle,
-                textAlign: TextAlign.center,
-                style: AppTextStyles.body.copyWith(
-                  fontSize: 14.sp,
-                  color: AppColors.of(context).textSecondary,
-                  height: 1.4,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 7.w,
+                      height: 7.w,
+                      decoration: const BoxDecoration(
+                        color: Colors.green,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    SizedBox(width: 6.w),
+                    Text(
+                      'Live Support Active',
+                      style: AppTextStyles.caption.copyWith(
+                        color: Colors.green.shade700,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10.sp,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
-        );
-      },
+          SizedBox(height: 16.h),
+
+          // Heading
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Get in Touch with Us',
+              style: AppTextStyles.heading1.copyWith(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w800,
+                color: colors.textPrimary,
+              ),
+            ),
+          ),
+          SizedBox(height: 6.h),
+
+          // Subtitle
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Have questions about our skincare routine or your orders? Our dedicated wellness team is here to assist you.',
+              style: AppTextStyles.body.copyWith(
+                fontSize: 13.sp,
+                color: colors.textSecondary,
+                height: 1.4,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
+

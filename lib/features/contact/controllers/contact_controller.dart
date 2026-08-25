@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oga_glow/core/network/api_exception.dart';
+import 'package:oga_glow/core/widgets/custom_snackbar.dart';
 import 'package:oga_glow/features/contact/models/contact_info_model.dart';
 import 'package:oga_glow/features/contact/repositories/contact_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Controller for the Contact Us screen.
 ///
-/// Provides actions for launching phone dialer, email, and URLs.
-/// Uses [url_launcher] to open external apps.
+/// Provides actions for launching WhatsApp, phone dialer, email composer,
+/// and external URLs.
 class ContactController extends GetxController {
   final ContactRepository _repository;
 
   ContactController({ContactRepository? repository})
-    : _repository = repository ?? ContactRepository();
+      : _repository = repository ?? ContactRepository();
 
-  final contactInfo = Rxn<ContactInfoModel>();
+  final contactInfo = Rx<ContactInfoModel>(ContactInfoModel.fallback());
   final isLoading = false.obs;
   final isSubmitting = false.obs;
   final errorMessage = ''.obs;
@@ -40,8 +41,15 @@ class ContactController extends GetxController {
       contactInfo.value = result;
     } on ApiException catch (e) {
       errorMessage.value = e.message;
-    } catch (e) {
-      errorMessage.value = 'Unable to load contact information.';
+      // Keep fallback so UI remains functional
+      if (contactInfo.value.allOffices.isEmpty) {
+        contactInfo.value = ContactInfoModel.fallback();
+      }
+    } catch (_) {
+      errorMessage.value = 'Unable to load live contact information.';
+      if (contactInfo.value.allOffices.isEmpty) {
+        contactInfo.value = ContactInfoModel.fallback();
+      }
     } finally {
       isLoading.value = false;
     }
@@ -54,8 +62,7 @@ class ContactController extends GetxController {
     final message = messageController.text.trim();
 
     if (name.isEmpty || email.isEmpty || subject.isEmpty || message.isEmpty) {
-      formError.value =
-          'Please complete all fields before sending your message.';
+      formError.value = 'Please complete all fields before sending your message.';
       return;
     }
 
@@ -74,30 +81,21 @@ class ContactController extends GetxController {
         message: message,
       );
       clearForm();
-      Get.snackbar(
-        'Success',
-        'Your message was sent successfully.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green.shade700,
-        colorText: Colors.white,
+      CustomSnackbar.showSuccess(
+        title: 'Message Sent',
+        message: 'Thank you! Your message has been sent successfully.',
       );
     } on ApiException catch (e) {
       formError.value = e.message;
-      Get.snackbar(
-        'Contact Error',
-        e.message,
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.shade700,
-        colorText: Colors.white,
+      CustomSnackbar.showError(
+        title: 'Submission Error',
+        message: e.message,
       );
-    } catch (e) {
+    } catch (_) {
       formError.value = 'Unable to send your message right now.';
-      Get.snackbar(
-        'Contact Error',
-        formError.value,
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.shade700,
-        colorText: Colors.white,
+      CustomSnackbar.showError(
+        title: 'Submission Error',
+        message: 'Unable to send your message right now. Please try again.',
       );
     } finally {
       isSubmitting.value = false;
@@ -112,49 +110,81 @@ class ContactController extends GetxController {
     formError.value = '';
   }
 
-  /// Opens the phone dialer with the given [phoneUrl].
-  /// [phoneUrl] should be a `tel:` URI (e.g., `tel:+923213270507`).
-  Future<void> launchPhone(String phoneUrl) async {
-    final uri = Uri.parse(phoneUrl);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      _showError('Could not open dialer for $phoneUrl');
+  /// Opens the WhatsApp direct chat link.
+  Future<void> launchWhatsApp([String? target]) async {
+    final raw = target ?? contactInfo.value.effectiveWhatsAppUrl;
+    String url = raw;
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      final cleanNumber = raw.replaceAll(RegExp(r'[^0-9]'), '');
+      url = 'https://wa.me/$cleanNumber';
+    }
+    await launchUrlString(url);
+  }
+
+  /// Opens the phone dialer with the given phone number.
+  Future<void> launchPhone(String phone) async {
+    final cleanPhone = phone.replaceAll(' ', '').replaceAll('-', '');
+    final uriString = cleanPhone.startsWith('tel:') ? cleanPhone : 'tel:$cleanPhone';
+    final uri = Uri.parse(uriString);
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        CustomSnackbar.showInfo(
+          title: 'Dialer Unavailable',
+          message: 'Contact: $phone',
+        );
+      }
+    } catch (_) {
+      CustomSnackbar.showInfo(
+        title: 'Contact Phone',
+        message: phone,
+      );
     }
   }
 
-  /// Opens the email app with the given [emailUrl].
-  /// [emailUrl] should be a `mailto:` URI.
-  Future<void> launchEmail(String emailUrl) async {
-    final uri = Uri.parse(emailUrl);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      _showError('Could not open email app');
+  /// Opens the email app with the given email address.
+  Future<void> launchEmail(String email) async {
+    final cleanEmail = email.trim();
+    final uriString = cleanEmail.startsWith('mailto:') ? cleanEmail : 'mailto:$cleanEmail';
+    final uri = Uri.parse(uriString);
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        CustomSnackbar.showInfo(
+          title: 'Email Address',
+          message: email,
+        );
+      }
+    } catch (_) {
+      CustomSnackbar.showInfo(
+        title: 'Email Address',
+        message: email,
+      );
     }
   }
 
   /// Opens the given [url] in the default browser.
   Future<void> launchUrlString(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      _showError('Could not open $url');
+    String formattedUrl = url.trim();
+    if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
+      formattedUrl = 'https://$formattedUrl';
     }
-  }
-
-  /// Shows an error snackbar when a launch fails.
-  void _showError(String message) {
-    if (!Get.isSnackbarOpen) {
-      Get.snackbar(
-        'Error',
-        message,
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withValues(alpha: 0.9),
-        colorText: Colors.white,
-        borderRadius: 14,
-        margin: const EdgeInsets.all(16),
+    final uri = Uri.parse(formattedUrl);
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        CustomSnackbar.showError(
+          title: 'Unable to open link',
+          message: url,
+        );
+      }
+    } catch (_) {
+      CustomSnackbar.showError(
+        title: 'Unable to open link',
+        message: url,
       );
     }
   }
@@ -168,3 +198,4 @@ class ContactController extends GetxController {
     super.onClose();
   }
 }
+

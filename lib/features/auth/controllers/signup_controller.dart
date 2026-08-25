@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:oga_glow/app/routes/app_routes.dart';
 import 'package:oga_glow/core/network/api_exception.dart';
+import 'package:oga_glow/core/widgets/custom_snackbar.dart';
 import 'package:oga_glow/features/auth/repositories/auth_repository.dart';
 
 class SignupController extends GetxController {
@@ -124,15 +125,9 @@ class SignupController extends GetxController {
       if (response.success) {
         debugPrint('[DEBUG LOG] SignupController: Registration successful from backend response.');
         
-        Get.snackbar(
-          'Account Created Successfully',
-          'Verification Email Sent. Please check your inbox to verify your account.',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green.shade600,
-          colorText: Colors.white,
-          borderRadius: 14,
-          margin: const EdgeInsets.all(16),
-          duration: const Duration(seconds: 4),
+        CustomSnackbar.showSuccess(
+          title: 'Account Created Successfully',
+          message: 'Verification email sent. Please check your inbox to verify your account.',
         );
 
         final email = emailController.text.trim();
@@ -181,39 +176,16 @@ class SignupController extends GetxController {
   }
 
   void _showAlreadyRegisteredError() {
-    Get.snackbar(
-      'Account Exists',
-      'This email is already registered.\nPlease login instead.',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.red.shade600,
-      colorText: Colors.white,
-      borderRadius: 14,
-      margin: const EdgeInsets.all(16),
-      duration: const Duration(seconds: 5),
-      mainButton: TextButton(
-        onPressed: () => Get.offAllNamed(AppRoutes.login),
-        child: const Text(
-          'Go to Login',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            decoration: TextDecoration.underline,
-          ),
-        ),
-      ),
+    CustomSnackbar.showError(
+      title: 'Account Exists',
+      message: 'This email is already registered. Please log in.',
     );
   }
 
   void _showError(String message) {
-    Get.snackbar(
-      'Registration Failed',
-      message,
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.red.shade600,
-      colorText: Colors.white,
-      borderRadius: 14,
-      margin: const EdgeInsets.all(16),
-      duration: const Duration(seconds: 4),
+    CustomSnackbar.showError(
+      title: 'Registration Failed',
+      message: message,
     );
   }
 

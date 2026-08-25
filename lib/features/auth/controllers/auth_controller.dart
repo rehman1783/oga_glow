@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:oga_glow/app/routes/app_routes.dart';
+import 'package:oga_glow/core/widgets/custom_snackbar.dart';
 import 'package:oga_glow/features/auth/models/user_model.dart';
 import 'package:oga_glow/features/auth/repositories/auth_repository.dart';
 
@@ -62,8 +62,15 @@ class AuthController extends GetxController {
   }
 
   // ---------------------------------------------------------------
-  // Login
+  // Login & Session
   // ---------------------------------------------------------------
+
+  /// Sets the active session directly from an existing login response.
+  void setSession({required String token, required UserModel user}) {
+    currentToken.value = token;
+    currentUser.value = user;
+    isLoggedIn.value = true;
+  }
 
   Future<void> login({required String email, required String password}) async {
     final result = await _authRepository.login(
@@ -89,15 +96,9 @@ class AuthController extends GetxController {
     isLoggedIn.value = false;
 
     // Show logout success message
-    Get.snackbar(
-      'Logout Successful',
-      'You have been logged out successfully.',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.green.shade600,
-      colorText: Colors.white,
-      borderRadius: 14,
-      margin: const EdgeInsets.all(16),
-      duration: const Duration(seconds: 3),
+    CustomSnackbar.showSuccess(
+      title: 'Logout Successful',
+      message: 'You have been logged out successfully.',
     );
 
     // Navigate to login screen and clear navigation stack
@@ -115,15 +116,9 @@ class AuthController extends GetxController {
     currentUser.value = null;
     isLoggedIn.value = false;
 
-    Get.snackbar(
-      'Account Deleted',
-      'Your account has been deleted successfully.',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.red.shade600,
-      colorText: Colors.white,
-      borderRadius: 14,
-      margin: const EdgeInsets.all(16),
-      duration: const Duration(seconds: 3),
+    CustomSnackbar.showInfo(
+      title: 'Account Deleted',
+      message: 'Your account has been deleted successfully.',
     );
 
     Get.offAllNamed(AppRoutes.login);
