@@ -39,14 +39,10 @@ class OfficeModel {
 class PhoneChannelModel {
   final String label;
   final String number;
-  final String? badge;
-  final bool hasWhatsApp;
 
   const PhoneChannelModel({
     required this.label,
     required this.number,
-    this.badge,
-    this.hasWhatsApp = false,
   });
 
   factory PhoneChannelModel.fromJson(dynamic json, int index) {
@@ -58,25 +54,16 @@ class PhoneChannelModel {
       final lbl = json['label']?.toString() ??
           json['title']?.toString() ??
           json['name']?.toString() ??
-          (index == 0 ? 'OgaGlow Helpline' : 'Wholcure Care');
-      final bdg = json['badge']?.toString() ?? (index == 0 ? 'Primary' : null);
-      final wa = json['whatsapp'] == true ||
-          json['hasWhatsApp'] == true ||
-          (index == 0);
+          (index == 0 ? ContactConstants.phoneLabel1 : ContactConstants.phoneLabel2);
       return PhoneChannelModel(
         label: lbl,
         number: num,
-        badge: bdg,
-        hasWhatsApp: wa,
       );
     }
     final str = json.toString().trim();
-    final isPrimary = index == 0;
     return PhoneChannelModel(
-      label: isPrimary ? 'OgaGlow Helpline' : 'Wholcure Care',
+      label: index == 0 ? ContactConstants.phoneLabel1 : ContactConstants.phoneLabel2,
       number: str,
-      badge: isPrimary ? 'Primary' : 'Support',
-      hasWhatsApp: isPrimary,
     );
   }
 }
@@ -285,16 +272,12 @@ class ContactInfoModel {
           ? structuredPhones
           : [
               const PhoneChannelModel(
-                label: 'OgaGlow Helpline',
+                label: ContactConstants.phoneLabel1,
                 number: ContactConstants.phoneNumber1,
-                badge: 'Primary',
-                hasWhatsApp: true,
               ),
               const PhoneChannelModel(
-                label: 'Wholcure Support',
+                label: ContactConstants.phoneLabel2,
                 number: ContactConstants.phoneNumber2,
-                badge: 'Support',
-                hasWhatsApp: false,
               ),
             ],
       structuredEmails: structuredEmails.isNotEmpty
@@ -338,16 +321,12 @@ class ContactInfoModel {
       ],
       structuredPhones: [
         const PhoneChannelModel(
-          label: 'OgaGlow Hotline',
+          label: ContactConstants.phoneLabel1,
           number: ContactConstants.phoneNumber1,
-          badge: 'Primary',
-          hasWhatsApp: true,
         ),
         const PhoneChannelModel(
-          label: 'Wholcure Support',
+          label: ContactConstants.phoneLabel2,
           number: ContactConstants.phoneNumber2,
-          badge: 'Helpline',
-          hasWhatsApp: false,
         ),
       ],
       structuredEmails: [

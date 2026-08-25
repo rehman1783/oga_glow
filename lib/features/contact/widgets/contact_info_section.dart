@@ -82,362 +82,86 @@ class ContactInfoSection extends StatelessWidget {
         SizedBox(height: 24.h),
 
         // -------------------------------------------------------------
-        // 2. Structured Direct Channels
+        // 2. Direct Channels (Just Name & Number)
         // -------------------------------------------------------------
         _buildSectionHeader(
           context,
-          title: 'Direct Support Channels',
-          icon: Icons.support_agent_rounded,
+          title: 'Direct Channels',
+          icon: Icons.phone_in_talk_rounded,
         ),
-        SizedBox(height: 12.h),
-
-        // A. Phone Helplines Container Card
-        Container(
-          width: double.infinity,
-          padding: EdgeInsets.all(16.w),
-          decoration: BoxDecoration(
-            color: colors.cardBackground,
-            borderRadius: BorderRadius.circular(18.r),
-            border: Border.all(color: colors.border.withValues(alpha: 0.7)),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.black.withValues(alpha: 0.03),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(8.w),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(10.r),
+        SizedBox(height: 10.h),
+        ...info.structuredPhones.map((phoneItem) {
+          return Padding(
+            padding: EdgeInsets.only(bottom: 8.h),
+            child: BounceTap(
+              onTap: () => onPhoneTap(phoneItem.number),
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+                decoration: BoxDecoration(
+                  color: colors.cardBackground,
+                  borderRadius: BorderRadius.circular(16.r),
+                  border: Border.all(color: colors.border.withValues(alpha: 0.7)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.black.withValues(alpha: 0.02),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
                     ),
-                    child: Icon(
-                      Icons.phone_rounded,
-                      color: AppColors.primary,
-                      size: 18.sp,
-                    ),
-                  ),
-                  SizedBox(width: 10.w),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Phone & Helpline Support',
-                          style: AppTextStyles.body.copyWith(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14.sp,
-                            color: colors.textPrimary,
-                          ),
-                        ),
-                        Text(
-                          'Tap call icon to dial directly',
-                          style: AppTextStyles.caption.copyWith(
-                            fontSize: 11.sp,
-                            color: colors.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 14.h),
-              const Divider(height: 1),
-              SizedBox(height: 12.h),
-              ...info.structuredPhones.map((phoneItem) {
-                return Padding(
-                  padding: EdgeInsets.only(bottom: 12.h),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-                    decoration: BoxDecoration(
-                      color: colors.panelSecondary.withValues(alpha: 0.5),
-                      borderRadius: BorderRadius.circular(12.r),
-                      border: Border.all(color: colors.border.withValues(alpha: 0.4)),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    phoneItem.label,
-                                    style: AppTextStyles.caption.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 11.sp,
-                                      color: AppColors.primary,
-                                    ),
-                                  ),
-                                  if (phoneItem.badge != null) ...[
-                                    SizedBox(width: 6.w),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 6.w, vertical: 2.h),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.primary.withValues(alpha: 0.12),
-                                        borderRadius: BorderRadius.circular(4.r),
-                                      ),
-                                      child: Text(
-                                        phoneItem.badge!,
-                                        style: AppTextStyles.caption.copyWith(
-                                          fontSize: 9.sp,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primary,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ],
-                              ),
-                              SizedBox(height: 4.h),
-                              Text(
-                                phoneItem.number,
-                                style: AppTextStyles.body.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 14.sp,
-                                  color: colors.textPrimary,
-                                  letterSpacing: 0.3,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        // Quick Action Icon Buttons
-                        if (phoneItem.hasWhatsApp)
-                          IconButton(
-                            icon: const Icon(Icons.chat_rounded),
-                            color: const Color(0xFF25D366),
-                            iconSize: 20.sp,
-                            tooltip: 'Chat on WhatsApp',
-                            onPressed: () {
-                              if (onWhatsAppNumberTap != null) {
-                                onWhatsAppNumberTap!(phoneItem.number);
-                              } else if (onWhatsAppTap != null) {
-                                onWhatsAppTap!();
-                              } else {
-                                onUrlTap('https://wa.me/${phoneItem.number.replaceAll(RegExp(r'[^0-9]'), '')}');
-                              }
-                            },
-                          ),
-                        IconButton(
-                          icon: const Icon(Icons.call_rounded),
-                          color: AppColors.primary,
-                          iconSize: 20.sp,
-                          tooltip: 'Call Phone',
-                          onPressed: () => onPhoneTap(phoneItem.number),
-                        ),
-                        if (onCopyTap != null)
-                          IconButton(
-                            icon: const Icon(Icons.copy_rounded),
-                            color: colors.textSecondary,
-                            iconSize: 18.sp,
-                            tooltip: 'Copy Number',
-                            onPressed: () => onCopyTap!(phoneItem.number, phoneItem.label),
-                          ),
-                      ],
-                    ),
-                  ),
-                );
-              }),
-            ],
-          ),
-        ),
-
-        SizedBox(height: 14.h),
-
-        // B. Email Support Container Card
-        Container(
-          width: double.infinity,
-          padding: EdgeInsets.all(16.w),
-          decoration: BoxDecoration(
-            color: colors.cardBackground,
-            borderRadius: BorderRadius.circular(18.r),
-            border: Border.all(color: colors.border.withValues(alpha: 0.7)),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.black.withValues(alpha: 0.03),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(8.w),
-                    decoration: BoxDecoration(
-                      color: AppColors.accent.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    child: Icon(
-                      Icons.mail_outline_rounded,
-                      color: AppColors.accent,
-                      size: 18.sp,
-                    ),
-                  ),
-                  SizedBox(width: 10.w),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Email & Written Inquiries',
-                          style: AppTextStyles.body.copyWith(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14.sp,
-                            color: colors.textPrimary,
-                          ),
-                        ),
-                        Text(
-                          'Formal correspondence & order queries',
-                          style: AppTextStyles.caption.copyWith(
-                            fontSize: 11.sp,
-                            color: colors.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 14.h),
-              const Divider(height: 1),
-              SizedBox(height: 12.h),
-              ...info.structuredEmails.map((emailItem) {
-                return Padding(
-                  padding: EdgeInsets.only(bottom: 8.h),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-                    decoration: BoxDecoration(
-                      color: colors.panelSecondary.withValues(alpha: 0.5),
-                      borderRadius: BorderRadius.circular(12.r),
-                      border: Border.all(color: colors.border.withValues(alpha: 0.4)),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                emailItem.label,
-                                style: AppTextStyles.caption.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 11.sp,
-                                  color: AppColors.accent,
-                                ),
-                              ),
-                              SizedBox(height: 4.h),
-                              Text(
-                                emailItem.email,
-                                style: AppTextStyles.body.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 13.sp,
-                                  color: colors.textPrimary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.send_rounded),
-                          color: AppColors.accent,
-                          iconSize: 20.sp,
-                          tooltip: 'Send Email',
-                          onPressed: () => onEmailTap(emailItem.email),
-                        ),
-                        if (onCopyTap != null)
-                          IconButton(
-                            icon: const Icon(Icons.copy_rounded),
-                            color: colors.textSecondary,
-                            iconSize: 18.sp,
-                            tooltip: 'Copy Email',
-                            onPressed: () => onCopyTap!(emailItem.email, emailItem.label),
-                          ),
-                      ],
-                    ),
-                  ),
-                );
-              }),
-            ],
-          ),
-        ),
-
-        SizedBox(height: 14.h),
-
-        // C. Working Hours & Availability Banner
-        Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
-          decoration: BoxDecoration(
-            color: colors.cardBackground,
-            borderRadius: BorderRadius.circular(14.r),
-            border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
-          ),
-          child: Row(
-            children: [
-              Icon(
-                Icons.access_time_rounded,
-                color: AppColors.primary,
-                size: 20.sp,
-              ),
-              SizedBox(width: 10.w),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  ],
+                ),
+                child: Row(
                   children: [
-                    Text(
-                      'Operational Working Hours',
-                      style: AppTextStyles.caption.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12.sp,
-                        color: colors.textPrimary,
+                    Container(
+                      padding: EdgeInsets.all(10.w),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.phone_rounded,
+                        color: AppColors.primary,
+                        size: 20.sp,
                       ),
                     ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      info.workingHours,
-                      style: AppTextStyles.caption.copyWith(
-                        fontSize: 11.sp,
-                        color: colors.textSecondary,
+                    SizedBox(width: 14.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            phoneItem.label,
+                            style: AppTextStyles.body.copyWith(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14.sp,
+                              color: colors.textPrimary,
+                            ),
+                          ),
+                          SizedBox(height: 2.h),
+                          Text(
+                            phoneItem.number,
+                            style: AppTextStyles.caption.copyWith(
+                              fontSize: 13.sp,
+                              color: colors.textSecondary,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
+                    ),
+                    Icon(
+                      Icons.call_rounded,
+                      color: AppColors.primary,
+                      size: 20.sp,
                     ),
                   ],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                decoration: BoxDecoration(
-                  color: Colors.green.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(6.r),
-                ),
-                child: Text(
-                  'Open Now',
-                  style: AppTextStyles.caption.copyWith(
-                    color: Colors.green.shade700,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 10.sp,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        }),
 
-        SizedBox(height: 24.h),
+        SizedBox(height: 20.h),
 
         // -------------------------------------------------------------
         // 3. Office Locations
