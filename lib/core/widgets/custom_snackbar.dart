@@ -45,11 +45,28 @@ class CustomSnackbar {
     );
   }
 
+  static void showWarning({
+    required String title,
+    required String message,
+    Duration duration = const Duration(seconds: 3),
+  }) {
+    _show(
+      title: title,
+      message: message,
+      icon: Icons.warning_amber_rounded,
+      iconColor: const Color(0xFFFFB74D),
+      borderColor: const Color(0xFFFFB74D).withValues(alpha: 0.35),
+      backgroundColor: const Color(0xFF2D261E),
+      duration: duration,
+    );
+  }
+
   static void showInfo({
     required String title,
     required String message,
     Duration duration = const Duration(seconds: 3),
   }) {
+
     _show(
       title: title,
       message: message,

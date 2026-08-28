@@ -72,9 +72,16 @@ class OrderController extends GetxController {
     filterOrders(status: status);
   }
 
+  /// Add newly placed order dynamically to the history list
+  void addNewOrder(OrderModel order) {
+    allOrders.insert(0, order);
+    filterOrders();
+  }
+
   /// Navigate to the Order Details screen.
   void openOrderDetails(OrderModel order) {
     Get.toNamed(AppRoutes.orderDetails, arguments: order);
   }
 }
+
 
