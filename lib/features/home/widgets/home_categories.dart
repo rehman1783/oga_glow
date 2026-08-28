@@ -12,39 +12,33 @@ class HomeCategories extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
-      child: Column(
-        children: [
-          SizedBox(height: 20.h),
-          SizedBox(
-            height: 110.h,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: controller.categories.length,
-              separatorBuilder: (context, index) => SizedBox(width: 16.w),
-              itemBuilder: (context, index) {
-                final category = controller.categories[index];
+    return SizedBox(
+      height: 118.h,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+        physics: const BouncingScrollPhysics(),
+        itemCount: controller.categories.length,
+        separatorBuilder: (context, index) => SizedBox(width: 14.w),
+        itemBuilder: (context, index) {
+          final category = controller.categories[index];
 
-                return CategoryItem(
-                  icon: category['icon'] as IconData,
-                  title: category['name'] as String,
-                  onTap: () {
-                    final catKey = category['name'] as String;
+          return CategoryItem(
+            icon: category['icon'] as IconData,
+            title: category['name'] as String,
+            onTap: () {
+              final catKey = category['name'] as String;
 
-                    if (Get.isRegistered<CategoryController>()) {
-                      Get.find<CategoryController>().openCategory(catKey);
-                    }
+              if (Get.isRegistered<CategoryController>()) {
+                Get.find<CategoryController>().openCategory(catKey);
+              }
 
-                    if (Get.isRegistered<MainNavigationController>()) {
-                      Get.find<MainNavigationController>().changeIndex(1);
-                    }
-                  },
-                );
-              },
-            ),
-          ),
-        ],
+              if (Get.isRegistered<MainNavigationController>()) {
+                Get.find<MainNavigationController>().changeIndex(1);
+              }
+            },
+          );
+        },
       ),
     );
   }

@@ -23,51 +23,57 @@ class CategoryItem extends StatelessWidget {
     return BounceTap(
       scaleBound: 0.90,
       onTap: onTap,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 66.w,
-            height: 66.w,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  AppColors.primary.withValues(alpha: 0.15),
-                  AppColors.primaryLight.withValues(alpha: 0.06),
+      child: SizedBox(
+        width: 70.w,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 58.w,
+              height: 58.w,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    AppColors.primary.withValues(alpha: 0.15),
+                    AppColors.primaryLight.withValues(alpha: 0.06),
+                  ],
+                ),
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: AppColors.primary.withValues(alpha: 0.25),
+                  width: 1.2,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.08),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
                 ],
               ),
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: AppColors.primary.withValues(alpha: 0.25),
-                width: 1.2,
+              child: Icon(
+                icon,
+                size: 26.sp,
+                color: AppColors.primary,
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.08),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
             ),
-            child: Icon(
-              icon,
-              size: 28.sp,
-              color: AppColors.primary,
+            SizedBox(height: 6.h),
+            Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.caption.copyWith(
+                color: colors.textPrimary,
+                fontWeight: FontWeight.w600,
+                fontSize: 11.sp,
+              ),
+              textAlign: TextAlign.center,
             ),
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            title,
-            style: AppTextStyles.caption.copyWith(
-              color: colors.textPrimary,
-              fontWeight: FontWeight.w600,
-              fontSize: 11.5.sp,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
