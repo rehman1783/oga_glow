@@ -17,7 +17,7 @@ class HomeHotDeals extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
+    final colors = AppColors.of(context);
 
     return Obx(() {
       final hotDeals = controller.hotDeals;
@@ -29,23 +29,50 @@ class HomeHotDeals extends GetView<HomeController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    Icon(
-                      Icons.local_fire_department_rounded,
-                      color: AppColors.goldDark,
-                      size: 22.sp,
+                    Container(
+                      padding: EdgeInsets.all(6.r),
+                      decoration: BoxDecoration(
+                        color: Colors.amber.withValues(alpha: 0.15),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.local_fire_department_rounded,
+                        color: Colors.amber.shade700,
+                        size: 20.sp,
+                      ),
                     ),
-                    SizedBox(width: 6.w),
+                    SizedBox(width: 8.w),
                     Text(
                       'Hot Deals',
                       style: AppTextStyles.heading2.copyWith(
                         fontSize: 16.sp,
-                        color: cs.onSurface,
+                        fontWeight: FontWeight.w800,
+                        color: colors.textPrimary,
+                      ),
+                    ),
+                    SizedBox(width: 6.w),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFFE11D48), Color(0xFFF43F5E)],
+                        ),
+                        borderRadius: BorderRadius.circular(6.r),
+                      ),
+                      child: Text(
+                        'LIMITED',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 8.sp,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 0.5,
+                        ),
                       ),
                     ),
                   ],
@@ -63,6 +90,7 @@ class HomeHotDeals extends GetView<HomeController> {
                     'See All',
                     style: AppTextStyles.caption.copyWith(
                       fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.primary,
                     ),
                   ),
@@ -70,34 +98,39 @@ class HomeHotDeals extends GetView<HomeController> {
               ],
             ),
           ),
-          SizedBox(height: 12.h),
+          SizedBox(height: 10.h),
           SizedBox(
-            height: 175.h,
+            height: 185.h,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               itemCount: hotDeals.length,
               separatorBuilder: (context, index) => SizedBox(width: 14.w),
               itemBuilder: (context, index) {
                 final deal = hotDeals[index];
-                final colors = AppColors.of(context);
                 return BounceTap(
+                  scaleBound: 0.97,
                   onTap: () => Get.toNamed(AppRoutes.products_details, arguments: deal.id),
                   child: Container(
-                    width: 310.w,
-                    padding: EdgeInsets.all(12.w),
+                    width: 320.w,
+                    padding: EdgeInsets.all(14.w),
                     decoration: BoxDecoration(
                       color: colors.cardBackground,
-                      borderRadius: BorderRadius.circular(16.r),
+                      borderRadius: BorderRadius.circular(22.r),
                       border: Border.all(
-                        color: colors.gold.withValues(alpha: 0.3),
+                        color: colors.gold.withValues(alpha: 0.35),
                         width: 1.2,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.black.withValues(alpha: 0.04),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
+                          color: AppColors.black.withValues(alpha: 0.05),
+                          blurRadius: 14,
+                          offset: const Offset(0, 5),
+                        ),
+                        BoxShadow(
+                          color: colors.gold.withValues(alpha: 0.06),
+                          blurRadius: 20,
+                          offset: const Offset(0, 8),
                         ),
                       ],
                     ),
@@ -116,18 +149,21 @@ class HomeHotDeals extends GetView<HomeController> {
                                     Container(
                                       padding: EdgeInsets.symmetric(
                                         horizontal: 8.w,
-                                        vertical: 3.h,
+                                        vertical: 3.5.h,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: colors.gold,
-                                        borderRadius: BorderRadius.circular(20),
+                                        gradient: const LinearGradient(
+                                          colors: [Color(0xFFE11D48), Color(0xFFBE123C)],
+                                        ),
+                                        borderRadius: BorderRadius.circular(8.r),
                                       ),
                                       child: Text(
-                                        '${deal.discountPercentage}% OFF',
+                                        'SAVE ${deal.discountPercentage}%',
                                         style: AppTextStyles.caption.copyWith(
-                                          color: AppColors.white,
-                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w900,
                                           fontSize: 9.sp,
+                                          letterSpacing: 0.5,
                                         ),
                                       ),
                                     ),
@@ -140,6 +176,7 @@ class HomeHotDeals extends GetView<HomeController> {
                                       fontSize: 14.sp,
                                       color: colors.textPrimary,
                                       fontWeight: FontWeight.w700,
+                                      height: 1.25,
                                     ),
                                   ),
                                 ],
@@ -152,8 +189,8 @@ class HomeHotDeals extends GetView<HomeController> {
                                     'Rs. ${deal.finalPrice.toStringAsFixed(0)}',
                                     style: AppTextStyles.heading2.copyWith(
                                       color: AppColors.primary,
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 16.sp,
                                     ),
                                   ),
                                   if (deal.hasDiscount) ...[
@@ -163,7 +200,7 @@ class HomeHotDeals extends GetView<HomeController> {
                                       style: AppTextStyles.caption.copyWith(
                                         color: colors.textSecondary,
                                         decoration: TextDecoration.lineThrough,
-                                        fontSize: 12.sp,
+                                        fontSize: 11.sp,
                                       ),
                                     ),
                                   ],
@@ -172,77 +209,83 @@ class HomeHotDeals extends GetView<HomeController> {
                             ],
                           ),
                         ),
-                        SizedBox(width: 8.w),
+                        SizedBox(width: 10.w),
                         Expanded(
                           flex: 4,
                           child: Center(
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
-                                Positioned.fill(
-                                  child: Container(
-                                    margin: EdgeInsets.all(4.w),
-                                    decoration: BoxDecoration(
-                                      color: colors.cream,
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
-                                ),
-                                Positioned.fill(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(16.r),
+                                  child: AspectRatio(
+                                    aspectRatio: 1,
                                     child: deal.mainImageUrl.isNotEmpty
                                         ? CachedNetworkImage(
                                             imageUrl: deal.mainImageUrl,
                                             fit: BoxFit.cover,
-                                            placeholder: (context, url) => Shimmer.fromColors(
-                                              baseColor: colors.cardBackground,
-                                              highlightColor: AppColors.primary.withValues(alpha: 0.1),
-                                              child: Container(color: colors.cardBackground),
+                                            placeholder: (context, url) =>
+                                                Shimmer.fromColors(
+                                              baseColor: colors.panelSecondary,
+                                              highlightColor: colors.cardBackground,
+                                              child: Container(color: colors.panelSecondary),
                                             ),
-                                            errorWidget: (context, url, error) => Icon(
-                                              Icons.image_not_supported_outlined,
-                                              color: AppColors.textSecondary,
+                                            errorWidget: (context, url, error) =>
+                                                Container(
+                                              color: colors.panelSecondary,
+                                              child: Icon(
+                                                Icons.spa_rounded,
+                                                color: AppColors.primary.withValues(alpha: 0.4),
+                                                size: 32.sp,
+                                              ),
                                             ),
                                           )
-                                        : Icon(
-                                            Icons.image_not_supported_outlined,
-                                            color: AppColors.textSecondary,
+                                        : Container(
+                                            color: colors.panelSecondary,
+                                            child: Icon(
+                                              Icons.spa_rounded,
+                                              color: AppColors.primary.withValues(alpha: 0.4),
+                                              size: 32.sp,
+                                            ),
                                           ),
                                   ),
                                 ),
                                 Positioned(
-                                  bottom: 0,
-                                  right: 0,
-                                  child: GestureDetector(
+                                  bottom: 6.h,
+                                  right: 6.w,
+                                  child: BounceTap(
+                                    scaleBound: 0.82,
                                     onTap: () {
                                       AddToCartBottomSheet.show(context, {
                                         'id': deal.id,
                                         'name': deal.name,
                                         'price': deal.finalPrice.toStringAsFixed(0),
+                                        'originalPrice': deal.price.toStringAsFixed(0),
                                         'image': deal.mainImageUrl,
                                         'category': deal.categoryDisplayName,
                                         'productModel': deal,
                                       });
                                     },
                                     child: Container(
-                                      height: 28.w,
-                                      width: 28.w,
+                                      width: 32.w,
+                                      height: 32.w,
                                       decoration: BoxDecoration(
-                                        color: AppColors.primary,
+                                        gradient: const LinearGradient(
+                                          colors: [AppColors.primary, AppColors.primaryLight],
+                                        ),
                                         shape: BoxShape.circle,
                                         boxShadow: [
                                           BoxShadow(
                                             color: AppColors.primary.withValues(alpha: 0.4),
-                                            blurRadius: 6,
+                                            blurRadius: 8,
                                             offset: const Offset(0, 2),
                                           ),
                                         ],
                                       ),
                                       child: Icon(
-                                        Icons.add_rounded,
-                                        color: AppColors.white,
-                                        size: 18.sp,
+                                        Icons.add_shopping_cart_rounded,
+                                        size: 16.sp,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),

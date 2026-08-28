@@ -53,11 +53,20 @@ class CheckoutScreen extends GetView<CheckoutController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Section 0: Order Items Summary
+                      // Animated Step Tracker
                       FadeSlideTransition(
                         index: 0,
+                        child: _buildStepProgressTracker(context),
+                      ),
+
+                      SizedBox(height: 18.h),
+
+                      // Section 0: Order Items Summary
+                      FadeSlideTransition(
+                        index: 1,
                         child: _buildItemsSummary(context),
                       ),
+
 
                       SizedBox(height: 20.h),
 
@@ -647,4 +656,110 @@ class CheckoutScreen extends GetView<CheckoutController> {
       ),
     );
   }
+
+  Widget _buildStepProgressTracker(BuildContext context) {
+    final colors = AppColors.of(context);
+
+    Widget stepNode({
+      required String number,
+      required String label,
+      required bool isCompleted,
+      required bool isActive,
+    }) {
+      return Column(
+        children: [
+          Container(
+            width: 32.w,
+            height: 32.w,
+            decoration: BoxDecoration(
+              gradient: (isCompleted || isActive)
+                  ? const LinearGradient(
+                      colors: [AppColors.primary, AppColors.primaryLight],
+                    )
+                  : null,
+              color: (isCompleted || isActive) ? null : colors.panelSecondary,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: (isCompleted || isActive)
+                    ? AppColors.primary
+                    : colors.border,
+                width: 1.2,
+              ),
+              boxShadow: (isCompleted || isActive)
+                  ? [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.25),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ]
+                  : null,
+            ),
+            alignment: Alignment.center,
+            child: isCompleted
+                ? Icon(
+                    Icons.check_rounded,
+                    color: Colors.white,
+                    size: 16.sp,
+                  )
+                : Text(
+                    number,
+                    style: TextStyle(
+                      color: isActive ? Colors.white : colors.textSecondary,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+          ),
+          SizedBox(height: 6.h),
+          Text(
+            label,
+            style: AppTextStyles.caption.copyWith(
+              color: (isCompleted || isActive)
+                  ? colors.textPrimary
+                  : colors.textSecondary,
+              fontSize: 10.sp,
+              fontWeight:
+                  (isCompleted || isActive) ? FontWeight.w700 : FontWeight.w500,
+            ),
+          ),
+        ],
+      );
+    }
+
+    Widget stepDivider({required bool isPassed}) {
+      return Expanded(
+        child: Container(
+          margin: EdgeInsets.only(bottom: 18.h),
+          height: 2.h,
+          decoration: BoxDecoration(
+            color: isPassed
+                ? AppColors.primary
+                : colors.border.withValues(alpha: 0.7),
+            borderRadius: BorderRadius.circular(2.r),
+          ),
+        ),
+      );
+    }
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+      decoration: BoxDecoration(
+        color: colors.cardBackground,
+        borderRadius: BorderRadius.circular(20.r),
+        border: Border.all(color: colors.border),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          stepNode(number: '1', label: 'Cart', isCompleted: true, isActive: false),
+          stepDivider(isPassed: true),
+          stepNode(number: '2', label: 'Address', isCompleted: false, isActive: true),
+          stepDivider(isPassed: false),
+          stepNode(number: '3', label: 'Payment', isCompleted: false, isActive: false),
+        ],
+      ),
+    );
+  }
 }
+

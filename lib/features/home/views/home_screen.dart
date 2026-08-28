@@ -29,21 +29,22 @@ class HomeScreen extends GetView<HomeController> {
   }
 
   Widget _buildProductListShimmer(BuildContext context) {
+    final colors = AppColors.of(context);
     return SizedBox(
-      height: 270.h,
+      height: 280.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         itemCount: 4,
-        separatorBuilder: (context, index) => SizedBox(width: 8.w),
+        separatorBuilder: (context, index) => SizedBox(width: 12.w),
         itemBuilder: (context, index) => Shimmer.fromColors(
-          baseColor: AppColors.of(context).cardBackground,
-          highlightColor: AppColors.primary.withValues(alpha: 0.1),
+          baseColor: colors.panelSecondary,
+          highlightColor: colors.cardBackground,
           child: Container(
-            width: 165.w,
+            width: 175.w,
             decoration: BoxDecoration(
-              color: AppColors.of(context).cardBackground,
-              borderRadius: BorderRadius.circular(16.r),
+              color: colors.cardBackground,
+              borderRadius: BorderRadius.circular(20.r),
             ),
           ),
         ),
@@ -53,224 +54,292 @@ class HomeScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.all(12.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FadeSlideTransition(index: 0, child: HomeAppBar()),
+    final colors = AppColors.of(context);
 
-              SizedBox(height: 24.h),
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: SafeArea(
+        child: RefreshIndicator(
+          color: AppColors.primary,
+          backgroundColor: colors.cardBackground,
+          onRefresh: () async {
+            controller.fetchHomeProducts();
+          },
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Top App Bar with Greeting & Search
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: const FadeSlideTransition(
+                      index: 0,
+                      child: HomeAppBar(),
+                    ),
+                  ),
 
-              FadeSlideTransition(index: 2, child: HomeBannerSlider()),
+                  SizedBox(height: 16.h),
 
-              SizedBox(height: 20.h),
+                  // Carousel Banners
+                  const FadeSlideTransition(
+                    index: 1,
+                    child: HomeBannerSlider(),
+                  ),
 
-              FadeSlideTransition(
-                index: 4,
-                child: Column(
-                  children: [
-                    Row(
+                  SizedBox(height: 20.h),
+
+                  // Categories Section
+                  FadeSlideTransition(
+                    index: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Categories", style: AppTextStyles.heading2),
-                        const Spacer(),
-                        TextButton(
-                          onPressed: _navigateToAllProducts,
-                          child: const Text("See All"),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Explore Categories",
+                                style: AppTextStyles.heading2.copyWith(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w800,
+                                  color: colors.textPrimary,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: _navigateToAllProducts,
+                                child: Text(
+                                  "See All",
+                                  style: AppTextStyles.caption.copyWith(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.primary,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
+                        const HomeCategories(),
                       ],
                     ),
-                    HomeCategories(),
-                  ],
-                ),
-              ),
+                  ),
 
-              SizedBox(height: 20.h),
+                  SizedBox(height: 20.h),
 
-              FadeSlideTransition(index: 5, child: const HomeHotDeals()),
+                  // Limited Time Hot Deals
+                  const FadeSlideTransition(
+                    index: 3,
+                    child: HomeHotDeals(),
+                  ),
 
-              SizedBox(height: 20.h),
+                  SizedBox(height: 24.h),
 
-              FadeSlideTransition(
-                index: 3,
-                child: const BrandFeaturesSection(),
-              ),
+                  // Botanical & Ayurvedic Brand Features
+                  const FadeSlideTransition(
+                    index: 4,
+                    child: BrandFeaturesSection(),
+                  ),
 
-              SizedBox(height: 20.h),
+                  SizedBox(height: 24.h),
 
-              /// Main API content section
-              Obx(() {
-                if (controller.isLoading.value) {
-                  return Column(
-                    children: [
-                      _buildProductListShimmer(context),
-                      SizedBox(height: 20.h),
-                      _buildProductListShimmer(context),
-                    ],
-                  );
-                }
-
-                if (controller.hasError.value) {
-                  return Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 30.h,
-                        horizontal: 20.w,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                  /// Products from API
+                  Obx(() {
+                    if (controller.isLoading.value) {
+                      return Column(
                         children: [
-                          Icon(
-                            Icons.wifi_off_rounded,
-                            size: 48.sp,
-                            color: AppColors.error,
-                          ),
-                          SizedBox(height: 12.h),
-                          Text(
-                            controller.errorMessage.value.isNotEmpty
-                                ? controller.errorMessage.value
-                                : 'Failed to load products',
-                            textAlign: TextAlign.center,
-                            style: AppTextStyles.body.copyWith(
-                              color: AppColors.of(context).textPrimary,
-                            ),
-                          ),
-                          SizedBox(height: 16.h),
-                          ElevatedButton.icon(
-                            onPressed: () => controller.fetchHomeProducts(),
-                            icon: const Icon(Icons.refresh_rounded),
-                            label: const Text('Try Again'),
-                          ),
+                          _buildProductListShimmer(context),
+                          SizedBox(height: 20.h),
+                          _buildProductListShimmer(context),
                         ],
-                      ),
-                    ),
-                  );
-                }
+                      );
+                    }
 
-                if (controller.allProducts.isEmpty) {
-                  return Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 40.h),
-                      child: Text(
-                        'No products available right now.',
-                        style: AppTextStyles.body.copyWith(
-                          color: AppColors.of(context).textSecondary,
+                    if (controller.hasError.value) {
+                      return Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 30.h,
+                            horizontal: 20.w,
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.all(20.w),
+                            decoration: BoxDecoration(
+                              color: colors.cardBackground,
+                              borderRadius: BorderRadius.circular(20.r),
+                              border: Border.all(color: colors.border),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.wifi_off_rounded,
+                                  size: 44.sp,
+                                  color: AppColors.error,
+                                ),
+                                SizedBox(height: 12.h),
+                                Text(
+                                  controller.errorMessage.value.isNotEmpty
+                                      ? controller.errorMessage.value
+                                      : 'Failed to load products',
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyles.body.copyWith(
+                                    color: colors.textPrimary,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                SizedBox(height: 16.h),
+                                ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primary,
+                                    foregroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12.r),
+                                    ),
+                                  ),
+                                  onPressed: () => controller.fetchHomeProducts(),
+                                  icon: const Icon(Icons.refresh_rounded),
+                                  label: const Text('Try Again'),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  );
-                }
+                      );
+                    }
 
-                return Column(
-                  children: [
-                    /// Featured Products Section
-                    if (controller.featuredProducts.isNotEmpty)
-                      FadeSlideTransition(
-                        index: 5,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8.w),
-                              child: SectionTitle(
-                                title: 'Featured Products',
-                                onSeeAll: _navigateToAllProducts,
-                              ),
+                    if (controller.allProducts.isEmpty) {
+                      return Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 40.h),
+                          child: Text(
+                            'No products available right now.',
+                            style: AppTextStyles.body.copyWith(
+                              color: colors.textSecondary,
                             ),
-                            SizedBox(height: 12.h),
-                            SizedBox(
-                              height: 320.h,
-                              child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: controller.featuredProducts.length,
-                                separatorBuilder: (context, index) =>
-                                    SizedBox(width: 0.w),
-                                itemBuilder: (context, index) {
-                                  return ProductCard(
-                                    product: controller.featuredProducts[index],
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
+                      );
+                    }
 
-                    SizedBox(height: 20.h),
-
-                    /// Best Sellers Section
-                    if (controller.bestSellers.isNotEmpty)
-                      FadeSlideTransition(
-                        index: 6,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8.w),
-                              child: SectionTitle(
-                                title: 'Best Sellers',
-                                onSeeAll: _navigateToAllProducts,
-                              ),
+                    return Column(
+                      children: [
+                        /// Featured Products Section
+                        if (controller.featuredProducts.isNotEmpty)
+                          FadeSlideTransition(
+                            index: 5,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                  child: SectionTitle(
+                                    title: '✨ Featured Collections',
+                                    onSeeAll: _navigateToAllProducts,
+                                  ),
+                                ),
+                                SizedBox(height: 12.h),
+                                SizedBox(
+                                  height: 310.h,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                    itemCount: controller.featuredProducts.length,
+                                    separatorBuilder: (context, index) =>
+                                        SizedBox(width: 4.w),
+                                    itemBuilder: (context, index) {
+                                      return ProductCard(
+                                        product: controller.featuredProducts[index],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(height: 12.h),
-                            SizedBox(
-                              height: 320.h,
-                              child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: controller.bestSellers.length,
-                                separatorBuilder: (context, index) =>
-                                    SizedBox(width: 0.w),
-                                itemBuilder: (context, index) {
-                                  return ProductCard(
-                                    product: controller.bestSellers[index],
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                          ),
 
-                    SizedBox(height: 20.h),
+                        SizedBox(height: 24.h),
 
-                    /// New Arrivals Section
-                    if (controller.newArrivals.isNotEmpty)
-                      FadeSlideTransition(
-                        index: 7,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8.w),
-                              child: SectionTitle(
-                                title: 'New Arrivals',
-                                onSeeAll: _navigateToAllProducts,
-                              ),
+                        /// Best Sellers Section
+                        if (controller.bestSellers.isNotEmpty)
+                          FadeSlideTransition(
+                            index: 6,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                  child: SectionTitle(
+                                    title: '🏆 Best Sellers',
+                                    onSeeAll: _navigateToAllProducts,
+                                  ),
+                                ),
+                                SizedBox(height: 12.h),
+                                SizedBox(
+                                  height: 310.h,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                    itemCount: controller.bestSellers.length,
+                                    separatorBuilder: (context, index) =>
+                                        SizedBox(width: 4.w),
+                                    itemBuilder: (context, index) {
+                                      return ProductCard(
+                                        product: controller.bestSellers[index],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(height: 12.h),
-                            SizedBox(
-                              height: 320.h,
-                              child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: controller.newArrivals.length,
-                                separatorBuilder: (context, index) =>
-                                    SizedBox(width: 0.w),
-                                itemBuilder: (context, index) {
-                                  return ProductCard(
-                                    product: controller.newArrivals[index],
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                          ),
 
-                    SizedBox(height: 20.h),
-                  ],
-                );
-              }),
-            ],
+                        SizedBox(height: 24.h),
+
+                        /// New Arrivals Section
+                        if (controller.newArrivals.isNotEmpty)
+                          FadeSlideTransition(
+                            index: 7,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                  child: SectionTitle(
+                                    title: '🌿 New Arrivals',
+                                    onSeeAll: _navigateToAllProducts,
+                                  ),
+                                ),
+                                SizedBox(height: 12.h),
+                                SizedBox(
+                                  height: 310.h,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                    itemCount: controller.newArrivals.length,
+                                    separatorBuilder: (context, index) =>
+                                        SizedBox(width: 4.w),
+                                    itemBuilder: (context, index) {
+                                      return ProductCard(
+                                        product: controller.newArrivals[index],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                        SizedBox(height: 20.h),
+                      ],
+                    );
+                  }),
+                ],
+              ),
+            ),
           ),
         ),
       ),
