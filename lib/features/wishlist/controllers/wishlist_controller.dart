@@ -54,6 +54,17 @@ class WishlistController extends GetxController {
     }
   }
 
+  void removeFromWishlist(Map<String, dynamic> product) {
+    final normalized = <String, dynamic>{...product};
+    final index = wishlistItems.indexWhere(
+      (item) => _isSameProduct(item, normalized),
+    );
+    if (index != -1) {
+      wishlistItems.removeAt(index);
+    }
+  }
+
+
   void toggleWishlistItem(Map<String, dynamic> product) {
     final normalized = <String, dynamic>{...product};
 

@@ -18,6 +18,8 @@ class CategoryScreen extends GetView<CategoryController> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -26,15 +28,17 @@ class CategoryScreen extends GetView<CategoryController> {
             Theme.of(context).scaffoldBackgroundColor,
         leading: IconButton(
           onPressed: () => Scaffold.of(context).openDrawer(),
-          icon: const Icon(Icons.more_vert_rounded),
+          icon: Icon(Icons.more_vert_rounded, color: colors.textPrimary),
         ),
         title: Text(
-          'Categories',
+          'Product Catalog',
           style: AppTextStyles.heading2.copyWith(
             fontSize: 18.sp,
-            color: AppColors.of(context).textPrimary,
+            fontWeight: FontWeight.w800,
+            color: colors.textPrimary,
           ),
         ),
+        centerTitle: true,
         elevation: 0,
         scrolledUnderElevation: 0,
       ),
@@ -46,23 +50,66 @@ class CategoryScreen extends GetView<CategoryController> {
               index: 0,
               child: Column(
                 children: [
-                  SizedBox(height: 10.h),
+                  SizedBox(height: 8.h),
                   SizedBox(
-                    height: 45.h,
+                    height: 44.h,
                     child: CategoryChipRow(controller: controller),
                   ),
-                  SizedBox(height: 14.h),
-                  TextField(
-                    controller: controller.searchController,
-                    onChanged: controller.onSearchChanged,
-                    style: TextStyle(color: AppColors.of(context).textPrimary),
-                    decoration: InputDecoration(
-                      hintText: "Search products by name, category, details...",
-                      prefixIcon: const Icon(Icons.search),
-                      filled: true,
-                      fillColor: AppColors.of(context).inputBg,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14.r),
+                  SizedBox(height: 12.h),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: colors.cardBackground,
+                      borderRadius: BorderRadius.circular(16.r),
+                      border: Border.all(color: colors.border),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.black.withValues(alpha: 0.03),
+                          blurRadius: 10,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: TextField(
+                      controller: controller.searchController,
+                      onChanged: controller.onSearchChanged,
+                      style: TextStyle(
+                        color: colors.textPrimary,
+                        fontSize: 13.5.sp,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: "Search skincare, serums, creams...",
+                        hintStyle: TextStyle(
+                          color: colors.textSecondary,
+                          fontSize: 13.sp,
+                        ),
+                        prefixIcon: Icon(
+                          Icons.search_rounded,
+                          color: AppColors.primary,
+                          size: 20.sp,
+                        ),
+                        suffixIcon: Obx(() {
+                          if (controller.isSearchActive) {
+                            return IconButton(
+                              icon: Icon(
+
+                                Icons.close_rounded,
+                                color: colors.textSecondary,
+                                size: 18.sp,
+                              ),
+                              onPressed: () {
+                                controller.searchController.clear();
+                                controller.onSearchChanged('');
+                              },
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        }),
+                        filled: false,
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 12.h,
+                        ),
                       ),
                     ),
                   ),
@@ -74,54 +121,79 @@ class CategoryScreen extends GetView<CategoryController> {
                     return Container(
                       margin: EdgeInsets.only(top: 8.h),
                       decoration: BoxDecoration(
-                        color: AppColors.of(context).cardBackground,
-                        borderRadius: BorderRadius.circular(12.r),
+                        color: colors.cardBackground,
+                        borderRadius: BorderRadius.circular(16.r),
+                        border: Border.all(color: colors.border),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.black.withValues(alpha: 0.1),
-                            blurRadius: 8,
+                            color: AppColors.black.withValues(alpha: 0.08),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
-                      child: ListView.builder(
+                      child: ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: controller.searchSuggestions.length,
+                        separatorBuilder: (context, index) => Divider(
+                          height: 1,
+                          color: colors.border,
+                        ),
                         itemBuilder: (context, index) {
                           final product = controller.searchSuggestions[index];
 
                           return ListTile(
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12.w,
+                              vertical: 4.h,
+                            ),
                             leading: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.r),
+                              borderRadius: BorderRadius.circular(10.r),
                               child: SizedBox(
-                                width: 40.w,
-                                height: 40.w,
+                                width: 42.w,
+                                height: 42.w,
                                 child: product.mainImageUrl.isNotEmpty
                                     ? CachedNetworkImage(
                                         imageUrl: product.mainImageUrl,
                                         fit: BoxFit.cover,
                                         errorWidget: (context, url, error) =>
-                                            const Icon(
-                                              Icons
-                                                  .image_not_supported_outlined,
+                                            Container(
+                                              color: colors.panelSecondary,
+                                              child: const Icon(
+                                                Icons.spa_rounded,
+                                                color: AppColors.primary,
+                                              ),
                                             ),
                                       )
-                                    : const Icon(
-                                        Icons.image_not_supported_outlined,
+                                    : Container(
+                                        color: colors.panelSecondary,
+                                        child: const Icon(
+                                          Icons.spa_rounded,
+                                          color: AppColors.primary,
+                                        ),
                                       ),
                               ),
                             ),
                             title: Text(
                               product.name,
-                              style: TextStyle(
-                                color: AppColors.of(context).textPrimary,
+                              style: AppTextStyles.body.copyWith(
+                                color: colors.textPrimary,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13.sp,
                               ),
                             ),
                             subtitle: Text(
-                              product.categoryDisplayName,
-                              style: TextStyle(
-                                color: AppColors.of(context).textSecondary,
+                              'Rs. ${product.finalPrice.toStringAsFixed(0)}',
+                              style: AppTextStyles.caption.copyWith(
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.w700,
                               ),
+                            ),
+                            trailing: Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 13.sp,
+                              color: colors.textSecondary,
                             ),
                             onTap: () {
                               controller.selectSuggestion(product);
@@ -131,143 +203,74 @@ class CategoryScreen extends GetView<CategoryController> {
                       ),
                     );
                   }),
-                  SizedBox(height: 14.h),
                 ],
               ),
             ),
-
-            FadeSlideTransition(
-              index: 1,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Discover Our Products",
-                      style: AppTextStyles.heading2.copyWith(
-                        fontSize: 16.sp,
-                        color: AppColors.of(context).textPrimary,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 4.h),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Find the perfect product for your beauty needs",
-                      style: AppTextStyles.caption.copyWith(
-                        color: AppColors.of(context).textSecondary,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Obx(
-                    () => Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "${controller.filteredProducts.length} Products Found",
-                        style: AppTextStyles.body.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                ],
-              ),
-            ),
-
+            SizedBox(height: 12.h),
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
                   return GridView.builder(
-                    itemCount: 6,
+                    padding: EdgeInsets.only(bottom: 20.h),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 12.w,
                       mainAxisSpacing: 12.h,
-                      childAspectRatio: 0.63,
+                      childAspectRatio: 0.64,
                     ),
-                    itemBuilder: (context, index) => Shimmer.fromColors(
-                      baseColor: AppColors.of(context).cardBackground,
-                      highlightColor: AppColors.primary.withValues(alpha: 0.1),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.of(context).cardBackground,
-                          borderRadius: BorderRadius.circular(16.r),
+                    itemCount: 6,
+                    itemBuilder: (context, index) {
+                      return Shimmer.fromColors(
+                        baseColor: colors.panelSecondary,
+                        highlightColor: colors.cardBackground,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: colors.cardBackground,
+                            borderRadius: BorderRadius.circular(20.r),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   );
                 }
 
                 if (controller.hasError.value) {
                   return CustomEmptyState(
-                    icon: Icons.wifi_off_rounded,
-                    title: 'Connection Issue',
-                    description: controller.errorMessage.value.isNotEmpty
-                        ? controller.errorMessage.value
-                        : 'Unable to connect to the store. Please check your network.',
+                    icon: Icons.error_outline_rounded,
+                    title: 'Failed to load products',
+                    description: controller.errorMessage.value,
                     buttonText: 'Try Again',
-                    onButtonPressed: () => controller.fetchCategoryProducts(),
+                    onButtonPressed: () => controller.fetchProducts(),
                   );
                 }
 
-                if (controller.filteredProducts.isEmpty) {
-                  // Empty search state
-                  if (controller.searchText.value.isNotEmpty) {
-                    return CustomEmptyState(
-                      icon: Icons.search_off_rounded,
-                      title: 'No Products Found',
-                      description:
-                          'No products matched "${controller.searchText.value}". Try searching with different keywords.',
-                      buttonText: 'Clear Search',
-                      onButtonPressed: () {
-                        controller.searchController.clear();
-                        controller.onSearchChanged('');
-                      },
-                    );
-                  }
+                final products = controller.filteredProducts;
 
-                  // Empty category state
-                  if (controller.selectedCategory.value != "All") {
-                    return CustomEmptyState(
-                      icon: Icons.category_outlined,
-                      title: 'No Products Available',
-                      description:
-                          'Products for "${controller.selectedCategory.value}" will be available soon.',
-                      buttonText: 'View All Products',
-                      onButtonPressed: () => controller.changeCategory('All'),
-                    );
-                  }
-
-                  // General empty product list
+                if (products.isEmpty) {
                   return CustomEmptyState(
-                    icon: Icons.inventory_2_outlined,
-                    title: 'No Products Available',
+                    icon: Icons.search_off_rounded,
+                    title: 'No Products Found',
                     description:
-                        'There are currently no products in the catalog.',
-                    buttonText: 'Refresh Catalog',
-                    onButtonPressed: () => controller.fetchCategoryProducts(),
+                        'Try searching for different keywords or browse another category.',
+                    buttonText: 'Reset Filters',
+                    onButtonPressed: () => controller.resetFilter(),
                   );
                 }
 
                 return GridView.builder(
-                  itemCount: controller.filteredProducts.length,
+                  physics: const BouncingScrollPhysics(),
+                  padding: EdgeInsets.only(bottom: 24.h),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 12.w,
                     mainAxisSpacing: 12.h,
-                    childAspectRatio: 0.63,
+                    childAspectRatio: 0.64,
                   ),
+                  itemCount: products.length,
                   itemBuilder: (context, index) {
                     return FadeSlideTransition(
-                      index: index + 2,
-                      child: CategoryProductCard(
-                        product: controller.filteredProducts[index],
-                      ),
+                      index: index % 6,
+                      child: CategoryProductCard(product: products[index]),
                     );
                   },
                 );

@@ -44,6 +44,8 @@ class OrderModel {
   final String shippingAddress;
   final String estimatedDelivery;
   final String notes;
+  final String courierName;
+  final String trackingNumber;
   final List<TrackingStepModel> trackingSteps;
 
   const OrderModel({
@@ -61,8 +63,11 @@ class OrderModel {
     required this.shippingAddress,
     required this.estimatedDelivery,
     required this.notes,
+    this.courierName = '',
+    this.trackingNumber = '',
     required this.trackingSteps,
   });
+
 }
 
 /// Represents a single step in the order tracking timeline.

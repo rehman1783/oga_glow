@@ -98,8 +98,19 @@ class CategoryController extends GetxController {
     selectedCategory.value = category.trim();
   }
 
+  bool get isSearchActive => searchText.value.trim().isNotEmpty;
+
+  void fetchProducts() => fetchCategoryProducts();
+
+  void resetFilter() {
+    selectedCategory.value = 'All';
+    searchController.clear();
+    onSearchChanged('');
+  }
+
   /// Live Search
   void onSearchChanged(String value) {
+
     searchText.value = value;
 
     if (value.trim().isEmpty) {

@@ -23,17 +23,17 @@ class WishlistItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
     final WishlistController controller = Get.find<WishlistController>(
       tag: WishlistController.tag,
     );
 
     final String id = product['id']?.toString() ?? '';
-    final String name = product['name']?.toString() ?? '';
-    final String category = product['category']?.toString() ?? '';
-    final String price = product['price']?.toString() ?? '';
+    final String name = product['name']?.toString() ?? 'Product';
+    final String category = product['category']?.toString() ?? 'General';
+    final String price = product['price']?.toString() ?? '0';
     final String imageUrl = product['image']?.toString() ?? '';
-    final String description =
-        product['description']?.toString() ?? '';
+    final String description = product['description']?.toString() ?? '';
 
     final Map<String, dynamic> productData = {
       'id': id,
@@ -45,165 +45,185 @@ class WishlistItemCard extends StatelessWidget {
       ...product,
     };
 
-    return BounceTap(
-      onTap: () {
-        Get.toNamed(AppRoutes.products_details, arguments: id.isNotEmpty ? id : productData);
-      },
-      child: Container(
-        padding: EdgeInsets.all(12.w),
-        decoration: BoxDecoration(
-          color: AppColors.of(context).cardBackground,
-          borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(color: AppColors.of(context).border),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.black.withValues(alpha: 0.04),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
+    return Container(
+      padding: EdgeInsets.all(12.w),
+      decoration: BoxDecoration(
+        color: colors.cardBackground,
+        borderRadius: BorderRadius.circular(22.r),
+        border: Border.all(
+          color: colors.border.withValues(alpha: 0.8),
+          width: 1.0,
         ),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(14.r),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.black.withValues(alpha: 0.04),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          BounceTap(
+            scaleBound: 0.94,
+            onTap: () {
+              Get.toNamed(
+                AppRoutes.products_details,
+                arguments: id.isNotEmpty ? id : productData,
+              );
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16.r),
               child: SizedBox(
-                width: 80.w,
-                height: 80.h,
+                width: 84.w,
+                height: 84.w,
                 child: imageUrl.isNotEmpty
                     ? CachedNetworkImage(
                         imageUrl: imageUrl,
                         fit: BoxFit.cover,
                         placeholder: (context, url) => Shimmer.fromColors(
-                          baseColor: AppColors.of(context).cardBackground,
-                          highlightColor: AppColors.primary.withValues(alpha: 0.1),
-                          child: Container(color: AppColors.of(context).cardBackground),
+                          baseColor: colors.panelSecondary,
+                          highlightColor: colors.cardBackground,
+                          child: Container(color: colors.panelSecondary),
                         ),
-                        errorWidget: (context, url, error) => Icon(
-                          Icons.image_not_supported_outlined,
-                          color: AppColors.textSecondary,
+                        errorWidget: (context, url, error) => Container(
+                          color: colors.panelSecondary,
+                          child: Icon(
+                            Icons.spa_rounded,
+                            color: AppColors.primary.withValues(alpha: 0.4),
+                            size: 28.sp,
+                          ),
                         ),
                       )
-                    : Icon(
-                        Icons.image_not_supported_outlined,
-                        color: AppColors.textSecondary,
-                      ),
-              ),
-            ),
-
-            SizedBox(width: 12.w),
-
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.heading2.copyWith(
-                      fontSize: 14.sp,
-                      color: AppColors.of(context).textPrimary,
-                    ),
-                  ),
-
-                  SizedBox(height: 6.h),
-
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 8.w,
-                      vertical: 3.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.of(context).cardBackground,
-                      borderRadius: BorderRadius.circular(8.r),
-                      border: Border.all(
-                        color: AppColors.of(context).border,
-                      ),
-                    ),
-                    child: Text(
-                      category,
-                      style: AppTextStyles.caption.copyWith(
-                        color: AppColors.of(context).earth,
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: 8.h),
-
-                  Text(
-                    'Rs. $price',
-                    style: AppTextStyles.heading2.copyWith(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14.sp,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(width: 8.w),
-
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                BounceTap(
-                  onTap: () => controller.removeItem(index),
-                  scaleBound: 0.9,
-                  child: Container(
-                    width: 38.w,
-                    height: 38.h,
-                    decoration: BoxDecoration(
-                      color: AppColors.of(context).cardBackground,
-                      borderRadius: BorderRadius.circular(10.r),
-                      border: Border.all(
-                        color: AppColors.of(context).border,
-                      ),
-                    ),
-                    child: Icon(
-                      Icons.delete_outline_rounded,
-                      color: AppColors.of(context).earth,
-                      size: 20,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10.h),
-                SizedBox(
-                  width: 100.w,
-                  height: 36.h,
-                  child: BounceTap(
-                    onTap: () => AddToCartBottomSheet.show(context, productData),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [AppColors.primary, AppColors.primaryLight],
+                    : Container(
+                        color: colors.panelSecondary,
+                        child: Icon(
+                          Icons.spa_rounded,
+                          color: AppColors.primary.withValues(alpha: 0.4),
+                          size: 28.sp,
                         ),
-                        borderRadius: BorderRadius.circular(12.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.primary.withValues(alpha: 0.25),
-                            blurRadius: 8,
-                            offset: const Offset(0, 3),
+                      ),
+              ),
+            ),
+          ),
+
+          SizedBox(width: 14.w),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTextStyles.heading2.copyWith(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w700,
+                              color: colors.textPrimary,
+                            ),
+                          ),
+                          SizedBox(height: 2.h),
+                          Text(
+                            category,
+                            style: AppTextStyles.caption.copyWith(
+                              color: colors.textSecondary,
+                              fontSize: 11.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ],
                       ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Add to Cart',
-                        style: AppTextStyles.button.copyWith(fontSize: 12.sp),
-                        maxLines: 1,
+                    ),
+                    BounceTap(
+                      scaleBound: 0.85,
+                      onTap: () => controller.removeFromWishlist(productData),
+                      child: Container(
+                        padding: EdgeInsets.all(6.r),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE11D48).withValues(alpha: 0.08),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.favorite_rounded,
+                          color: Color(0xFFE11D48),
+                          size: 18,
+                        ),
                       ),
                     ),
-                  ),
+                  ],
+                ),
+
+                SizedBox(height: 10.h),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Rs. $price',
+                      style: AppTextStyles.heading2.copyWith(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 15.sp,
+                      ),
+                    ),
+
+                    BounceTap(
+                      scaleBound: 0.90,
+                      onTap: () => AddToCartBottomSheet.show(context, productData),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 6.h,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [AppColors.primary, AppColors.primaryLight],
+                          ),
+                          borderRadius: BorderRadius.circular(10.r),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.primary.withValues(alpha: 0.25),
+                              blurRadius: 6,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.add_shopping_cart_rounded,
+                              color: Colors.white,
+                              size: 14.sp,
+                            ),
+                            SizedBox(width: 4.w),
+                            Text(
+                              'Add to Bag',
+                              style: AppTextStyles.caption.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 11.sp,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

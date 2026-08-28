@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widgets/bounce_tap.dart';
 
 class DrawerItem extends StatelessWidget {
   final String title;
-  final Icon icon;
+  final Widget icon;
   final VoidCallback onTap;
+  final Color? iconColor;
 
   const DrawerItem({
     super.key,
     required this.title,
     required this.icon,
     required this.onTap,
+    this.iconColor,
   });
 
   @override
@@ -18,38 +23,52 @@ class DrawerItem extends StatelessWidget {
     final colors = AppColors.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(14),
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 3.h),
+      child: BounceTap(
+        scaleBound: 0.97,
         onTap: () {
           Navigator.of(context).pop();
           onTap();
         },
-        child: Ink(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 14,
-            vertical: 12,
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: 14.w,
+            vertical: 11.h,
           ),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(14),
+            color: colors.panelSecondary.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(16.r),
+            border: Border.all(
+              color: colors.border.withValues(alpha: 0.6),
+              width: 0.8,
+            ),
           ),
           child: Row(
             children: [
-              IconTheme(
-                data: const IconThemeData(
-                  color: AppColors.primary,
-                  size: 24,
+              Container(
+                width: 36.w,
+                height: 36.w,
+                decoration: BoxDecoration(
+                  color: (iconColor ?? AppColors.primary).withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
-                child: icon,
+                alignment: Alignment.center,
+                child: IconTheme(
+                  data: IconThemeData(
+                    color: iconColor ?? AppColors.primary,
+                    size: 20.sp,
+                  ),
+                  child: icon,
+                ),
               ),
 
-              const SizedBox(width: 12),
+              SizedBox(width: 14.w),
 
               Expanded(
                 child: Text(
                   title,
-                  style: TextStyle(
-                    fontSize: 15,
+                  style: AppTextStyles.body.copyWith(
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
                     color: colors.textPrimary,
                   ),
@@ -57,9 +76,9 @@ class DrawerItem extends StatelessWidget {
               ),
 
               Icon(
-                Icons.chevron_right_rounded,
-                color: colors.textSecondary,
-                size: 22,
+                Icons.arrow_forward_ios_rounded,
+                color: colors.textSecondary.withValues(alpha: 0.6),
+                size: 14.sp,
               ),
             ],
           ),

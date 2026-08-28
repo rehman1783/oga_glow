@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../app/routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../controllers/cart_controller.dart';
@@ -26,6 +27,8 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: PreferredSize(
@@ -38,15 +41,54 @@ class CartScreen extends StatelessWidget {
           centerTitle: true,
           leading: IconButton(
             onPressed: () => Scaffold.of(context).openDrawer(),
-            icon: const Icon(Icons.more_vert_rounded),
+            icon: Icon(Icons.more_vert_rounded, color: colors.textPrimary),
           ),
           title: Text(
-            'Cart',
+            'Shopping Bag',
             style: AppTextStyles.heading2.copyWith(
-              fontSize: 18,
-              color: AppColors.of(context).textPrimary,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w800,
+              color: colors.textPrimary,
             ),
           ),
+          actions: [
+            Obx(() {
+              if (cartController.cartItems.isEmpty) {
+                return const SizedBox.shrink();
+              }
+              return TextButton.icon(
+                onPressed: () {
+                  Get.defaultDialog(
+                    title: 'Clear Shopping Bag',
+                    titleStyle: AppTextStyles.heading2.copyWith(fontSize: 16.sp),
+                    middleText: 'Are you sure you want to remove all items from your bag?',
+                    middleTextStyle: AppTextStyles.body.copyWith(
+                      color: colors.textSecondary,
+                      fontSize: 13.sp,
+                    ),
+                    textConfirm: 'Clear All',
+                    textCancel: 'Cancel',
+                    confirmTextColor: Colors.white,
+                    buttonColor: AppColors.error,
+                    cancelTextColor: colors.textPrimary,
+                    radius: 18.r,
+                    onConfirm: () {
+                      cartController.clearCart();
+                      Get.back();
+                    },
+                  );
+                },
+                icon: Icon(Icons.delete_sweep_rounded, color: AppColors.error, size: 18.sp),
+                label: Text(
+                  'Clear',
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.error,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              );
+            }),
+          ],
           scrolledUnderElevation: 0,
         ),
       ),
@@ -58,11 +100,13 @@ class CartScreen extends StatelessWidget {
         }
 
         final double subtotal = cartController.totalSubtotal;
+        final double discount = cartController.totalDiscount;
 
         return Column(
           children: [
             Expanded(
               child: ListView.separated(
+                physics: const BouncingScrollPhysics(),
                 padding: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 24.h),
                 itemCount: items.length,
                 separatorBuilder: (context, index) => SizedBox(height: 12.h),
@@ -77,51 +121,79 @@ class CartScreen extends StatelessWidget {
             FadeSlideTransition(
               index: 2,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 24.h),
+                padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
                 child: Container(
                   padding: EdgeInsets.all(18.w),
                   decoration: BoxDecoration(
-                    color: AppColors.of(context).cardBackground,
+                    color: colors.cardBackground,
                     borderRadius: BorderRadius.circular(24.r),
-                    border: Border.all(color: AppColors.of(context).border),
+                    border: Border.all(color: colors.border),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.black.withValues(alpha: 0.03),
-                        blurRadius: 16,
+                        color: AppColors.black.withValues(alpha: 0.05),
+                        blurRadius: 18,
                         offset: const Offset(0, -4),
                       ),
                     ],
                   ),
                   child: Column(
                     children: [
+                      if (discount > 0) ...[
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                          decoration: BoxDecoration(
+                            color: AppColors.success.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.savings_outlined,
+                                color: AppColors.success,
+                                size: 16.sp,
+                              ),
+                              SizedBox(width: 8.w),
+                              Text(
+                                'You are saving Rs. ${_formatTotal(discount)} on this order!',
+                                style: AppTextStyles.caption.copyWith(
+                                  color: AppColors.success,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 11.5.sp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 12.h),
+                      ],
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Subtotal',
-                            style: AppTextStyles.caption.copyWith(
-                              fontSize: 13.sp,
+                            'Estimated Total',
+                            style: AppTextStyles.body.copyWith(
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.of(context).textSecondary,
+                              color: colors.textSecondary,
                             ),
                           ),
-                          const Spacer(),
                           Text(
                             'Rs. ${_formatTotal(subtotal)}',
                             style: AppTextStyles.heading2.copyWith(
                               color: AppColors.primary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 18.sp,
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 14.h),
                       SizedBox(
                         width: double.infinity,
-                        height: 52,
+                        height: 52.h,
                         child: BounceTap(
                           onTap: () {
-                            Get.toNamed('/checkout');
+                            Get.toNamed(AppRoutes.checkout);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -135,7 +207,7 @@ class CartScreen extends StatelessWidget {
                               boxShadow: [
                                 BoxShadow(
                                   color: AppColors.primary.withValues(
-                                    alpha: 0.25,
+                                    alpha: 0.28,
                                   ),
                                   blurRadius: 12,
                                   offset: const Offset(0, 4),
@@ -146,14 +218,16 @@ class CartScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const Icon(
-                                  Icons.payment_rounded,
+                                  Icons.lock_outline_rounded,
                                   color: AppColors.white,
+                                  size: 18,
                                 ),
-                                const SizedBox(width: 8),
+                                SizedBox(width: 8.w),
                                 Text(
                                   'Proceed to Checkout',
                                   style: AppTextStyles.button.copyWith(
                                     fontSize: 14.sp,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ],

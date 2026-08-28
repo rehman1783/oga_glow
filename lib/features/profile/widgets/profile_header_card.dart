@@ -21,17 +21,28 @@ class ProfileHeaderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+    final initial = name.isNotEmpty ? name[0].toUpperCase() : 'O';
+
     return Container(
       padding: EdgeInsets.all(18.w),
       decoration: BoxDecoration(
-        color: AppColors.of(context).cardBackground,
+        color: colors.cardBackground,
         borderRadius: BorderRadius.circular(24.r),
-        border: Border.all(color: AppColors.of(context).border),
+        border: Border.all(
+          color: colors.border.withValues(alpha: 0.8),
+          width: 1.0,
+        ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.02),
-            blurRadius: 12,
+            color: AppColors.black.withValues(alpha: 0.04),
+            blurRadius: 14,
             offset: const Offset(0, 4),
+          ),
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.04),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
           ),
         ],
       ),
@@ -39,85 +50,125 @@ class ProfileHeaderCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 72.w,
-            height: 72.w,
+            width: 68.w,
+            height: 68.w,
             decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.12),
+              gradient: const LinearGradient(
+                colors: [AppColors.primary, AppColors.primaryLight],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
               shape: BoxShape.circle,
-              border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.primary.withValues(alpha: 0.3),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
-            child: Icon(
-              Icons.person_rounded,
-              size: 38.sp,
-              color: AppColors.primary,
+            alignment: Alignment.center,
+            child: Text(
+              initial,
+              style: AppTextStyles.heading1.copyWith(
+                color: Colors.white,
+                fontSize: 26.sp,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          SizedBox(width: 14.w),
+          SizedBox(width: 16.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  name,
-                  style: AppTextStyles.heading2.copyWith(
-                    fontSize: 16.sp,
-                    color: AppColors.of(context).textPrimary,
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        name,
+                        style: AppTextStyles.heading2.copyWith(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w800,
+                          color: colors.textPrimary,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 6.w,
+                        vertical: 2.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(6.r),
+                      ),
+                      child: Text(
+                        'VIP',
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontSize: 9.sp,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 4.h),
+                SizedBox(height: 3.h),
                 Text(
                   email,
                   style: AppTextStyles.caption.copyWith(
                     fontSize: 12.sp,
-                    color: AppColors.of(context).textSecondary,
+                    color: colors.textSecondary,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 if (joinedDate != null && joinedDate!.isNotEmpty) ...[
                   SizedBox(height: 4.h),
                   Text(
-                    'Joined: $joinedDate',
+                    'Member since: $joinedDate',
                     style: AppTextStyles.caption.copyWith(
-                      fontSize: 11.sp,
+                      fontSize: 10.5.sp,
                       color: AppColors.primary,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
                 SizedBox(height: 10.h),
-                SizedBox(
-                  height: 32.h,
-                  child: BounceTap(
-                    onTap: onEdit ?? () {},
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 14.w),
-                      decoration: BoxDecoration(
-                        color: AppColors.of(context).cardBackground,
-
-                        borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(
-                          color: AppColors.primary.withValues(alpha: 0.35),
-                        ),
+                BounceTap(
+                  scaleBound: 0.92,
+                  onTap: onEdit ?? () {},
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 5.h),
+                    decoration: BoxDecoration(
+                      color: colors.panelSecondary,
+                      borderRadius: BorderRadius.circular(10.r),
+                      border: Border.all(
+                        color: AppColors.primary.withValues(alpha: 0.3),
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.edit_outlined,
-                            size: 14.sp,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.edit_outlined,
+                          size: 13.sp,
+                          color: AppColors.primary,
+                        ),
+                        SizedBox(width: 4.w),
+                        Text(
+                          'Edit Profile',
+                          style: AppTextStyles.caption.copyWith(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 11.sp,
                             color: AppColors.primary,
                           ),
-                          SizedBox(width: 4.w),
-                          Text(
-                            'Edit',
-                            style: AppTextStyles.body.copyWith(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 12.sp,
-                              color: AppColors.primary,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
