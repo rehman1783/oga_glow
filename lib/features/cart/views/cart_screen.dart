@@ -10,6 +10,7 @@ import '../widgets/cart_item_card.dart';
 import '../widgets/empty_cart.dart';
 import '../../../core/widgets/bounce_tap.dart';
 import '../../../core/widgets/fade_slide_transition.dart';
+import '../../drawer/widgets/app_drawer.dart';
 
 class CartScreen extends StatelessWidget {
   CartScreen({super.key});
@@ -31,7 +32,9 @@ class CartScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      drawer: const AppDrawer(),
       appBar: PreferredSize(
+
         preferredSize: Size.fromHeight(64.h),
         child: AppBar(
           backgroundColor:

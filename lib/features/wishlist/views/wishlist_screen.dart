@@ -8,6 +8,7 @@ import '../controllers/wishlist_controller.dart';
 import '../widgets/empty_wishlist.dart';
 import '../widgets/wishlist_item_card.dart';
 import '../../../core/widgets/fade_slide_transition.dart';
+import '../../drawer/widgets/app_drawer.dart';
 
 class WishlistScreen extends StatelessWidget {
   WishlistScreen({super.key});
@@ -20,7 +21,9 @@ class WishlistScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      drawer: const AppDrawer(),
       appBar: PreferredSize(
+
         preferredSize: Size.fromHeight(64.h),
         child: AppBar(
           backgroundColor:

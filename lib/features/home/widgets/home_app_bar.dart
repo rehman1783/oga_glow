@@ -46,12 +46,13 @@ class HomeAppBar extends StatelessWidget {
                     ],
                   ),
                   child: Icon(
-                    Icons.widgets_outlined,
+                    Icons.menu_rounded,
                     color: colors.textPrimary,
-                    size: 20.sp,
+                    size: 22.sp,
                   ),
                 ),
               ),
+
 
               SizedBox(width: 12.w),
 

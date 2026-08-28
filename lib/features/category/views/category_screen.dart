@@ -12,6 +12,7 @@ import 'package:oga_glow/features/category/widgets/category_product_card.dart';
 import '../controllers/category_controller.dart';
 import 'category_chip_row.dart';
 import '../../../core/widgets/fade_slide_transition.dart';
+import '../../drawer/widgets/app_drawer.dart';
 
 class CategoryScreen extends GetView<CategoryController> {
   const CategoryScreen({super.key});
@@ -22,7 +23,9 @@ class CategoryScreen extends GetView<CategoryController> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      drawer: const AppDrawer(),
       appBar: AppBar(
+
         backgroundColor:
             Theme.of(context).appBarTheme.backgroundColor ??
             Theme.of(context).scaffoldBackgroundColor,

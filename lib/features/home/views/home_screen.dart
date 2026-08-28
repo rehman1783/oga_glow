@@ -13,6 +13,7 @@ import 'package:oga_glow/features/home/widgets/home_hot_deals.dart';
 import 'package:oga_glow/features/home/widgets/product_card.dart';
 import 'package:oga_glow/features/home/widgets/section_title.dart';
 import 'package:oga_glow/features/main_navigation/controllers/main_navigation_controller.dart';
+import 'package:oga_glow/features/drawer/widgets/app_drawer.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../core/widgets/fade_slide_transition.dart';
 
@@ -59,7 +60,9 @@ class HomeScreen extends GetView<HomeController> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      drawer: const AppDrawer(),
       body: SafeArea(
+
         child: RefreshIndicator(
           color: AppColors.primary,
           backgroundColor: colors.cardBackground,
