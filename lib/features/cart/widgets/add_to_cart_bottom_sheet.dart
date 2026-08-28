@@ -144,21 +144,24 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
       ),
       child: SafeArea(
         top: false,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// Drag Handle Pill
-            Center(
-              child: Container(
-                width: 44.w,
-                height: 5.h,
-                decoration: BoxDecoration(
-                  color: AppColors.of(context).border,
-                  borderRadius: BorderRadius.circular(10.r),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// Drag Handle Pill
+              Center(
+                child: Container(
+                  width: 44.w,
+                  height: 5.h,
+                  decoration: BoxDecoration(
+                    color: AppColors.of(context).border,
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
                 ),
               ),
-            ),
+
 
             SizedBox(height: 16.h),
 
@@ -418,6 +421,9 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
 }
+}
+
+

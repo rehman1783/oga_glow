@@ -100,7 +100,7 @@ class HomeHotDeals extends GetView<HomeController> {
           ),
           SizedBox(height: 10.h),
           SizedBox(
-            height: 185.h,
+            height: 190.h,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -113,7 +113,7 @@ class HomeHotDeals extends GetView<HomeController> {
                   onTap: () => Get.toNamed(AppRoutes.products_details, arguments: deal.id),
                   child: Container(
                     width: 320.w,
-                    padding: EdgeInsets.all(14.w),
+                    padding: EdgeInsets.all(13.w),
                     decoration: BoxDecoration(
                       color: colors.cardBackground,
                       borderRadius: BorderRadius.circular(22.r),
@@ -181,34 +181,39 @@ class HomeHotDeals extends GetView<HomeController> {
                                   ),
                                 ],
                               ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.baseline,
-                                textBaseline: TextBaseline.alphabetic,
-                                children: [
-                                  Text(
-                                    'Rs. ${deal.finalPrice.toStringAsFixed(0)}',
-                                    style: AppTextStyles.heading2.copyWith(
-                                      color: AppColors.primary,
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 16.sp,
-                                    ),
-                                  ),
-                                  if (deal.hasDiscount) ...[
-                                    SizedBox(width: 6.w),
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                                  textBaseline: TextBaseline.alphabetic,
+                                  children: [
                                     Text(
-                                      'Rs. ${deal.price.toStringAsFixed(0)}',
-                                      style: AppTextStyles.caption.copyWith(
-                                        color: colors.textSecondary,
-                                        decoration: TextDecoration.lineThrough,
-                                        fontSize: 11.sp,
+                                      'Rs. ${deal.finalPrice.toStringAsFixed(0)}',
+                                      style: AppTextStyles.heading2.copyWith(
+                                        color: AppColors.primary,
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 16.sp,
                                       ),
                                     ),
+                                    if (deal.hasDiscount) ...[
+                                      SizedBox(width: 6.w),
+                                      Text(
+                                        'Rs. ${deal.price.toStringAsFixed(0)}',
+                                        style: AppTextStyles.caption.copyWith(
+                                          color: colors.textSecondary,
+                                          decoration: TextDecoration.lineThrough,
+                                          fontSize: 11.sp,
+                                        ),
+                                      ),
+                                    ],
                                   ],
-                                ],
+                                ),
                               ),
                             ],
                           ),
                         ),
+
                         SizedBox(width: 10.w),
                         Expanded(
                           flex: 4,

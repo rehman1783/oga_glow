@@ -216,7 +216,7 @@ class CategoryScreen extends GetView<CategoryController> {
                       crossAxisCount: 2,
                       crossAxisSpacing: 12.w,
                       mainAxisSpacing: 12.h,
-                      childAspectRatio: 0.64,
+                      childAspectRatio: 0.62,
                     ),
                     itemCount: 6,
                     itemBuilder: (context, index) {
@@ -264,8 +264,9 @@ class CategoryScreen extends GetView<CategoryController> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 12.w,
                     mainAxisSpacing: 12.h,
-                    childAspectRatio: 0.64,
+                    childAspectRatio: 0.62,
                   ),
+
                   itemCount: products.length,
                   itemBuilder: (context, index) {
                     return FadeSlideTransition(

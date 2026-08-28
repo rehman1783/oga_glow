@@ -78,19 +78,24 @@ class HomeAppBar extends StatelessWidget {
                         }
                       }
                       return Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            displayName,
-                            style: AppTextStyles.heading2.copyWith(
-                              fontSize: 17.sp,
-                              fontWeight: FontWeight.w800,
-                              color: colors.textPrimary,
+                          Flexible(
+                            child: Text(
+                              displayName,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.heading2.copyWith(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w800,
+                                color: colors.textPrimary,
+                              ),
                             ),
                           ),
                           SizedBox(width: 4.w),
                           Container(
                             padding: EdgeInsets.symmetric(
-                              horizontal: 6.w,
+                              horizontal: 5.w,
                               vertical: 2.h,
                             ),
                             decoration: BoxDecoration(
@@ -105,7 +110,7 @@ class HomeAppBar extends StatelessWidget {
                                 color: Colors.white,
                                 fontSize: 8.sp,
                                 fontWeight: FontWeight.w900,
-                                letterSpacing: 0.8,
+                                letterSpacing: 0.6,
                               ),
                             ),
                           ),
@@ -120,9 +125,10 @@ class HomeAppBar extends StatelessWidget {
               BounceTap(
                 onTap: () {
                   if (Get.isRegistered<MainNavigationController>()) {
-                    Get.find<MainNavigationController>().changeIndex(2); // Search
+                    Get.find<MainNavigationController>().changeIndex(1); // Category & Search
                   }
                 },
+
                 child: Container(
                   width: 44.w,
                   height: 44.w,

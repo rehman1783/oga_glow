@@ -44,20 +44,25 @@ class ProductInfoSection extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                child: Text(
-                  product.categoryDisplayName,
-                  style: AppTextStyles.caption.copyWith(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
+              Flexible(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: Text(
+                    product.categoryDisplayName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.caption.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
+              SizedBox(width: 8.w),
 
               /// Stock Status Badge
               Container(
@@ -161,43 +166,48 @@ class ProductInfoSection extends StatelessWidget {
           SizedBox(height: 16.h),
 
           /// Price & Discount Section
-          Row(
-            children: [
-              Text(
-                'Rs ${product.finalPrice.toStringAsFixed(0)}',
-                style: AppTextStyles.heading1.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.primary,
-                  fontSize: 22.sp,
-                ),
-              ),
-              if (product.hasDiscount) ...[
-                SizedBox(width: 10.w),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Row(
+              children: [
                 Text(
-                  'Rs ${product.price.toStringAsFixed(0)}',
-                  style: AppTextStyles.body.copyWith(
-                    color: AppColors.textSecondary,
-                    decoration: TextDecoration.lineThrough,
+                  'Rs ${product.finalPrice.toStringAsFixed(0)}',
+                  style: AppTextStyles.heading1.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.primary,
+                    fontSize: 22.sp,
                   ),
                 ),
-                SizedBox(width: 10.w),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                  decoration: BoxDecoration(
-                    color: AppColors.error,
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                  child: Text(
-                    '${product.discountPercentage}% OFF',
-                    style: AppTextStyles.caption.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                if (product.hasDiscount) ...[
+                  SizedBox(width: 10.w),
+                  Text(
+                    'Rs ${product.price.toStringAsFixed(0)}',
+                    style: AppTextStyles.body.copyWith(
+                      color: AppColors.textSecondary,
+                      decoration: TextDecoration.lineThrough,
                     ),
                   ),
-                ),
+                  SizedBox(width: 10.w),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                    decoration: BoxDecoration(
+                      color: AppColors.error,
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Text(
+                      '${product.discountPercentage}% OFF',
+                      style: AppTextStyles.caption.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
+
 
           SizedBox(height: 12.h),
 

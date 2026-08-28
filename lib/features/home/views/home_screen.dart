@@ -31,8 +31,9 @@ class HomeScreen extends GetView<HomeController> {
   Widget _buildProductListShimmer(BuildContext context) {
     final colors = AppColors.of(context);
     return SizedBox(
-      height: 280.h,
+      height: 310.h,
       child: ListView.separated(
+
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         itemCount: 4,
