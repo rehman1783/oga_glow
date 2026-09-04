@@ -51,8 +51,8 @@ class OrderCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(16.r),
                   child: SizedBox(
-                    width: 72.w,
-                    height: 72.w,
+                    width: 72.r,
+                    height: 72.r,
                     child: order.productImage.startsWith('http')
                         ? CachedNetworkImage(
                             imageUrl: order.productImage,

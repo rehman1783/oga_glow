@@ -132,10 +132,11 @@ class HomeHotDeals extends GetView<HomeController> {
           ),
           SizedBox(height: 12.h),
           SizedBox(
-            height: 195.h,
+            height: 206.h,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              physics: const BouncingScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5.h),
               itemCount: hotDeals.length,
               separatorBuilder: (context, index) => SizedBox(width: 14.w),
               itemBuilder: (context, index) {
@@ -304,8 +305,8 @@ class HomeHotDeals extends GetView<HomeController> {
                                       });
                                     },
                                     child: Container(
-                                      width: 32.w,
-                                      height: 32.w,
+                                      width: 32.r,
+                                      height: 32.r,
                                       decoration: BoxDecoration(
                                         gradient: const LinearGradient(
                                           colors: [AppColors.primary, AppColors.primaryLight],

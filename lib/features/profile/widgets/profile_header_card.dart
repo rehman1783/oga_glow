@@ -50,8 +50,8 @@ class ProfileHeaderCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 68.w,
-            height: 68.w,
+            width: 68.r,
+            height: 68.r,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
                 colors: [AppColors.primary, AppColors.primaryLight],

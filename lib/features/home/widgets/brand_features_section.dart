@@ -39,7 +39,7 @@ class BrandFeaturesSection extends GetView<HomeController> {
       return Container(
         width: double.infinity,
         padding: EdgeInsets.all(18.w),
-        margin: EdgeInsets.only(bottom: 20.h),
+        margin: EdgeInsets.symmetric(horizontal: 16.w).copyWith(bottom: 20.h),
         decoration: BoxDecoration(
           color: colors.cardBackground,
           borderRadius: BorderRadius.circular(24.r),
@@ -136,7 +136,7 @@ class BrandFeaturesSection extends GetView<HomeController> {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
-      margin: EdgeInsets.only(bottom: 20.h),
+      margin: EdgeInsets.symmetric(horizontal: 16.w).copyWith(bottom: 20.h),
       decoration: BoxDecoration(
         color: colors.panel,
         borderRadius: BorderRadius.circular(24.r),
@@ -174,7 +174,7 @@ class BrandFeaturesSection extends GetView<HomeController> {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
-      margin: EdgeInsets.only(bottom: 20.h),
+      margin: EdgeInsets.symmetric(horizontal: 16.w).copyWith(bottom: 20.h),
       decoration: BoxDecoration(
         color: colors.panel,
         borderRadius: BorderRadius.circular(24.r),
@@ -213,12 +213,10 @@ class BrandFeaturesSection extends GetView<HomeController> {
   }) {
     if (cards.isEmpty) return const SizedBox.shrink();
 
-    return Wrap(
-      spacing: 12.w,
-      runSpacing: 12.h,
+    return Column(
       children: cards.map((card) {
-        return SizedBox(
-          width: 0.92.sw - 32.w,
+        return Padding(
+          padding: EdgeInsets.only(bottom: 12.h),
           child: _buildFeatureCard(context, card, icons.first),
         );
       }).toList(),

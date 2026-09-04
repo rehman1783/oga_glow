@@ -49,8 +49,8 @@ class BounceLikeTile extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
       onTap: onTap,
       leading: Container(
-        width: 36.w,
-        height: 36.w,
+        width: 36.r,
+        height: 36.r,
         decoration: BoxDecoration(
           color: isSelected
               ? AppColors.primary.withValues(alpha: 0.14)

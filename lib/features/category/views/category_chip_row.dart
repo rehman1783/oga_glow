@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../controllers/category_controller.dart';
@@ -54,10 +55,13 @@ class _CategoryChipRowState extends State<CategoryChipRow> {
         }
       });
 
-      return ListView.builder(
+      return ListView.separated(
         controller: _scrollController,
         scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
         itemCount: categories.length,
+        separatorBuilder: (context, index) => SizedBox(width: 8.w),
         itemBuilder: (context, index) {
           final category = categories[index];
           return CategoryChip(

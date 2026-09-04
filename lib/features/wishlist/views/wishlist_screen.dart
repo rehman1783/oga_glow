@@ -38,7 +38,7 @@ class WishlistScreen extends StatelessWidget {
           title: Text(
             'Wishlist',
             style: AppTextStyles.heading2.copyWith(
-              fontSize: 18,
+              fontSize: 18.sp,
               color: AppColors.of(context).textPrimary,
             ),
           ),
@@ -51,6 +51,7 @@ class WishlistScreen extends StatelessWidget {
         }
 
         return ListView.separated(
+          physics: const BouncingScrollPhysics(),
           padding: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 24.h),
           itemCount: controller.wishlistItems.length,
           separatorBuilder: (context, index) => SizedBox(height: 12.h),

@@ -34,10 +34,11 @@ class OrderFilterChips extends StatelessWidget {
     ];
 
     return SizedBox(
-      height: 40.h,
+      height: 44.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 2.h),
         itemCount: filters.length,
         separatorBuilder: (context, index) => SizedBox(width: 8.w),
         itemBuilder: (context, index) {

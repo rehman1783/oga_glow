@@ -167,8 +167,8 @@ class CheckoutScreen extends GetView<CheckoutController> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10.r),
                       child: Container(
-                        width: 50.w,
-                        height: 50.w,
+                        width: 50.r,
+                        height: 50.r,
                         color: colors.panelSecondary,
                         child: img.isNotEmpty
                             ? CachedNetworkImage(
@@ -269,8 +269,8 @@ class CheckoutScreen extends GetView<CheckoutController> {
                 child: Row(
                   children: [
                     Container(
-                      width: 44.w,
-                      height: 44.w,
+                      width: 44.r,
+                      height: 44.r,
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           colors: [AppColors.primary, AppColors.primaryLight],

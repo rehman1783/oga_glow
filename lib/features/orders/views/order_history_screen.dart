@@ -45,42 +45,51 @@ class OrderHistoryScreen extends GetView<OrderController> {
             Expanded(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                padding: EdgeInsets.symmetric(vertical: 10.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // ---- Welcome Header ----
-                    FadeSlideTransition(
-                      index: 0,
-                      child: _buildWelcomeHeader(isDark),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: FadeSlideTransition(
+                        index: 0,
+                        child: _buildWelcomeHeader(isDark),
+                      ),
                     ),
                     SizedBox(height: 16.h),
 
                     // ---- Introduction ----
-                    FadeSlideTransition(
-                      index: 1,
-                      child: Text(
-                        'View and track all your orders in one place. '
-                        'Use the search bar or filters to find specific orders.',
-                        style: AppTextStyles.body.copyWith(
-                          fontSize: 13.sp,
-                          color: AppColors.of(context).textSecondary,
-                          height: 1.4,
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: FadeSlideTransition(
+                        index: 1,
+                        child: Text(
+                          'View and track all your orders in one place. '
+                          'Use the search bar or filters to find specific orders.',
+                          style: AppTextStyles.body.copyWith(
+                            fontSize: 13.sp,
+                            color: AppColors.of(context).textSecondary,
+                            height: 1.4,
+                          ),
                         ),
                       ),
                     ),
                     SizedBox(height: 16.h),
 
                     // ---- Search Bar ----
-                    FadeSlideTransition(
-                      index: 2,
-                      child: OrderSearchBar(
-                        onChanged: (query) => controller.searchOrders(query),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: FadeSlideTransition(
+                        index: 2,
+                        child: OrderSearchBar(
+                          onChanged: (query) => controller.searchOrders(query),
+                        ),
                       ),
                     ),
                     SizedBox(height: 14.h),
 
-                    // ---- Filter Chips ----
+                    // ---- Filter Chips (Edge-to-Edge Scrollable) ----
                     FadeSlideTransition(
                       index: 3,
                       child: Obx(
@@ -94,46 +103,49 @@ class OrderHistoryScreen extends GetView<OrderController> {
                     SizedBox(height: 20.h),
 
                     // ---- Orders List / Empty State ----
-                    Obx(() {
-                      final orders = controller.filteredOrders;
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Obx(() {
+                        final orders = controller.filteredOrders;
 
-                      if (orders.isEmpty) {
-                        return const EmptyOrdersWidget();
-                      }
+                        if (orders.isEmpty) {
+                          return const EmptyOrdersWidget();
+                        }
 
-                      return FadeSlideTransition(
-                        index: 4,
-                        child: Column(
-                          children: [
-                            // Results count
-                            Row(
-                              children: [
-                                Text(
-                                  '${orders.length} ${orders.length == 1 ? 'Order' : 'Orders'}',
-                                  style: AppTextStyles.caption.copyWith(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.of(context).textSecondary,
+                        return FadeSlideTransition(
+                          index: 4,
+                          child: Column(
+                            children: [
+                              // Results count
+                              Row(
+                                children: [
+                                  Text(
+                                    '${orders.length} ${orders.length == 1 ? 'Order' : 'Orders'}',
+                                    style: AppTextStyles.caption.copyWith(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.of(context).textSecondary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 12.h),
+
+                              // Order cards
+                              for (int i = 0; i < orders.length; i++)
+                                FadeSlideTransition(
+                                  index: i + 5,
+                                  child: OrderCard(
+                                    order: orders[i],
+                                    onViewDetails: () =>
+                                        controller.openOrderDetails(orders[i]),
                                   ),
                                 ),
-                              ],
-                            ),
-                            SizedBox(height: 12.h),
-
-                            // Order cards
-                            for (int i = 0; i < orders.length; i++)
-                              FadeSlideTransition(
-                                index: i + 5,
-                                child: OrderCard(
-                                  order: orders[i],
-                                  onViewDetails: () =>
-                                      controller.openOrderDetails(orders[i]),
-                                ),
-                              ),
-                          ],
-                        ),
-                      );
-                    }),
+                            ],
+                          ),
+                        );
+                      }),
+                    ),
                     SizedBox(height: 32.h),
                   ],
                 ),

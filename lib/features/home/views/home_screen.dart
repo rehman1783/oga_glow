@@ -33,11 +33,11 @@ class HomeScreen extends GetView<HomeController> {
   Widget _buildProductListShimmer(BuildContext context) {
     final colors = AppColors.of(context);
     return SizedBox(
-      height: 324.h,
+      height: 332.h,
       child: ListView.separated(
-
         scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        physics: const BouncingScrollPhysics(),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
         itemCount: 4,
         separatorBuilder: (context, index) => SizedBox(width: 12.w),
         itemBuilder: (context, index) => Shimmer.fromColors(
@@ -320,10 +320,11 @@ class HomeScreen extends GetView<HomeController> {
                                 ),
                                 SizedBox(height: 12.h),
                                 SizedBox(
-                                  height: 324.h,
+                                  height: 332.h,
                                   child: ListView.separated(
                                     scrollDirection: Axis.horizontal,
-                                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                    physics: const BouncingScrollPhysics(),
+                                    padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 4.h),
                                     itemCount: controller.featuredProducts.length,
                                     separatorBuilder: (context, index) =>
                                         SizedBox(width: 4.w),
@@ -355,10 +356,11 @@ class HomeScreen extends GetView<HomeController> {
                                 ),
                                 SizedBox(height: 12.h),
                                 SizedBox(
-                                  height: 324.h,
+                                  height: 332.h,
                                   child: ListView.separated(
                                     scrollDirection: Axis.horizontal,
-                                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                    physics: const BouncingScrollPhysics(),
+                                    padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 4.h),
                                     itemCount: controller.bestSellers.length,
                                     separatorBuilder: (context, index) =>
                                         SizedBox(width: 4.w),
@@ -390,10 +392,11 @@ class HomeScreen extends GetView<HomeController> {
                                 ),
                                 SizedBox(height: 12.h),
                                 SizedBox(
-                                  height: 324.h,
+                                  height: 332.h,
                                   child: ListView.separated(
                                     scrollDirection: Axis.horizontal,
-                                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                    physics: const BouncingScrollPhysics(),
+                                    padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 4.h),
                                     itemCount: controller.newArrivals.length,
                                     separatorBuilder: (context, index) =>
                                         SizedBox(width: 4.w),
