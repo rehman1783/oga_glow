@@ -172,20 +172,33 @@ class CartScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Estimated Total',
-                            style: AppTextStyles.body.copyWith(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: colors.textSecondary,
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Estimated Subtotal',
+                                style: AppTextStyles.caption.copyWith(
+                                  fontSize: 11.5.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: colors.textSecondary,
+                                ),
+                              ),
+                              SizedBox(height: 2.h),
+                              Text(
+                                'Shipping calculated at checkout',
+                                style: TextStyle(
+                                  fontSize: 10.sp,
+                                  color: colors.textSecondary.withValues(alpha: 0.7),
+                                ),
+                              ),
+                            ],
                           ),
                           Text(
                             'Rs. ${_formatTotal(subtotal)}',
                             style: AppTextStyles.heading2.copyWith(
                               color: AppColors.primary,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 19.sp,
                             ),
                           ),
                         ],
@@ -193,8 +206,9 @@ class CartScreen extends StatelessWidget {
                       SizedBox(height: 14.h),
                       SizedBox(
                         width: double.infinity,
-                        height: 52.h,
+                        height: 50.h,
                         child: BounceTap(
+                          scaleBound: 0.96,
                           onTap: () {
                             Get.toNamed(AppRoutes.checkout);
                           },
@@ -203,16 +217,22 @@ class CartScreen extends StatelessWidget {
                               gradient: const LinearGradient(
                                 colors: [
                                   AppColors.primary,
-                                  AppColors.primaryLight,
+                                  Color(0xFF1C6335),
                                 ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
                               ),
                               borderRadius: BorderRadius.circular(16.r),
+                              border: Border.all(
+                                color: AppColors.goldLight.withValues(alpha: 0.4),
+                                width: 1.0,
+                              ),
                               boxShadow: [
                                 BoxShadow(
                                   color: AppColors.primary.withValues(
-                                    alpha: 0.28,
+                                    alpha: 0.32,
                                   ),
-                                  blurRadius: 12,
+                                  blurRadius: 14,
                                   offset: const Offset(0, 4),
                                 ),
                               ],
@@ -223,15 +243,23 @@ class CartScreen extends StatelessWidget {
                                 const Icon(
                                   Icons.lock_outline_rounded,
                                   color: AppColors.white,
-                                  size: 18,
+                                  size: 17,
                                 ),
                                 SizedBox(width: 8.w),
                                 Text(
                                   'Proceed to Checkout',
                                   style: AppTextStyles.button.copyWith(
-                                    fontSize: 14.sp,
+                                    fontSize: 14.5.sp,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: 0.4,
                                     color: Colors.white,
                                   ),
+                                ),
+                                SizedBox(width: 6.w),
+                                Icon(
+                                  Icons.arrow_forward_rounded,
+                                  size: 17.sp,
+                                  color: Colors.white.withValues(alpha: 0.9),
                                 ),
                               ],
                             ),

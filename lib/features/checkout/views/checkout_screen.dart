@@ -361,7 +361,17 @@ class CheckoutScreen extends GetView<CheckoutController> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const SectionTitle(title: 'Price Details'),
+            Row(
+              children: [
+                Icon(
+                  Icons.receipt_long_rounded,
+                  size: 18.sp,
+                  color: AppColors.primary,
+                ),
+                SizedBox(width: 8.w),
+                const SectionTitle(title: 'Price Details'),
+              ],
+            ),
             Obx(() {
               if (controller.isLoadingPreview.value) {
                 return Row(
@@ -385,6 +395,27 @@ class CheckoutScreen extends GetView<CheckoutController> {
                   ],
                 );
               }
+              final totalSavings = controller.productDiscount + controller.couponDiscount;
+              if (totalSavings > 0) {
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF16A34A).withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(8.r),
+                    border: Border.all(
+                      color: const Color(0xFF16A34A).withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: Text(
+                    'Saving Rs. ${totalSavings.toStringAsFixed(0)}',
+                    style: AppTextStyles.caption.copyWith(
+                      color: const Color(0xFF16A34A),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 10.5.sp,
+                    ),
+                  ),
+                );
+              }
               return const SizedBox.shrink();
             }),
           ],
@@ -394,8 +425,18 @@ class CheckoutScreen extends GetView<CheckoutController> {
           padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
             color: colors.cardBackground,
-            borderRadius: BorderRadius.circular(20.r),
-            border: Border.all(color: colors.border),
+            borderRadius: BorderRadius.circular(22.r),
+            border: Border.all(
+              color: colors.border.withValues(alpha: 0.9),
+              width: 1.2,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.black.withValues(alpha: 0.04),
+                blurRadius: 16,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
           child: Obx(() {
             final subtotal = controller.subtotal;
@@ -403,120 +444,325 @@ class CheckoutScreen extends GetView<CheckoutController> {
             final couponDiscount = controller.couponDiscount;
             final shipping = controller.shipping;
             final grandTotal = controller.grandTotal;
+            final totalSavings = productDiscount + couponDiscount;
+            final itemsCount = controller.cartItems.length;
 
             return Column(
               children: [
+                // Items Subtotal
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Items Price',
-                      style: AppTextStyles.caption.copyWith(
-                        color: colors.textSecondary,
-                        fontSize: 13.sp,
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          'Items Subtotal',
+                          style: AppTextStyles.body.copyWith(
+                            color: colors.textSecondary,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        if (itemsCount > 0) ...[
+                          SizedBox(width: 6.w),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 6.w,
+                              vertical: 1.5.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: colors.panelSecondary,
+                              borderRadius: BorderRadius.circular(6.r),
+                            ),
+                            child: Text(
+                              '$itemsCount items',
+                              style: AppTextStyles.caption.copyWith(
+                                fontSize: 9.5.sp,
+                                color: colors.textSecondary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                     Text(
                       'Rs. ${subtotal.toStringAsFixed(0)}',
                       style: AppTextStyles.body.copyWith(
                         fontWeight: FontWeight.w600,
-                        fontSize: 13.sp,
+                        fontSize: 13.5.sp,
                         color: colors.textPrimary,
                       ),
                     ),
                   ],
                 ),
 
+                // Catalog Promotional Discount
                 if (productDiscount > 0) ...[
-                  SizedBox(height: 8.h),
+                  SizedBox(height: 10.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Product Discount',
-                        style: AppTextStyles.caption.copyWith(
-                          color: AppColors.success,
-                          fontSize: 13.sp,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            'Catalog Discount',
+                            style: AppTextStyles.body.copyWith(
+                              color: colors.textSecondary,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          SizedBox(width: 6.w),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 5.w,
+                              vertical: 1.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF16A34A).withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(4.r),
+                            ),
+                            child: Text(
+                              'PROMO',
+                              style: TextStyle(
+                                color: const Color(0xFF16A34A),
+                                fontSize: 8.5.sp,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 0.3,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       Text(
                         '- Rs. ${productDiscount.toStringAsFixed(0)}',
                         style: AppTextStyles.body.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13.sp,
-                          color: AppColors.success,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 13.5.sp,
+                          color: const Color(0xFF16A34A),
                         ),
                       ),
                     ],
                   ),
                 ],
 
+                // Coupon Discount
                 if (couponDiscount > 0) ...[
-                  SizedBox(height: 8.h),
+                  SizedBox(height: 10.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Coupon Discount',
-                        style: AppTextStyles.caption.copyWith(
-                          color: AppColors.success,
-                          fontSize: 13.sp,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            'Coupon Discount',
+                            style: AppTextStyles.body.copyWith(
+                              color: colors.textSecondary,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          if (controller.appliedCouponCode.value.isNotEmpty) ...[
+                            SizedBox(width: 6.w),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 6.w,
+                                vertical: 1.5.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(4.r),
+                                border: Border.all(
+                                  color: AppColors.primary.withValues(alpha: 0.3),
+                                  width: 0.8,
+                                ),
+                              ),
+                              child: Text(
+                                controller.appliedCouponCode.value.toUpperCase(),
+                                style: TextStyle(
+                                  color: AppColors.primary,
+                                  fontSize: 8.5.sp,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                       Text(
                         '- Rs. ${couponDiscount.toStringAsFixed(0)}',
                         style: AppTextStyles.body.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13.sp,
-                          color: AppColors.success,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 13.5.sp,
+                          color: const Color(0xFF16A34A),
                         ),
                       ),
                     ],
                   ),
                 ],
 
-                SizedBox(height: 8.h),
+                // Shipping Fee
+                SizedBox(height: 10.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Delivery Fee',
+                          style: AppTextStyles.body.copyWith(
+                            color: colors.textSecondary,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(width: 6.w),
+                        Icon(
+                          Icons.local_shipping_outlined,
+                          size: 14.sp,
+                          color: colors.textSecondary,
+                        ),
+                      ],
+                    ),
+                    shipping == 0
+                        ? Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                              vertical: 2.5.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF16A34A).withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(6.r),
+                            ),
+                            child: Text(
+                              'FREE DELIVERY',
+                              style: TextStyle(
+                                color: const Color(0xFF16A34A),
+                                fontWeight: FontWeight.w800,
+                                fontSize: 10.sp,
+                                letterSpacing: 0.4,
+                              ),
+                            ),
+                          )
+                        : Text(
+                            'Rs. ${shipping.toStringAsFixed(0)}',
+                            style: AppTextStyles.body.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13.5.sp,
+                              color: colors.textPrimary,
+                            ),
+                          ),
+                  ],
+                ),
+
+                // Taxes Included Note
+                SizedBox(height: 10.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Shipping Fee',
-                      style: AppTextStyles.caption.copyWith(
+                      'Taxes & Duties',
+                      style: AppTextStyles.body.copyWith(
                         color: colors.textSecondary,
                         fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     Text(
-                      shipping > 0
-                          ? 'Rs. ${shipping.toStringAsFixed(0)}'
-                          : 'Free Delivery',
-                      style: AppTextStyles.body.copyWith(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 13.sp,
-                        color: shipping > 0 ? colors.textPrimary : AppColors.success,
+                      'Included in Price',
+                      style: AppTextStyles.caption.copyWith(
+                        fontSize: 11.5.sp,
+                        color: colors.textSecondary,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
                 ),
 
-                Divider(height: 20.h, color: colors.border),
+                // Total Savings Banner if savings > 0
+                if (totalSavings > 0) ...[
+                  SizedBox(height: 14.h),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 8.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF16A34A).withValues(alpha: 0.08),
+                      borderRadius: BorderRadius.circular(10.r),
+                      border: Border.all(
+                        color: const Color(0xFF16A34A).withValues(alpha: 0.25),
+                        width: 0.8,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.verified_rounded,
+                          size: 15.sp,
+                          color: const Color(0xFF16A34A),
+                        ),
+                        SizedBox(width: 8.w),
+                        Expanded(
+                          child: Text(
+                            'You are saving Rs. ${totalSavings.toStringAsFixed(0)} on this order!',
+                            style: TextStyle(
+                              color: const Color(0xFF16A34A),
+                              fontWeight: FontWeight.w700,
+                              fontSize: 11.5.sp,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
 
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12.h),
+                  child: Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: colors.border.withValues(alpha: 0.7),
+                  ),
+                ),
+
+                // Final Payable Row
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      'Total Amount',
-                      style: AppTextStyles.heading2.copyWith(
-                        fontSize: 15.sp,
-                        color: colors.textPrimary,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Total Payable',
+                          style: AppTextStyles.heading2.copyWith(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w800,
+                            color: colors.textPrimary,
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                        Text(
+                          'Pay via Cash on Delivery',
+                          style: AppTextStyles.caption.copyWith(
+                            fontSize: 10.5.sp,
+                            color: colors.textSecondary,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
                     Text(
                       'Rs. ${grandTotal.toStringAsFixed(0)}',
                       style: AppTextStyles.heading2.copyWith(
                         color: AppColors.primary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 20.sp,
+                        letterSpacing: -0.3,
                       ),
                     ),
                   ],
@@ -532,121 +778,225 @@ class CheckoutScreen extends GetView<CheckoutController> {
   Widget _buildBottomCTA(BuildContext context) {
     final colors = AppColors.of(context);
 
-    return Padding(
-      padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
-      child: Container(
-        padding: EdgeInsets.all(16.w),
-        decoration: BoxDecoration(
-          color: colors.cardBackground,
-          borderRadius: BorderRadius.circular(24.r),
-          border: Border.all(color: colors.border),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.black.withValues(alpha: 0.05),
-              blurRadius: 16,
-              offset: const Offset(0, -4),
-            ),
-          ],
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.cardBackground,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+        border: Border.all(
+          color: colors.border.withValues(alpha: 0.8),
+          width: 1.0,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.08),
+            blurRadius: 20,
+            offset: const Offset(0, -5),
+          ),
+        ],
+      ),
+      padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 14.h),
+      child: SafeArea(
+        top: false,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // Micro Trust & Guarantee Strip
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Grand Total (COD)',
-                      style: AppTextStyles.caption.copyWith(
-                        color: colors.textSecondary,
-                        fontSize: 11.sp,
-                      ),
-                    ),
-                    Obx(
-                      () => Text(
-                        'Rs. ${controller.grandTotal.toStringAsFixed(0)}',
-                        style: AppTextStyles.heading2.copyWith(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.sp,
+                Icon(
+                  Icons.shield_outlined,
+                  size: 12.sp,
+                  color: AppColors.primary,
+                ),
+                SizedBox(width: 4.w),
+                Text(
+                  '100% Secure Checkout',
+                  style: TextStyle(
+                    fontSize: 9.5.sp,
+                    fontWeight: FontWeight.w600,
+                    color: colors.textSecondary,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w),
+                  child: Text('•', style: TextStyle(color: colors.textSecondary, fontSize: 10.sp)),
+                ),
+                Icon(
+                  Icons.payments_outlined,
+                  size: 12.sp,
+                  color: AppColors.goldLight,
+                ),
+                SizedBox(width: 4.w),
+                Text(
+                  'Pay on Delivery',
+                  style: TextStyle(
+                    fontSize: 9.5.sp,
+                    fontWeight: FontWeight.w600,
+                    color: colors.textSecondary,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w),
+                  child: Text('•', style: TextStyle(color: colors.textSecondary, fontSize: 10.sp)),
+                ),
+                Icon(
+                  Icons.published_with_changes_rounded,
+                  size: 12.sp,
+                  color: AppColors.primary,
+                ),
+                SizedBox(width: 4.w),
+                Text(
+                  'Easy Returns',
+                  style: TextStyle(
+                    fontSize: 9.5.sp,
+                    fontWeight: FontWeight.w600,
+                    color: colors.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 10.h),
+
+            // Main Pricing + CTA Row
+            Row(
+              children: [
+                // Total Price Column
+                Expanded(
+                  flex: 5,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'TOTAL (COD)',
+                        style: TextStyle(
+                          color: colors.textSecondary,
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.8,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 20.w),
-                    child: SizedBox(
-                      height: 50.h,
-                      child: Obx(() {
-                        final isBusy = controller.isPlacingOrder.value;
-
-                        return BounceTap(
-                          onTap: isBusy ? () {} : () => controller.placeOrder(context),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [
-                                  AppColors.primary,
-                                  AppColors.primaryLight,
-                                ],
-                              ),
-                              borderRadius: BorderRadius.circular(16.r),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.primary.withValues(alpha: 0.28),
-                                  blurRadius: 12,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
+                      SizedBox(height: 2.h),
+                      Obx(
+                        () => FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Rs. ${controller.grandTotal.toStringAsFixed(0)}',
+                            style: AppTextStyles.heading2.copyWith(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 20.sp,
+                              letterSpacing: -0.3,
                             ),
-                            alignment: Alignment.center,
-                            child: isBusy
-                                ? Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: 18.w,
-                                        height: 18.w,
-                                        child: const CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          valueColor: AlwaysStoppedAnimation<Color>(
-                                            Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 8.w),
-                                      Text(
-                                        'Placing Order...',
-                                        style: AppTextStyles.button.copyWith(
-                                          fontSize: 13.sp,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                : Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Icon(
-                                        Icons.check_circle_rounded,
-                                        color: AppColors.white,
-                                      ),
-                                      SizedBox(width: 8.w),
-                                      Text(
-                                        'Place Order',
-                                        style: AppTextStyles.button.copyWith(
-                                          fontSize: 14.sp,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                           ),
-                        );
-                      }),
-                    ),
+                        ),
+                      ),
+                      Text(
+                        'Taxes included',
+                        style: TextStyle(
+                          color: colors.textSecondary.withValues(alpha: 0.7),
+                          fontSize: 9.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(width: 12.w),
+
+                // Place Order Button
+                Expanded(
+                  flex: 6,
+                  child: SizedBox(
+                    height: 50.h,
+                    child: Obx(() {
+                      final isBusy = controller.isPlacingOrder.value;
+
+                      return BounceTap(
+                        scaleBound: 0.95,
+                        onTap: isBusy ? () {} : () => controller.placeOrder(context),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [
+                                AppColors.primary,
+                                Color(0xFF1C6335),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(16.r),
+                            border: Border.all(
+                              color: AppColors.goldLight.withValues(alpha: 0.4),
+                              width: 1.0,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withValues(alpha: 0.35),
+                                blurRadius: 14,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          alignment: Alignment.center,
+                          child: isBusy
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 18.w,
+                                      height: 18.w,
+                                      child: const CircularProgressIndicator(
+                                        strokeWidth: 2.2,
+                                        valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 8.w),
+                                    Text(
+                                      'Confirming...',
+                                      style: AppTextStyles.button.copyWith(
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.lock_outline_rounded,
+                                      size: 16.sp,
+                                      color: Colors.white,
+                                    ),
+                                    SizedBox(width: 6.w),
+                                    Text(
+                                      'Place Order',
+                                      style: AppTextStyles.button.copyWith(
+                                        fontSize: 14.5.sp,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.4,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(width: 4.w),
+                                    Icon(
+                                      Icons.arrow_forward_rounded,
+                                      size: 16.sp,
+                                      color: Colors.white.withValues(alpha: 0.85),
+                                    ),
+                                  ],
+                                ),
+                        ),
+                      );
+                    }),
                   ),
                 ),
               ],
