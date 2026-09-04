@@ -80,7 +80,7 @@ class ProductReviewsController extends GetxController {
       Get.snackbar(
         'Success',
         'Your review has been submitted successfully.',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.green.shade700,
         colorText: Colors.white,
       );
@@ -91,7 +91,7 @@ class ProductReviewsController extends GetxController {
       Get.snackbar(
         'Review Error',
         e.message,
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.red.shade700,
         colorText: Colors.white,
       );
@@ -100,7 +100,7 @@ class ProductReviewsController extends GetxController {
       Get.snackbar(
         'Review Error',
         reviewFormError.value,
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.red.shade700,
         colorText: Colors.white,
       );

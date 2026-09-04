@@ -32,7 +32,7 @@ class WishlistController extends GetxController {
       Get.snackbar(
         'Wishlist',
         'Already saved to wishlist',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         duration: const Duration(seconds: 1),
       );
       return;
@@ -43,7 +43,7 @@ class WishlistController extends GetxController {
     Get.snackbar(
       'Wishlist',
       'Saved to wishlist',
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       duration: const Duration(seconds: 1),
     );
   }
@@ -77,7 +77,7 @@ class WishlistController extends GetxController {
       Get.snackbar(
         'Wishlist',
         'Item removed from wishlist',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         duration: const Duration(seconds: 1),
       );
       return;

@@ -124,7 +124,7 @@ class CustomSnackbar {
           margin: EdgeInsets.only(left: 12.w, right: 8.w),
           child: Icon(icon, color: iconColor, size: 24.sp),
         ),
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         backgroundColor: backgroundColor,
         borderRadius: 16.r,
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),

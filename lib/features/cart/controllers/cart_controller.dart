@@ -135,7 +135,7 @@ class CartController extends GetxController {
     Get.snackbar(
       'Cart',
       message,
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       duration: const Duration(seconds: 2),
       backgroundColor: AppColors.primary,
       colorText: Colors.white,

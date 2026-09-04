@@ -173,7 +173,7 @@ class AboutController extends GetxController {
       Get.snackbar(
         'Error',
         message,
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.red.withValues(alpha: 0.9),
         colorText: Colors.white,
         borderRadius: 14,
