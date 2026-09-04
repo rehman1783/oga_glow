@@ -24,15 +24,15 @@ class CategoryItem extends StatelessWidget {
       scaleBound: 0.90,
       onTap: onTap,
       child: SizedBox(
-        width: 76.w,
+        width: 72.w,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Luxury Double-Ring Story Avatar
             Container(
-              width: 62.w,
-              height: 62.w,
+              width: 52.r,
+              height: 52.r,
               padding: EdgeInsets.all(2.5.r),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
@@ -48,8 +48,8 @@ class CategoryItem extends StatelessWidget {
                 boxShadow: [
                   BoxShadow(
                     color: AppColors.primary.withValues(alpha: 0.12),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -74,25 +74,28 @@ class CategoryItem extends StatelessWidget {
                   child: Center(
                     child: Icon(
                       icon,
-                      size: 24.sp,
+                      size: 22.sp,
                       color: AppColors.primary,
                     ),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 7.h),
-            Text(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppTextStyles.caption.copyWith(
-                color: colors.textPrimary,
-                fontWeight: FontWeight.w700,
-                fontSize: 11.5.sp,
-                letterSpacing: -0.2,
+            SizedBox(height: 5.h),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTextStyles.caption.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 11.sp,
+                  letterSpacing: -0.2,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
           ],
         ),
