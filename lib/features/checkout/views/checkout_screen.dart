@@ -761,8 +761,8 @@ class CheckoutScreen extends GetView<CheckoutController> {
                       style: AppTextStyles.heading2.copyWith(
                         color: AppColors.primary,
                         fontWeight: FontWeight.w900,
-                        fontSize: 20.sp,
-                        letterSpacing: -0.3,
+                        fontSize: 22.sp,
+                        letterSpacing: -0.4,
                       ),
                     ),
                   ],
@@ -862,9 +862,9 @@ class CheckoutScreen extends GetView<CheckoutController> {
             // Main Pricing + CTA Row
             Row(
               children: [
-                // Total Price Column
+                // Total Price Column (Bigger, more prominent)
                 Expanded(
-                  flex: 5,
+                  flex: 6,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -873,12 +873,12 @@ class CheckoutScreen extends GetView<CheckoutController> {
                         'TOTAL (COD)',
                         style: TextStyle(
                           color: colors.textSecondary,
-                          fontSize: 10.sp,
+                          fontSize: 10.5.sp,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 0.8,
                         ),
                       ),
-                      SizedBox(height: 2.h),
+                      SizedBox(height: 1.h),
                       Obx(
                         () => FittedBox(
                           fit: BoxFit.scaleDown,
@@ -888,8 +888,8 @@ class CheckoutScreen extends GetView<CheckoutController> {
                             style: AppTextStyles.heading2.copyWith(
                               color: AppColors.primary,
                               fontWeight: FontWeight.w900,
-                              fontSize: 20.sp,
-                              letterSpacing: -0.3,
+                              fontSize: 23.sp,
+                              letterSpacing: -0.5,
                             ),
                           ),
                         ),
@@ -898,7 +898,7 @@ class CheckoutScreen extends GetView<CheckoutController> {
                         'Taxes included',
                         style: TextStyle(
                           color: colors.textSecondary.withValues(alpha: 0.7),
-                          fontSize: 9.sp,
+                          fontSize: 9.5.sp,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -906,13 +906,13 @@ class CheckoutScreen extends GetView<CheckoutController> {
                   ),
                 ),
 
-                SizedBox(width: 12.w),
+                SizedBox(width: 10.w),
 
-                // Place Order Button
+                // Place Order Button (Slightly smaller, sleek compact size)
                 Expanded(
-                  flex: 6,
+                  flex: 5,
                   child: SizedBox(
-                    height: 50.h,
+                    height: 42.h,
                     child: Obx(() {
                       final isBusy = controller.isPlacingOrder.value;
 
@@ -929,16 +929,16 @@ class CheckoutScreen extends GetView<CheckoutController> {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                            borderRadius: BorderRadius.circular(16.r),
+                            borderRadius: BorderRadius.circular(14.r),
                             border: Border.all(
                               color: AppColors.goldLight.withValues(alpha: 0.4),
                               width: 1.0,
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withValues(alpha: 0.35),
-                                blurRadius: 14,
-                                offset: const Offset(0, 4),
+                                color: AppColors.primary.withValues(alpha: 0.3),
+                                blurRadius: 10,
+                                offset: const Offset(0, 3),
                               ),
                             ],
                           ),
@@ -948,20 +948,20 @@ class CheckoutScreen extends GetView<CheckoutController> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     SizedBox(
-                                      width: 18.w,
-                                      height: 18.w,
+                                      width: 15.r,
+                                      height: 15.r,
                                       child: const CircularProgressIndicator(
-                                        strokeWidth: 2.2,
+                                        strokeWidth: 2.0,
                                         valueColor: AlwaysStoppedAnimation<Color>(
                                           Colors.white,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 8.w),
+                                    SizedBox(width: 6.w),
                                     Text(
                                       'Confirming...',
                                       style: AppTextStyles.button.copyWith(
-                                        fontSize: 13.sp,
+                                        fontSize: 12.sp,
                                         fontWeight: FontWeight.w700,
                                         color: Colors.white,
                                       ),
@@ -973,23 +973,23 @@ class CheckoutScreen extends GetView<CheckoutController> {
                                   children: [
                                     Icon(
                                       Icons.lock_outline_rounded,
-                                      size: 16.sp,
+                                      size: 14.sp,
                                       color: Colors.white,
                                     ),
-                                    SizedBox(width: 6.w),
+                                    SizedBox(width: 5.w),
                                     Text(
                                       'Place Order',
                                       style: AppTextStyles.button.copyWith(
-                                        fontSize: 14.5.sp,
-                                        fontWeight: FontWeight.w800,
-                                        letterSpacing: 0.4,
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 0.3,
                                         color: Colors.white,
                                       ),
                                     ),
-                                    SizedBox(width: 4.w),
+                                    SizedBox(width: 3.w),
                                     Icon(
                                       Icons.arrow_forward_rounded,
-                                      size: 16.sp,
+                                      size: 14.sp,
                                       color: Colors.white.withValues(alpha: 0.85),
                                     ),
                                   ],

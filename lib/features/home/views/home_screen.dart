@@ -9,7 +9,6 @@ import 'package:oga_glow/features/home/widgets/brand_features_section.dart';
 import 'package:oga_glow/features/home/widgets/home_app_bar.dart';
 import 'package:oga_glow/features/home/widgets/home_banner_slider.dart';
 import 'package:oga_glow/features/home/widgets/home_categories.dart';
-import 'package:oga_glow/features/home/widgets/home_hot_deals.dart';
 import 'package:oga_glow/features/home/widgets/product_card.dart';
 import 'package:oga_glow/features/home/widgets/section_title.dart';
 import 'package:oga_glow/features/main_navigation/controllers/main_navigation_controller.dart';
@@ -208,17 +207,9 @@ class HomeScreen extends GetView<HomeController> {
 
                   SizedBox(height: 20.h),
 
-                  // Limited Time Hot Deals
-                  const FadeSlideTransition(
-                    index: 3,
-                    child: HomeHotDeals(),
-                  ),
-
-                  SizedBox(height: 24.h),
-
                   // Botanical & Ayurvedic Brand Features
                   const FadeSlideTransition(
-                    index: 4,
+                    index: 3,
                     child: BrandFeaturesSection(),
                   ),
 

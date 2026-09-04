@@ -72,7 +72,7 @@ class CartScreen extends StatelessWidget {
                     textConfirm: 'Clear All',
                     textCancel: 'Cancel',
                     confirmTextColor: Colors.white,
-                    buttonColor: AppColors.error,
+                    buttonColor: AppColors.pureRed,
                     cancelTextColor: colors.textPrimary,
                     radius: 18.r,
                     onConfirm: () {
@@ -81,11 +81,11 @@ class CartScreen extends StatelessWidget {
                     },
                   );
                 },
-                icon: Icon(Icons.delete_sweep_rounded, color: AppColors.error, size: 18.sp),
+                icon: Icon(Icons.delete_sweep_rounded, color: AppColors.pureRed, size: 18.sp),
                 label: Text(
                   'Clear',
                   style: AppTextStyles.caption.copyWith(
-                    color: AppColors.error,
+                    color: AppColors.pureRed,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -145,22 +145,33 @@ class CartScreen extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                           decoration: BoxDecoration(
-                            color: AppColors.success.withValues(alpha: 0.1),
+                            color: AppColors.pureRed.withValues(alpha: 0.08),
                             borderRadius: BorderRadius.circular(12.r),
+                            border: Border.all(
+                              color: AppColors.pureRed.withValues(alpha: 0.22),
+                              width: 1.0,
+                            ),
                           ),
                           child: Row(
                             children: [
-                              Icon(
-                                Icons.savings_outlined,
-                                color: AppColors.success,
-                                size: 16.sp,
+                              Container(
+                                padding: EdgeInsets.all(4.r),
+                                decoration: const BoxDecoration(
+                                  gradient: AppColors.redGradient,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.local_offer_rounded,
+                                  color: Colors.white,
+                                  size: 13,
+                                ),
                               ),
                               SizedBox(width: 8.w),
                               Text(
                                 'You are saving Rs. ${_formatTotal(discount)} on this order!',
                                 style: AppTextStyles.caption.copyWith(
-                                  color: AppColors.success,
-                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.pureRed,
+                                  fontWeight: FontWeight.w800,
                                   fontSize: 11.5.sp,
                                 ),
                               ),

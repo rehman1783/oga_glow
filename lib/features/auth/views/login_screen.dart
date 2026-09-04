@@ -247,7 +247,7 @@ class LoginScreen extends GetView<LoginController> {
                               children: [
                                 const Icon(
                                   Icons.g_mobiledata,
-                                  color: Colors.redAccent,
+                                  color: AppColors.pureRed,
                                   size: 32,
                                 ),
                                 const SizedBox(width: 4),

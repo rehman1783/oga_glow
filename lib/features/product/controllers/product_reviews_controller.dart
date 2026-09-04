@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oga_glow/core/network/api_exception.dart';
+import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/features/product/models/review_model.dart';
 import 'package:oga_glow/features/product/repositories/review_repository.dart';
 
@@ -92,7 +93,7 @@ class ProductReviewsController extends GetxController {
         'Review Error',
         e.message,
         snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red.shade700,
+        backgroundColor: AppColors.error,
         colorText: Colors.white,
       );
     } catch (e) {
@@ -101,7 +102,7 @@ class ProductReviewsController extends GetxController {
         'Review Error',
         reviewFormError.value,
         snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red.shade700,
+        backgroundColor: AppColors.error,
         colorText: Colors.white,
       );
     } finally {

@@ -74,7 +74,6 @@ class CategoryProductCard extends StatelessWidget {
           children: [
             /// Product Image + Discount Badge + Wishlist Button
             Expanded(
-              flex: 5,
               child: Stack(
                 children: [
                   ClipRRect(
@@ -100,7 +99,7 @@ class CategoryProductCard extends StatelessWidget {
                                 child: Icon(
                                   Icons.spa_rounded,
                                   color: AppColors.primary.withValues(alpha: 0.4),
-                                  size: 30.sp,
+                                  size: 28.sp,
                                 ),
                               ),
                             )
@@ -109,13 +108,32 @@ class CategoryProductCard extends StatelessWidget {
                               child: Icon(
                                 Icons.spa_rounded,
                                 color: AppColors.primary.withValues(alpha: 0.4),
-                                size: 30.sp,
+                                size: 28.sp,
                               ),
                             ),
                     ),
                   ),
 
-                  /// Discount Savings Badge
+                  // Subtle gradient shadow overlay
+                  Positioned.fill(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.black.withValues(alpha: 0.15),
+                            Colors.transparent,
+                            Colors.transparent,
+                            Colors.black.withValues(alpha: 0.08),
+                          ],
+                          stops: const [0.0, 0.3, 0.7, 1.0],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  /// Discount Savings Badge (Proper Vivid Fire Red)
                   if (product.hasDiscount)
                     Positioned(
                       top: 8.h,
@@ -126,9 +144,7 @@ class CategoryProductCard extends StatelessWidget {
                           vertical: 3.5.h,
                         ),
                         decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFFE11D48), Color(0xFFBE123C)],
-                          ),
+                          gradient: AppColors.redGradient,
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Text(
@@ -173,7 +189,7 @@ class CategoryProductCard extends StatelessWidget {
                                 : Icons.favorite_border_rounded,
                             size: 15.sp,
                             color: inWishlist
-                                ? const Color(0xFFE11D48)
+                                ? AppColors.pureRed
                                 : colors.textPrimary,
                           ),
                         ),
@@ -185,145 +201,145 @@ class CategoryProductCard extends StatelessWidget {
             ),
 
             /// Product Details & Price
-            Expanded(
-              flex: 4,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(10.w, 8.h, 10.w, 8.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          product.name,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTextStyles.body.copyWith(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 12.5.sp,
-                            color: colors.textPrimary,
+            Padding(
+              padding: EdgeInsets.fromLTRB(10.w, 8.h, 10.w, 8.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.body.copyWith(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12.5.sp,
+                          color: colors.textPrimary,
+                        ),
+                      ),
+                      SizedBox(height: 3.h),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              product.categoryDisplayName,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.caption.copyWith(
+                                color: colors.textSecondary,
+                                fontSize: 10.sp,
+                              ),
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 3.h),
-                        Row(
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 4.w,
+                              vertical: 1.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.amber.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(5.r),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.star_rounded,
+                                  size: 10.sp,
+                                  color: Colors.amber.shade700,
+                                ),
+                                SizedBox(width: 2.w),
+                                Text(
+                                  rating.toStringAsFixed(1),
+                                  style: AppTextStyles.caption.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 9.sp,
+                                    color: colors.textPrimary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Expanded(
-                              child: Text(
-                                product.categoryDisplayName,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: AppTextStyles.caption.copyWith(
-                                  color: colors.textSecondary,
-                                  fontSize: 10.sp,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 4.w,
-                                vertical: 1.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.amber.withValues(alpha: 0.12),
-                                borderRadius: BorderRadius.circular(5.r),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.star_rounded,
-                                    size: 10.sp,
-                                    color: Colors.amber.shade700,
-                                  ),
-                                  SizedBox(width: 2.w),
-                                  Text(
-                                    rating.toStringAsFixed(1),
-                                    style: AppTextStyles.caption.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 9.sp,
-                                      color: colors.textPrimary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              if (product.hasDiscount)
-                                FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'Rs ${product.price.toStringAsFixed(0)}',
-                                    style: AppTextStyles.caption.copyWith(
-                                      color: colors.textSecondary,
-                                      decoration: TextDecoration.lineThrough,
-                                      fontSize: 9.sp,
-                                    ),
-                                  ),
-                                ),
+                            if (product.hasDiscount)
                               FittedBox(
                                 fit: BoxFit.scaleDown,
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  'Rs ${product.finalPrice.toStringAsFixed(0)}',
-                                  style: AppTextStyles.body.copyWith(
-                                    color: AppColors.primary,
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 13.5.sp,
+                                  'Rs ${product.price.toStringAsFixed(0)}',
+                                  style: AppTextStyles.caption.copyWith(
+                                    color: colors.textSecondary,
+                                    decoration: TextDecoration.lineThrough,
+                                    fontSize: 9.sp,
                                   ),
                                 ),
                               ),
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Rs ${product.finalPrice.toStringAsFixed(0)}',
+                                style: AppTextStyles.heading2.copyWith(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 13.5.sp,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 4.w),
+                      BounceTap(
+                        scaleBound: 0.82,
+                        onTap: () => AddToCartBottomSheet.show(
+                          context,
+                          _legacyProductMap,
+                        ),
+                        child: Container(
+                          width: 30.r,
+                          height: 30.r,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [AppColors.primary, AppColors.primaryLight],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withValues(alpha: 0.3),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
+                              ),
                             ],
                           ),
-                        ),
-                        SizedBox(width: 4.w),
-                        BounceTap(
-                          scaleBound: 0.82,
-                          onTap: () => AddToCartBottomSheet.show(
-                            context,
-                            _legacyProductMap,
-                          ),
-                          child: Container(
-                            width: 28.w,
-                            height: 28.w,
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [AppColors.primary, AppColors.primaryLight],
-                              ),
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.primary.withValues(alpha: 0.3),
-                                  blurRadius: 6,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: Icon(
-                              Icons.add_rounded,
-                              size: 18.sp,
-                              color: Colors.white,
-                            ),
+                          child: Icon(
+                            Icons.add_rounded,
+                            size: 18.sp,
+                            color: Colors.white,
                           ),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],

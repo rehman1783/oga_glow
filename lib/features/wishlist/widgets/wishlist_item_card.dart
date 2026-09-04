@@ -149,12 +149,12 @@ class WishlistItemCard extends StatelessWidget {
                       child: Container(
                         padding: EdgeInsets.all(6.r),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFE11D48).withValues(alpha: 0.08),
+                          color: AppColors.pureRed.withValues(alpha: 0.08),
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
                           Icons.favorite_rounded,
-                          color: Color(0xFFE11D48),
+                          color: AppColors.pureRed,
                           size: 18,
                         ),
                       ),

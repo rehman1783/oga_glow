@@ -103,8 +103,16 @@ class AppColors {
 
   // Status
   static const Color success = Color(0xFF388E3C);
-  static const Color error = Color(0xFFD32F2F);
+  static const Color error = Color(0xFFE50000); // 100% Pure True Red (Zero Blue / No Magenta)
+  static const Color pureRed = Color(0xFFE50000);
   static const Color warning = Color(0xFFFFA000);
+
+  // Vivid Pure Red Gradient
+  static const LinearGradient redGradient = LinearGradient(
+    colors: [Color(0xFFE50000), Color(0xFFB70000)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
 
   // Legacy & Extra Mapped Colors
   static const Color leafLight = Color(0xE0F5F0D8);

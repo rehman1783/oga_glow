@@ -180,9 +180,7 @@ class MainNavigationScreen extends GetView<MainNavigationController> {
                     child: Container(
                       padding: EdgeInsets.all(3.5.r),
                       decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Color(0xFFE11D48), Color(0xFFBE123C)],
-                        ),
+                        gradient: AppColors.redGradient,
                         shape: BoxShape.circle,
                       ),
                       constraints: BoxConstraints(minWidth: 14.w, minHeight: 14.w),

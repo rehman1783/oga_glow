@@ -185,9 +185,7 @@ class HomeHotDeals extends GetView<HomeController> {
                                         vertical: 3.5.h,
                                       ),
                                       decoration: BoxDecoration(
-                                        gradient: const LinearGradient(
-                                          colors: [Color(0xFFE11D48), Color(0xFFBE123C)],
-                                        ),
+                                        gradient: AppColors.redGradient,
                                         borderRadius: BorderRadius.circular(8.r),
                                       ),
                                       child: Text(

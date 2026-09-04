@@ -29,6 +29,7 @@ class CartItemCard extends StatelessWidget {
     final String name = product['name']?.toString() ?? 'Product';
     final String category = product['category']?.toString() ?? 'General';
     final String price = product['price']?.toString() ?? '0';
+    final String origPrice = product['originalPrice']?.toString() ?? product['price']?.toString() ?? '0';
     final String imageUrl = product['image']?.toString() ?? '';
     final int quantity =
         int.tryParse(product['quantity']?.toString() ?? '1') ?? 1;
@@ -37,11 +38,20 @@ class CartItemCard extends StatelessWidget {
           price.replaceAll(RegExp(r'[^0-9.]'), ''),
         ) ??
         0.0;
+    final double originalUnitPrice = double.tryParse(
+          origPrice.replaceAll(RegExp(r'[^0-9.]'), ''),
+        ) ??
+        unitPrice;
     final double itemTotal = unitPrice * quantity;
+    final double originalItemTotal = originalUnitPrice * quantity;
+    final bool hasDiscount = originalItemTotal > itemTotal;
 
     final String formattedTotal = (itemTotal % 1 == 0)
         ? itemTotal.toInt().toString()
         : itemTotal.toStringAsFixed(2);
+    final String formattedOrigTotal = (originalItemTotal % 1 == 0)
+        ? originalItemTotal.toInt().toString()
+        : originalItemTotal.toStringAsFixed(0);
 
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -147,15 +157,19 @@ class CartItemCard extends StatelessWidget {
                       scaleBound: 0.85,
                       onTap: () => cartController.removeItem(index),
                       child: Container(
-                        padding: EdgeInsets.all(6.r),
+                        padding: EdgeInsets.all(6.5.r),
                         decoration: BoxDecoration(
-                          color: AppColors.error.withValues(alpha: 0.08),
+                          color: AppColors.pureRed.withValues(alpha: 0.10),
                           shape: BoxShape.circle,
+                          border: Border.all(
+                            color: AppColors.pureRed.withValues(alpha: 0.28),
+                            width: 1.0,
+                          ),
                         ),
-                        child: Icon(
-                          Icons.delete_outline_rounded,
-                          color: AppColors.error,
-                          size: 18.sp,
+                        child: const Icon(
+                          Icons.delete_rounded,
+                          color: AppColors.pureRed,
+                          size: 17,
                         ),
                       ),
                     ),
@@ -167,13 +181,54 @@ class CartItemCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Rs. $formattedTotal',
-                      style: AppTextStyles.heading2.copyWith(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 15.sp,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (hasDiscount) ...[
+                          Row(
+                            children: [
+                              Text(
+                                'Rs. $formattedOrigTotal',
+                                style: AppTextStyles.caption.copyWith(
+                                  fontSize: 10.5.sp,
+                                  decoration: TextDecoration.lineThrough,
+                                  color: colors.textSecondary.withValues(alpha: 0.7),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              SizedBox(width: 5.w),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 5.w,
+                                  vertical: 1.5.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  gradient: AppColors.redGradient,
+                                  borderRadius: BorderRadius.circular(4.r),
+                                ),
+                                child: Text(
+                                  '${(((originalItemTotal - itemTotal) / originalItemTotal) * 100).round()}% OFF',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 8.5.sp,
+                                    letterSpacing: 0.3,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 2.h),
+                        ],
+                        Text(
+                          'Rs. $formattedTotal',
+                          style: AppTextStyles.heading2.copyWith(
+                            color: hasDiscount ? AppColors.pureRed : AppColors.primary,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 15.sp,
+                          ),
+                        ),
+                      ],
                     ),
 
                     // Modern Stepper
@@ -193,9 +248,9 @@ class CartItemCard extends StatelessWidget {
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 8.w),
                               child: Icon(
-                                quantity > 1 ? Icons.remove_rounded : Icons.delete_outline_rounded,
+                                quantity > 1 ? Icons.remove_rounded : Icons.delete_rounded,
                                 size: 16.sp,
-                                color: quantity > 1 ? colors.textPrimary : AppColors.error,
+                                color: quantity > 1 ? colors.textPrimary : AppColors.pureRed,
                               ),
                             ),
                           ),

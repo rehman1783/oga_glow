@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oga_glow/app/routes/app_routes.dart';
 import 'package:oga_glow/core/constants/about_constants.dart';
+import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/core/network/api_exception.dart';
 import 'package:oga_glow/features/about/models/about_us_model.dart';
 import 'package:oga_glow/features/about/models/fake_review_model.dart';
@@ -174,7 +175,7 @@ class AboutController extends GetxController {
         'Error',
         message,
         snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red.withValues(alpha: 0.9),
+        backgroundColor: AppColors.error,
         colorText: Colors.white,
         borderRadius: 14,
         margin: const EdgeInsets.all(16),
