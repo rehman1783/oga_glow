@@ -30,17 +30,15 @@ class CategoryChip extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
           decoration: BoxDecoration(
             gradient: isSelected
-                ? const LinearGradient(
-                    colors: [AppColors.primary, AppColors.primaryLight],
-                  )
+                ? AppColors.luxuryGradient
                 : null,
             color: isSelected ? null : colors.cardBackground,
-            borderRadius: BorderRadius.circular(20.r),
+            borderRadius: BorderRadius.circular(22.r),
             border: Border.all(
               color: isSelected
-                  ? AppColors.primary
+                  ? AppColors.primaryLight
                   : colors.border.withValues(alpha: 0.8),
-              width: isSelected ? 1.2 : 1.0,
+              width: isSelected ? 1.4 : 1.0,
             ),
             boxShadow: isSelected
                 ? [
@@ -50,7 +48,13 @@ class CategoryChip extends StatelessWidget {
                       offset: const Offset(0, 3),
                     ),
                   ]
-                : null,
+                : [
+                    BoxShadow(
+                      color: AppColors.black.withValues(alpha: 0.02),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
           ),
           alignment: Alignment.center,
           child: Text(
@@ -59,6 +63,7 @@ class CategoryChip extends StatelessWidget {
               color: isSelected ? Colors.white : colors.textPrimary,
               fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
               fontSize: 12.5.sp,
+              letterSpacing: -0.2,
             ),
           ),
         ),

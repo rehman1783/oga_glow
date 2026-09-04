@@ -24,51 +24,73 @@ class CategoryItem extends StatelessWidget {
       scaleBound: 0.90,
       onTap: onTap,
       child: SizedBox(
-        width: 70.w,
+        width: 76.w,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Luxury Double-Ring Story Avatar
             Container(
-              width: 58.w,
-              height: 58.w,
+              width: 62.w,
+              height: 62.w,
+              padding: EdgeInsets.all(2.5.r),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    AppColors.primary.withValues(alpha: 0.15),
-                    AppColors.primaryLight.withValues(alpha: 0.06),
+                    AppColors.goldLight,
+                    AppColors.primary,
+                    AppColors.primaryLight,
                   ],
                 ),
                 shape: BoxShape.circle,
-                border: Border.all(
-                  color: AppColors.primary.withValues(alpha: 0.25),
-                  width: 1.2,
-                ),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.08),
+                    color: AppColors.primary.withValues(alpha: 0.12),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
-              child: Icon(
-                icon,
-                size: 26.sp,
-                color: AppColors.primary,
+              child: Container(
+                padding: EdgeInsets.all(2.r),
+                decoration: BoxDecoration(
+                  color: colors.cardBackground,
+                  shape: BoxShape.circle,
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        AppColors.primary.withValues(alpha: 0.12),
+                        AppColors.primaryLight.withValues(alpha: 0.05),
+                      ],
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Icon(
+                      icon,
+                      size: 24.sp,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ),
               ),
             ),
-            SizedBox(height: 6.h),
+            SizedBox(height: 7.h),
             Text(
               title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: AppTextStyles.caption.copyWith(
                 color: colors.textPrimary,
-                fontWeight: FontWeight.w600,
-                fontSize: 11.sp,
+                fontWeight: FontWeight.w700,
+                fontSize: 11.5.sp,
+                letterSpacing: -0.2,
               ),
               textAlign: TextAlign.center,
             ),

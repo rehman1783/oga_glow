@@ -19,7 +19,7 @@ class HomeCategories extends GetView<HomeController> {
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
         physics: const BouncingScrollPhysics(),
         itemCount: controller.categories.length,
-        separatorBuilder: (context, index) => SizedBox(width: 14.w),
+        separatorBuilder: (context, index) => SizedBox(width: 16.w),
         itemBuilder: (context, index) {
           final category = controller.categories[index];
 

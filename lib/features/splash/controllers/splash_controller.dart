@@ -9,8 +9,8 @@ class SplashController extends GetxController {
   void onInit() {
     super.onInit();
 
-    // Wait a bit for splash animation, then check auth state
-    Timer(const Duration(seconds: 2), () async {
+    // Allow graceful entrance animation, then transition
+    Timer(const Duration(milliseconds: 2500), () async {
       final authController = Get.find<AuthController>();
       final initialRoute = await authController.getInitialRoute();
       Get.offAllNamed(initialRoute);

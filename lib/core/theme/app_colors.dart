@@ -64,46 +64,47 @@ class AppThemeColors {
 class AppColors {
   AppColors._();
 
-  // Brand Colors
-  static const Color primary = Color(0xFF6B8E23); // Olive green
-  static const Color primaryLight = Color(0xFFA8C686);
-  static const Color secondary = Color(0xFFF5F1E8); // Warm cream
-  static const Color accent = Color(0xFF8B5E3C); // Herbal brown
+  // Brand Colors - Luxury Botanical Jade & Sage
+  static const Color primary = Color(0xFF2E5A27); // Rich Forest Jade
+  static const Color primaryLight = Color(0xFF6B9B52); // Herbal Sage
+  static const Color primaryDark = Color(0xFF1B3D17); // Deep Forest Night
+  static const Color secondary = Color(0xFFF7F4EC); // Warm Champagne Cream
+  static const Color accent = Color(0xFF8B5E3C); // Herbal Amber
 
   // Basic Colors
   static const Color white = Colors.white;
-  static const Color black = Color(0xFF1E1E1E);
+  static const Color black = Color(0xFF141A15);
 
-  // Light Mode Palette
-  static const Color bgLight = Color(0xFFFBFAF5);
-  static const Color panelLight = Color.fromARGB(184, 255, 255, 255); // rgba(255,255,255,.72)
-  static const Color panel2Light = Color.fromARGB(148, 255, 255, 255); // rgba(255,255,255,.58)
-  static const Color textLight = Color(0xFF142018);
-  static const Color mutedLight = Color.fromARGB(184, 20, 32, 24); // rgba(20,32,24,.72)
+  // Light Mode Palette (Luxury Alabaster & Warm Pearl)
+  static const Color bgLight = Color(0xFFFAF8F4);
+  static const Color panelLight = Color(0xE8FFFFFF); // Frosted White Panel
+  static const Color panel2Light = Color(0xD8F4F0E6); // Warm Ivory
+  static const Color textLight = Color(0xFF162319); // Rich Dark Forest
+  static const Color mutedLight = Color(0x9C162319); // Subtle Forest Muted
   static const Color earthLight = Color(0xFF6A4B2F);
-  static const Color creamLight = Color(0xFFFFF6DD);
-  static const Color goldLight = Color(0xFFC9A84A);
+  static const Color creamLight = Color(0xFFFFF9EC);
+  static const Color goldLight = Color(0xFFD4AF37); // True Champagne Gold
   static const Color inputBgLight = Color(0xFFFFFFFF);
   static const Color bannerBgLight = primary;
-  static const Color borderLight = Color(0xFFE5E0D8);
+  static const Color borderLight = Color(0xFFE8E2D6);
 
-  // Dark Mode Palette
-  static const Color bgDark = Color(0xFF030A05);
-  static const Color panelDark = Color.fromARGB(217, 10, 20, 15); // rgba(10,20,15,0.85)
-  static const Color panel2Dark = Color.fromARGB(179, 15, 30, 22); // rgba(15,30,22,0.70)
-  static const Color textDark = Color(0xFFF1F7EF);
-  static const Color mutedDark = Color.fromARGB(153, 241, 247, 239); // rgba(241,247,239,0.60)
+  // Dark Mode Palette (Botanical Midnight)
+  static const Color bgDark = Color(0xFF070E09);
+  static const Color panelDark = Color(0xD90E1B12);
+  static const Color panel2Dark = Color(0xB814261A);
+  static const Color textDark = Color(0xFFF2F7F2);
+  static const Color mutedDark = Color(0x99F2F7F2);
   static const Color earthDark = Color(0xFFA68B6F);
   static const Color creamDark = Color(0xFF0A0802);
-  static const Color goldDark = Color(0xFFF4D03F);
-  static const Color inputBgDark = Color(0xFF020503);
-  static const Color bannerBgDark = Color(0xFF0A180E);
-  static const Color borderDark = Color(0xFF193223);
+  static const Color goldDark = Color(0xFFF2C94C);
+  static const Color inputBgDark = Color(0xFF0B140E);
+  static const Color bannerBgDark = Color(0xFF0D1C11);
+  static const Color borderDark = Color(0xFF1B3322);
 
   // Status
-  static const Color success = Color(0xFF4CAF50);
-  static const Color error = Color(0xFFE53935);
-  static const Color warning = Color(0xFFFFB300);
+  static const Color success = Color(0xFF388E3C);
+  static const Color error = Color(0xFFD32F2F);
+  static const Color warning = Color(0xFFFFA000);
 
   // Legacy & Extra Mapped Colors
   static const Color leafLight = Color(0xE0F5F0D8);
@@ -112,10 +113,23 @@ class AppColors {
   static const Color aloeDark = Color(0xFF1B7B2A);
 
   static const Color chipSelected = primary;
-  static const Color chipUnselected = Color(0xFFF2F2F2);
+  static const Color chipUnselected = Color(0xFFF2EFE8);
 
-  static const Color bannerGradientStart = Color(0xFFA8C686);
-  static const Color bannerGradientEnd = Color(0xFF6B8E23);
+  static const Color bannerGradientStart = Color(0xFF5E8B4C);
+  static const Color bannerGradientEnd = Color(0xFF2E5A27);
+
+  // Luxury Gradients
+  static const LinearGradient luxuryGradient = LinearGradient(
+    colors: [Color(0xFF2E5A27), Color(0xFF487A36)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  static const LinearGradient goldGradient = LinearGradient(
+    colors: [Color(0xFFD4AF37), Color(0xFFF3D57B)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
 
   /// Theme-aware dynamic color resolver
   static AppThemeColors of([BuildContext? context]) {

@@ -16,6 +16,7 @@ import 'package:oga_glow/features/main_navigation/controllers/main_navigation_co
 import 'package:oga_glow/features/drawer/widgets/app_drawer.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../core/widgets/fade_slide_transition.dart';
+import '../../../core/widgets/bounce_tap.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
@@ -32,7 +33,7 @@ class HomeScreen extends GetView<HomeController> {
   Widget _buildProductListShimmer(BuildContext context) {
     final colors = AppColors.of(context);
     return SizedBox(
-      height: 310.h,
+      height: 324.h,
       child: ListView.separated(
 
         scrollDirection: Axis.horizontal,
@@ -51,6 +52,28 @@ class HomeScreen extends GetView<HomeController> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTrustBadge(IconData icon, String text, AppThemeColors colors) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          icon,
+          size: 14.sp,
+          color: AppColors.primary,
+        ),
+        SizedBox(width: 4.w),
+        Text(
+          text,
+          style: AppTextStyles.caption.copyWith(
+            fontSize: 10.5.sp,
+            fontWeight: FontWeight.w700,
+            color: colors.textPrimary,
+          ),
+        ),
+      ],
     );
   }
 
@@ -95,6 +118,40 @@ class HomeScreen extends GetView<HomeController> {
                     child: HomeBannerSlider(),
                   ),
 
+                  SizedBox(height: 16.h),
+
+                  // Luxury Botanical Trust Guarantee Strip
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 10.h),
+                      decoration: BoxDecoration(
+                        color: colors.cardBackground,
+                        borderRadius: BorderRadius.circular(16.r),
+                        border: Border.all(
+                          color: colors.border.withValues(alpha: 0.7),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.black.withValues(alpha: 0.02),
+                            blurRadius: 10,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          _buildTrustBadge(Icons.eco_rounded, '100% Organic', colors),
+                          Container(width: 1, height: 18.h, color: colors.border),
+                          _buildTrustBadge(Icons.auto_awesome_rounded, 'Ayurvedic', colors),
+                          Container(width: 1, height: 18.h, color: colors.border),
+                          _buildTrustBadge(Icons.local_shipping_outlined, 'Free Delivery*', colors),
+                        ],
+                      ),
+                    ),
+                  ),
+
                   SizedBox(height: 20.h),
 
                   // Categories Section
@@ -109,27 +166,41 @@ class HomeScreen extends GetView<HomeController> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Explore Categories",
-                                style: AppTextStyles.heading2.copyWith(
-                                  fontSize: 16.sp,
+                                "Explore Rituals",
+                                style: AppTextStyles.heading1.copyWith(
+                                  fontSize: 17.sp,
                                   fontWeight: FontWeight.w800,
                                   color: colors.textPrimary,
+                                  letterSpacing: -0.3,
                                 ),
                               ),
-                              TextButton(
-                                onPressed: _navigateToAllProducts,
-                                child: Text(
-                                  "See All",
-                                  style: AppTextStyles.caption.copyWith(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColors.primary,
-                                  ),
+                              BounceTap(
+                                scaleBound: 0.94,
+                                onTap: _navigateToAllProducts,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      "See All",
+                                      style: AppTextStyles.caption.copyWith(
+                                        fontSize: 12.5.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
+                                    SizedBox(width: 3.w),
+                                    Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 11.sp,
+                                      color: AppColors.primary,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
                         ),
+                        SizedBox(height: 8.h),
                         const HomeCategories(),
                       ],
                     ),
@@ -249,7 +320,7 @@ class HomeScreen extends GetView<HomeController> {
                                 ),
                                 SizedBox(height: 12.h),
                                 SizedBox(
-                                  height: 310.h,
+                                  height: 324.h,
                                   child: ListView.separated(
                                     scrollDirection: Axis.horizontal,
                                     padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -284,7 +355,7 @@ class HomeScreen extends GetView<HomeController> {
                                 ),
                                 SizedBox(height: 12.h),
                                 SizedBox(
-                                  height: 310.h,
+                                  height: 324.h,
                                   child: ListView.separated(
                                     scrollDirection: Axis.horizontal,
                                     padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -319,7 +390,7 @@ class HomeScreen extends GetView<HomeController> {
                                 ),
                                 SizedBox(height: 12.h),
                                 SizedBox(
-                                  height: 310.h,
+                                  height: 324.h,
                                   child: ListView.separated(
                                     scrollDirection: Axis.horizontal,
                                     padding: EdgeInsets.symmetric(horizontal: 12.w),

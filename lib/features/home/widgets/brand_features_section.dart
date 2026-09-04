@@ -38,15 +38,18 @@ class BrandFeaturesSection extends GetView<HomeController> {
 
       return Container(
         width: double.infinity,
-        padding: EdgeInsets.all(16.w),
+        padding: EdgeInsets.all(18.w),
         margin: EdgeInsets.only(bottom: 20.h),
         decoration: BoxDecoration(
-          color: colors.panel,
+          color: colors.cardBackground,
           borderRadius: BorderRadius.circular(24.r),
-          border: Border.all(color: colors.border.withValues(alpha: 0.25)),
+          border: Border.all(
+            color: AppColors.goldLight.withValues(alpha: 0.35),
+            width: 1.2,
+          ),
           boxShadow: [
             BoxShadow(
-              color: colors.border.withValues(alpha: 0.16),
+              color: AppColors.black.withValues(alpha: 0.04),
               blurRadius: 18,
               offset: const Offset(0, 8),
             ),
@@ -55,19 +58,48 @@ class BrandFeaturesSection extends GetView<HomeController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(6.r),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.spa_rounded,
+                    size: 11.sp,
+                    color: AppColors.primary,
+                  ),
+                  SizedBox(width: 4.w),
+                  Text(
+                    'THE BOTANICAL PHILOSOPHY',
+                    style: TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 8.5.sp,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0.8,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10.h),
             if (intro != null) ...[
               Text(
-                intro.mainHeading ?? 'Crafted with purpose',
-                style: AppTextStyles.heading2.copyWith(
+                intro.mainHeading ?? 'Crafted with Purpose',
+                style: AppTextStyles.display2.copyWith(
                   color: colors.textPrimary,
-                  fontSize: 17.sp,
+                  fontSize: 18.sp,
                 ),
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 6.h),
               Text(
                 intro.para ?? '',
                 style: AppTextStyles.body.copyWith(
                   color: colors.textSecondary,
+                  fontSize: 12.5.sp,
                   height: 1.5,
                 ),
               ),

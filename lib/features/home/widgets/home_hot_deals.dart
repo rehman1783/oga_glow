@@ -38,47 +38,68 @@ class HomeHotDeals extends GetView<HomeController> {
                     Container(
                       padding: EdgeInsets.all(6.r),
                       decoration: BoxDecoration(
-                        color: Colors.amber.withValues(alpha: 0.15),
+                        gradient: AppColors.goldGradient,
                         shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.goldLight.withValues(alpha: 0.3),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
                       ),
                       child: Icon(
-                        Icons.local_fire_department_rounded,
-                        color: Colors.amber.shade700,
-                        size: 20.sp,
+                        Icons.bolt_rounded,
+                        color: const Color(0xFF382A00),
+                        size: 18.sp,
                       ),
                     ),
                     SizedBox(width: 8.w),
                     Text(
-                      'Hot Deals',
-                      style: AppTextStyles.heading2.copyWith(
-                        fontSize: 16.sp,
+                      'Flash Deals',
+                      style: AppTextStyles.heading1.copyWith(
+                        fontSize: 17.sp,
                         fontWeight: FontWeight.w800,
                         color: colors.textPrimary,
                       ),
                     ),
                     SizedBox(width: 6.w),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                      padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 2.5.h),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
-                          colors: [Color(0xFFE11D48), Color(0xFFF43F5E)],
+                          colors: [Color(0xFFE53935), Color(0xFFC62828)],
                         ),
-                        borderRadius: BorderRadius.circular(6.r),
+                        borderRadius: BorderRadius.circular(20.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFE53935).withValues(alpha: 0.3),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
                       ),
-                      child: Text(
-                        'LIMITED',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 8.sp,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 0.5,
-                        ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.timer_outlined, size: 10.sp, color: Colors.white),
+                          SizedBox(width: 3.w),
+                          Text(
+                            'ENDS TODAY',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 8.5.sp,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-                TextButton(
-                  onPressed: () {
+                BounceTap(
+                  onTap: () {
                     if (Get.isRegistered<CategoryController>()) {
                       Get.find<CategoryController>().openCategory("All");
                     }
@@ -86,21 +107,32 @@ class HomeHotDeals extends GetView<HomeController> {
                       Get.find<MainNavigationController>().changeIndex(1);
                     }
                   },
-                  child: Text(
-                    'See All',
-                    style: AppTextStyles.caption.copyWith(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primary,
-                    ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'View All',
+                        style: AppTextStyles.caption.copyWith(
+                          fontSize: 12.5.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      SizedBox(width: 2.w),
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 11.sp,
+                        color: AppColors.primary,
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: 12.h),
           SizedBox(
-            height: 190.h,
+            height: 195.h,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -112,23 +144,23 @@ class HomeHotDeals extends GetView<HomeController> {
                   scaleBound: 0.97,
                   onTap: () => Get.toNamed(AppRoutes.products_details, arguments: deal.id),
                   child: Container(
-                    width: 320.w,
-                    padding: EdgeInsets.all(13.w),
+                    width: 310.w,
+                    padding: EdgeInsets.all(12.w),
                     decoration: BoxDecoration(
                       color: colors.cardBackground,
                       borderRadius: BorderRadius.circular(22.r),
                       border: Border.all(
-                        color: colors.gold.withValues(alpha: 0.35),
+                        color: AppColors.goldLight.withValues(alpha: 0.45),
                         width: 1.2,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.black.withValues(alpha: 0.05),
+                          color: AppColors.black.withValues(alpha: 0.04),
                           blurRadius: 14,
                           offset: const Offset(0, 5),
                         ),
                         BoxShadow(
-                          color: colors.gold.withValues(alpha: 0.06),
+                          color: AppColors.goldLight.withValues(alpha: 0.05),
                           blurRadius: 20,
                           offset: const Offset(0, 8),
                         ),

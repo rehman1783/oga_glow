@@ -56,24 +56,24 @@ class ProductCard extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 7.w, vertical: 6.h),
-        width: 175.w,
+        width: 178.w,
         decoration: BoxDecoration(
           color: colors.cardBackground,
-          borderRadius: BorderRadius.circular(20.r),
+          borderRadius: BorderRadius.circular(22.r),
           border: Border.all(
-            color: colors.border.withValues(alpha: 0.8),
+            color: colors.border.withValues(alpha: 0.9),
             width: 1.0,
           ),
           boxShadow: [
             BoxShadow(
               color: AppColors.black.withValues(alpha: 0.04),
-              blurRadius: 12.r,
-              offset: const Offset(0, 4),
+              blurRadius: 14.r,
+              offset: const Offset(0, 5),
             ),
             BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.03),
-              blurRadius: 20.r,
-              offset: const Offset(0, 8),
+              color: AppColors.primary.withValues(alpha: 0.04),
+              blurRadius: 24.r,
+              offset: const Offset(0, 10),
             ),
           ],
         ),
