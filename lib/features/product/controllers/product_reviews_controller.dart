@@ -118,11 +118,4 @@ class ProductReviewsController extends GetxController {
     reviewFormError.value = '';
   }
 
-  @override
-  void onClose() {
-    nameController.dispose();
-    emailController.dispose();
-    reviewController.dispose();
-    super.onClose();
-  }
 }

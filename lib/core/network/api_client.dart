@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:oga_glow/core/network/api_endpoints.dart';
@@ -101,13 +103,22 @@ class ApiClient {
         final data = error.response?.data;
 
         String message = 'Something went wrong.';
-        if (data is Map<String, dynamic>) {
-          message = data['message'] as String? ?? message;
+        dynamic responseData = data;
+        if (responseData is String && responseData.trim().startsWith('{')) {
+          try {
+            responseData = jsonDecode(responseData);
+          } catch (_) {}
+        }
+        if (responseData is Map<String, dynamic>) {
+          message = responseData['message'] as String? ??
+              responseData['error'] as String? ??
+              responseData['msg'] as String? ??
+              message;
         }
 
         switch (statusCode) {
           case 400:
-            return BadRequestException(message: message, data: data);
+            return BadRequestException(message: message, data: responseData);
           case 401:
             return UnauthorizedException(message: message);
           case 404:
@@ -120,7 +131,7 @@ class ApiClient {
             return ApiException(
               message: message,
               statusCode: statusCode,
-              data: data,
+              data: responseData,
             );
         }
 
@@ -145,58 +156,69 @@ class ApiClient {
   // HTTP helpers
   // ---------------------------------------------------------------------------
 
-  Future<Response> get(
+  Future<Response<T>> _sendRequest<T>(Future<Response<T>> Function() request) async {
+    try {
+      return await request();
+    } on DioException catch (e) {
+      if (e.error is ApiException) {
+        throw e.error as ApiException;
+      }
+      throw _handleDioError(e);
+    }
+  }
+
+  Future<Response<T>> get<T>(
     String path, {
     Map<String, dynamic>? queryParameters,
     Options? options,
   }) async {
-    return _dio.get(
+    return _sendRequest(() => _dio.get<T>(
       path,
       queryParameters: queryParameters,
       options: options,
-    );
+    ));
   }
 
-  Future<Response> post(
+  Future<Response<T>> post<T>(
     String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
     Options? options,
   }) async {
-    return _dio.post(
+    return _sendRequest(() => _dio.post<T>(
       path,
       data: data,
       queryParameters: queryParameters,
       options: options,
-    );
+    ));
   }
 
-  Future<Response> put(
+  Future<Response<T>> put<T>(
     String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
     Options? options,
   }) async {
-    return _dio.put(
+    return _sendRequest(() => _dio.put<T>(
       path,
       data: data,
       queryParameters: queryParameters,
       options: options,
-    );
+    ));
   }
 
-  Future<Response> delete(
+  Future<Response<T>> delete<T>(
     String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
     Options? options,
   }) async {
-    return _dio.delete(
+    return _sendRequest(() => _dio.delete<T>(
       path,
       data: data,
       queryParameters: queryParameters,
       options: options,
-    );
+    ));
   }
 }
 

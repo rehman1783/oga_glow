@@ -23,15 +23,6 @@ class SignupController extends GetxController {
 
   final formKey = GlobalKey<FormState>();
 
-  @override
-  void onClose() {
-    nameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
-    super.onClose();
-  }
-
   // ------------------------------------------------------------------
   // Validation
   // ------------------------------------------------------------------

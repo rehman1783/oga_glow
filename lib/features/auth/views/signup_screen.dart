@@ -104,7 +104,7 @@ class SignupScreen extends GetView<SignupController> {
                         index: 4,
                         child: Center(
                           child: TextButton(
-                            onPressed: () => Get.toNamed(AppRoutes.login),
+                            onPressed: () => Get.offNamed(AppRoutes.login),
                             child: RichText(
                               text: TextSpan(
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(

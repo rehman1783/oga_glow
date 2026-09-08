@@ -30,15 +30,6 @@ class ForgotPasswordController extends GetxController {
 
   final formKey = GlobalKey<FormState>();
 
-  @override
-  void onClose() {
-    emailController.dispose();
-    otpController.dispose();
-    newPasswordController.dispose();
-    confirmPasswordController.dispose();
-    super.onClose();
-  }
-
   // ------------------------------------------------------------------
   // Validation
   // ------------------------------------------------------------------

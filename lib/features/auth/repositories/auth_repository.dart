@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:oga_glow/core/network/api_exception.dart';
 import 'package:oga_glow/core/storage/secure_storage.dart';
@@ -38,6 +39,12 @@ class AuthRepository {
     } on ApiException catch (e) {
       debugPrint('[DEBUG LOG] AuthRepository: ApiException caught -> ${e.message}');
       rethrow;
+    } on DioException catch (e) {
+      debugPrint('[DEBUG LOG] AuthRepository: DioException caught -> ${e.message}');
+      if (e.error is ApiException) {
+        throw e.error as ApiException;
+      }
+      throw ApiException(message: e.message ?? 'Registration failed. Please try again.');
     } catch (e, stack) {
       debugPrint('[DEBUG LOG] AuthRepository: unexpected error -> $e\n$stack');
       throw ApiException(message: 'Registration failed. Please try again.');
@@ -65,6 +72,11 @@ class AuthRepository {
       return result;
     } on ApiException {
       rethrow;
+    } on DioException catch (e) {
+      if (e.error is ApiException) {
+        throw e.error as ApiException;
+      }
+      throw ApiException(message: e.message ?? 'Login failed. Please try again.');
     } catch (e) {
       throw ApiException(message: 'Login failed. Please try again.');
     }
@@ -83,6 +95,13 @@ class AuthRepository {
       );
     } on ApiException {
       rethrow;
+    } on DioException catch (e) {
+      if (e.error is ApiException) {
+        throw e.error as ApiException;
+      }
+      throw ApiException(
+        message: e.message ?? 'Failed to process request. Please try again.',
+      );
     } catch (e) {
       throw ApiException(
         message: 'Failed to process request. Please try again.',

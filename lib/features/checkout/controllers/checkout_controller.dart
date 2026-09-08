@@ -78,20 +78,7 @@ class CheckoutController extends GetxController {
     fetchCheckoutPreview();
   }
 
-  @override
-  void onClose() {
-    nameController.dispose();
-    emailController.dispose();
-    phoneController.dispose();
-    cityController.dispose();
-    areaController.dispose();
-    addressController.dispose();
-    landmarkController.dispose();
-    deliveryInstructionsController.dispose();
-    notesController.dispose();
-    couponController.dispose();
-    super.onClose();
-  }
+
 
   void _populateUserInfo() {
     if (Get.isRegistered<AuthController>()) {

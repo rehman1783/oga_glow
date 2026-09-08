@@ -199,14 +199,6 @@ class ContactController extends GetxController {
     }
   }
 
-  @override
-  void onClose() {
-    nameController.dispose();
-    emailController.dispose();
-    subjectController.dispose();
-    messageController.dispose();
-    super.onClose();
-  }
 }
 
 

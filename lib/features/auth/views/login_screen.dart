@@ -86,7 +86,7 @@ class LoginScreen extends GetView<LoginController> {
                                     if (controller.isAccountNotFound.value) ...[
                                       const SizedBox(height: 8),
                                       GestureDetector(
-                                        onTap: () => Get.toNamed(AppRoutes.signup),
+                                        onTap: () => Get.offNamed(AppRoutes.signup),
                                         child: Container(
                                           padding: const EdgeInsets.symmetric(
                                             horizontal: 12,
@@ -273,7 +273,7 @@ class LoginScreen extends GetView<LoginController> {
                         index: 6,
                         child: Center(
                           child: TextButton(
-                            onPressed: () => Get.toNamed(AppRoutes.signup),
+                            onPressed: () => Get.offNamed(AppRoutes.signup),
                             child: RichText(
                               text: TextSpan(
                                 style: Theme.of(context).textTheme.bodyMedium

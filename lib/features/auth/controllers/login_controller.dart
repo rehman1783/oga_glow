@@ -24,13 +24,6 @@ class LoginController extends GetxController {
   // Form validation keys
   final formKey = GlobalKey<FormState>();
 
-  @override
-  void onClose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.onClose();
-  }
-
   void dismissError() {
     errorMessage.value = '';
     isAccountNotFound.value = false;
@@ -165,7 +158,7 @@ class LoginController extends GetxController {
   }
 
   void navigateToSignup() {
-    Get.toNamed(AppRoutes.signup);
+    Get.offNamed(AppRoutes.signup);
   }
 
   void navigateToForgotPassword() {

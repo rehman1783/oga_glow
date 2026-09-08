@@ -177,9 +177,4 @@ class CategoryController extends GetxController {
     return products;
   }
 
-  @override
-  void onClose() {
-    searchController.dispose();
-    super.onClose();
-  }
 }
