@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:oga_glow/app/routes/app_routes.dart';
 import 'package:oga_glow/core/network/api_exception.dart';
 import 'package:oga_glow/core/widgets/custom_snackbar.dart';
+import 'package:oga_glow/features/auth/controllers/auth_controller.dart';
+import 'package:oga_glow/features/auth/models/user_model.dart';
 import 'package:oga_glow/features/auth/repositories/auth_repository.dart';
 
 class SignupController extends GetxController {
@@ -134,14 +136,39 @@ class SignupController extends GetxController {
       if (response.success) {
         debugPrint('[DEBUG LOG] SignupController: Registration successful from backend response.');
 
+        final trimmedName = nameController.text.trim();
+        final trimmedEmail = emailController.text.trim().toLowerCase();
+
+        final registeredUser = response.user ??
+            UserModel(
+              id: '',
+              name: trimmedName,
+              email: trimmedEmail,
+              createdAt: DateTime.now().toIso8601String(),
+            );
+
+        // Always preserve the registered user data locally
+        await _authRepository.saveUser(registeredUser);
+
+        if (Get.isRegistered<AuthController>()) {
+          final authController = Get.find<AuthController>();
+          if (response.token != null && response.token!.isNotEmpty) {
+            authController.setSession(
+              token: response.token!,
+              user: registeredUser,
+            );
+          } else {
+            authController.currentUser.value = registeredUser;
+          }
+        }
+
         CustomSnackbar.showSuccess(
           title: 'Account Created Successfully',
           message: 'Verification email sent. Please check your inbox to verify your account.',
         );
 
-        final email = emailController.text.trim();
-        debugPrint('[DEBUG LOG] SignupController: Triggering navigation to Verification Screen for email $email');
-        Get.offAllNamed(AppRoutes.verification, arguments: email);
+        debugPrint('[DEBUG LOG] SignupController: Triggering navigation to Verification Screen for email $trimmedEmail');
+        Get.offAllNamed(AppRoutes.verification, arguments: trimmedEmail);
       } else {
         debugPrint('[DEBUG LOG] SignupController: API returned success=false');
         if (response.message.toLowerCase().contains('already exists') ||

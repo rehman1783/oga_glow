@@ -65,11 +65,27 @@ class AuthRepository {
         password: password,
       );
 
+      UserModel finalUser = result.user;
+      // If user object from server had empty name, try to retain locally stored name
+      if (finalUser.name.isEmpty) {
+        final existingUser = await getUser();
+        if (existingUser != null &&
+            existingUser.email.toLowerCase() == email.trim().toLowerCase() &&
+            existingUser.name.isNotEmpty) {
+          finalUser = finalUser.copyWith(name: existingUser.name);
+        }
+      }
+
       // Persist token and user data on successful login
       await _secureStorage.saveToken(result.token);
-      await _secureStorage.saveUser(jsonEncode(result.user.toJson()));
+      await _secureStorage.saveUser(jsonEncode(finalUser.toJson()));
 
-      return result;
+      return LoginResponseModel(
+        success: result.success,
+        message: result.message,
+        token: result.token,
+        user: finalUser,
+      );
     } on ApiException {
       rethrow;
     } on DioException catch (e) {
@@ -132,6 +148,11 @@ class AuthRepository {
     } catch (_) {
       return null;
     }
+  }
+
+  /// Explicitly persist user model to local storage.
+  Future<void> saveUser(UserModel user) async {
+    await _secureStorage.saveUser(jsonEncode(user.toJson()));
   }
 
   /// Logout: clear all stored auth data.

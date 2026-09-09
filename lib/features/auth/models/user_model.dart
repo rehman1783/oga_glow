@@ -12,12 +12,28 @@ class UserModel {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    final rawId = json['id'] ?? json['_id'] ?? json['userId'];
+    final rawName = json['name'] ?? json['fullName'] ?? json['username'];
+    final rawEmail = json['email'] ?? json['userEmail'];
+    final rawCreatedAt = json['createdAt'] ?? json['created_at'] ?? json['joinedDate'] ?? json['date'];
+
     return UserModel(
-      id: json['id'] as String? ?? '',
-      name: json['name'] as String? ?? '',
-      email: json['email'] as String? ?? '',
-      createdAt: json['createdAt'] as String?,
+      id: rawId?.toString() ?? '',
+      name: rawName?.toString() ?? '',
+      email: rawEmail?.toString() ?? '',
+      createdAt: rawCreatedAt?.toString(),
     );
+  }
+
+  /// Extracts display initials for avatar (e.g. "Ahmed Hassan" -> "AH")
+  String get initials {
+    final trimmed = name.trim();
+    if (trimmed.isEmpty) return 'O';
+    final parts = trimmed.split(RegExp(r'\s+'));
+    if (parts.length > 1 && parts[1].isNotEmpty) {
+      return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
+    }
+    return trimmed[0].toUpperCase();
   }
 
   Map<String, dynamic> toJson() {

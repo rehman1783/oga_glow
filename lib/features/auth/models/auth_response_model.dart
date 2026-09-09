@@ -15,11 +15,27 @@ class LoginResponseModel {
   });
 
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) {
+    final payload = json['data'] is Map<String, dynamic>
+        ? json['data'] as Map<String, dynamic>
+        : json;
+
+    final token = json['token']?.toString() ??
+        payload['token']?.toString() ??
+        json['accessToken']?.toString() ??
+        payload['accessToken']?.toString() ??
+        '';
+
+    final userRaw = payload['user'] ??
+        json['user'] ??
+        (payload.containsKey('email') || payload.containsKey('name') ? payload : null);
+
     return LoginResponseModel(
-      success: json['success'] as bool? ?? false,
-      message: json['message'] as String? ?? '',
-      token: json['token'] as String? ?? '',
-      user: UserModel.fromJson(json['user'] as Map<String, dynamic>? ?? {}),
+      success: json['success'] as bool? ?? token.isNotEmpty,
+      message: json['message']?.toString() ?? payload['message']?.toString() ?? '',
+      token: token,
+      user: userRaw is Map<String, dynamic>
+          ? UserModel.fromJson(userRaw)
+          : UserModel.fromJson({}),
     );
   }
 
@@ -38,24 +54,36 @@ class RegisterResponseModel {
   final bool success;
   final String message;
   final UserModel? user;
+  final String? token;
 
   RegisterResponseModel({
     required this.success,
     required this.message,
     this.user,
+    this.token,
   });
 
   factory RegisterResponseModel.fromJson(Map<String, dynamic> json) {
+    final payload = json['data'] is Map<String, dynamic>
+        ? json['data'] as Map<String, dynamic>
+        : json;
+
+    final userRaw = payload['user'] ??
+        json['user'] ??
+        (payload.containsKey('email') || payload.containsKey('name') ? payload : null);
+
     UserModel? parsedUser;
-    final userData = json['data'] ?? json['user'];
-    if (userData is Map<String, dynamic>) {
-      parsedUser = UserModel.fromJson(userData);
+    if (userRaw is Map<String, dynamic>) {
+      parsedUser = UserModel.fromJson(userRaw);
     }
+
+    final token = json['token']?.toString() ?? payload['token']?.toString();
 
     return RegisterResponseModel(
       success: json['success'] as bool? ?? false,
-      message: json['message'] as String? ?? '',
+      message: json['message']?.toString() ?? payload['message']?.toString() ?? '',
       user: parsedUser,
+      token: token != null && token.isNotEmpty ? token : null,
     );
   }
 
@@ -64,6 +92,7 @@ class RegisterResponseModel {
       'success': success,
       'message': message,
       if (user != null) 'user': user!.toJson(),
+      if (token != null) 'token': token,
     };
   }
 }

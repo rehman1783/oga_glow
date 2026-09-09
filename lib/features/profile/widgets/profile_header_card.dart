@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
-import '../../../core/widgets/bounce_tap.dart';
 
 class ProfileHeaderCard extends StatelessWidget {
   final String name;
   final String email;
   final String? joinedDate;
   final VoidCallback? onEdit;
+  final bool isGuest;
 
   const ProfileHeaderCard({
     super.key,
@@ -17,12 +17,28 @@ class ProfileHeaderCard extends StatelessWidget {
     required this.email,
     this.joinedDate,
     this.onEdit,
+    this.isGuest = false,
   });
+
+  String _getInitials(String fullName) {
+    final trimmed = fullName.trim();
+    if (trimmed.isEmpty) return 'O';
+    final parts = trimmed.split(RegExp(r'\s+'));
+    if (parts.length > 1 && parts[1].isNotEmpty) {
+      return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
+    }
+    return trimmed[0].toUpperCase();
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
-    final initial = name.isNotEmpty ? name[0].toUpperCase() : 'O';
+    final initial = isGuest ? 'G' : _getInitials(name);
+    final formattedJoined = joinedDate != null && joinedDate!.isNotEmpty
+        ? (DateTime.tryParse(joinedDate!) != null
+            ? 'Member since ${_monthYear(DateTime.parse(joinedDate!))}'
+            : 'Member since: $joinedDate')
+        : null;
 
     return Container(
       padding: EdgeInsets.all(18.w),
@@ -50,34 +66,43 @@ class ProfileHeaderCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 68.r,
-            height: 68.r,
+            width: 64.r,
+            height: 64.r,
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [AppColors.primary, AppColors.primaryLight],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+              gradient: isGuest
+                  ? LinearGradient(
+                      colors: [
+                        colors.panelSecondary,
+                        colors.border,
+                      ],
+                    )
+                  : const LinearGradient(
+                      colors: [AppColors.primary, AppColors.primaryLight],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
               shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.3),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
-                ),
-              ],
+              boxShadow: isGuest
+                  ? []
+                  : [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.28),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
             ),
             alignment: Alignment.center,
             child: Text(
               initial,
               style: AppTextStyles.heading1.copyWith(
-                color: Colors.white,
-                fontSize: 26.sp,
+                color: isGuest ? colors.textPrimary : Colors.white,
+                fontSize: 22.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          SizedBox(width: 16.w),
+          SizedBox(width: 14.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +112,7 @@ class ProfileHeaderCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        name,
+                        isGuest ? 'Guest Account' : name,
                         style: AppTextStyles.heading2.copyWith(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w800,
@@ -97,29 +122,31 @@ class ProfileHeaderCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 6.w,
-                        vertical: 2.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(6.r),
-                      ),
-                      child: Text(
-                        'VIP',
-                        style: TextStyle(
-                          color: AppColors.primary,
-                          fontSize: 9.sp,
-                          fontWeight: FontWeight.w900,
+                    if (!isGuest)
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 7.w,
+                          vertical: 2.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF2E7D32).withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(6.r),
+                        ),
+                        child: Text(
+                          'ACTIVE',
+                          style: TextStyle(
+                            color: const Color(0xFF2E7D32),
+                            fontSize: 9.sp,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 0.4,
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 ),
                 SizedBox(height: 3.h),
                 Text(
-                  email,
+                  isGuest ? 'Sign in to access all features' : email,
                   style: AppTextStyles.caption.copyWith(
                     fontSize: 12.sp,
                     color: colors.textSecondary,
@@ -127,10 +154,10 @@ class ProfileHeaderCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                if (joinedDate != null && joinedDate!.isNotEmpty) ...[
+                if (!isGuest && formattedJoined != null) ...[
                   SizedBox(height: 4.h),
                   Text(
-                    'Member since: $joinedDate',
+                    formattedJoined,
                     style: AppTextStyles.caption.copyWith(
                       fontSize: 10.5.sp,
                       color: AppColors.primary,
@@ -138,45 +165,30 @@ class ProfileHeaderCard extends StatelessWidget {
                     ),
                   ),
                 ],
-                SizedBox(height: 10.h),
-                BounceTap(
-                  scaleBound: 0.92,
-                  onTap: onEdit ?? () {},
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 5.h),
-                    decoration: BoxDecoration(
-                      color: colors.panelSecondary,
-                      borderRadius: BorderRadius.circular(10.r),
-                      border: Border.all(
-                        color: AppColors.primary.withValues(alpha: 0.3),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.edit_outlined,
-                          size: 13.sp,
-                          color: AppColors.primary,
-                        ),
-                        SizedBox(width: 4.w),
-                        Text(
-                          'Edit Profile',
-                          style: AppTextStyles.caption.copyWith(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 11.sp,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  String _monthYear(DateTime date) {
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    final m = (date.month >= 1 && date.month <= 12) ? months[date.month - 1] : '';
+    return '$m ${date.year}';
   }
 }

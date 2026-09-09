@@ -8,6 +8,7 @@ import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/custom_snackbar.dart';
 import '../widgets/profile_header_card.dart';
 import '../widgets/profile_option_tile.dart';
+import '../widgets/user_info_card.dart';
 import '../../../core/widgets/bounce_tap.dart';
 import '../../../core/widgets/fade_slide_transition.dart';
 import '../../../core/theme/theme_controller.dart';
@@ -48,24 +49,29 @@ class ProfileScreen extends StatelessWidget {
                 child: Obx(() {
                   final authController = Get.find<AuthController>();
                   final user = authController.currentUser.value;
+                  final isLoggedIn = authController.isLoggedIn.value && user != null;
                   final name = (user?.name != null && user!.name.isNotEmpty)
-                  ? user.name
-                  : 'OGA Glow User';
+                      ? user.name
+                      : 'Guest Customer';
                   final email = (user?.email != null && user!.email.isNotEmpty)
-                  ? user.email
-                  : 'No email available';
+                      ? user.email
+                      : 'Browse as Guest';
                   final joinedDate = user?.createdAt;
 
-                  return ProfileHeaderCard(
-                    name: name,
-                    email: email,
-                    joinedDate: joinedDate,
-                    onEdit: () {
-                      CustomSnackbar.showInfo(
-                        title: 'Edit Profile',
-                        message: 'Edit profile feature is available in account settings.',
-                      );
-                    },
+                  return Column(
+                    children: [
+                      ProfileHeaderCard(
+                        name: name,
+                        email: email,
+                        joinedDate: joinedDate,
+                        isGuest: !isLoggedIn,
+                      ),
+                      SizedBox(height: 14.h),
+                      UserInfoCard(
+                        user: user,
+                        isLoggedIn: isLoggedIn,
+                      ),
+                    ],
                   );
                 }),
               ),
@@ -198,169 +204,178 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
 
-              SizedBox(height: 24.h),
-              FadeSlideTransition(
-                index: 6,
-                child: Divider(color: AppColors.of(context).border),
-              ),
-              SizedBox(height: 20.h),
+              Obx(() {
+                final authController = Get.find<AuthController>();
+                if (!authController.isLoggedIn.value) {
+                  return const SizedBox.shrink();
+                }
 
-              // Logout / Delete
-              FadeSlideTransition(
-                index: 7,
-                child: Column(
+                return Column(
                   children: [
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: BounceTap(
-                        onTap: () {
-                          final authController = Get.find<AuthController>();
-                          Get.defaultDialog(
-                            title: 'Logout',
-                            titleStyle: TextStyle(
-                              color: AppColors.of(context).textPrimary,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            middleText: 'Are you sure you want to logout?',
-                            middleTextStyle: TextStyle(
-                              color: AppColors.of(context).textSecondary,
-                            ),
-                            backgroundColor: AppColors.of(context).cardBackground,
-                            radius: 14,
-                            confirm: ElevatedButton(
-                              onPressed: () {
-                                Get.back();
-                                authController.logout();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: const Text('Logout'),
-                            ),
-                            cancel: TextButton(
-                              onPressed: () => Get.back(),
-                              child: Text(
-                                'Cancel',
-                                style: TextStyle(
-                                  color: AppColors.of(context).textSecondary,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.of(context).cardBackground,
-                            borderRadius: BorderRadius.circular(14.r),
-                            border: Border.all(
-                              color: AppColors.of(context).border,
-                            ),
-                          ),
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.logout_rounded,
-                                color: AppColors.of(context).earth,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                'Logout',
-                                style: AppTextStyles.button.copyWith(
-                                  color: AppColors.of(context).earth,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                    SizedBox(height: 20.h),
+                    FadeSlideTransition(
+                      index: 6,
+                      child: Divider(color: AppColors.of(context).border),
                     ),
-                    SizedBox(height: 14.h),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: BounceTap(
-                        onTap: () {
-                          final authController = Get.find<AuthController>();
-                          Get.defaultDialog(
-                            title: 'Delete Account?',
-                            titleStyle: TextStyle(
-                              color: AppColors.error,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.sp,
-                            ),
-                            middleText: 'This action is permanent and cannot be undone.',
-                            middleTextStyle: TextStyle(
-                              color: AppColors.of(context).textPrimary,
-                              fontSize: 14.sp,
-                            ),
-                            backgroundColor: AppColors.of(context).cardBackground,
-                            radius: 14.r,
-                            confirm: ElevatedButton(
-                              onPressed: () {
-                                Get.back();
-                                authController.deleteAccount();
+                    SizedBox(height: 16.h),
+
+                    // Logout / Delete
+                    FadeSlideTransition(
+                      index: 7,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            height: 50,
+                            child: BounceTap(
+                              onTap: () {
+                                Get.defaultDialog(
+                                  title: 'Logout',
+                                  titleStyle: TextStyle(
+                                    color: AppColors.of(context).textPrimary,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  middleText: 'Are you sure you want to logout?',
+                                  middleTextStyle: TextStyle(
+                                    color: AppColors.of(context).textSecondary,
+                                  ),
+                                  backgroundColor: AppColors.of(context).cardBackground,
+                                  radius: 14,
+                                  confirm: ElevatedButton(
+                                    onPressed: () {
+                                      Get.back();
+                                      authController.logout();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.primary,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: const Text('Logout'),
+                                  ),
+                                  cancel: TextButton(
+                                    onPressed: () => Get.back(),
+                                    child: Text(
+                                      'Cancel',
+                                      style: TextStyle(
+                                        color: AppColors.of(context).textSecondary,
+                                      ),
+                                    ),
+                                  ),
+                                );
                               },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.error,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.of(context).cardBackground,
+                                  borderRadius: BorderRadius.circular(14.r),
+                                  border: Border.all(
+                                    color: AppColors.of(context).border,
+                                  ),
+                                ),
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.logout_rounded,
+                                      color: AppColors.of(context).earth,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Logout',
+                                      style: AppTextStyles.button.copyWith(
+                                        color: AppColors.of(context).earth,
+                                        fontSize: 14.sp,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              child: const Text(
-                                'Delete',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            cancel: TextButton(
-                              onPressed: () => Get.back(),
-                              child: Text(
-                                'Cancel',
-                                style: TextStyle(
-                                  color: AppColors.of(context).textSecondary,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.of(context).cardBackground,
-                            borderRadius: BorderRadius.circular(14.r),
-                            border: Border.all(
-                              color: AppColors.error.withValues(alpha: 0.4),
                             ),
                           ),
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.delete_outline_rounded,
-                                color: AppColors.error,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                'Delete Account',
-                                style: AppTextStyles.button.copyWith(
-                                  color: AppColors.error,
-                                  fontSize: 14.sp,
+                          SizedBox(height: 14.h),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 50,
+                            child: BounceTap(
+                              onTap: () {
+                                Get.defaultDialog(
+                                  title: 'Delete Account?',
+                                  titleStyle: TextStyle(
+                                    color: AppColors.error,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.sp,
+                                  ),
+                                  middleText: 'This action is permanent and cannot be undone.',
+                                  middleTextStyle: TextStyle(
+                                    color: AppColors.of(context).textPrimary,
+                                    fontSize: 14.sp,
+                                  ),
+                                  backgroundColor: AppColors.of(context).cardBackground,
+                                  radius: 14.r,
+                                  confirm: ElevatedButton(
+                                    onPressed: () {
+                                      Get.back();
+                                      authController.deleteAccount();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.error,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10.r),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      'Delete',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                  cancel: TextButton(
+                                    onPressed: () => Get.back(),
+                                    child: Text(
+                                      'Cancel',
+                                      style: TextStyle(
+                                        color: AppColors.of(context).textSecondary,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.of(context).cardBackground,
+                                  borderRadius: BorderRadius.circular(14.r),
+                                  border: Border.all(
+                                    color: AppColors.error.withValues(alpha: 0.4),
+                                  ),
+                                ),
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.delete_outline_rounded,
+                                      color: AppColors.error,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Delete Account',
+                                      style: AppTextStyles.button.copyWith(
+                                        color: AppColors.error,
+                                        fontSize: 14.sp,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   ],
-                ),
-              ),
+                );
+              }),
 
               SizedBox(height: 26.h),
             ],
