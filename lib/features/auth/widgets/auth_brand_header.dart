@@ -70,7 +70,9 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
   @override
   Widget build(BuildContext context) {
     final topPadding = MediaQuery.of(context).padding.top;
-    final headerHeight = widget.height ?? (230.h + topPadding * 0.4);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    // Increased header height for luxury spacious breathing room
+    final headerHeight = widget.height ?? (275.h + topPadding * 0.55);
 
     return FadeTransition(
       opacity: _fadeAnimation,
@@ -79,37 +81,67 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
         child: Container(
           height: headerHeight,
           width: double.infinity,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                AppColors.primary,
-                Color(0xFF3F6E35),
-                AppColors.primaryLight,
-              ],
-            ),
+          decoration: BoxDecoration(
+            gradient: isDark
+                ? const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xFF0A1C0E), // Deep luxury obsidian night
+                      Color(0xFF13321A), // Rich dark jade
+                      Color(0xFF1E4826), // Luminous emerald
+                    ],
+                  )
+                : const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      AppColors.primary,
+                      Color(0xFF3F6E35),
+                      AppColors.primaryLight,
+                    ],
+                  ),
           ),
           clipBehavior: Clip.hardEdge,
           child: Stack(
             children: [
               // Subtle luxury botanical emblem/logo in background
               Positioned(
-                right: -30.w,
-                top: -10.h,
+                right: -25.w,
+                top: topPadding * 0.2,
                 child: ScaleTransition(
                   scale: _scaleAnimation,
                   child: Opacity(
-                    opacity: 0.12,
+                    opacity: isDark ? 0.16 : 0.12,
                     child: Image.asset(
                       'assets/images/logo.png',
-                      width: 220.w,
-                      height: 220.h,
+                      width: 240.w,
+                      height: 240.h,
                       fit: BoxFit.contain,
                     ),
                   ),
                 ),
               ),
+
+              // Soft champagne gold accent glow in dark mode
+              if (isDark)
+                Positioned(
+                  top: -60.h,
+                  right: -40.w,
+                  child: Container(
+                    width: 260.w,
+                    height: 260.h,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: RadialGradient(
+                        colors: [
+                          const Color(0xFFD4AF37).withValues(alpha: 0.10),
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
 
               // Soft vignette overlay
               Positioned.fill(
@@ -119,9 +151,9 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.black.withValues(alpha: 0.25),
+                        Colors.black.withValues(alpha: isDark ? 0.35 : 0.22),
                         Colors.transparent,
-                        Colors.black.withValues(alpha: 0.12),
+                        Colors.black.withValues(alpha: isDark ? 0.25 : 0.12),
                       ],
                     ),
                   ),
@@ -131,26 +163,28 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
               // Back Button (if enabled)
               if (widget.showBackButton)
                 Positioned(
-                  top: topPadding + 10.h,
+                  top: topPadding + 8.h,
                   left: 18.w,
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: widget.onBack ?? () => Get.back(),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(22),
                       child: Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(9),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
+                          color: (isDark ? const Color(0xFF142B1B) : Colors.white)
+                              .withValues(alpha: isDark ? 0.85 : 0.22),
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.35),
-                            width: 1,
+                            color: (isDark ? const Color(0xFF2C5936) : Colors.white)
+                                .withValues(alpha: isDark ? 0.9 : 0.4),
+                            width: 1.2,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.15),
-                              blurRadius: 8,
+                              color: Colors.black.withValues(alpha: 0.2),
+                              blurRadius: 10,
                               offset: const Offset(0, 2),
                             ),
                           ],
@@ -165,9 +199,9 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                   ),
                 ),
 
-              // Title and Subtitle content
+              // Title and Subtitle content with enhanced breathing room
               Positioned(
-                bottom: 34.h,
+                bottom: 42.h,
                 left: 24.w,
                 right: 24.w,
                 child: Column(
@@ -179,30 +213,30 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                       style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.w800,
                         color: AppColors.white,
-                        fontSize: 26.sp,
-                        letterSpacing: -0.3,
-                        shadows: const [
+                        fontSize: 27.sp,
+                        letterSpacing: -0.4,
+                        shadows: [
                           Shadow(
-                            blurRadius: 6,
-                            offset: Offset(0, 2),
-                            color: Color(0x50000000),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                            color: Colors.black.withValues(alpha: isDark ? 0.6 : 0.35),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(height: 6.h),
+                    SizedBox(height: 7.h),
                     Text(
                       widget.subtitle,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppColors.white.withValues(alpha: 0.92),
+                        color: isDark ? const Color(0xFFD6E8DA) : AppColors.white.withValues(alpha: 0.94),
                         fontWeight: FontWeight.w400,
-                        fontSize: 13.5.sp,
-                        height: 1.3,
-                        shadows: const [
+                        fontSize: 14.sp,
+                        height: 1.35,
+                        shadows: [
                           Shadow(
-                            blurRadius: 4,
-                            offset: Offset(0, 1),
-                            color: Color(0x35000000),
+                            blurRadius: 5,
+                            offset: const Offset(0, 1),
+                            color: Colors.black.withValues(alpha: isDark ? 0.5 : 0.25),
                           ),
                         ],
                       ),

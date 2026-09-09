@@ -58,6 +58,9 @@ class _AuthTextFormFieldsState extends State<AuthTextFormFields> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colors = AppColors.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -111,12 +114,12 @@ class _AuthTextFormFieldsState extends State<AuthTextFormFields> {
         if (!widget.isLogin && (widget.showPasswordRequirements || widget.passwordController.text.isNotEmpty)) ...[
           const SizedBox(height: 12),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             decoration: BoxDecoration(
-              color: AppColors.of(context).cardBackground.withValues(alpha: 0.6),
+              color: isDark ? const Color(0xFF0F1E14) : colors.cardBackground.withValues(alpha: 0.6),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: AppColors.of(context).border.withValues(alpha: 0.6),
+                color: isDark ? const Color(0xFF24442A) : colors.border.withValues(alpha: 0.6),
               ),
             ),
             child: Column(
@@ -126,14 +129,14 @@ class _AuthTextFormFieldsState extends State<AuthTextFormFields> {
                   'Password Requirements:',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w700,
-                    fontSize: 11.sp,
-                    color: AppColors.of(context).textSecondary,
+                    fontSize: 11.5.sp,
+                    color: isDark ? const Color(0xFFA5C5AB) : colors.textSecondary,
                   ),
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 8),
                 Wrap(
                   spacing: 12,
-                  runSpacing: 4,
+                  runSpacing: 6,
                   children: [
                     _RequirementChip(
                       label: '6+ characters',
@@ -173,29 +176,33 @@ class _RequirementChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colors = AppColors.of(context);
+    final activeColor = isDark ? const Color(0xFF55C769) : AppColors.success;
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          width: 14,
-          height: 14,
+          width: 15,
+          height: 15,
           decoration: BoxDecoration(
-            color: isMet ? AppColors.success : Colors.grey.withValues(alpha: 0.3),
+            color: isMet ? activeColor : (isDark ? const Color(0xFF1F3624) : Colors.grey.withValues(alpha: 0.3)),
             shape: BoxShape.circle,
           ),
           child: Icon(
             isMet ? Icons.check : Icons.circle,
-            size: isMet ? 10 : 4,
-            color: Colors.white,
+            size: isMet ? 11 : 4,
+            color: isMet ? Colors.white : (isDark ? const Color(0xFF436B4D) : Colors.transparent),
           ),
         ),
-        const SizedBox(width: 5),
+        const SizedBox(width: 6),
         Text(
           label,
           style: TextStyle(
             fontSize: 11.sp,
-            color: isMet ? AppColors.success : AppColors.of(context).textSecondary,
+            color: isMet ? activeColor : (isDark ? const Color(0xFF86A88E) : colors.textSecondary),
             fontWeight: isMet ? FontWeight.w600 : FontWeight.w400,
           ),
         ),
@@ -252,6 +259,13 @@ class _FieldState extends State<_Field> {
   @override
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final activeColor = isDark ? AppColors.primaryLight : AppColors.primary;
+    final unfocusedIconColor = isDark ? const Color(0xFF8BAE92) : colors.textSecondary.withValues(alpha: 0.7);
+    final fieldFillColor = isDark ? const Color(0xFF0D1C12) : colors.inputBg;
+    final fieldBorderColor = isDark ? const Color(0xFF223E28) : colors.border;
+    final focusedBorderColor = isDark ? const Color(0xFF6B9B52) : AppColors.primary;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
@@ -260,8 +274,8 @@ class _FieldState extends State<_Field> {
         boxShadow: _isFocused
             ? [
                 BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.12),
-                  blurRadius: 10,
+                  color: activeColor.withValues(alpha: isDark ? 0.22 : 0.12),
+                  blurRadius: 12,
                   offset: const Offset(0, 3),
                 )
               ]
@@ -281,19 +295,19 @@ class _FieldState extends State<_Field> {
           labelText: widget.label,
           hintText: widget.hint,
           labelStyle: TextStyle(
-            color: _isFocused ? AppColors.primary : colors.textSecondary,
+            color: _isFocused ? activeColor : (isDark ? const Color(0xFF8BAE92) : colors.textSecondary),
             fontWeight: _isFocused ? FontWeight.w600 : FontWeight.w500,
             fontSize: 14.sp,
           ),
           hintStyle: TextStyle(
-            color: colors.textSecondary.withValues(alpha: 0.5),
+            color: isDark ? const Color(0xFF5B7863) : colors.textSecondary.withValues(alpha: 0.5),
             fontSize: 13.sp,
           ),
           filled: true,
-          fillColor: colors.inputBg,
+          fillColor: fieldFillColor,
           prefixIcon: Icon(
             widget.prefixIcon,
-            color: _isFocused ? AppColors.primary : colors.textSecondary.withValues(alpha: 0.7),
+            color: _isFocused ? activeColor : unfocusedIconColor,
             size: 20,
           ),
           suffixIcon: widget.isPasswordField
@@ -303,7 +317,7 @@ class _FieldState extends State<_Field> {
                     child: Icon(
                       _obscureText ? Icons.visibility_off_outlined : Icons.visibility_outlined,
                       key: ValueKey<bool>(_obscureText),
-                      color: _isFocused ? AppColors.primary : colors.textSecondary.withValues(alpha: 0.7),
+                      color: _isFocused ? activeColor : unfocusedIconColor,
                       size: 20,
                     ),
                   ),
@@ -317,15 +331,15 @@ class _FieldState extends State<_Field> {
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14),
-            borderSide: BorderSide(color: colors.border),
+            borderSide: BorderSide(color: fieldBorderColor),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14),
-            borderSide: BorderSide(color: colors.border),
+            borderSide: BorderSide(color: fieldBorderColor),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14),
-            borderSide: const BorderSide(color: AppColors.primary, width: 1.8),
+            borderSide: BorderSide(color: focusedBorderColor, width: 1.8),
           ),
         ),
       ),

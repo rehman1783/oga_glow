@@ -14,6 +14,10 @@ class AuthEntryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final accentGreen = isDark ? AppColors.primaryLight : AppColors.primary;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: GlowBackground(
@@ -44,7 +48,7 @@ class AuthEntryScreen extends StatelessWidget {
                             fontSize: 28.sp,
                             fontWeight: FontWeight.w800,
                             letterSpacing: -0.4,
-                            color: AppColors.of(context).textPrimary,
+                            color: colors.textPrimary,
                           ),
                         ),
                       ),
@@ -56,7 +60,7 @@ class AuthEntryScreen extends StatelessWidget {
                         child: Text(
                           "Discover nature's finest formulations designed to restore, nourish, and elevate your skin and hair routine.",
                           style: AppTextStyles.body.copyWith(
-                            color: AppColors.of(context).textSecondary,
+                            color: colors.textSecondary,
                             fontSize: 14.sp,
                             height: 1.5,
                           ),
@@ -90,10 +94,10 @@ class AuthEntryScreen extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () => Get.toNamed(AppRoutes.signup),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary,
+                              backgroundColor: isDark ? const Color(0xFF326330) : AppColors.primary,
                               foregroundColor: Colors.white,
                               elevation: 4,
-                              shadowColor: AppColors.primary.withValues(alpha: 0.35),
+                              shadowColor: (isDark ? const Color(0xFF5AA34B) : AppColors.primary).withValues(alpha: isDark ? 0.4 : 0.35),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
@@ -128,9 +132,9 @@ class AuthEntryScreen extends StatelessWidget {
                           child: OutlinedButton(
                             onPressed: () => Get.toNamed(AppRoutes.login),
                             style: OutlinedButton.styleFrom(
-                              backgroundColor: AppColors.of(context).cardBackground,
+                              backgroundColor: isDark ? const Color(0xFF102015) : colors.cardBackground,
                               side: BorderSide(
-                                color: AppColors.primary.withValues(alpha: 0.5),
+                                color: isDark ? accentGreen : AppColors.primary.withValues(alpha: 0.5),
                                 width: 1.5,
                               ),
                               shape: RoundedRectangleBorder(
@@ -140,7 +144,7 @@ class AuthEntryScreen extends StatelessWidget {
                             child: Text(
                               "I already have an account",
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: AppColors.primary,
+                                color: accentGreen,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 14.5.sp,
                               ),
@@ -160,7 +164,7 @@ class AuthEntryScreen extends StatelessWidget {
                             child: Text(
                               "Explore as Guest",
                               style: TextStyle(
-                                color: AppColors.of(context).textSecondary,
+                                color: isDark ? const Color(0xFF9EBEA5) : colors.textSecondary,
                                 fontSize: 13.5.sp,
                                 fontWeight: FontWeight.w600,
                                 decoration: TextDecoration.underline,
@@ -194,13 +198,16 @@ class _PillTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
       decoration: BoxDecoration(
-        color: AppColors.of(context).panel,
+        color: isDark ? const Color(0xFF102015) : colors.panel,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: AppColors.of(context).border,
+          color: isDark ? const Color(0xFF22422A) : colors.border,
         ),
       ),
       child: Row(
@@ -213,7 +220,7 @@ class _PillTag extends StatelessWidget {
             style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.w600,
-              color: AppColors.of(context).textPrimary,
+              color: colors.textPrimary,
             ),
           ),
         ],

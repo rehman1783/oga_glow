@@ -103,6 +103,10 @@ class _VerificationScreenState extends State<VerificationScreen>
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final accentGreen = isDark ? AppColors.primaryLight : AppColors.primary;
+
     final String userEmail = (Get.arguments is String)
         ? Get.arguments as String
         : 'your email address';
@@ -143,23 +147,23 @@ class _VerificationScreenState extends State<VerificationScreen>
                               height: 96.h,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: AppColors.primary.withValues(alpha: 0.12),
+                                color: isDark ? const Color(0xFF122C1A) : AppColors.primary.withValues(alpha: 0.12),
                                 border: Border.all(
-                                  color: AppColors.primary.withValues(alpha: 0.35),
+                                  color: isDark ? accentGreen.withValues(alpha: 0.6) : AppColors.primary.withValues(alpha: 0.35),
                                   width: 2,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppColors.primary.withValues(alpha: 0.2),
-                                    blurRadius: 20,
+                                    color: accentGreen.withValues(alpha: isDark ? 0.3 : 0.2),
+                                    blurRadius: 24,
                                     offset: const Offset(0, 8),
                                   ),
                                 ],
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.mark_email_read_rounded,
                                 size: 50,
-                                color: AppColors.primary,
+                                color: accentGreen,
                               ),
                             ),
                           ),
@@ -175,7 +179,7 @@ class _VerificationScreenState extends State<VerificationScreen>
                           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 22.sp,
-                            color: AppColors.of(context).textPrimary,
+                            color: colors.textPrimary,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -189,21 +193,21 @@ class _VerificationScreenState extends State<VerificationScreen>
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                           decoration: BoxDecoration(
-                            color: AppColors.of(context).panel,
+                            color: isDark ? const Color(0xFF102015) : colors.panel,
                             borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: AppColors.of(context).border),
+                            border: Border.all(color: isDark ? const Color(0xFF22422A) : colors.border),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(Icons.email_outlined, size: 16, color: AppColors.primary),
+                              Icon(Icons.email_outlined, size: 16, color: accentGreen),
                               const SizedBox(width: 8),
                               Flexible(
                                 child: Text(
                                   userEmail,
                                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                     fontWeight: FontWeight.w700,
-                                    color: AppColors.of(context).textPrimary,
+                                    color: colors.textPrimary,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -220,7 +224,7 @@ class _VerificationScreenState extends State<VerificationScreen>
                         child: Text(
                           'We sent an activation link to your inbox. Tap the link in your email to verify your account, then return to sign in.',
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppColors.of(context).textSecondary,
+                            color: isDark ? const Color(0xFF9EBEA5) : colors.textSecondary,
                             height: 1.5,
                             fontSize: 13.5.sp,
                           ),
@@ -244,8 +248,9 @@ class _VerificationScreenState extends State<VerificationScreen>
                                 icon: const Icon(Icons.open_in_new_rounded, size: 18),
                                 label: const Text('Open Email App'),
                                 style: OutlinedButton.styleFrom(
-                                  foregroundColor: AppColors.primary,
-                                  side: const BorderSide(color: AppColors.primary, width: 1.5),
+                                  foregroundColor: accentGreen,
+                                  backgroundColor: isDark ? const Color(0xFF102015) : Colors.transparent,
+                                  side: BorderSide(color: accentGreen, width: 1.5),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(14),
                                   ),
@@ -273,7 +278,7 @@ class _VerificationScreenState extends State<VerificationScreen>
                                 Text(
                                   "Didn't receive email? ",
                                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: AppColors.of(context).textSecondary,
+                                    color: isDark ? const Color(0xFF8BAE92) : colors.textSecondary,
                                   ),
                                 ),
                                 TextButton(
@@ -288,7 +293,7 @@ class _VerificationScreenState extends State<VerificationScreen>
                                         ? 'Resend Link'
                                         : 'Resend in ${_resendCooldown}s',
                                     style: TextStyle(
-                                      color: _canResend ? AppColors.primary : Colors.grey,
+                                      color: _canResend ? accentGreen : (isDark ? const Color(0xFF54745C) : Colors.grey),
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12.5.sp,
                                     ),

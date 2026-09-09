@@ -36,9 +36,11 @@ class _GlowBackgroundState extends State<GlowBackground>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final primaryColor = AppColors.primary;
-    final secondaryColor = AppColors.primaryLight;
-    final accentColor = AppColors.accent;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final primaryColor = isDark ? const Color(0xFF1D4D26) : AppColors.primary;
+    final secondaryColor = isDark ? const Color(0xFF12361A) : AppColors.primaryLight;
+    final accentColor = isDark ? const Color(0xFFD4AF37) : AppColors.accent;
 
     return Stack(
       children: [
@@ -65,7 +67,7 @@ class _GlowBackgroundState extends State<GlowBackground>
 
             return Stack(
               children: [
-                // Blob 1 (Top Left - Olive Green)
+                // Blob 1 (Top Left - Emerald Bloom)
                 Positioned(
                   left: blob1X - 150,
                   top: blob1Y - 150,
@@ -76,8 +78,8 @@ class _GlowBackgroundState extends State<GlowBackground>
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
                         colors: [
-                          primaryColor.withValues(alpha: 0.15),
-                          primaryColor.withValues(alpha: 0.04),
+                          primaryColor.withValues(alpha: isDark ? 0.22 : 0.15),
+                          primaryColor.withValues(alpha: isDark ? 0.06 : 0.04),
                           Colors.transparent,
                         ],
                         stops: const [0.0, 0.5, 1.0],
@@ -86,7 +88,7 @@ class _GlowBackgroundState extends State<GlowBackground>
                   ),
                 ),
 
-                // Blob 2 (Middle Right - Cream/Secondary Light)
+                // Blob 2 (Middle Right - Deep Jade / Light Secondary)
                 Positioned(
                   left: blob2X - 120,
                   top: blob2Y - 120,
@@ -97,8 +99,8 @@ class _GlowBackgroundState extends State<GlowBackground>
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
                         colors: [
-                          secondaryColor.withValues(alpha: 0.2),
-                          secondaryColor.withValues(alpha: 0.05),
+                          secondaryColor.withValues(alpha: isDark ? 0.18 : 0.2),
+                          secondaryColor.withValues(alpha: isDark ? 0.05 : 0.05),
                           Colors.transparent,
                         ],
                         stops: const [0.0, 0.6, 1.0],
@@ -107,7 +109,7 @@ class _GlowBackgroundState extends State<GlowBackground>
                   ),
                 ),
 
-                // Blob 3 (Bottom Left - Herbal Brown)
+                // Blob 3 (Bottom Left - Champagne Gold in dark mode / Herbal Brown)
                 Positioned(
                   left: blob3X - 160,
                   top: blob3Y - 160,
@@ -118,8 +120,8 @@ class _GlowBackgroundState extends State<GlowBackground>
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
                         colors: [
-                          accentColor.withValues(alpha: 0.08),
-                          accentColor.withValues(alpha: 0.02),
+                          accentColor.withValues(alpha: isDark ? 0.06 : 0.08),
+                          accentColor.withValues(alpha: isDark ? 0.015 : 0.02),
                           Colors.transparent,
                         ],
                         stops: const [0.0, 0.5, 1.0],

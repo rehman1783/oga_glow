@@ -17,6 +17,10 @@ class LoginScreen extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final accentGreen = isDark ? AppColors.primaryLight : AppColors.primary;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: GlowBackground(
@@ -48,10 +52,10 @@ class LoginScreen extends GetView<LoginController> {
                           margin: EdgeInsets.only(bottom: 14.h),
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                           decoration: BoxDecoration(
-                            color: AppColors.error.withValues(alpha: 0.08),
+                            color: AppColors.error.withValues(alpha: isDark ? 0.16 : 0.08),
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
-                              color: AppColors.error.withValues(alpha: 0.3),
+                              color: AppColors.error.withValues(alpha: isDark ? 0.45 : 0.3),
                               width: 1,
                             ),
                           ),
@@ -79,7 +83,7 @@ class LoginScreen extends GetView<LoginController> {
                                     Text(
                                       controller.errorMessage.value,
                                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                        color: AppColors.of(context).textPrimary,
+                                        color: colors.textPrimary,
                                         height: 1.3,
                                       ),
                                     ),
@@ -93,7 +97,7 @@ class LoginScreen extends GetView<LoginController> {
                                             vertical: 6,
                                           ),
                                           decoration: BoxDecoration(
-                                            color: AppColors.primary,
+                                            color: accentGreen,
                                             borderRadius: BorderRadius.circular(8),
                                           ),
                                           child: Text(
@@ -113,7 +117,7 @@ class LoginScreen extends GetView<LoginController> {
                                 icon: Icon(
                                   Icons.close_rounded,
                                   size: 18,
-                                  color: AppColors.of(context).textSecondary,
+                                  color: colors.textSecondary,
                                 ),
                                 padding: EdgeInsets.zero,
                                 constraints: const BoxConstraints(),
@@ -130,18 +134,26 @@ class LoginScreen extends GetView<LoginController> {
                         child: Container(
                           padding: const EdgeInsets.all(18),
                           decoration: BoxDecoration(
-                            color: AppColors.of(context).panel,
+                            color: isDark ? const Color(0xFF102015) : colors.panel,
                             borderRadius: BorderRadius.circular(22),
                             border: Border.all(
-                              color: AppColors.of(context).border,
+                              color: isDark ? const Color(0xFF22422A) : colors.border,
                               width: 1,
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.black.withValues(alpha: 0.04),
-                                blurRadius: 18,
+                                color: isDark
+                                    ? Colors.black.withValues(alpha: 0.35)
+                                    : AppColors.black.withValues(alpha: 0.04),
+                                blurRadius: isDark ? 20 : 18,
                                 offset: const Offset(0, 8),
                               ),
+                              if (isDark)
+                                BoxShadow(
+                                  color: AppColors.primaryLight.withValues(alpha: 0.06),
+                                  blurRadius: 24,
+                                  spreadRadius: 1,
+                                ),
                             ],
                           ),
                           child: AuthTextFormFields(
@@ -169,12 +181,12 @@ class LoginScreen extends GetView<LoginController> {
                                   height: 22.h,
                                   child: Checkbox(
                                     value: true,
-                                    activeColor: AppColors.primary,
+                                    activeColor: accentGreen,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     side: BorderSide(
-                                      color: AppColors.of(context).border,
+                                      color: isDark ? const Color(0xFF2E5336) : colors.border,
                                       width: 1.2,
                                     ),
                                     onChanged: (val) {},
@@ -184,7 +196,7 @@ class LoginScreen extends GetView<LoginController> {
                                 Text(
                                   'Remember me',
                                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: AppColors.of(context).textSecondary,
+                                    color: isDark ? const Color(0xFF9EBEA5) : colors.textSecondary,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 12.5.sp,
                                   ),
@@ -201,7 +213,7 @@ class LoginScreen extends GetView<LoginController> {
                               child: Text(
                                 'Forgot password?',
                                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: AppColors.primary,
+                                  color: accentGreen,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 12.5.sp,
                                 ),
@@ -234,7 +246,7 @@ class LoginScreen extends GetView<LoginController> {
                           children: [
                             Expanded(
                               child: Divider(
-                                color: AppColors.of(context).border,
+                                color: isDark ? const Color(0xFF223E28) : colors.border,
                                 thickness: 1,
                               ),
                             ),
@@ -243,7 +255,7 @@ class LoginScreen extends GetView<LoginController> {
                               child: Text(
                                 'OR',
                                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: AppColors.of(context).textSecondary,
+                                  color: isDark ? const Color(0xFF7E9E86) : colors.textSecondary,
                                   letterSpacing: 1.5,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 11.sp,
@@ -252,7 +264,7 @@ class LoginScreen extends GetView<LoginController> {
                             ),
                             Expanded(
                               child: Divider(
-                                color: AppColors.of(context).border,
+                                color: isDark ? const Color(0xFF223E28) : colors.border,
                                 thickness: 1,
                               ),
                             ),
@@ -271,9 +283,9 @@ class LoginScreen extends GetView<LoginController> {
                           child: OutlinedButton(
                             onPressed: () {},
                             style: OutlinedButton.styleFrom(
-                              backgroundColor: AppColors.of(context).cardBackground,
+                              backgroundColor: isDark ? const Color(0xFF102015) : colors.cardBackground,
                               side: BorderSide(
-                                color: AppColors.of(context).border,
+                                color: isDark ? const Color(0xFF22422A) : colors.border,
                               ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(14),
@@ -290,7 +302,7 @@ class LoginScreen extends GetView<LoginController> {
                                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14.5.sp,
-                                    color: AppColors.of(context).textPrimary,
+                                    color: colors.textPrimary,
                                   ),
                                 ),
                               ],
@@ -310,15 +322,15 @@ class LoginScreen extends GetView<LoginController> {
                             child: RichText(
                               text: TextSpan(
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: AppColors.of(context).textSecondary,
+                                  color: isDark ? const Color(0xFF9EBEA5) : colors.textSecondary,
                                   fontSize: 13.5.sp,
                                 ),
-                                children: const [
-                                  TextSpan(text: "Don't have an account? "),
+                                children: [
+                                  const TextSpan(text: "Don't have an account? "),
                                   TextSpan(
                                     text: "Sign up",
                                     style: TextStyle(
-                                      color: AppColors.primary,
+                                      color: accentGreen,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

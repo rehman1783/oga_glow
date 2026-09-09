@@ -61,6 +61,8 @@ class _AuthSubmitButtonState extends State<AuthSubmitButton>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTapDown: _onTapDown,
       onTapUp: _onTapUp,
@@ -75,18 +77,22 @@ class _AuthSubmitButtonState extends State<AuthSubmitButton>
             borderRadius: BorderRadius.circular(14),
             gradient: widget.isLoading
                 ? null
-                : const LinearGradient(
-                    colors: [AppColors.primary, AppColors.primaryLight],
+                : LinearGradient(
+                    colors: isDark
+                        ? const [Color(0xFF2E6334), Color(0xFF5AA34B)]
+                        : const [AppColors.primary, AppColors.primaryLight],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                   ),
-            color: widget.isLoading ? AppColors.primary.withValues(alpha: 0.6) : null,
+            color: widget.isLoading
+                ? (isDark ? const Color(0xFF2E6334).withValues(alpha: 0.6) : AppColors.primary.withValues(alpha: 0.6))
+                : null,
             boxShadow: widget.isLoading
                 ? []
                 : [
                     BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.25),
-                      blurRadius: 12,
+                      color: (isDark ? const Color(0xFF4B943E) : AppColors.primary).withValues(alpha: isDark ? 0.35 : 0.25),
+                      blurRadius: isDark ? 16 : 12,
                       offset: const Offset(0, 6),
                     ),
                   ],
