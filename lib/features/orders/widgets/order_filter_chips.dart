@@ -23,12 +23,12 @@ class OrderFilterChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Define filter options
+    // Define filter options matching backend order statuses
     final filters = <_FilterOption>[
-      _FilterOption(label: 'All', status: null),
+      const _FilterOption(label: 'All', status: null),
+      _FilterOption(label: OrderStatus.pending.label, status: OrderStatus.pending),
       _FilterOption(label: OrderStatus.processing.label, status: OrderStatus.processing),
       _FilterOption(label: OrderStatus.shipped.label, status: OrderStatus.shipped),
-      _FilterOption(label: 'Out for Delivery', status: OrderStatus.outForDelivery),
       _FilterOption(label: OrderStatus.delivered.label, status: OrderStatus.delivered),
       _FilterOption(label: OrderStatus.cancelled.label, status: OrderStatus.cancelled),
     ];

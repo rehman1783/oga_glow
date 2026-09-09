@@ -42,8 +42,7 @@ class ProductCard extends StatelessWidget {
     );
 
     final colors = AppColors.of(context);
-    final rating = product.averageRating > 0 ? product.averageRating : 4.8;
-    final reviews = product.totalReviews > 0 ? product.totalReviews : 24;
+    final hasReviews = product.totalReviews > 0 && product.averageRating > 0;
 
     return BounceTap(
       scaleBound: 0.96,
@@ -253,42 +252,43 @@ class ProductCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 5.w,
-                              vertical: 1.5.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.amber.withValues(alpha: 0.12),
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.star_rounded,
-                                  size: 11.sp,
-                                  color: Colors.amber.shade700,
-                                ),
-                                SizedBox(width: 2.w),
-                                Text(
-                                  rating.toStringAsFixed(1),
-                                  style: AppTextStyles.caption.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 9.5.sp,
-                                    color: colors.textPrimary,
+                          if (hasReviews)
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 5.w,
+                                vertical: 1.5.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.amber.withValues(alpha: 0.12),
+                                borderRadius: BorderRadius.circular(6.r),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.star_rounded,
+                                    size: 11.sp,
+                                    color: Colors.amber.shade700,
                                   ),
-                                ),
-                                Text(
-                                  ' ($reviews)',
-                                  style: AppTextStyles.caption.copyWith(
-                                    fontSize: 8.5.sp,
-                                    color: colors.textSecondary,
+                                  SizedBox(width: 2.w),
+                                  Text(
+                                    product.averageRating.toStringAsFixed(1),
+                                    style: AppTextStyles.caption.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 9.5.sp,
+                                      color: colors.textPrimary,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    ' (${product.totalReviews})',
+                                    style: AppTextStyles.caption.copyWith(
+                                      fontSize: 8.5.sp,
+                                      color: colors.textSecondary,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ],

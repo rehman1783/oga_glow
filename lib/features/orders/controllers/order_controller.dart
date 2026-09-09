@@ -87,14 +87,12 @@ class OrderController extends GetxController {
   }
 
   /// Filters orders based on [query] and the currently selected [status].
-  void filterOrders({String? query, OrderStatus? status}) {
+  void filterOrders({String? query, OrderStatus? status, bool updateStatus = false}) {
     if (query != null) {
       searchQuery.value = query;
     }
-    if (status != null || query == null) {
-      if (status != null) {
-        selectedStatus.value = status;
-      }
+    if (updateStatus) {
+      selectedStatus.value = status;
     }
 
     final currentQuery = searchQuery.value.trim().toLowerCase();
@@ -130,7 +128,8 @@ class OrderController extends GetxController {
 
   /// Convenience: filter by status only.
   void filterByStatus(OrderStatus? status) {
-    filterOrders(status: status);
+    selectedStatus.value = status;
+    filterOrders();
   }
 
   /// Add newly placed order dynamically to the history list from checkout.

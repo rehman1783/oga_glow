@@ -222,7 +222,6 @@ class HomeScreen extends GetView<HomeController> {
                         children: [
                           _buildProductListShimmer(context),
                           SizedBox(height: 20.h),
-                          _buildProductListShimmer(context),
                         ],
                       );
                     }
@@ -296,8 +295,8 @@ class HomeScreen extends GetView<HomeController> {
 
                     return Column(
                       children: [
-                        /// Featured Products Section
-                        if (controller.featuredProducts.isNotEmpty)
+                        /// Authentic Products Section from API
+                        if (controller.allProducts.isNotEmpty)
                           FadeSlideTransition(
                             index: 5,
                             child: Column(
@@ -305,7 +304,7 @@ class HomeScreen extends GetView<HomeController> {
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                                   child: SectionTitle(
-                                    title: '✨ Featured Collections',
+                                    title: '🌿 Our Products',
                                     onSeeAll: _navigateToAllProducts,
                                   ),
                                 ),
@@ -316,84 +315,12 @@ class HomeScreen extends GetView<HomeController> {
                                     scrollDirection: Axis.horizontal,
                                     physics: const BouncingScrollPhysics(),
                                     padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 4.h),
-                                    itemCount: controller.featuredProducts.length,
+                                    itemCount: controller.allProducts.length,
                                     separatorBuilder: (context, index) =>
                                         SizedBox(width: 4.w),
                                     itemBuilder: (context, index) {
                                       return ProductCard(
-                                        product: controller.featuredProducts[index],
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                        SizedBox(height: 24.h),
-
-                        /// Best Sellers Section
-                        if (controller.bestSellers.isNotEmpty)
-                          FadeSlideTransition(
-                            index: 6,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                                  child: SectionTitle(
-                                    title: '🏆 Best Sellers',
-                                    onSeeAll: _navigateToAllProducts,
-                                  ),
-                                ),
-                                SizedBox(height: 12.h),
-                                SizedBox(
-                                  height: 332.h,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    physics: const BouncingScrollPhysics(),
-                                    padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 4.h),
-                                    itemCount: controller.bestSellers.length,
-                                    separatorBuilder: (context, index) =>
-                                        SizedBox(width: 4.w),
-                                    itemBuilder: (context, index) {
-                                      return ProductCard(
-                                        product: controller.bestSellers[index],
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                        SizedBox(height: 24.h),
-
-                        /// New Arrivals Section
-                        if (controller.newArrivals.isNotEmpty)
-                          FadeSlideTransition(
-                            index: 7,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                                  child: SectionTitle(
-                                    title: '🌿 New Arrivals',
-                                    onSeeAll: _navigateToAllProducts,
-                                  ),
-                                ),
-                                SizedBox(height: 12.h),
-                                SizedBox(
-                                  height: 332.h,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    physics: const BouncingScrollPhysics(),
-                                    padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 4.h),
-                                    itemCount: controller.newArrivals.length,
-                                    separatorBuilder: (context, index) =>
-                                        SizedBox(width: 4.w),
-                                    itemBuilder: (context, index) {
-                                      return ProductCard(
-                                        product: controller.newArrivals[index],
+                                        product: controller.allProducts[index],
                                       );
                                     },
                                   ),

@@ -39,7 +39,7 @@ class CategoryProductCard extends StatelessWidget {
     );
 
     final colors = AppColors.of(context);
-    final rating = product.averageRating > 0 ? product.averageRating : 4.8;
+    final hasReviews = product.totalReviews > 0 && product.averageRating > 0;
 
     return BounceTap(
       scaleBound: 0.96,
@@ -234,35 +234,36 @@ class CategoryProductCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 4.w,
-                              vertical: 1.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.amber.withValues(alpha: 0.12),
-                              borderRadius: BorderRadius.circular(5.r),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.star_rounded,
-                                  size: 10.sp,
-                                  color: Colors.amber.shade700,
-                                ),
-                                SizedBox(width: 2.w),
-                                Text(
-                                  rating.toStringAsFixed(1),
-                                  style: AppTextStyles.caption.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 9.sp,
-                                    color: colors.textPrimary,
+                          if (hasReviews)
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 4.w,
+                                vertical: 1.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.amber.withValues(alpha: 0.12),
+                                borderRadius: BorderRadius.circular(5.r),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.star_rounded,
+                                    size: 10.sp,
+                                    color: Colors.amber.shade700,
                                   ),
-                                ),
-                              ],
+                                  SizedBox(width: 2.w),
+                                  Text(
+                                    product.averageRating.toStringAsFixed(1),
+                                    style: AppTextStyles.caption.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 9.sp,
+                                      color: colors.textPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ],

@@ -140,28 +140,46 @@ class ProductInfoSection extends StatelessWidget {
           SizedBox(height: 8.h),
 
           /// Rating & Total Reviews
-          Row(
-            children: [
-              Icon(Icons.star_rounded, size: 20.sp, color: Colors.amber),
-              SizedBox(width: 4.w),
-              Text(
-                product.averageRating > 0
-                    ? product.averageRating.toStringAsFixed(1)
-                    : '4.8',
-                style: AppTextStyles.body.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: colors.textPrimary,
+          if (product.totalReviews > 0 && product.averageRating > 0)
+            Row(
+              children: [
+                Icon(Icons.star_rounded, size: 20.sp, color: Colors.amber),
+                SizedBox(width: 4.w),
+                Text(
+                  product.averageRating.toStringAsFixed(1),
+                  style: AppTextStyles.body.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: colors.textPrimary,
+                  ),
                 ),
-              ),
-              SizedBox(width: 6.w),
-              Text(
-                '(${product.totalReviews > 0 ? product.totalReviews : 12} reviews)',
-                style: AppTextStyles.caption.copyWith(
-                  color: AppColors.textSecondary,
+                SizedBox(width: 6.w),
+                Text(
+                  '(${product.totalReviews} ${product.totalReviews == 1 ? 'review' : 'reviews'})',
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            )
+          else
+            Row(
+              children: [
+                Icon(
+                  Icons.star_border_rounded,
+                  size: 18.sp,
+                  color: colors.textSecondary.withValues(alpha: 0.6),
+                ),
+                SizedBox(width: 4.w),
+                Text(
+                  'No reviews yet',
+                  style: AppTextStyles.caption.copyWith(
+                    color: colors.textSecondary,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
 
           SizedBox(height: 16.h),
 

@@ -56,8 +56,6 @@ class HomeController extends GetxController {
   final allProducts = <ProductModel>[].obs;
 
   List<ProductModel> get featuredProducts => allProducts;
-  List<ProductModel> get bestSellers => allProducts.take(4).toList();
-  List<ProductModel> get newArrivals => allProducts.reversed.toList();
   List<ProductModel> get hotDeals =>
       allProducts.where((p) => p.hasDiscount).toList();
 
