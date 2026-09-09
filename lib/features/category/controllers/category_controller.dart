@@ -36,19 +36,23 @@ class CategoryController extends GetxController {
     fetchCategoryProducts();
   }
 
-  Future<void> fetchCategoryProducts() async {
+  Future<void> fetchCategoryProducts({bool forceRefresh = false}) async {
     try {
-      isLoading.value = true;
+      if (allProducts.isEmpty) {
+        isLoading.value = true;
+      }
       hasError.value = false;
       errorMessage.value = '';
 
-      final fetched = await _productRepository.getProducts();
+      final fetched = await _productRepository.getProducts(forceRefresh: forceRefresh);
       allProducts.assignAll(fetched);
 
       _updateDynamicCategories();
     } catch (e) {
-      hasError.value = true;
-      errorMessage.value = e.toString().replaceAll('Exception: ', '');
+      if (allProducts.isEmpty) {
+        hasError.value = true;
+        errorMessage.value = e.toString().replaceAll('Exception: ', '');
+      }
     } finally {
       isLoading.value = false;
     }
@@ -100,7 +104,7 @@ class CategoryController extends GetxController {
 
   bool get isSearchActive => searchText.value.trim().isNotEmpty;
 
-  void fetchProducts() => fetchCategoryProducts();
+  void fetchProducts({bool forceRefresh = true}) => fetchCategoryProducts(forceRefresh: forceRefresh);
 
   void resetFilter() {
     selectedCategory.value = 'All';

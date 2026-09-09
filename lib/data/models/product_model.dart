@@ -99,6 +99,9 @@ class ProductModel {
     this.updatedAt,
   });
 
+  bool get isInStock => countInStock > 0;
+  bool get isOutOfStock => countInStock <= 0;
+
   bool get hasDiscount => discount?.isActive == true;
 
   double get discountAmount {

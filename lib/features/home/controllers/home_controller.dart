@@ -62,45 +62,61 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchHomeProducts();
-    fetchBrandFeatures();
+    fetchHomeData();
   }
 
-  Future<void> fetchHomeProducts() async {
+  Future<void> fetchHomeData({bool forceRefresh = false}) async {
+    await Future.wait([
+      fetchHomeProducts(forceRefresh: forceRefresh),
+      fetchBrandFeatures(forceRefresh: forceRefresh),
+    ]);
+  }
+
+  Future<void> fetchHomeProducts({bool forceRefresh = false}) async {
     try {
-      isLoading.value = true;
+      if (allProducts.isEmpty) {
+        isLoading.value = true;
+      }
       hasError.value = false;
       errorMessage.value = '';
 
-      final fetched = await _productRepository.getProducts();
+      final fetched = await _productRepository.getProducts(forceRefresh: forceRefresh);
       allProducts.assignAll(fetched);
     } catch (e) {
-      hasError.value = true;
-      errorMessage.value = e.toString().replaceAll('Exception: ', '');
+      if (allProducts.isEmpty) {
+        hasError.value = true;
+        errorMessage.value = e.toString().replaceAll('Exception: ', '');
+      }
     } finally {
       isLoading.value = false;
     }
   }
 
-  Future<void> fetchBrandFeatures() async {
-    if (brandFeatures.value != null) {
+  Future<void> fetchBrandFeatures({bool forceRefresh = false}) async {
+    if (!forceRefresh && brandFeatures.value != null) {
       return;
     }
 
     try {
-      isBrandFeaturesLoading.value = true;
+      if (brandFeatures.value == null) {
+        isBrandFeaturesLoading.value = true;
+      }
       hasBrandFeaturesError.value = false;
       brandFeaturesErrorMessage.value = '';
 
-      final data = await _brandFeaturesRepository.getBrandFeatures();
+      final data = await _brandFeaturesRepository.getBrandFeatures(forceRefresh: forceRefresh);
       brandFeatures.value = data;
     } on ApiException catch (e) {
-      hasBrandFeaturesError.value = true;
-      brandFeaturesErrorMessage.value = e.message;
+      if (brandFeatures.value == null) {
+        hasBrandFeaturesError.value = true;
+        brandFeaturesErrorMessage.value = e.message;
+      }
     } catch (e) {
-      hasBrandFeaturesError.value = true;
-      brandFeaturesErrorMessage.value =
-          'Unable to load brand features right now.';
+      if (brandFeatures.value == null) {
+        hasBrandFeaturesError.value = true;
+        brandFeaturesErrorMessage.value =
+            'Unable to load brand features right now.';
+      }
     } finally {
       isBrandFeaturesLoading.value = false;
     }

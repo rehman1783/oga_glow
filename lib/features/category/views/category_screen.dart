@@ -207,74 +207,85 @@ class CategoryScreen extends GetView<CategoryController> {
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Obx(() {
-                      if (controller.isLoading.value) {
+                    child: RefreshIndicator(
+                      color: AppColors.primary,
+                      backgroundColor: colors.cardBackground,
+                      onRefresh: () async {
+                        await controller.fetchCategoryProducts(forceRefresh: true);
+                      },
+                      child: Obx(() {
+                        if (controller.isLoading.value) {
+                          return GridView.builder(
+                            physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics(),
+                            ),
+                            padding: EdgeInsets.only(bottom: 20.h),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: crossAxisCount,
+                              crossAxisSpacing: 12.w,
+                              mainAxisSpacing: 12.h,
+                              childAspectRatio: childAspectRatio,
+                            ),
+                            itemCount: 6,
+                            itemBuilder: (context, index) {
+                              return Shimmer.fromColors(
+                                baseColor: colors.panelSecondary,
+                                highlightColor: colors.cardBackground,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: colors.cardBackground,
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }
+
+                        if (controller.hasError.value) {
+                          return CustomEmptyState(
+                            icon: Icons.error_outline_rounded,
+                            title: 'Failed to load products',
+                            description: controller.errorMessage.value,
+                            buttonText: 'Try Again',
+                            onButtonPressed: () => controller.fetchProducts(forceRefresh: true),
+                          );
+                        }
+
+                        final products = controller.filteredProducts;
+
+                        if (products.isEmpty) {
+                          return CustomEmptyState(
+                            icon: Icons.search_off_rounded,
+                            title: 'No Products Found',
+                            description:
+                                'Try searching for different keywords or browse another category.',
+                            buttonText: 'Reset Filters',
+                            onButtonPressed: () => controller.resetFilter(),
+                          );
+                        }
+
                         return GridView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          padding: EdgeInsets.only(bottom: 20.h),
+                          physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics(),
+                          ),
+                          padding: EdgeInsets.only(bottom: 24.h),
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: crossAxisCount,
                             crossAxisSpacing: 12.w,
                             mainAxisSpacing: 12.h,
                             childAspectRatio: childAspectRatio,
                           ),
-                          itemCount: 6,
+                          itemCount: products.length,
                           itemBuilder: (context, index) {
-                            return Shimmer.fromColors(
-                              baseColor: colors.panelSecondary,
-                              highlightColor: colors.cardBackground,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: colors.cardBackground,
-                                  borderRadius: BorderRadius.circular(20.r),
-                                ),
-                              ),
+                            return FadeSlideTransition(
+                              index: index % 6,
+                              child: CategoryProductCard(product: products[index]),
                             );
                           },
                         );
-                      }
-
-                      if (controller.hasError.value) {
-                        return CustomEmptyState(
-                          icon: Icons.error_outline_rounded,
-                          title: 'Failed to load products',
-                          description: controller.errorMessage.value,
-                          buttonText: 'Try Again',
-                          onButtonPressed: () => controller.fetchProducts(),
-                        );
-                      }
-
-                      final products = controller.filteredProducts;
-
-                      if (products.isEmpty) {
-                        return CustomEmptyState(
-                          icon: Icons.search_off_rounded,
-                          title: 'No Products Found',
-                          description:
-                              'Try searching for different keywords or browse another category.',
-                          buttonText: 'Reset Filters',
-                          onButtonPressed: () => controller.resetFilter(),
-                        );
-                      }
-
-                      return GridView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        padding: EdgeInsets.only(bottom: 24.h),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: crossAxisCount,
-                          crossAxisSpacing: 12.w,
-                          mainAxisSpacing: 12.h,
-                          childAspectRatio: childAspectRatio,
-                        ),
-                        itemCount: products.length,
-                        itemBuilder: (context, index) {
-                          return FadeSlideTransition(
-                            index: index % 6,
-                            child: CategoryProductCard(product: products[index]),
-                          );
-                        },
-                      );
-                    }),
+                      }),
+                    ),
                   ),
                 ),
               ],

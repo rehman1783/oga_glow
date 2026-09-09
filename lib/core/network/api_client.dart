@@ -169,16 +169,96 @@ class ApiClient {
     }
   }
 
+  final Map<String, _HttpCacheEntry> _cache = {};
+  final Map<String, Future<dynamic>> _inFlightRequests = {};
+
+  String _buildCacheKey(String path, Map<String, dynamic>? queryParameters) {
+    if (queryParameters == null || queryParameters.isEmpty) {
+      return path;
+    }
+    final sortedKeys = queryParameters.keys.toList()..sort();
+    final queryStr = sortedKeys.map((k) => '$k=${queryParameters[k]}').join('&');
+    return '$path?$queryStr';
+  }
+
+  /// Clears the HTTP cache completely or for a specific endpoint prefix.
+  void clearCache([String? pathPrefix]) {
+    if (pathPrefix == null) {
+      _cache.clear();
+      debugPrint('[ApiClient] Entire HTTP cache cleared');
+    } else {
+      _cache.removeWhere((key, _) => key.startsWith(pathPrefix));
+      debugPrint('[ApiClient] HTTP cache cleared for prefix: $pathPrefix');
+    }
+  }
+
   Future<Response<T>> get<T>(
     String path, {
     Map<String, dynamic>? queryParameters,
     Options? options,
+    Duration ttl = const Duration(minutes: 5),
+    bool forceRefresh = false,
   }) async {
-    return _sendRequest(() => _dio.get<T>(
+    final cacheKey = _buildCacheKey(path, queryParameters);
+
+    // 1. Check in-memory cache if not forcing refresh
+    if (!forceRefresh) {
+      final cached = _cache[cacheKey];
+      if (cached != null && !cached.isExpired) {
+        debugPrint('[ApiClient] Cache HIT for $cacheKey (age: ${DateTime.now().difference(cached.timestamp).inSeconds}s)');
+        return Response<T>(
+          data: cached.response.data as T,
+          headers: cached.response.headers,
+          requestOptions: cached.response.requestOptions,
+          isRedirect: cached.response.isRedirect,
+          statusCode: cached.response.statusCode,
+          statusMessage: cached.response.statusMessage,
+          redirects: cached.response.redirects,
+          extra: cached.response.extra,
+        );
+      }
+    }
+
+    // 2. In-flight request deduplication: if request is already ongoing, join it
+    if (!forceRefresh && _inFlightRequests.containsKey(cacheKey)) {
+      debugPrint('[ApiClient] In-flight DEDUPLICATION joined for $cacheKey');
+      final inFlightResponse = await _inFlightRequests[cacheKey]!;
+      return Response<T>(
+        data: inFlightResponse.data as T,
+        headers: inFlightResponse.headers,
+        requestOptions: inFlightResponse.requestOptions,
+        isRedirect: inFlightResponse.isRedirect,
+        statusCode: inFlightResponse.statusCode,
+        statusMessage: inFlightResponse.statusMessage,
+        redirects: inFlightResponse.redirects,
+        extra: inFlightResponse.extra,
+      );
+    }
+
+    // 3. Dispatch new network call & save to inFlightRequests
+    final requestFuture = _sendRequest<T>(() => _dio.get<T>(
       path,
       queryParameters: queryParameters,
       options: options,
     ));
+
+    _inFlightRequests[cacheKey] = requestFuture;
+
+    try {
+      final response = await requestFuture;
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
+        _cache[cacheKey] = _HttpCacheEntry(
+          response: response,
+          timestamp: DateTime.now(),
+          ttl: ttl,
+        );
+      }
+      return response;
+    } finally {
+      _inFlightRequests.remove(cacheKey);
+    }
   }
 
   Future<Response<T>> post<T>(
@@ -222,4 +302,18 @@ class ApiClient {
       options: options,
     ));
   }
+}
+
+class _HttpCacheEntry {
+  final Response response;
+  final DateTime timestamp;
+  final Duration ttl;
+
+  _HttpCacheEntry({
+    required this.response,
+    required this.timestamp,
+    required this.ttl,
+  });
+
+  bool get isExpired => DateTime.now().difference(timestamp) > ttl;
 }

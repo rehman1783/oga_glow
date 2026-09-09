@@ -39,7 +39,7 @@ class OrderController extends GetxController {
   }
 
   /// Fetches real orders from the backend API.
-  Future<void> fetchOrders({bool showLoading = true}) async {
+  Future<void> fetchOrders({bool? showLoading, bool forceRefresh = false}) async {
     // Check auth status first
     bool userLoggedIn = false;
     if (Get.isRegistered<AuthController>()) {
@@ -55,27 +55,36 @@ class OrderController extends GetxController {
       return;
     }
 
-    if (showLoading) {
+    final shouldShowLoading = showLoading ?? allOrders.isEmpty;
+    if (shouldShowLoading) {
       isLoading.value = true;
     }
     errorMessage.value = '';
     isUnauthorized.value = false;
 
     try {
-      final realOrders = await _orderService.getMyOrders();
+      final realOrders = await _orderService.getMyOrders(forceRefresh: forceRefresh);
       allOrders.assignAll(realOrders);
       filterOrders();
     } on UnauthorizedException {
       debugPrint('[OrderController] 401 received from backend orders endpoint.');
       isUnauthorized.value = true;
     } on NetworkException {
-      errorMessage.value = 'No internet connection. Please check your network and try again.';
+      if (allOrders.isEmpty) {
+        errorMessage.value = 'No internet connection. Please check your network and try again.';
+      }
     } on TimeoutException {
-      errorMessage.value = 'Request timed out. Please pull down to refresh.';
+      if (allOrders.isEmpty) {
+        errorMessage.value = 'Request timed out. Please pull down to refresh.';
+      }
     } on ApiException catch (e) {
-      errorMessage.value = e.message;
+      if (allOrders.isEmpty) {
+        errorMessage.value = e.message;
+      }
     } catch (e) {
-      errorMessage.value = 'Failed to load orders. Please try again.';
+      if (allOrders.isEmpty) {
+        errorMessage.value = 'Failed to load orders. Please try again.';
+      }
     } finally {
       isLoading.value = false;
     }
@@ -83,7 +92,7 @@ class OrderController extends GetxController {
 
   /// Pull-to-refresh action.
   Future<void> refreshOrders() async {
-    await fetchOrders(showLoading: false);
+    await fetchOrders(showLoading: false, forceRefresh: true);
   }
 
   /// Filters orders based on [query] and the currently selected [status].

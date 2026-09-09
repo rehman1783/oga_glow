@@ -49,7 +49,7 @@ class ProductCard extends StatelessWidget {
       onTap: () {
         Get.toNamed(
           AppRoutes.products_details,
-          arguments: product.id,
+          arguments: product,
           preventDuplicates: false,
         );
       },
@@ -138,8 +138,60 @@ class ProductCard extends StatelessWidget {
                     ),
                   ),
 
-                  /// Discount Savings Badge (Proper Vivid Fire Red)
-                  if (product.hasDiscount)
+                  /// Out of Stock Overlay
+                  if (product.isOutOfStock)
+                    Positioned.fill(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(19.r),
+                        ),
+                        child: Container(
+                          color: Colors.black.withValues(alpha: 0.35),
+                        ),
+                      ),
+                    ),
+
+                  /// Out of Stock Badge or Discount Savings Badge
+                  if (product.isOutOfStock)
+                    Positioned(
+                      top: 8.h,
+                      left: 8.w,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 7.w,
+                          vertical: 3.5.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.8),
+                          borderRadius: BorderRadius.circular(8.r),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.3),
+                            width: 0.8,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.remove_circle_outline_rounded,
+                              size: 10.sp,
+                              color: Colors.white,
+                            ),
+                            SizedBox(width: 3.w),
+                            Text(
+                              'Out of Stock',
+                              style: AppTextStyles.caption.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 9.sp,
+                                letterSpacing: 0.3,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  else if (product.hasDiscount)
                     Positioned(
                       top: 8.h,
                       left: 8.w,
@@ -333,33 +385,54 @@ class ProductCard extends StatelessWidget {
                       ),
                       SizedBox(width: 4.w),
                       BounceTap(
-                        onTap: () => AddToCartBottomSheet.show(
-                          context,
-                          _legacyProductMap,
-                        ),
-                        scaleBound: 0.82,
+                        onTap: product.isOutOfStock
+                            ? () {
+                                Get.snackbar(
+                                  'Out of Stock',
+                                  '${product.name} is currently out of stock.',
+                                  snackPosition: SnackPosition.TOP,
+                                  backgroundColor: colors.cardBackground,
+                                  colorText: colors.textPrimary,
+                                  duration: const Duration(seconds: 2),
+                                  margin: EdgeInsets.all(16.w),
+                                  borderRadius: 12.r,
+                                );
+                              }
+                            : () => AddToCartBottomSheet.show(
+                                  context,
+                                  _legacyProductMap,
+                                ),
+                        scaleBound: product.isOutOfStock ? 1.0 : 0.82,
                         child: Container(
                           width: 32.r,
                           height: 32.r,
                           decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [AppColors.primary, AppColors.primaryLight],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
+                            gradient: product.isOutOfStock
+                                ? null
+                                : const LinearGradient(
+                                    colors: [AppColors.primary, AppColors.primaryLight],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                            color: product.isOutOfStock ? colors.panelSecondary : null,
                             shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.primary.withValues(alpha: 0.3),
-                                blurRadius: 8,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
+                            border: product.isOutOfStock
+                                ? Border.all(color: colors.border)
+                                : null,
+                            boxShadow: product.isOutOfStock
+                                ? []
+                                : [
+                                    BoxShadow(
+                                      color: AppColors.primary.withValues(alpha: 0.3),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
                           ),
                           child: Icon(
-                            Icons.add_rounded,
-                            size: 20.sp,
-                            color: Colors.white,
+                            product.isOutOfStock ? Icons.block_rounded : Icons.add_rounded,
+                            size: product.isOutOfStock ? 16.sp : 20.sp,
+                            color: product.isOutOfStock ? colors.textSecondary : Colors.white,
                           ),
                         ),
                       ),

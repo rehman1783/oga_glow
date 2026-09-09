@@ -89,7 +89,7 @@ class HomeScreen extends GetView<HomeController> {
           color: AppColors.primary,
           backgroundColor: colors.cardBackground,
           onRefresh: () async {
-            controller.fetchHomeProducts();
+            await controller.fetchHomeData(forceRefresh: true);
           },
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(

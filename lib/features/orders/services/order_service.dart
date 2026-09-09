@@ -12,11 +12,15 @@ class OrderService {
 
   /// Fetches the real order history for the currently authenticated user.
   /// Calls GET /ogaglow/orders/my-orders
-  Future<List<OrderModel>> getMyOrders() async {
-    debugPrint('[OrderService] Fetching real orders from ${ApiEndpoints.myOrders}...');
+  Future<List<OrderModel>> getMyOrders({bool forceRefresh = false}) async {
+    debugPrint('[OrderService] Fetching real orders from ${ApiEndpoints.myOrders} (forceRefresh: $forceRefresh)...');
 
     try {
-      final Response response = await _apiClient.get(ApiEndpoints.myOrders);
+      final Response response = await _apiClient.get(
+        ApiEndpoints.myOrders,
+        forceRefresh: forceRefresh,
+        ttl: const Duration(minutes: 2),
+      );
       final data = response.data;
 
       debugPrint('[OrderService] Orders response received. Status: ${response.statusCode}');

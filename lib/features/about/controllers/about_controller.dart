@@ -68,11 +68,16 @@ class AboutController extends GetxController {
   }
 
   @override
-  @override
   void onInit() {
     super.onInit();
-    fetchAboutUs();
-    getFakeReviews();
+    fetchAboutPageData();
+  }
+
+  Future<void> fetchAboutPageData({bool forceRefresh = false}) async {
+    await Future.wait([
+      fetchAboutUs(forceRefresh: forceRefresh),
+      getFakeReviews(forceRefresh: forceRefresh),
+    ]);
   }
 
   Future<void> fetchTestimonials() async {
@@ -90,37 +95,49 @@ class AboutController extends GetxController {
     }
   }
 
-  Future<void> getFakeReviews() async {
+  Future<void> getFakeReviews({bool forceRefresh = false}) async {
     try {
-      isFakeReviewsLoading.value = true;
+      if (fakeReviews.isEmpty) {
+        isFakeReviewsLoading.value = true;
+      }
       fakeReviewsError.value = '';
-      final response = await _fakeReviewRepository.getAllFakeReviews();
+      final response = await _fakeReviewRepository.getAllFakeReviews(forceRefresh: forceRefresh);
       fakeReviews.assignAll(response.reviews);
     } on ApiException catch (e) {
-      fakeReviewsError.value = e.message;
+      if (fakeReviews.isEmpty) {
+        fakeReviewsError.value = e.message;
+      }
     } catch (e) {
-      fakeReviewsError.value = 'Unable to load customer reviews.';
+      if (fakeReviews.isEmpty) {
+        fakeReviewsError.value = 'Unable to load customer reviews.';
+      }
     } finally {
       isFakeReviewsLoading.value = false;
     }
   }
 
   /// Fetches About Us details from backend API.
-  Future<void> fetchAboutUs() async {
+  Future<void> fetchAboutUs({bool forceRefresh = false}) async {
     try {
-      isLoading.value = true;
+      if (aboutData.value == null) {
+        isLoading.value = true;
+      }
       isError.value = false;
       errorMessage.value = '';
 
-      final result = await _repository.getAboutUs();
+      final result = await _repository.getAboutUs(forceRefresh: forceRefresh);
       aboutData.value = result;
     } on ApiException catch (e) {
-      isError.value = true;
-      errorMessage.value = e.message;
+      if (aboutData.value == null) {
+        isError.value = true;
+        errorMessage.value = e.message;
+      }
     } catch (e) {
-      isError.value = true;
-      errorMessage.value =
-          'An unexpected error occurred while loading About Us.';
+      if (aboutData.value == null) {
+        isError.value = true;
+        errorMessage.value =
+            'An unexpected error occurred while loading About Us.';
+      }
     } finally {
       isLoading.value = false;
     }

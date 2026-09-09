@@ -9,9 +9,12 @@ class BrandFeaturesService {
   BrandFeaturesService({ApiClient? apiClient})
     : _apiClient = apiClient ?? ApiClient();
 
-  Future<BrandFeaturesModel> fetchBrandFeatures() async {
-    debugPrint('[BrandFeaturesService] Fetching brand features...');
-    final response = await _apiClient.get(ApiEndpoints.brandFeatures);
+  Future<BrandFeaturesModel> fetchBrandFeatures({bool forceRefresh = false}) async {
+    debugPrint('[BrandFeaturesService] Fetching brand features (forceRefresh: $forceRefresh)...');
+    final response = await _apiClient.get(
+      ApiEndpoints.brandFeatures,
+      forceRefresh: forceRefresh,
+    );
 
     debugPrint(
       '[BrandFeaturesService] Response received: ${response.statusCode}',

@@ -11,9 +11,12 @@ class AboutService {
       : _apiClient = apiClient ?? ApiClient();
 
   /// Fetches About Us data from GET /ogaglow/about-us endpoint.
-  Future<AboutUsModel> fetchAboutUs() async {
-    debugPrint('[AboutService] Fetching About Us data...');
-    final response = await _apiClient.get(ApiEndpoints.aboutUs);
+  Future<AboutUsModel> fetchAboutUs({bool forceRefresh = false}) async {
+    debugPrint('[AboutService] Fetching About Us data (forceRefresh: $forceRefresh)...');
+    final response = await _apiClient.get(
+      ApiEndpoints.aboutUs,
+      forceRefresh: forceRefresh,
+    );
 
     debugPrint('[AboutService] Response received: ${response.statusCode}');
     if (response.data is Map<String, dynamic>) {

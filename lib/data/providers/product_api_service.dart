@@ -11,9 +11,12 @@ class ProductApiService {
       : _apiClient = apiClient ?? ApiClient();
 
   /// Fetches all products from GET /ogaglow/products
-  Future<List<ProductModel>> fetchProducts() async {
-    debugPrint('[ProductApiService] Fetching products from ${ApiEndpoints.products}...');
-    final response = await _apiClient.get(ApiEndpoints.products);
+  Future<List<ProductModel>> fetchProducts({bool forceRefresh = false}) async {
+    debugPrint('[ProductApiService] Fetching products from ${ApiEndpoints.products} (forceRefresh: $forceRefresh)...');
+    final response = await _apiClient.get(
+      ApiEndpoints.products,
+      forceRefresh: forceRefresh,
+    );
 
     debugPrint('[ProductApiService] Response status: ${response.statusCode}');
 
@@ -35,9 +38,12 @@ class ProductApiService {
   }
 
   /// Fetches single product details by ID from GET /ogaglow/products/:id
-  Future<ProductModel> fetchProductById(String id) async {
-    debugPrint('[ProductApiService] Fetching product by ID: $id');
-    final response = await _apiClient.get(ApiEndpoints.productDetails(id));
+  Future<ProductModel> fetchProductById(String id, {bool forceRefresh = false}) async {
+    debugPrint('[ProductApiService] Fetching product by ID: $id (forceRefresh: $forceRefresh)');
+    final response = await _apiClient.get(
+      ApiEndpoints.productDetails(id),
+      forceRefresh: forceRefresh,
+    );
 
     debugPrint('[ProductApiService] Response status: ${response.statusCode}');
 

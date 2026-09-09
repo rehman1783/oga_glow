@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/core/theme/app_text_styles.dart';
+import 'package:oga_glow/data/models/product_model.dart';
 import 'package:oga_glow/features/product/widgets/product_image_slider.dart';
 
 import '../controllers/product_controller.dart';
@@ -21,7 +22,9 @@ class ProductScreen extends GetView<ProductController> {
     final args = Get.arguments;
     final targetId = args is String
         ? args
-        : (args is Map ? args['id']?.toString() : null);
+        : (args is ProductModel
+            ? args.id
+            : (args is Map ? args['id']?.toString() : null));
 
     if (targetId != null &&
         targetId.isNotEmpty &&

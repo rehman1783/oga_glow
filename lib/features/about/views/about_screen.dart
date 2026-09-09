@@ -68,7 +68,7 @@ class AboutScreen extends GetView<AboutController> {
           final banner = data.banner;
 
           return RefreshIndicator(
-            onRefresh: controller.fetchAboutUs,
+            onRefresh: () => controller.fetchAboutPageData(forceRefresh: true),
             color: AppColors.primary,
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
