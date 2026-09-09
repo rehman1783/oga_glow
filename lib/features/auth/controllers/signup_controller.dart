@@ -20,8 +20,16 @@ class SignupController extends GetxController {
   final isLoading = false.obs;
   final obscurePassword = true.obs;
   final obscureConfirmPassword = true.obs;
+  final agreedToTerms = true.obs;
+  final errorMessage = ''.obs;
+  final isAccountExists = false.obs;
 
   final formKey = GlobalKey<FormState>();
+
+  void dismissError() {
+    errorMessage.value = '';
+    isAccountExists.value = false;
+  }
 
   // ------------------------------------------------------------------
   // Validation
@@ -73,6 +81,9 @@ class SignupController extends GetxController {
   }
 
   String? validateConfirmPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please confirm your password';
+    }
     if (value != passwordController.text) {
       return 'Passwords do not match';
     }
@@ -84,17 +95,24 @@ class SignupController extends GetxController {
   // ------------------------------------------------------------------
 
   Future<void> signup() async {
+    dismissError();
     debugPrint('[DEBUG LOG] SignupController: Register button pressed');
-    
+
     // Manual validation
     final nameError = validateName(nameController.text);
     final emailError = validateEmail(emailController.text);
     final passwordError = validatePassword(passwordController.text);
+    final confirmError = validateConfirmPassword(confirmPasswordController.text);
 
-    if (nameError != null || emailError != null || passwordError != null) {
-      final firstError = nameError ?? emailError ?? passwordError!;
+    if (nameError != null || emailError != null || passwordError != null || confirmError != null) {
+      final firstError = nameError ?? emailError ?? passwordError ?? confirmError!;
       debugPrint('[DEBUG LOG] SignupController: Validation failed -> $firstError');
       _showError(firstError);
+      return;
+    }
+
+    if (!agreedToTerms.value) {
+      _showError('Please agree to the Terms & Privacy Policy to continue.');
       return;
     }
 
@@ -115,7 +133,7 @@ class SignupController extends GetxController {
 
       if (response.success) {
         debugPrint('[DEBUG LOG] SignupController: Registration successful from backend response.');
-        
+
         CustomSnackbar.showSuccess(
           title: 'Account Created Successfully',
           message: 'Verification email sent. Please check your inbox to verify your account.',
@@ -167,6 +185,8 @@ class SignupController extends GetxController {
   }
 
   void _showAlreadyRegisteredError() {
+    errorMessage.value = 'An account with this email already exists.\nPlease log in instead.';
+    isAccountExists.value = true;
     CustomSnackbar.showError(
       title: 'Account Exists',
       message: 'This email is already registered. Please log in.',
@@ -174,8 +194,10 @@ class SignupController extends GetxController {
   }
 
   void _showError(String message) {
+    errorMessage.value = message;
+    isAccountExists.value = false;
     CustomSnackbar.showError(
-      title: 'Registration Failed',
+      title: 'Registration Issue',
       message: message,
     );
   }
@@ -189,6 +211,6 @@ class SignupController extends GetxController {
   }
 
   void navigateToLogin() {
-    Get.toNamed(AppRoutes.login);
+    Get.offNamed(AppRoutes.login);
   }
 }

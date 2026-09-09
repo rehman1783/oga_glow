@@ -18,7 +18,7 @@ class AuthEntryScreen extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: GlowBackground(
         child: SafeArea(
-          top: false, // Let header draw under status bar
+          top: false,
           child: Column(
             children: [
               /// Top Brand Header
@@ -26,74 +26,151 @@ class AuthEntryScreen extends StatelessWidget {
                 title: 'OGA Glow',
                 subtitle: 'Discover Your Natural Radiance',
               ),
-              SizedBox(height: 24.h),
 
               /// Bottom Content
               Expanded(
-                flex: 4,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 28.w),
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 10.h),
+                      SizedBox(height: 12.h),
 
                       FadeSlideTransition(
                         index: 1,
                         child: Text(
-                          "Welcome",
+                          "Pure Botanical Skincare",
                           style: AppTextStyles.heading1.copyWith(
-                            fontSize: 38.sp,
+                            fontSize: 28.sp,
                             fontWeight: FontWeight.w800,
-                            letterSpacing: -0.5,
+                            letterSpacing: -0.4,
                             color: AppColors.of(context).textPrimary,
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: 10.h),
+
+                      FadeSlideTransition(
+                        index: 2,
+                        child: Text(
+                          "Discover nature's finest formulations designed to restore, nourish, and elevate your skin and hair routine.",
+                          style: AppTextStyles.body.copyWith(
+                            color: AppColors.of(context).textSecondary,
+                            fontSize: 14.sp,
+                            height: 1.5,
                           ),
                         ),
                       ),
 
                       SizedBox(height: 16.h),
 
+                      // Feature Pills
                       FadeSlideTransition(
-                        index: 2,
-                        child: Text(
-                          "Discover natural beauty products carefully crafted for your skin and hair care journey.",
-                          style: AppTextStyles.body.copyWith(
-                            color: AppColors.of(context).textSecondary,
-                            fontSize: 16.sp,
-                            height: 1.6,
-                          ),
+                        index: 3,
+                        child: Wrap(
+                          spacing: 8.w,
+                          runSpacing: 8.h,
+                          children: const [
+                            _PillTag(icon: '🌿', label: '100% Organic'),
+                            _PillTag(icon: '✨', label: 'Clinically Tested'),
+                            _PillTag(icon: '🐰', label: 'Cruelty-Free'),
+                          ],
                         ),
                       ),
 
                       const Spacer(),
 
+                      // Primary CTA: Get Started / Create Account
                       FadeSlideTransition(
-                        index: 3,
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "Continue",
-                                style: AppTextStyles.body.copyWith(
-                                  color: AppColors.of(context).textPrimary,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16.sp,
+                        index: 4,
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 52.h,
+                          child: ElevatedButton(
+                            onPressed: () => Get.toNamed(AppRoutes.signup),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              foregroundColor: Colors.white,
+                              elevation: 4,
+                              shadowColor: AppColors.primary.withValues(alpha: 0.35),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Get Started",
+                                  style: AppTextStyles.button.copyWith(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 14.w),
-                              PulsingCircleButton(
-                                onTap: () {
-                                  Get.toNamed(AppRoutes.login);
-                                },
-                              ),
-                            ],
+                                SizedBox(width: 8.w),
+                                const Icon(Icons.arrow_forward_rounded, size: 20, color: Colors.white),
+                              ],
+                            ),
                           ),
                         ),
                       ),
 
-                      SizedBox(height: 48.h),
+                      SizedBox(height: 12.h),
+
+                      // Secondary CTA: Sign In
+                      FadeSlideTransition(
+                        index: 5,
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 50.h,
+                          child: OutlinedButton(
+                            onPressed: () => Get.toNamed(AppRoutes.login),
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: AppColors.of(context).cardBackground,
+                              side: BorderSide(
+                                color: AppColors.primary.withValues(alpha: 0.5),
+                                width: 1.5,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                            child: Text(
+                              "I already have an account",
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 14.5.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: 12.h),
+
+                      // Tertiary Option: Explore as Guest
+                      FadeSlideTransition(
+                        index: 6,
+                        child: Center(
+                          child: TextButton(
+                            onPressed: () => Get.offAllNamed(AppRoutes.mainNavigation),
+                            child: Text(
+                              "Explore as Guest",
+                              style: TextStyle(
+                                color: AppColors.of(context).textSecondary,
+                                fontSize: 13.5.sp,
+                                fontWeight: FontWeight.w600,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: 14.h),
                     ],
                   ),
                 ),
@@ -106,80 +183,40 @@ class AuthEntryScreen extends StatelessWidget {
   }
 }
 
-class PulsingCircleButton extends StatefulWidget {
-  const PulsingCircleButton({super.key, required this.onTap});
-  final VoidCallback onTap;
+class _PillTag extends StatelessWidget {
+  const _PillTag({
+    required this.icon,
+    required this.label,
+  });
 
-  @override
-  State<PulsingCircleButton> createState() => _PulsingCircleButtonState();
-}
-
-class _PulsingCircleButtonState extends State<PulsingCircleButton>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    )..repeat();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  final String icon;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (context, child) {
-          return Stack(
-            alignment: Alignment.center,
-            children: [
-              // Outer expanding aura
-              Container(
-                width: 52.w + _controller.value * 24.w,
-                height: 52.h + _controller.value * 24.h,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.primary.withValues(alpha: (1.0 - _controller.value).clamp(0.0, 1.0)),
-                ),
-              ),
-              // Inner solid button
-              Container(
-                width: 52.w,
-                height: 52.h,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [AppColors.primary, AppColors.primaryLight],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.3),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Icon(
-                  Icons.arrow_forward,
-                  color: AppColors.white,
-                  size: 24.sp,
-                ),
-              ),
-            ],
-          );
-        },
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+      decoration: BoxDecoration(
+        color: AppColors.of(context).panel,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: AppColors.of(context).border,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(icon, style: TextStyle(fontSize: 12.sp)),
+          SizedBox(width: 6.w),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.of(context).textPrimary,
+            ),
+          ),
+        ],
       ),
     );
   }

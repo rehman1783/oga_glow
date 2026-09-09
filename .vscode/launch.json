@@ -9,11 +9,16 @@
         {
             "name": "oga_glow",
             "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "oga_glow (web chrome)",
+            "request": "launch",
             "type": "dart",
             "deviceId": "chrome",
-      "args": [
-        "--web-port=8080"
-      ]
+            "args": [
+                "--web-port=8080"
+            ]
         },
         {
             "name": "oga_glow (profile mode)",

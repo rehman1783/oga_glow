@@ -22,5 +22,6 @@ class ApiEndpoints {
   // Checkout & Orders endpoints
   static const String checkoutPreview = '/ogaglow/orders/checkout/preview';
   static const String placeOrder = '/ogaglow/orders/placeOrder';
+  static const String myOrders = '/ogaglow/orders/my-orders';
 }
 

@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -34,6 +35,7 @@ class ApiClient {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
+          'Origin': 'https://ogaglow-five.vercel.app',
         },
       ),
     );
@@ -221,4 +223,3 @@ class ApiClient {
     ));
   }
 }
-
