@@ -300,6 +300,8 @@ class CheckoutController extends GetxController {
             '${addressController.text.trim()}, ${areaController.text.trim()}, ${cityController.text.trim()}, ${selectedProvince.value}',
         estimatedDelivery: '3-5 Business Days',
         notes: orderData.notes ?? '',
+        courierName: orderData.courierName ?? 'Leopards Courier',
+        trackingNumber: orderData.trackingNumber ?? '',
         trackingSteps: [
           TrackingStepModel(
             title: 'Order Placed',
