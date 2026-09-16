@@ -34,7 +34,7 @@ class HomeCategories extends GetView<HomeController> {
               }
 
               if (Get.isRegistered<MainNavigationController>()) {
-                Get.find<MainNavigationController>().changeIndex(1);
+                Get.find<MainNavigationController>().changeIndex(1, keepFilter: true);
               }
             },
           );
