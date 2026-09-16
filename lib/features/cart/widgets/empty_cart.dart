@@ -15,7 +15,7 @@ class EmptyCart extends StatelessWidget {
       buttonText: 'Start Shopping',
       onButtonPressed: () {
         if (Get.isRegistered<MainNavigationController>()) {
-          Get.find<MainNavigationController>().changeIndex(0);
+          Get.find<MainNavigationController>().changeIndex(1);
         }
       },
     );
