@@ -12,7 +12,7 @@ class AuthBrandHeader extends StatefulWidget {
     this.showBackButton = false,
     this.onBack,
     this.height,
-    this.showLogo = true,
+    this.showLogo = false,
   });
 
   final String title;
@@ -51,17 +51,11 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
     );
 
     _slideAnimation = Tween<double>(begin: 30.h, end: 0).animate(
-      CurvedAnimation(
-        parent: _entranceController,
-        curve: Curves.easeOutCubic,
-      ),
+      CurvedAnimation(parent: _entranceController, curve: Curves.easeOutCubic),
     );
 
     _logoScaleAnimation = Tween<double>(begin: 0.75, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _entranceController,
-        curve: Curves.elasticOut,
-      ),
+      CurvedAnimation(parent: _entranceController, curve: Curves.elasticOut),
     );
 
     _entranceController.forward();
@@ -73,10 +67,7 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
     )..repeat(reverse: true);
 
     _scaleAnimation = Tween<double>(begin: 1.0, end: 1.15).animate(
-      CurvedAnimation(
-        parent: _glowController,
-        curve: Curves.easeInOut,
-      ),
+      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
     );
   }
 
@@ -91,9 +82,12 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
   Widget build(BuildContext context) {
     final topPadding = MediaQuery.of(context).padding.top;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
-    // Luxury height calculation with adequate room for logo, tag, title & subtitle
-    final headerHeight = widget.height ?? (295.h + topPadding * 0.55);
+
+    // Height calculation based on whether logo is shown
+    final defaultHeight = widget.showLogo
+        ? (340.h + topPadding * 0.75)
+        : (295.h + topPadding * 0.75);
+    final headerHeight = widget.height ?? defaultHeight;
 
     return FadeTransition(
       opacity: _fadeAnimation,
@@ -141,7 +135,9 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
                         colors: [
-                          const Color(0xFFD4AF37).withValues(alpha: isDark ? 0.18 : 0.22), // Champagne gold
+                          const Color(0xFFD4AF37).withValues(
+                            alpha: isDark ? 0.18 : 0.22,
+                          ), // Champagne gold
                           const Color(0xFF2E6B37).withValues(alpha: 0.10),
                           Colors.transparent,
                         ],
@@ -162,7 +158,9 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                     shape: BoxShape.circle,
                     gradient: RadialGradient(
                       colors: [
-                        AppColors.primaryLight.withValues(alpha: isDark ? 0.15 : 0.2),
+                        AppColors.primaryLight.withValues(
+                          alpha: isDark ? 0.15 : 0.2,
+                        ),
                         Colors.transparent,
                       ],
                     ),
@@ -224,11 +222,14 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                       child: Container(
                         padding: const EdgeInsets.all(9),
                         decoration: BoxDecoration(
-                          color: (isDark ? const Color(0xFF14301B) : Colors.white)
-                              .withValues(alpha: isDark ? 0.75 : 0.22),
+                          color:
+                              (isDark ? const Color(0xFF14301B) : Colors.white)
+                                  .withValues(alpha: isDark ? 0.75 : 0.22),
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: const Color(0xFFD4AF37).withValues(alpha: 0.45),
+                            color: const Color(
+                              0xFFD4AF37,
+                            ).withValues(alpha: 0.45),
                             width: 1.2,
                           ),
                           boxShadow: [
@@ -251,9 +252,9 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
 
               // Header Main Content (Logo Badge + Brand Label + Title + Subtitle)
               Positioned(
-                bottom: 38.h,
-                left: 22.w,
-                right: 22.w,
+                bottom: 90.h,
+                left: 24.w,
+                right: 24.w,
                 child: AnimatedBuilder(
                   animation: _entranceController,
                   builder: (context, child) {
@@ -275,18 +276,20 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                             padding: const EdgeInsets.all(3),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              gradient: LinearGradient(
+                              gradient: const LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  const Color(0xFFE5C158), // Champagne gold accent
-                                  const Color(0xFF2E6B37), // Emerald brand green
-                                  const Color(0xFF90E09F), // Light botanical shine
+                                  Color(0xFFE5C158), // Champagne gold accent
+                                  Color(0xFF2E6B37), // Emerald brand green
+                                  Color(0xFF90E09F), // Light botanical shine
                                 ],
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFFD4AF37).withValues(alpha: 0.35),
+                                  color: const Color(
+                                    0xFFD4AF37,
+                                  ).withValues(alpha: 0.35),
                                   blurRadius: 16,
                                   spreadRadius: 1,
                                   offset: const Offset(0, 4),
@@ -303,7 +306,9 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                               height: 62.h,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: isDark ? const Color(0xFF0D2513) : const Color(0xFF143B1B),
+                                color: isDark
+                                    ? const Color(0xFF0D2513)
+                                    : const Color(0xFF143B1B),
                               ),
                               child: ClipOval(
                                 child: Padding(
@@ -326,14 +331,21 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
 
                       // Luxury Brand Category Chip
                       Container(
-                        margin: EdgeInsets.only(bottom: 6.h),
-                        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
+                        margin: EdgeInsets.only(bottom: 8.h),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 4.h,
+                        ),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: isDark ? 0.12 : 0.18),
+                          color: Colors.white.withValues(
+                            alpha: isDark ? 0.12 : 0.18,
+                          ),
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                            color: const Color(0xFFE5C158).withValues(alpha: 0.45),
-                            width: 0.8,
+                            color: const Color(
+                              0xFFE5C158,
+                            ).withValues(alpha: 0.5),
+                            width: 0.9,
                           ),
                         ),
                         child: Row(
@@ -342,16 +354,18 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                             Icon(
                               Icons.auto_awesome_rounded,
                               color: const Color(0xFFE5C158),
-                              size: 11.sp,
+                              size: 12.sp,
                             ),
-                            SizedBox(width: 5.w),
+                            SizedBox(width: 6.w),
                             Text(
                               "OGA GLOW • HERBAL LUXURY",
                               style: TextStyle(
-                                color: const Color(0xFFF3E5AB), // Light gold tint
-                                fontSize: 10.sp,
+                                color: const Color(
+                                  0xFFF3E5AB,
+                                ), // Light gold tint
+                                fontSize: 10.5.sp,
                                 fontWeight: FontWeight.w700,
-                                letterSpacing: 1.1,
+                                letterSpacing: 1.2,
                               ),
                             ),
                           ],
@@ -361,37 +375,44 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                       // Screen Title
                       Text(
                         widget.title,
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white,
-                          fontSize: 25.sp,
-                          letterSpacing: -0.4,
-                          height: 1.15,
-                          shadows: [
-                            Shadow(
-                              blurRadius: 10,
-                              offset: const Offset(0, 2),
-                              color: Colors.black.withValues(alpha: isDark ? 0.7 : 0.4),
+                        style: Theme.of(context).textTheme.headlineSmall
+                            ?.copyWith(
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                              fontSize: 27.sp,
+                              letterSpacing: -0.4,
+                              height: 1.2,
+                              shadows: [
+                                Shadow(
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 2),
+                                  color: Colors.black.withValues(
+                                    alpha: isDark ? 0.7 : 0.4,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
                       ),
-                      
-                      SizedBox(height: 5.h),
+
+                      SizedBox(height: 6.h),
 
                       // Screen Subtitle
                       Text(
                         widget.subtitle,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: const Color(0xFFE2F0E5), // Clean high contrast light green tint
+                          color: const Color(
+                            0xFFE5F4E8,
+                          ), // Crisp high contrast green tint
                           fontWeight: FontWeight.w400,
-                          fontSize: 13.5.sp,
-                          height: 1.3,
+                          fontSize: 14.sp,
+                          height: 1.35,
                           shadows: [
                             Shadow(
                               blurRadius: 6,
                               offset: const Offset(0, 1),
-                              color: Colors.black.withValues(alpha: isDark ? 0.6 : 0.3),
+                              color: Colors.black.withValues(
+                                alpha: isDark ? 0.6 : 0.3,
+                              ),
                             ),
                           ],
                         ),

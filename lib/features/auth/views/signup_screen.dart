@@ -34,7 +34,6 @@ class SignupScreen extends GetView<SignupController> {
                 const AuthBrandHeader(
                   title: 'Create Account',
                   subtitle: 'Start your journey to healthy, glowing skin.',
-                  showBackButton: true,
                 ),
 
                 Padding(
