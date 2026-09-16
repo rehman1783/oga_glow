@@ -103,13 +103,13 @@ class AppColors {
 
   // Status
   static const Color success = Color(0xFF388E3C);
-  static const Color error = Color(0xFFE50000); // 100% Pure True Red (Zero Blue / No Magenta)
-  static const Color pureRed = Color(0xFFE50000);
+  static const Color error = Color(0xFFFF1744); // 100% Vivid Pure Bright Red
+  static const Color pureRed = Color(0xFFFF1744); // 100% Pure Vibrant Red
   static const Color warning = Color(0xFFFFA000);
 
   // Vivid Pure Red Gradient
   static const LinearGradient redGradient = LinearGradient(
-    colors: [Color(0xFFE50000), Color(0xFFB70000)],
+    colors: [Color(0xFFFF1744), Color(0xFFD50000)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
