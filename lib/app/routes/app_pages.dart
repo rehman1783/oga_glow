@@ -1,12 +1,6 @@
 import 'package:get/get.dart';
 import 'package:oga_glow/features/auth/bindings/auth_entry_binding.dart';
 
-import 'package:oga_glow/features/category/bindings/category_binding.dart';
-import 'package:oga_glow/features/category/views/category_screen.dart';
-
-import 'package:oga_glow/features/home/bindings/home_binding.dart';
-import 'package:oga_glow/features/home/views/home_screen.dart';
-
 import 'package:oga_glow/features/main_navigation/bindings/main_navigation_binding.dart';
 import 'package:oga_glow/features/main_navigation/views/main_navigation_screen.dart';
 import 'package:oga_glow/features/product/bindings/product_binding.dart';
@@ -55,11 +49,26 @@ class AppPages {
     GetPage(name: AppRoutes.auth, page: () => const AuthEntryScreen()),
     GetPage(
       name: AppRoutes.home,
-      page: () => const HomeScreen(),
-      binding: HomeBinding(),
+      page: () => const MainNavigationScreen(),
+      binding: MainNavigationBinding(),
     ),
     GetPage(
       name: AppRoutes.mainNavigation,
+      page: () => const MainNavigationScreen(),
+      binding: MainNavigationBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.category,
+      page: () => const MainNavigationScreen(),
+      binding: MainNavigationBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.wishlist,
+      page: () => const MainNavigationScreen(),
+      binding: MainNavigationBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.cart,
       page: () => const MainNavigationScreen(),
       binding: MainNavigationBinding(),
     ),
@@ -70,9 +79,8 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.allProducts,
-      page: () => const CategoryScreen(),
-      binding: CategoryBinding(),
-      arguments: 'All',
+      page: () => const MainNavigationScreen(),
+      binding: MainNavigationBinding(),
     ),
     GetPage(
       name: AppRoutes.products_details,
