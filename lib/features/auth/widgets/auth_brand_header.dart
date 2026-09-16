@@ -12,6 +12,7 @@ class AuthBrandHeader extends StatefulWidget {
     this.showBackButton = false,
     this.onBack,
     this.height,
+    this.showLogo = true,
   });
 
   final String title;
@@ -19,6 +20,7 @@ class AuthBrandHeader extends StatefulWidget {
   final bool showBackButton;
   final VoidCallback? onBack;
   final double? height;
+  final bool showLogo;
 
   @override
   State<AuthBrandHeader> createState() => _AuthBrandHeaderState();
@@ -27,34 +29,52 @@ class AuthBrandHeader extends StatefulWidget {
 class _AuthBrandHeaderState extends State<AuthBrandHeader>
     with TickerProviderStateMixin {
   late final AnimationController _entranceController;
-  late final AnimationController _breathController;
+  late final AnimationController _glowController;
   late final Animation<double> _fadeAnimation;
+  late final Animation<double> _slideAnimation;
   late final Animation<double> _scaleAnimation;
+  late final Animation<double> _logoScaleAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    // Entrance fade-in animation
+    // Entrance fade & slide animation
     _entranceController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 900),
+      duration: const Duration(milliseconds: 1000),
     );
+
     _fadeAnimation = CurvedAnimation(
       parent: _entranceController,
       curve: Curves.easeOutCubic,
     );
+
+    _slideAnimation = Tween<double>(begin: 30.h, end: 0).animate(
+      CurvedAnimation(
+        parent: _entranceController,
+        curve: Curves.easeOutCubic,
+      ),
+    );
+
+    _logoScaleAnimation = Tween<double>(begin: 0.75, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _entranceController,
+        curve: Curves.elasticOut,
+      ),
+    );
+
     _entranceController.forward();
 
-    // Subtle breathing animation for the background pattern
-    _breathController = AnimationController(
+    // Subtle breathing glow animation
+    _glowController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 7),
+      duration: const Duration(seconds: 6),
     )..repeat(reverse: true);
 
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.12).animate(
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.15).animate(
       CurvedAnimation(
-        parent: _breathController,
+        parent: _glowController,
         curve: Curves.easeInOut,
       ),
     );
@@ -63,7 +83,7 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
   @override
   void dispose() {
     _entranceController.dispose();
-    _breathController.dispose();
+    _glowController.dispose();
     super.dispose();
   }
 
@@ -71,8 +91,9 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
   Widget build(BuildContext context) {
     final topPadding = MediaQuery.of(context).padding.top;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    // Increased header height for luxury spacious breathing room
-    final headerHeight = widget.height ?? (275.h + topPadding * 0.55);
+    
+    // Luxury height calculation with adequate room for logo, tag, title & subtitle
+    final headerHeight = widget.height ?? (295.h + topPadding * 0.55);
 
     return FadeTransition(
       opacity: _fadeAnimation,
@@ -87,47 +108,32 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Color(0xFF0A1C0E), // Deep luxury obsidian night
-                      Color(0xFF13321A), // Rich dark jade
-                      Color(0xFF1E4826), // Luminous emerald
+                      Color(0xFF07170B), // Deepest luxury emerald obsidian
+                      Color(0xFF0F3218), // Rich dark botanical green
+                      Color(0xFF184824), // Luminous emerald accent
                     ],
+                    stops: [0.0, 0.55, 1.0],
                   )
                 : const LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      AppColors.primary,
-                      Color(0xFF3F6E35),
-                      AppColors.primaryLight,
+                      Color(0xFF1B4323), // Deep forest emerald
+                      Color(0xFF2E6B37), // Primary brand green
+                      Color(0xFF42884E), // Luminous botanical light
                     ],
+                    stops: [0.0, 0.5, 1.0],
                   ),
           ),
           clipBehavior: Clip.hardEdge,
           child: Stack(
             children: [
-              // Subtle luxury botanical emblem/logo in background
+              // Ambient Gold & Emerald Radial Glow Spots
               Positioned(
-                right: -25.w,
-                top: topPadding * 0.2,
+                top: -40.h,
+                right: -30.w,
                 child: ScaleTransition(
                   scale: _scaleAnimation,
-                  child: Opacity(
-                    opacity: isDark ? 0.16 : 0.12,
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      width: 240.w,
-                      height: 240.h,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-              ),
-
-              // Soft champagne gold accent glow in dark mode
-              if (isDark)
-                Positioned(
-                  top: -60.h,
-                  right: -40.w,
                   child: Container(
                     width: 260.w,
                     height: 260.h,
@@ -135,15 +141,60 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
                         colors: [
-                          const Color(0xFFD4AF37).withValues(alpha: 0.10),
+                          const Color(0xFFD4AF37).withValues(alpha: isDark ? 0.18 : 0.22), // Champagne gold
+                          const Color(0xFF2E6B37).withValues(alpha: 0.10),
                           Colors.transparent,
                         ],
+                        stops: const [0.0, 0.45, 1.0],
                       ),
                     ),
                   ),
                 ),
+              ),
 
-              // Soft vignette overlay
+              Positioned(
+                bottom: -20.h,
+                left: -40.w,
+                child: Container(
+                  width: 220.w,
+                  height: 220.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(
+                      colors: [
+                        AppColors.primaryLight.withValues(alpha: isDark ? 0.15 : 0.2),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              // Subtle Background Watermark (Brand Emblem)
+              Positioned(
+                right: -20.w,
+                bottom: 10.h,
+                child: ScaleTransition(
+                  scale: _scaleAnimation,
+                  child: Opacity(
+                    opacity: isDark ? 0.08 : 0.07,
+                    child: Image.asset(
+                      'assets/images/brand_emblem.png',
+                      width: 230.w,
+                      height: 230.h,
+                      fit: BoxFit.contain,
+                      errorBuilder: (ctx, err, stack) => Image.asset(
+                        'assets/images/logo.png',
+                        width: 230.w,
+                        height: 230.h,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // Luxury Overlay Vignette
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
@@ -151,9 +202,9 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.black.withValues(alpha: isDark ? 0.35 : 0.22),
+                        Colors.black.withValues(alpha: isDark ? 0.30 : 0.15),
                         Colors.transparent,
-                        Colors.black.withValues(alpha: isDark ? 0.25 : 0.12),
+                        Colors.black.withValues(alpha: isDark ? 0.20 : 0.08),
                       ],
                     ),
                   ),
@@ -163,7 +214,7 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
               // Back Button (if enabled)
               if (widget.showBackButton)
                 Positioned(
-                  top: topPadding + 8.h,
+                  top: topPadding + 10.h,
                   left: 18.w,
                   child: Material(
                     color: Colors.transparent,
@@ -173,19 +224,18 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                       child: Container(
                         padding: const EdgeInsets.all(9),
                         decoration: BoxDecoration(
-                          color: (isDark ? const Color(0xFF142B1B) : Colors.white)
-                              .withValues(alpha: isDark ? 0.85 : 0.22),
+                          color: (isDark ? const Color(0xFF14301B) : Colors.white)
+                              .withValues(alpha: isDark ? 0.75 : 0.22),
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: (isDark ? const Color(0xFF2C5936) : Colors.white)
-                                .withValues(alpha: isDark ? 0.9 : 0.4),
+                            color: const Color(0xFFD4AF37).withValues(alpha: 0.45),
                             width: 1.2,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.2),
-                              blurRadius: 10,
-                              offset: const Offset(0, 2),
+                              color: Colors.black.withValues(alpha: 0.25),
+                              blurRadius: 12,
+                              offset: const Offset(0, 3),
                             ),
                           ],
                         ),
@@ -199,49 +249,155 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                   ),
                 ),
 
-              // Title and Subtitle content with enhanced breathing room
+              // Header Main Content (Logo Badge + Brand Label + Title + Subtitle)
               Positioned(
-                bottom: 42.h,
-                left: 24.w,
-                right: 24.w,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      widget.title,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.white,
-                        fontSize: 27.sp,
-                        letterSpacing: -0.4,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                            color: Colors.black.withValues(alpha: isDark ? 0.6 : 0.35),
+                bottom: 38.h,
+                left: 22.w,
+                right: 22.w,
+                child: AnimatedBuilder(
+                  animation: _entranceController,
+                  builder: (context, child) {
+                    return Transform.translate(
+                      offset: Offset(0, _slideAnimation.value),
+                      child: child,
+                    );
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Prominent Luxury Logo Showcase Container
+                      if (widget.showLogo) ...[
+                        ScaleTransition(
+                          scale: _logoScaleAnimation,
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 12.h),
+                            padding: const EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  const Color(0xFFE5C158), // Champagne gold accent
+                                  const Color(0xFF2E6B37), // Emerald brand green
+                                  const Color(0xFF90E09F), // Light botanical shine
+                                ],
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFFD4AF37).withValues(alpha: 0.35),
+                                  blurRadius: 16,
+                                  spreadRadius: 1,
+                                  offset: const Offset(0, 4),
+                                ),
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.3),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Container(
+                              width: 62.w,
+                              height: 62.h,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: isDark ? const Color(0xFF0D2513) : const Color(0xFF143B1B),
+                              ),
+                              child: ClipOval(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Image.asset(
+                                    'assets/images/logo.png',
+                                    fit: BoxFit.contain,
+                                    errorBuilder: (ctx, err, stack) => Icon(
+                                      Icons.spa_rounded,
+                                      color: const Color(0xFFE5C158),
+                                      size: 32.sp,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 7.h),
-                    Text(
-                      widget.subtitle,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: isDark ? const Color(0xFFD6E8DA) : AppColors.white.withValues(alpha: 0.94),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14.sp,
-                        height: 1.35,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 5,
-                            offset: const Offset(0, 1),
-                            color: Colors.black.withValues(alpha: isDark ? 0.5 : 0.25),
+                        ),
+                      ],
+
+                      // Luxury Brand Category Chip
+                      Container(
+                        margin: EdgeInsets.only(bottom: 6.h),
+                        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: isDark ? 0.12 : 0.18),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: const Color(0xFFE5C158).withValues(alpha: 0.45),
+                            width: 0.8,
                           ),
-                        ],
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.auto_awesome_rounded,
+                              color: const Color(0xFFE5C158),
+                              size: 11.sp,
+                            ),
+                            SizedBox(width: 5.w),
+                            Text(
+                              "OGA GLOW • HERBAL LUXURY",
+                              style: TextStyle(
+                                color: const Color(0xFFF3E5AB), // Light gold tint
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 1.1,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+
+                      // Screen Title
+                      Text(
+                        widget.title,
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                          fontSize: 25.sp,
+                          letterSpacing: -0.4,
+                          height: 1.15,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 10,
+                              offset: const Offset(0, 2),
+                              color: Colors.black.withValues(alpha: isDark ? 0.7 : 0.4),
+                            ),
+                          ],
+                        ),
+                      ),
+                      
+                      SizedBox(height: 5.h),
+
+                      // Screen Subtitle
+                      Text(
+                        widget.subtitle,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: const Color(0xFFE2F0E5), // Clean high contrast light green tint
+                          fontWeight: FontWeight.w400,
+                          fontSize: 13.5.sp,
+                          height: 1.3,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 6,
+                              offset: const Offset(0, 1),
+                              color: Colors.black.withValues(alpha: isDark ? 0.6 : 0.3),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

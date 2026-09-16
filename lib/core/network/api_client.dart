@@ -35,7 +35,6 @@ class ApiClient {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Origin': 'https://ogaglow-five.vercel.app',
         },
       ),
     );

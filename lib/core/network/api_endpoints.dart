@@ -1,7 +1,7 @@
 class ApiEndpoints {
   ApiEndpoints._();
 
-  static const String baseUrl = 'https://ogaglow-apis.vercel.app/api';
+  static const String baseUrl = 'https://ogaglow-backend.wholcure.com/api';
 
   // Auth endpoints
   static const String login = '/auth/login';

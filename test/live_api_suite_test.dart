@@ -7,7 +7,7 @@ import 'package:oga_glow/features/checkout/models/checkout_preview_model.dart';
 import 'package:oga_glow/features/checkout/models/place_order_model.dart';
 
 void main() {
-  const baseUrl = 'https://ogaglow-apis.vercel.app/api';
+  const baseUrl = 'https://ogaglow-backend.wholcure.com/api';
   final dio = Dio(
     BaseOptions(
       baseUrl: baseUrl,
