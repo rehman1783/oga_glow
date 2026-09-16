@@ -31,7 +31,7 @@ class CategoryScreen extends GetView<CategoryController> {
             Theme.of(context).scaffoldBackgroundColor,
         leading: IconButton(
           onPressed: () => Scaffold.of(context).openDrawer(),
-          icon: Icon(Icons.more_vert_rounded, color: colors.textPrimary),
+          icon: Icon(Icons.sort_rounded, color: colors.textPrimary),
         ),
         title: Text(
           'Product Catalog',

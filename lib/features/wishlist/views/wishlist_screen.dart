@@ -33,7 +33,7 @@ class WishlistScreen extends StatelessWidget {
           centerTitle: true,
           leading: IconButton(
             onPressed: () => Scaffold.of(context).openDrawer(),
-            icon: const Icon(Icons.more_vert_rounded),
+            icon: Icon(Icons.sort_rounded, color: AppColors.of(context).textPrimary),
           ),
           title: Text(
             'Wishlist',
