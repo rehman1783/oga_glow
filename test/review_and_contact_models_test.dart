@@ -26,13 +26,13 @@ void main() {
           {'city': 'Karachi', 'address': 'Dolmen Mall'},
           {'city': 'Islamabad', 'address': 'Blue Area'},
         ],
-        'emails': ['sales@ogaglow.com', 'support@ogaglow.com'],
+        'emails': ['sales@OGAGLOW.com', 'support@OGAGLOW.com'],
         'phoneNumbers': ['+92-300-1234567'],
       });
 
       expect(contact.headOffice?.city, 'Lahore');
       expect(contact.subOffices.length, 2);
-      expect(contact.emails, contains('support@ogaglow.com'));
+      expect(contact.emails, contains('support@OGAGLOW.com'));
       expect(contact.phoneNumbers, contains('+92-300-1234567'));
     });
 
@@ -53,7 +53,7 @@ void main() {
         'email': 'support@wholcure.com',
         'phone': '+92 300 9988776',
         'whatsapp': 'https://wa.me/923009988776',
-        'facebook': 'https://facebook.com/ogaglow',
+        'facebook': 'https://facebook.com/OGAGLOW',
       });
 
       expect(contact.headOffice?.city, 'Rawalpindi');
@@ -61,8 +61,7 @@ void main() {
       expect(contact.primaryEmail, 'support@wholcure.com');
       expect(contact.primaryPhone, '+92 300 9988776');
       expect(contact.effectiveWhatsAppUrl, 'https://wa.me/923009988776');
-      expect(contact.socialLinks, contains('https://facebook.com/ogaglow'));
+      expect(contact.socialLinks, contains('https://facebook.com/OGAGLOW'));
     });
   });
 }
-

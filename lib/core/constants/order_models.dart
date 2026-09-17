@@ -83,7 +83,7 @@ class OrderModel {
       }
     }
 
-    String pName = 'OgaGlow Skincare Order';
+    String pName = 'OGAGLOW Skincare Order';
     String pImage = 'assets/images/product_placeholder.png';
     double uPrice = 0.0;
     int totalQuantity = 0;
@@ -98,12 +98,14 @@ class OrderModel {
         }
       }
 
-      final rawImg = first['image'] ?? first['productImage'] ?? first['thumbnail'];
+      final rawImg =
+          first['image'] ?? first['productImage'] ?? first['thumbnail'];
       if (rawImg != null && rawImg.toString().isNotEmpty) {
         pImage = rawImg.toString();
       }
 
-      uPrice = (num.tryParse(first['price']?.toString() ?? '0') ?? 0).toDouble();
+      uPrice = (num.tryParse(first['price']?.toString() ?? '0') ?? 0)
+          .toDouble();
 
       for (final item in itemsList) {
         totalQuantity += int.tryParse(item['quantity']?.toString() ?? '1') ?? 1;
@@ -113,18 +115,25 @@ class OrderModel {
     }
 
     // 3. Price
-    final double total = (num.tryParse(
-      json['totalPrice']?.toString() ??
-      json['totalAmount']?.toString() ??
-      json['itemsPrice']?.toString() ??
-      '0',
-    ) ?? 0).toDouble();
+    final double total =
+        (num.tryParse(
+                  json['totalPrice']?.toString() ??
+                      json['totalAmount']?.toString() ??
+                      json['itemsPrice']?.toString() ??
+                      '0',
+                ) ??
+                0)
+            .toDouble();
 
     // 4. Date formatting
-    final String dateString = _formatDate(json['createdAt']?.toString() ?? json['orderDate']?.toString());
+    final String dateString = _formatDate(
+      json['createdAt']?.toString() ?? json['orderDate']?.toString(),
+    );
 
     // 5. Status
-    final status = _parseStatus(json['orderStatus']?.toString() ?? json['status']?.toString());
+    final status = _parseStatus(
+      json['orderStatus']?.toString() ?? json['status']?.toString(),
+    );
 
     // 6. Customer & Phone
     String custName = 'Valued Customer';
@@ -152,21 +161,27 @@ class OrderModel {
         custName = a['fullName'].toString();
       }
 
-      final parts = [fullAddr, area, city, province]
-          .map((e) => e.toString().trim())
-          .where((e) => e.isNotEmpty)
-          .toList();
+      final parts = [
+        fullAddr,
+        area,
+        city,
+        province,
+      ].map((e) => e.toString().trim()).where((e) => e.isNotEmpty).toList();
 
       if (parts.isNotEmpty) {
         formattedAddress = parts.join(', ');
       }
-    } else if (json['shippingAddress'] is String && (json['shippingAddress'] as String).isNotEmpty) {
+    } else if (json['shippingAddress'] is String &&
+        (json['shippingAddress'] as String).isNotEmpty) {
       formattedAddress = json['shippingAddress'] as String;
     }
 
     // 8. Courier & Tracking
-    final String courier = (json['courierName'] ?? json['courier'] ?? 'Leopards Courier').toString();
-    final String tracking = (json['trackingNumber'] ?? json['tracking'] ?? '').toString();
+    final String courier =
+        (json['courierName'] ?? json['courier'] ?? 'Leopards Courier')
+            .toString();
+    final String tracking = (json['trackingNumber'] ?? json['tracking'] ?? '')
+        .toString();
 
     // 9. Dynamic Tracking Steps
     final steps = _buildTrackingSteps(
@@ -177,19 +192,23 @@ class OrderModel {
     );
 
     return OrderModel(
-      orderId: id.isNotEmpty ? id : 'OG-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}',
+      orderId: id.isNotEmpty
+          ? id
+          : 'OG-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}',
       productName: pName,
       productImage: pImage,
       quantity: totalQuantity > 0 ? totalQuantity : 1,
       unitPrice: uPrice > 0 ? uPrice : total,
       totalPrice: total,
       orderDate: dateString,
-      paymentMethod: (json['paymentMethod'] ?? 'Cash on Delivery (COD)').toString(),
+      paymentMethod: (json['paymentMethod'] ?? 'Cash on Delivery (COD)')
+          .toString(),
       status: status,
       customerName: custName,
       phoneNumber: phone.isNotEmpty ? phone : '+92 (Not specified)',
       shippingAddress: formattedAddress,
-      estimatedDelivery: (json['estimatedDelivery'] ?? '3-5 Business Days').toString(),
+      estimatedDelivery: (json['estimatedDelivery'] ?? '3-5 Business Days')
+          .toString(),
       notes: (json['notes'] ?? '').toString(),
       courierName: courier,
       trackingNumber: tracking,
@@ -201,7 +220,20 @@ class OrderModel {
     if (rawDate == null || rawDate.isEmpty) return 'Recent';
     try {
       final dt = DateTime.parse(rawDate).toLocal();
-      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const months = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ];
       final month = months[dt.month - 1];
       final hour = dt.hour > 12 ? dt.hour - 12 : (dt.hour == 0 ? 12 : dt.hour);
       final amPm = dt.hour >= 12 ? 'PM' : 'AM';
@@ -249,7 +281,7 @@ class OrderModel {
       return [
         TrackingStepModel(
           title: 'Order Placed',
-          description: 'Order was created on OgaGlow.',
+          description: 'Order was created on OGAGLOW.',
           dateTime: orderDate,
           isCompleted: true,
         ),
@@ -263,7 +295,8 @@ class OrderModel {
     }
 
     final isDelivered = status == OrderStatus.delivered;
-    final isOutForDelivery = isDelivered || status == OrderStatus.outForDelivery;
+    final isOutForDelivery =
+        isDelivered || status == OrderStatus.outForDelivery;
     final isShipped = isOutForDelivery || status == OrderStatus.shipped;
     final isProcessing = isShipped || status == OrderStatus.processing;
 

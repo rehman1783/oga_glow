@@ -24,7 +24,7 @@ class ContactConstants {
   // ---------------------------------------------------------------------------
   // Phone Numbers
   // ---------------------------------------------------------------------------
-  static const String phoneLabel1 = 'OgaGlow';
+  static const String phoneLabel1 = 'OGAGLOW';
   static const String phoneNumber1 = '+92 321 3270507';
   static const String phoneDial1 = 'tel:+923213270507';
 
@@ -45,16 +45,16 @@ class ContactConstants {
   static const String connectivityTitle = 'Global Connectivity';
 
   static const String websiteLabel = 'Website';
-  static const String websiteUrl = 'https://ogaglow.com';
+  static const String websiteUrl = 'https://OGAGLOW.com';
 
   static const String facebookLabel = 'Facebook';
-  static const String facebookUrl = 'https://facebook.com/ogaglow';
+  static const String facebookUrl = 'https://facebook.com/OGAGLOW';
 
   static const String instagramLabel = 'Instagram';
-  static const String instagramUrl = 'https://instagram.com/ogaglow';
+  static const String instagramUrl = 'https://instagram.com/OGAGLOW';
 
   static const String linkedInLabel = 'LinkedIn';
-  static const String linkedInUrl = 'https://linkedin.com/company/ogaglow';
+  static const String linkedInUrl = 'https://linkedin.com/company/OGAGLOW';
 
   static const String whatsAppLabel = 'WhatsApp';
   static const String whatsAppUrl = 'https://wa.me/923213270507';

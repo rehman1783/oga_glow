@@ -27,7 +27,7 @@ class AuthEntryScreen extends StatelessWidget {
             children: [
               /// Top Brand Header
               const AuthBrandHeader(
-                title: 'OGA Glow',
+                title: 'OGAGLOW',
                 subtitle: 'Discover Your Natural Radiance',
               ),
 
@@ -94,10 +94,16 @@ class AuthEntryScreen extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () => Get.toNamed(AppRoutes.signup),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: isDark ? const Color(0xFF326330) : AppColors.primary,
+                              backgroundColor: isDark
+                                  ? const Color(0xFF326330)
+                                  : AppColors.primary,
                               foregroundColor: Colors.white,
                               elevation: 4,
-                              shadowColor: (isDark ? const Color(0xFF5AA34B) : AppColors.primary).withValues(alpha: isDark ? 0.4 : 0.35),
+                              shadowColor:
+                                  (isDark
+                                          ? const Color(0xFF5AA34B)
+                                          : AppColors.primary)
+                                      .withValues(alpha: isDark ? 0.4 : 0.35),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
@@ -114,7 +120,11 @@ class AuthEntryScreen extends StatelessWidget {
                                   ),
                                 ),
                                 SizedBox(width: 8.w),
-                                const Icon(Icons.arrow_forward_rounded, size: 20, color: Colors.white),
+                                const Icon(
+                                  Icons.arrow_forward_rounded,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
                               ],
                             ),
                           ),
@@ -132,9 +142,13 @@ class AuthEntryScreen extends StatelessWidget {
                           child: OutlinedButton(
                             onPressed: () => Get.toNamed(AppRoutes.login),
                             style: OutlinedButton.styleFrom(
-                              backgroundColor: isDark ? const Color(0xFF102015) : colors.cardBackground,
+                              backgroundColor: isDark
+                                  ? const Color(0xFF102015)
+                                  : colors.cardBackground,
                               side: BorderSide(
-                                color: isDark ? accentGreen : AppColors.primary.withValues(alpha: 0.5),
+                                color: isDark
+                                    ? accentGreen
+                                    : AppColors.primary.withValues(alpha: 0.5),
                                 width: 1.5,
                               ),
                               shape: RoundedRectangleBorder(
@@ -143,11 +157,12 @@ class AuthEntryScreen extends StatelessWidget {
                             ),
                             child: Text(
                               "I already have an account",
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: accentGreen,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 14.5.sp,
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: accentGreen,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14.5.sp,
+                                  ),
                             ),
                           ),
                         ),
@@ -160,11 +175,14 @@ class AuthEntryScreen extends StatelessWidget {
                         index: 6,
                         child: Center(
                           child: TextButton(
-                            onPressed: () => Get.offAllNamed(AppRoutes.mainNavigation),
+                            onPressed: () =>
+                                Get.offAllNamed(AppRoutes.mainNavigation),
                             child: Text(
                               "Explore as Guest",
                               style: TextStyle(
-                                color: isDark ? const Color(0xFF9EBEA5) : colors.textSecondary,
+                                color: isDark
+                                    ? const Color(0xFF9EBEA5)
+                                    : colors.textSecondary,
                                 fontSize: 13.5.sp,
                                 fontWeight: FontWeight.w600,
                                 decoration: TextDecoration.underline,
@@ -188,10 +206,7 @@ class AuthEntryScreen extends StatelessWidget {
 }
 
 class _PillTag extends StatelessWidget {
-  const _PillTag({
-    required this.icon,
-    required this.label,
-  });
+  const _PillTag({required this.icon, required this.label});
 
   final String icon;
   final String label;

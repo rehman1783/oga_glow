@@ -11,9 +11,11 @@ class OrderService {
   OrderService({ApiClient? apiClient}) : _apiClient = apiClient ?? ApiClient();
 
   /// Fetches the real order history for the currently authenticated user.
-  /// Calls GET /ogaglow/orders/my-orders
+  /// Calls GET /OGAGLOW/orders/my-orders
   Future<List<OrderModel>> getMyOrders({bool forceRefresh = false}) async {
-    debugPrint('[OrderService] Fetching real orders from ${ApiEndpoints.myOrders} (forceRefresh: $forceRefresh)...');
+    debugPrint(
+      '[OrderService] Fetching real orders from ${ApiEndpoints.myOrders} (forceRefresh: $forceRefresh)...',
+    );
 
     try {
       final Response response = await _apiClient.get(
@@ -23,12 +25,18 @@ class OrderService {
       );
       final data = response.data;
 
-      debugPrint('[OrderService] Orders response received. Status: ${response.statusCode}');
+      debugPrint(
+        '[OrderService] Orders response received. Status: ${response.statusCode}',
+      );
 
       List<dynamic> rawOrdersList = [];
 
       if (data is Map<String, dynamic>) {
-        final payload = data['data'] ?? data['orders'] ?? data['myOrders'] ?? data['result'];
+        final payload =
+            data['data'] ??
+            data['orders'] ??
+            data['myOrders'] ??
+            data['result'];
         if (payload is List) {
           rawOrdersList = payload;
         } else if (payload is Map<String, dynamic>) {
@@ -43,10 +51,14 @@ class OrderService {
           .map(OrderModel.fromJson)
           .toList();
 
-      debugPrint('[OrderService] Successfully parsed ${orders.length} real orders from backend.');
+      debugPrint(
+        '[OrderService] Successfully parsed ${orders.length} real orders from backend.',
+      );
       return orders;
     } on UnauthorizedException catch (e) {
-      debugPrint('[OrderService] UnauthorizedException: User is not logged in -> ${e.message}');
+      debugPrint(
+        '[OrderService] UnauthorizedException: User is not logged in -> ${e.message}',
+      );
       rethrow;
     } on ApiException catch (e) {
       debugPrint('[OrderService] ApiException fetching orders: ${e.message}');

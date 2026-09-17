@@ -44,7 +44,9 @@ class OrderHistoryScreen extends GetView<OrderController> {
           color: AppColors.primary,
           onRefresh: controller.refreshOrders,
           child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+            physics: const AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics(),
+            ),
             padding: EdgeInsets.symmetric(vertical: 10.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +97,8 @@ class OrderHistoryScreen extends GetView<OrderController> {
                   child: Obx(
                     () => OrderFilterChips(
                       selectedStatus: controller.selectedStatus.value,
-                      onStatusChanged: (status) => controller.filterByStatus(status),
+                      onStatusChanged: (status) =>
+                          controller.filterByStatus(status),
                     ),
                   ),
                 ),
@@ -106,17 +109,20 @@ class OrderHistoryScreen extends GetView<OrderController> {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Obx(() {
                     // 1. Loading State
-                    if (controller.isLoading.value && controller.allOrders.isEmpty) {
+                    if (controller.isLoading.value &&
+                        controller.allOrders.isEmpty) {
                       return _buildLoadingState(context);
                     }
 
                     // 2. Unauthorized / Guest State
-                    if (controller.isUnauthorized.value && controller.allOrders.isEmpty) {
+                    if (controller.isUnauthorized.value &&
+                        controller.allOrders.isEmpty) {
                       return _buildSignInPrompt(context);
                     }
 
                     // 3. Error State
-                    if (controller.errorMessage.value.isNotEmpty && controller.allOrders.isEmpty) {
+                    if (controller.errorMessage.value.isNotEmpty &&
+                        controller.allOrders.isEmpty) {
                       return _buildErrorState(context);
                     }
 
@@ -162,7 +168,8 @@ class OrderHistoryScreen extends GetView<OrderController> {
                               index: i + 5,
                               child: OrderCard(
                                 order: orders[i],
-                                onViewDetails: () => controller.openOrderDetails(orders[i]),
+                                onViewDetails: () =>
+                                    controller.openOrderDetails(orders[i]),
                               ),
                             ),
                         ],
@@ -253,9 +260,7 @@ class OrderHistoryScreen extends GetView<OrderController> {
       children: [
         SizedBox(height: 24.h),
         const Center(
-          child: CircularProgressIndicator(
-            color: AppColors.primary,
-          ),
+          child: CircularProgressIndicator(color: AppColors.primary),
         ),
         SizedBox(height: 16.h),
         Text(
@@ -306,7 +311,7 @@ class OrderHistoryScreen extends GetView<OrderController> {
           ),
           SizedBox(height: 8.h),
           Text(
-            'Please log in with your OgaGlow account to view your purchase history and track active orders.',
+            'Please log in with your OGAGLOW account to view your purchase history and track active orders.',
             style: AppTextStyles.body.copyWith(
               fontSize: 13.sp,
               color: AppColors.of(context).textSecondary,

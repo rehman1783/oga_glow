@@ -12,7 +12,7 @@ class ReviewService {
     debugPrint('[ReviewService] Fetching reviews for product: $productId');
     try {
       final response = await _apiClient.get(
-        '/ogaglow/reviews/product/$productId',
+        '/OGAGLOW/reviews/product/$productId',
       );
       final data = response.data;
       if (data is Map<String, dynamic>) {
@@ -62,7 +62,7 @@ class ReviewService {
 
     try {
       final response = await _apiClient.post(
-        '/ogaglow/reviews/create',
+        '/OGAGLOW/reviews/create',
         data: payload,
         options: Options(headers: {'Content-Type': 'application/json'}),
       );
@@ -94,7 +94,7 @@ class ReviewService {
   Future<List<ReviewModel>> fetchFakeTestimonials() async {
     debugPrint('[ReviewService] Fetching fake reviews/testimonials');
     try {
-      final response = await _apiClient.get('/ogaglow/about-us');
+      final response = await _apiClient.get('/OGAGLOW/about-us');
       final data = response.data;
       if (data is Map<String, dynamic>) {
         final reviews = data['reviews'] ?? data['testimonials'] ?? data['data'];

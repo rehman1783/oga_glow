@@ -14,18 +14,24 @@ import '../widgets/about_header.dart';
 import '../widgets/about_highlight_card.dart';
 import '../widgets/about_section_title.dart';
 import '../widgets/about_shimmer_loading.dart';
+import '../widgets/about_stats_grid.dart';
+import '../widgets/about_values_section.dart';
+import '../widgets/company_story_section.dart';
 import '../widgets/cta_button_section.dart';
 import '../widgets/reviews_section.dart';
 
 /// About Us screen.
 ///
-/// Fully API-driven About Us page that showcases the company hero banner,
-/// highlight cards, call-to-action buttons, body images, and dynamic FAQ items.
+/// Fully API-driven & feature-rich About Us page that showcases hero banner,
+/// company impact metrics, story & mission, values, call-to-action buttons,
+/// customer reviews, and FAQ items.
 class AboutScreen extends GetView<AboutController> {
   const AboutScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -35,13 +41,26 @@ class AboutScreen extends GetView<AboutController> {
         elevation: 0,
         centerTitle: true,
         scrolledUnderElevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new_rounded, size: 20.sp, color: colors.textPrimary),
+          onPressed: () => Get.back(),
+        ),
         title: Text(
           AboutConstants.heroTitle,
           style: AppTextStyles.heading2.copyWith(
             fontSize: 18.sp,
-            color: AppColors.of(context).textPrimary,
+            fontWeight: FontWeight.w800,
+            color: colors.textPrimary,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.refresh_rounded, size: 22.sp, color: AppColors.primary),
+            tooltip: 'Refresh Page',
+            onPressed: () => controller.fetchAboutPageData(forceRefresh: true),
+          ),
+          SizedBox(width: 4.w),
+        ],
       ),
       body: SafeArea(
         child: Obx(() {
@@ -76,7 +95,7 @@ class AboutScreen extends GetView<AboutController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ---- Hero / Header Section ----
+                  // ---- 1. Hero / Header Section ----
                   FadeSlideTransition(
                     index: 0,
                     child: AboutHeader(
@@ -86,7 +105,7 @@ class AboutScreen extends GetView<AboutController> {
                   ),
                   SizedBox(height: 20.h),
 
-                  // ---- Highlight Cards (card1, card2, card3) ----
+                  // ---- 2. Dynamic Highlight Cards (API Driven) ----
                   if (banner?.card1?.trim().isNotEmpty == true)
                     FadeSlideTransition(
                       index: 1,
@@ -114,24 +133,45 @@ class AboutScreen extends GetView<AboutController> {
                   if (banner?.card1?.isNotEmpty == true ||
                       banner?.card2?.isNotEmpty == true ||
                       banner?.card3?.isNotEmpty == true)
-                    SizedBox(height: 12.h),
+                    SizedBox(height: 16.h),
 
-                  // ---- First Body Image ----
+                  // ---- 3. Brand Statistics & Impact Counter Grid ----
+                  const FadeSlideTransition(
+                    index: 4,
+                    child: AboutStatsGrid(),
+                  ),
+                  SizedBox(height: 24.h),
+
+                  // ---- 4. Company Story & Mission / Vision ----
+                  const FadeSlideTransition(
+                    index: 5,
+                    child: CompanyStorySection(),
+                  ),
+                  SizedBox(height: 24.h),
+
+                  // ---- 5. Why Choose Us & Company Values ----
+                  const FadeSlideTransition(
+                    index: 6,
+                    child: AboutValuesSection(),
+                  ),
+                  SizedBox(height: 24.h),
+
+                  // ---- 6. First Body Image Banner ----
                   if (data.firstImage?.trim().isNotEmpty == true) ...[
                     FadeSlideTransition(
-                      index: 4,
+                      index: 7,
                       child: AboutBodyImageCard(
                         imageUrl: data.firstImage,
                         height: 200.h,
                       ),
                     ),
-                    SizedBox(height: 12.h),
+                    SizedBox(height: 16.h),
                   ],
 
-                  // ---- Second Body Image ----
+                  // ---- 7. Second Body Image Banner ----
                   if (data.secondImage?.trim().isNotEmpty == true) ...[
                     FadeSlideTransition(
-                      index: 5,
+                      index: 8,
                       child: AboutBodyImageCard(
                         imageUrl: data.secondImage,
                         height: 200.h,
@@ -140,9 +180,9 @@ class AboutScreen extends GetView<AboutController> {
                     SizedBox(height: 16.h),
                   ],
 
-                  // ---- Call-To-Action Section ----
+                  // ---- 8. Call-To-Action & Direct Support Section ----
                   FadeSlideTransition(
-                    index: 6,
+                    index: 9,
                     child: CTAButtonSection(
                       leftButtonTitle: banner?.leftButton,
                       rightButtonTitle: banner?.rightButton,
@@ -150,20 +190,25 @@ class AboutScreen extends GetView<AboutController> {
                       onContactUs: controller.contactUs,
                       onTalkToExperts: controller.talkToExperts,
                       onViewProducts: controller.viewProducts,
+                      onPhone: controller.launchPhone,
+                      onEmail: controller.launchEmail,
                     ),
                   ),
                   SizedBox(height: 24.h),
 
-                  // ---- Customer Reviews Section ----
-                  FadeSlideTransition(index: 7, child: const ReviewsSection()),
+                  // ---- 9. Customer Reviews Section ----
+                  const FadeSlideTransition(
+                    index: 10,
+                    child: ReviewsSection(),
+                  ),
                   SizedBox(height: 24.h),
 
-                  // ---- FAQ Section ----
+                  // ---- 10. FAQ Section ----
                   if (data.faqImage?.trim().isNotEmpty == true ||
                       !controller.isFaqEmpty) ...[
-                    FadeSlideTransition(
-                      index: 9,
-                      child: const AboutSectionTitle(
+                    const FadeSlideTransition(
+                      index: 11,
+                      child: AboutSectionTitle(
                         icon: Icons.help_center_rounded,
                         title: 'Frequently Asked Questions',
                       ),
@@ -173,7 +218,7 @@ class AboutScreen extends GetView<AboutController> {
                     // FaqImage Section Banner
                     if (data.faqImage?.trim().isNotEmpty == true)
                       FadeSlideTransition(
-                        index: 10,
+                        index: 12,
                         child: AboutBodyImageCard(
                           imageUrl: data.faqImage,
                           height: 160.h,
@@ -185,7 +230,7 @@ class AboutScreen extends GetView<AboutController> {
                       ...List.generate(data.faq!.length, (index) {
                         final faqItem = data.faq![index];
                         return FadeSlideTransition(
-                          index: 11 + index,
+                          index: 13 + index,
                           child: AboutFaqItem(
                             question: faqItem.question ?? '',
                             answer: faqItem.answer ?? '',

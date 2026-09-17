@@ -22,6 +22,7 @@ class AboutHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
     final effectiveTitle = title ?? AboutConstants.heroTitle;
     final effectiveParagraph = (paragraph != null && paragraph!.trim().isNotEmpty)
         ? paragraph!
@@ -29,22 +30,22 @@ class AboutHeader extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 20.w),
+      padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primary.withValues(alpha: 0.15),
-            AppColors.primaryLight.withValues(alpha: 0.05),
-            AppColors.of(context).panelSecondary,
+            AppColors.primary.withValues(alpha: 0.16),
+            AppColors.primaryLight.withValues(alpha: 0.08),
+            colors.cardBackground,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(24.r),
-        border: Border.all(color: AppColors.primary.withValues(alpha: 0.12)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.18)),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.06),
+            color: AppColors.primary.withValues(alpha: 0.08),
             blurRadius: 24,
             offset: const Offset(0, 8),
           ),
@@ -52,30 +53,71 @@ class AboutHeader extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Banner Image (using CachedNetworkImage) or default logo icon
+          // Top Luxury Brand Badge Pill
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [AppColors.primary, AppColors.primaryLight],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              borderRadius: BorderRadius.circular(30.r),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.primary.withValues(alpha: 0.3),
+                  blurRadius: 10,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.spa_rounded,
+                  size: 14.sp,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 6.w),
+                Text(
+                  "PURE BOTANICAL LUXURY",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10.sp,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 16.h),
+
+          // Banner Image (using CachedNetworkImage) or default logo circle
           if (imageUrl != null && imageUrl!.trim().isNotEmpty) ...[
             Container(
-              height: 140.h,
+              height: 150.h,
               width: double.infinity,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.r),
+                borderRadius: BorderRadius.circular(18.r),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.12),
+                    color: AppColors.primary.withValues(alpha: 0.15),
                     blurRadius: 16,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(16.r),
+                borderRadius: BorderRadius.circular(18.r),
                 child: CachedNetworkImage(
                   imageUrl: imageUrl!,
                   fit: BoxFit.cover,
                   width: double.infinity,
                   placeholder: (context, url) => Container(
-                    color: AppColors.of(context).cardBackground,
-                    child: Center(
+                    color: colors.cardBackground,
+                    child: const Center(
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
                         color: AppColors.primary,
@@ -86,10 +128,10 @@ class AboutHeader extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 18.h),
           ] else ...[
             _buildLogoCircle(context),
-            SizedBox(height: 20.h),
+            SizedBox(height: 16.h),
           ],
 
           // Heading
@@ -97,21 +139,21 @@ class AboutHeader extends StatelessWidget {
             effectiveTitle,
             textAlign: TextAlign.center,
             style: AppTextStyles.heading1.copyWith(
-              fontSize: 24.sp,
+              fontSize: 22.sp,
               fontWeight: FontWeight.w800,
-              color: AppColors.of(context).textPrimary,
-              letterSpacing: -0.5,
+              color: colors.textPrimary,
+              letterSpacing: -0.4,
             ),
           ),
-          SizedBox(height: 12.h),
+          SizedBox(height: 10.h),
 
           // Paragraph / Subtitle
           Text(
             effectiveParagraph,
             textAlign: TextAlign.center,
             style: AppTextStyles.body.copyWith(
-              fontSize: 14.sp,
-              color: AppColors.of(context).textSecondary,
+              fontSize: 13.sp,
+              color: colors.textSecondary,
               height: 1.5,
             ),
           ),
@@ -122,23 +164,36 @@ class AboutHeader extends StatelessWidget {
 
   Widget _buildLogoCircle(BuildContext context) {
     return Container(
-      width: 72.w,
-      height: 72.w,
+      width: 76.w,
+      height: 76.w,
       decoration: BoxDecoration(
-        color: AppColors.of(context).cardBackground,
+        gradient: LinearGradient(
+          colors: [
+            AppColors.primary.withValues(alpha: 0.15),
+            AppColors.primaryLight.withValues(alpha: 0.08),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         shape: BoxShape.circle,
+        border: Border.all(
+          color: AppColors.primary.withValues(alpha: 0.3),
+          width: 1.5,
+        ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.15),
+            color: AppColors.primary.withValues(alpha: 0.2),
             blurRadius: 20,
             offset: const Offset(0, 6),
           ),
         ],
       ),
-      child: Icon(
-        Icons.spa_rounded,
-        size: 34.sp,
-        color: AppColors.primary,
+      child: Center(
+        child: Icon(
+          Icons.spa_rounded,
+          size: 38.sp,
+          color: AppColors.primary,
+        ),
       ),
     );
   }

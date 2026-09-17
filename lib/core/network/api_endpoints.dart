@@ -1,7 +1,7 @@
 class ApiEndpoints {
   ApiEndpoints._();
 
-  static const String baseUrl = 'https://ogaglow-backend.wholcure.com/api';
+  static const String baseUrl = 'https://OGAGLOW-backend.wholcure.com/api';
 
   // Auth endpoints
   static const String login = '/auth/login';
@@ -10,18 +10,17 @@ class ApiEndpoints {
   static const String deleteAccount = '/auth/delete-account';
 
   // About Us endpoint
-  static const String aboutUs = '/ogaglow/about-us';
+  static const String aboutUs = '/OGAGLOW/about-us';
 
   // Brand features endpoint
-  static const String brandFeatures = '/ogaglow/brand/brand-features';
+  static const String brandFeatures = '/OGAGLOW/brand/brand-features';
 
   // Products endpoints
-  static const String products = '/ogaglow/products';
-  static String productDetails(String id) => '/ogaglow/products/$id';
+  static const String products = '/OGAGLOW/products';
+  static String productDetails(String id) => '/OGAGLOW/products/$id';
 
   // Checkout & Orders endpoints
-  static const String checkoutPreview = '/ogaglow/orders/checkout/preview';
-  static const String placeOrder = '/ogaglow/orders/placeOrder';
-  static const String myOrders = '/ogaglow/orders/my-orders';
+  static const String checkoutPreview = '/OGAGLOW/orders/checkout/preview';
+  static const String placeOrder = '/OGAGLOW/orders/placeOrder';
+  static const String myOrders = '/OGAGLOW/orders/my-orders';
 }
-

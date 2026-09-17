@@ -259,7 +259,7 @@ class FaqConstants {
             question: 'How do I delete my account?',
             answer:
                 'If you wish to delete your account, please contact our customer support team '
-                'at **support@ogaglow.com** with your account details. We will process your '
+                'at **support@OGAGLOW.com** with your account details. We will process your '
                 'request within 5–7 business days. Please note that account deletion is '
                 'permanent and cannot be undone.',
           ),
@@ -277,7 +277,7 @@ class FaqConstants {
             question: 'How do I contact support?',
             answer:
                 'You can reach our customer support team through multiple channels:\n\n'
-                '• Email: support@ogaglow.com\n'
+                '• Email: support@OGAGLOW.com\n'
                 '• Phone: +92 321 3270507\n'
                 '• WhatsApp: +92 321 3270507\n'
                 '• Live Chat: Available on our website\n\n'
@@ -320,4 +320,3 @@ class FaqConstants {
     ];
   }
 }
-

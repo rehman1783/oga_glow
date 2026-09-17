@@ -16,7 +16,7 @@ class CheckoutController extends GetxController {
   final CheckoutRepository _checkoutRepository;
 
   CheckoutController({CheckoutRepository? checkoutRepository})
-      : _checkoutRepository = checkoutRepository ?? CheckoutRepository();
+    : _checkoutRepository = checkoutRepository ?? CheckoutRepository();
 
   final formKey = GlobalKey<FormState>();
 
@@ -61,15 +61,19 @@ class CheckoutController extends GetxController {
 
   // Price calculations synced with preview API with local fallback
   num get subtotal =>
-      previewData.value?.priceBreakdown.itemsPrice ?? _cartController.totalSubtotal;
+      previewData.value?.priceBreakdown.itemsPrice ??
+      _cartController.totalSubtotal;
   num get productDiscount =>
-      previewData.value?.priceBreakdown.productDiscount ?? _cartController.totalDiscount;
+      previewData.value?.priceBreakdown.productDiscount ??
+      _cartController.totalDiscount;
   num get shipping =>
-      previewData.value?.priceBreakdown.shippingPrice ?? _cartController.totalShipping;
+      previewData.value?.priceBreakdown.shippingPrice ??
+      _cartController.totalShipping;
   num get couponDiscount =>
       previewData.value?.priceBreakdown.couponDiscount ?? 0;
   num get grandTotal =>
-      previewData.value?.priceBreakdown.totalPrice ?? _cartController.grandTotal;
+      previewData.value?.priceBreakdown.totalPrice ??
+      _cartController.grandTotal;
 
   @override
   void onInit() {
@@ -77,8 +81,6 @@ class CheckoutController extends GetxController {
     _populateUserInfo();
     fetchCheckoutPreview();
   }
-
-
 
   void _populateUserInfo() {
     if (Get.isRegistered<AuthController>()) {
@@ -92,16 +94,17 @@ class CheckoutController extends GetxController {
   }
 
   List<Map<String, dynamic>> _prepareOrderItemsPayload() {
-    return cartItems.map((item) {
-      final productId = item['id']?.toString() ??
-          (item['productModel'] != null ? item['productModel'].id : '') ??
-          '';
-      final qty = int.tryParse(item['quantity']?.toString() ?? '1') ?? 1;
-      return {
-        'product': productId,
-        'quantity': qty,
-      };
-    }).where((element) => (element['product'] as String).isNotEmpty).toList();
+    return cartItems
+        .map((item) {
+          final productId =
+              item['id']?.toString() ??
+              (item['productModel'] != null ? item['productModel'].id : '') ??
+              '';
+          final qty = int.tryParse(item['quantity']?.toString() ?? '1') ?? 1;
+          return {'product': productId, 'quantity': qty};
+        })
+        .where((element) => (element['product'] as String).isNotEmpty)
+        .toList();
   }
 
   /// 1. Checkout Preview API call
@@ -219,7 +222,9 @@ class CheckoutController extends GetxController {
           deliveryInstructions: deliveryInstructionsController.text.trim(),
         ),
         paymentMethod: paymentMethod.value,
-        couponCode: appliedCouponCode.value.isNotEmpty ? appliedCouponCode.value : null,
+        couponCode: appliedCouponCode.value.isNotEmpty
+            ? appliedCouponCode.value
+            : null,
         notes: notesController.text.trim(),
         saveToAddressBook: saveToAddressBook.value,
       );
@@ -238,7 +243,9 @@ class CheckoutController extends GetxController {
           await OrderSuccessDialog.show(context, response.order!);
         }
       } else {
-        throw ApiException(message: response.message ?? 'Failed to place order.');
+        throw ApiException(
+          message: response.message ?? 'Failed to place order.',
+        );
       }
     } on ApiException catch (e) {
       CustomSnackbar.showError(
@@ -259,13 +266,13 @@ class CheckoutController extends GetxController {
     if (Get.isRegistered<OrderController>()) {
       final orderController = Get.find<OrderController>();
 
-      final firstItemName = orderData.orderItems.isNotEmpty &&
-              orderData.orderItems.first is Map
+      final firstItemName =
+          orderData.orderItems.isNotEmpty && orderData.orderItems.first is Map
           ? (orderData.orderItems.first['name']?.toString() ?? 'Order Item')
-          : 'OgaGlow Order';
+          : 'OGAGLOW Order';
 
-      final firstItemImage = orderData.orderItems.isNotEmpty &&
-              orderData.orderItems.first is Map
+      final firstItemImage =
+          orderData.orderItems.isNotEmpty && orderData.orderItems.first is Map
           ? (orderData.orderItems.first['image']?.toString() ?? '')
           : '';
 

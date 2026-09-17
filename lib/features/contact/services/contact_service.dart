@@ -53,7 +53,7 @@ class ContactService {
     };
 
     try {
-      await _apiClient.post('/ogaglow/contact-us', data: payload);
+      await _apiClient.post('/OGAGLOW/contact-us', data: payload);
     } on ApiException catch (e) {
       debugPrint('[ContactService] Submit contact form failed: ${e.message}');
       rethrow;

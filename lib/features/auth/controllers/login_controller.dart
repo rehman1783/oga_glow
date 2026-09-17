@@ -11,7 +11,7 @@ class LoginController extends GetxController {
   final AuthRepository _authRepository;
 
   LoginController({AuthRepository? authRepository})
-      : _authRepository = authRepository ?? AuthRepository();
+    : _authRepository = authRepository ?? AuthRepository();
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -88,10 +88,7 @@ class LoginController extends GetxController {
       // Update auth controller state directly
       if (Get.isRegistered<AuthController>()) {
         final authController = Get.find<AuthController>();
-        authController.setSession(
-          token: result.token,
-          user: result.user,
-        );
+        authController.setSession(token: result.token, user: result.user);
       }
 
       // Navigate to main navigation
@@ -99,7 +96,7 @@ class LoginController extends GetxController {
 
       CustomSnackbar.showSuccess(
         title: 'Login Successful',
-        message: 'Welcome back to OGA Glow!',
+        message: 'Welcome back to OGAGLOW!',
       );
     } on NotFoundException {
       _showAccountNotFoundError();
@@ -147,10 +144,7 @@ class LoginController extends GetxController {
     errorMessage.value = message;
     isAccountNotFound.value = false;
 
-    CustomSnackbar.showError(
-      title: 'Login Failed',
-      message: message,
-    );
+    CustomSnackbar.showError(title: 'Login Failed', message: message);
   }
 
   void togglePasswordVisibility() {
@@ -165,4 +159,3 @@ class LoginController extends GetxController {
     Get.toNamed(AppRoutes.forgotPassword);
   }
 }
-

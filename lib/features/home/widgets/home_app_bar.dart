@@ -76,9 +76,10 @@ class HomeAppBar extends StatelessWidget {
                     ),
                     SizedBox(height: 2.h),
                     Obx(() {
-                      String displayName = 'OGA Glow';
+                      String displayName = 'OGAGLOW';
                       if (Get.isRegistered<AuthController>()) {
-                        final user = Get.find<AuthController>().currentUser.value;
+                        final user =
+                            Get.find<AuthController>().currentUser.value;
                         if (user != null && user.name.isNotEmpty) {
                           displayName = user.name.split(' ').first;
                         }
@@ -109,7 +110,9 @@ class HomeAppBar extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20.r),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColors.goldLight.withValues(alpha: 0.3),
+                                  color: AppColors.goldLight.withValues(
+                                    alpha: 0.3,
+                                  ),
                                   blurRadius: 6,
                                   offset: const Offset(0, 2),
                                 ),
@@ -188,7 +191,9 @@ class HomeAppBar extends StatelessWidget {
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFFE53935).withValues(alpha: 0.5),
+                                color: const Color(
+                                  0xFFE53935,
+                                ).withValues(alpha: 0.5),
                                 blurRadius: 4,
                               ),
                             ],
@@ -209,7 +214,9 @@ class HomeAppBar extends StatelessWidget {
             scaleBound: 0.98,
             onTap: () {
               if (Get.isRegistered<MainNavigationController>()) {
-                Get.find<MainNavigationController>().changeIndex(1); // Category & Search
+                Get.find<MainNavigationController>().changeIndex(
+                  1,
+                ); // Category & Search
               }
             },
             child: Container(
@@ -218,9 +225,7 @@ class HomeAppBar extends StatelessWidget {
               decoration: BoxDecoration(
                 color: colors.cardBackground,
                 borderRadius: BorderRadius.circular(16.r),
-                border: Border.all(
-                  color: colors.border.withValues(alpha: 0.9),
-                ),
+                border: Border.all(color: colors.border.withValues(alpha: 0.9)),
                 boxShadow: [
                   BoxShadow(
                     color: AppColors.black.withValues(alpha: 0.03),

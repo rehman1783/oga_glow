@@ -14,7 +14,7 @@ import '../widgets/empty_faq_widget.dart';
 /// FAQ Screen.
 ///
 /// Displays a searchable, categorized list of frequently asked questions.
-/// Fully responsive, theme-aware, and follows the OgaGlow design system.
+/// Fully responsive, theme-aware, and follows the OGAGLOW design system.
 class FaqScreen extends GetView<FaqController> {
   const FaqScreen({super.key});
 
@@ -90,9 +90,7 @@ class FaqScreen extends GetView<FaqController> {
                     for (int i = 0; i < categories.length; i++) ...[
                       FadeSlideTransition(
                         index: i + 3,
-                        child: FAQCategoryHeader(
-                          category: categories[i],
-                        ),
+                        child: FAQCategoryHeader(category: categories[i]),
                       ),
                       SizedBox(height: 4.h),
                       FadeSlideTransition(
@@ -135,9 +133,7 @@ class FaqScreen extends GetView<FaqController> {
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(24.r),
-            border: Border.all(
-              color: AppColors.primary.withValues(alpha: 0.1),
-            ),
+            border: Border.all(color: AppColors.primary.withValues(alpha: 0.1)),
           ),
           child: Column(
             children: [
@@ -187,4 +183,3 @@ class FaqScreen extends GetView<FaqController> {
     );
   }
 }
-

@@ -12,7 +12,7 @@ class ContactRow extends StatelessWidget {
   /// Leading icon for the row.
   final IconData icon;
 
-  /// Title / label text (e.g., "Email", "OgaGlow").
+  /// Title / label text (e.g., "Email", "OGAGLOW").
   final String label;
 
   /// Value / detail text (e.g., the actual email address or phone number).

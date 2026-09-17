@@ -7,12 +7,13 @@ import 'package:oga_glow/features/about/models/about_us_model.dart';
 class AboutService {
   final ApiClient _apiClient;
 
-  AboutService({ApiClient? apiClient})
-      : _apiClient = apiClient ?? ApiClient();
+  AboutService({ApiClient? apiClient}) : _apiClient = apiClient ?? ApiClient();
 
-  /// Fetches About Us data from GET /ogaglow/about-us endpoint.
+  /// Fetches About Us data from GET /OGAGLOW/about-us endpoint.
   Future<AboutUsModel> fetchAboutUs({bool forceRefresh = false}) async {
-    debugPrint('[AboutService] Fetching About Us data (forceRefresh: $forceRefresh)...');
+    debugPrint(
+      '[AboutService] Fetching About Us data (forceRefresh: $forceRefresh)...',
+    );
     final response = await _apiClient.get(
       ApiEndpoints.aboutUs,
       forceRefresh: forceRefresh,

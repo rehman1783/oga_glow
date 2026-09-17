@@ -4,5 +4,5 @@ import 'app/app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const OgaGlowApp());
+  runApp(const OGAGLOWApp());
 }

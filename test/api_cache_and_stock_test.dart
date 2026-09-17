@@ -11,7 +11,13 @@ void main() {
         name: 'Glow Face Serum',
         price: 1500,
         finalPrice: 1200,
-        images: [ProductImageModel(id: 'img1', publicId: 'pid1', url: 'https://example.com/serum.jpg')],
+        images: [
+          ProductImageModel(
+            id: 'img1',
+            publicId: 'pid1',
+            url: 'https://example.com/serum.jpg',
+          ),
+        ],
         category: 'skin-care',
         countInStock: 5,
       );
@@ -24,7 +30,13 @@ void main() {
         name: 'Botanical Night Cream',
         price: 2000,
         finalPrice: 2000,
-        images: [ProductImageModel(id: 'img2', publicId: 'pid2', url: 'https://example.com/cream.jpg')],
+        images: [
+          ProductImageModel(
+            id: 'img2',
+            publicId: 'pid2',
+            url: 'https://example.com/cream.jpg',
+          ),
+        ],
         category: 'skin-care',
         countInStock: 0,
       );
@@ -70,7 +82,7 @@ void main() {
     test('ApiClient clearCache does not throw and clears cleanly', () {
       final client = ApiClient();
       expect(() => client.clearCache(), returnsNormally);
-      expect(() => client.clearCache('/ogaglow/products'), returnsNormally);
+      expect(() => client.clearCache('/OGAGLOW/products'), returnsNormally);
     });
   });
 }

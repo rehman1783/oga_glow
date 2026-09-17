@@ -73,7 +73,9 @@ class _SplashScreenState extends State<SplashScreen>
     final colors = AppColors.of(context);
 
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF040E08) : const Color(0xFFFAF8F5),
+      backgroundColor: isDark
+          ? const Color(0xFF040E08)
+          : const Color(0xFFFAF8F5),
       body: Stack(
         children: [
           // 1. Multi-Stop Radial & Linear Ambient Gradient
@@ -134,7 +136,9 @@ class _SplashScreenState extends State<SplashScreen>
                 gradient: RadialGradient(
                   colors: [
                     AppColors.primary.withValues(alpha: isDark ? 0.25 : 0.16),
-                    AppColors.primaryLight.withValues(alpha: isDark ? 0.10 : 0.06),
+                    AppColors.primaryLight.withValues(
+                      alpha: isDark ? 0.10 : 0.06,
+                    ),
                     Colors.transparent,
                   ],
                   stops: const [0.0, 0.5, 1.0],
@@ -220,12 +224,18 @@ class _SplashScreenState extends State<SplashScreen>
                               end: Alignment.bottomRight,
                               colors: isDark
                                   ? [
-                                      const Color(0xFF0F2B1C).withValues(alpha: 0.9),
-                                      const Color(0xFF06160D).withValues(alpha: 0.95),
+                                      const Color(
+                                        0xFF0F2B1C,
+                                      ).withValues(alpha: 0.9),
+                                      const Color(
+                                        0xFF06160D,
+                                      ).withValues(alpha: 0.95),
                                     ]
                                   : [
                                       Colors.white.withValues(alpha: 0.95),
-                                      const Color(0xFFF9F6EE).withValues(alpha: 0.9),
+                                      const Color(
+                                        0xFFF9F6EE,
+                                      ).withValues(alpha: 0.9),
                                     ],
                             ),
                             border: Border.all(
@@ -236,7 +246,9 @@ class _SplashScreenState extends State<SplashScreen>
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withValues(alpha: isDark ? 0.4 : 0.08),
+                                color: Colors.black.withValues(
+                                  alpha: isDark ? 0.4 : 0.08,
+                                ),
                                 blurRadius: 20,
                                 offset: const Offset(0, 8),
                               ),
@@ -262,7 +274,7 @@ class _SplashScreenState extends State<SplashScreen>
 
                   SizedBox(height: 32.h),
 
-                  // Brand Title: OGA GLOW with Metallic Gradient
+                  // Brand Title: OGAGLOW with Metallic Gradient
                   ShaderMask(
                     shaderCallback: (bounds) {
                       return LinearGradient(
@@ -283,7 +295,7 @@ class _SplashScreenState extends State<SplashScreen>
                       ).createShader(bounds);
                     },
                     child: Text(
-                      'OGA GLOW',
+                      'OGAGLOW',
                       style: GoogleFonts.playfairDisplay(
                         fontSize: 34.sp,
                         fontWeight: FontWeight.w800,
@@ -345,13 +357,19 @@ class _SplashScreenState extends State<SplashScreen>
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          AppColors.goldLight.withValues(alpha: isDark ? 0.15 : 0.20),
-                          AppColors.primary.withValues(alpha: isDark ? 0.12 : 0.08),
+                          AppColors.goldLight.withValues(
+                            alpha: isDark ? 0.15 : 0.20,
+                          ),
+                          AppColors.primary.withValues(
+                            alpha: isDark ? 0.12 : 0.08,
+                          ),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(24.r),
                       border: Border.all(
-                        color: AppColors.goldLight.withValues(alpha: isDark ? 0.35 : 0.45),
+                        color: AppColors.goldLight.withValues(
+                          alpha: isDark ? 0.35 : 0.45,
+                        ),
                         width: 1.0,
                       ),
                     ),
@@ -361,7 +379,9 @@ class _SplashScreenState extends State<SplashScreen>
                         fontSize: 9.5.sp,
                         fontWeight: FontWeight.w800,
                         letterSpacing: 2.2,
-                        color: isDark ? AppColors.goldLight : const Color(0xFF533F02),
+                        color: isDark
+                            ? AppColors.goldLight
+                            : const Color(0xFF533F02),
                       ),
                     ),
                   ),
@@ -451,4 +471,3 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 }
-

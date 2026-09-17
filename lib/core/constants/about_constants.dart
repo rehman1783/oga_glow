@@ -7,9 +7,9 @@ class AboutConstants {
   // ---------------------------------------------------------------------------
   // Hero / Header
   // ---------------------------------------------------------------------------
-  static const String heroTitle = 'About OgaGlow';
+  static const String heroTitle = 'About OGAGLOW';
   static const String heroSubtitle =
-      'Discover the story behind OgaGlow — your trusted destination for '
+      'Discover the story behind OGAGLOW — your trusted destination for '
       'premium wellness products that nurture your body, mind, and skin.';
 
   // ---------------------------------------------------------------------------
@@ -17,7 +17,7 @@ class AboutConstants {
   // ---------------------------------------------------------------------------
   static const String storyTitle = 'Our Story';
   static const String storyContent1 =
-      'OgaGlow was born from a simple yet powerful belief: everyone deserves '
+      'OGAGLOW was born from a simple yet powerful belief: everyone deserves '
       'access to high-quality wellness products that truly work. What started '
       'as a passion project among health enthusiasts has grown into a trusted '
       'platform serving thousands of satisfied customers worldwide.';
@@ -29,7 +29,7 @@ class AboutConstants {
       'item is selected based on quality, safety, and effectiveness.';
 
   static const String storyContent3 =
-      'We started OgaGlow because we noticed a gap in the market — products '
+      'We started OGAGLOW because we noticed a gap in the market — products '
       'that promised results but delivered disappointment. Our mission is to '
       'bridge that gap by offering only the best, backed by research and '
       'real customer feedback.';
@@ -72,7 +72,7 @@ class AboutConstants {
     },
     {
       'title': 'Trusted Brand',
-      'description': 'Thousands of happy customers trust OgaGlow',
+      'description': 'Thousands of happy customers trust OGAGLOW',
       'icon': 'verified',
     },
     {
@@ -147,12 +147,7 @@ class AboutConstants {
       'suffix': '+',
       'icon': 'favorite',
     },
-    {
-      'label': 'Products',
-      'value': 500,
-      'suffix': '+',
-      'icon': 'inventory_2',
-    },
+    {'label': 'Products', 'value': 500, 'suffix': '+', 'icon': 'inventory_2'},
     {
       'label': 'Years Experience',
       'value': 5,
@@ -172,7 +167,7 @@ class AboutConstants {
   // ---------------------------------------------------------------------------
   static const String ctaTitle = 'Get In Touch';
   static const String ctaSubtitle =
-      'Ready to experience the OgaGlow difference? We are here for you.';
+      'Ready to experience the OGAGLOW difference? We are here for you.';
 
   static const String shopNowLabel = 'Shop Now';
   static const String contactUsLabel = 'Contact Us';
@@ -185,4 +180,3 @@ class AboutConstants {
   static const String whatsappUrl = 'https://wa.me/923213270507';
   static const String phoneDial = 'tel:+923213270507';
 }
-

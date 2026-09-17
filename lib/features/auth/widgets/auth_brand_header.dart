@@ -7,7 +7,7 @@ import 'auth_wave_clipper.dart';
 class AuthBrandHeader extends StatefulWidget {
   const AuthBrandHeader({
     super.key,
-    this.title = 'OGA Glow',
+    this.title = 'OGAGLOW',
     this.subtitle = 'Welcome back! Please sign in.',
     this.showBackButton = false,
     this.onBack,
@@ -358,7 +358,7 @@ class _AuthBrandHeaderState extends State<AuthBrandHeader>
                             ),
                             SizedBox(width: 6.w),
                             Text(
-                              "OGA GLOW • HERBAL LUXURY",
+                              "OGAGLOW • HERBAL LUXURY",
                               style: TextStyle(
                                 color: const Color(
                                   0xFFF3E5AB,

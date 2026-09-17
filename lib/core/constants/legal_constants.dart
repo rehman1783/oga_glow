@@ -10,14 +10,14 @@ class LegalConstants {
   static const String pageTitle = 'Legal & Compliance';
   static const String pageSubtitle =
       'Please review these important legal documents that govern your use of '
-      'the OgaGlow platform, products, and services.';
+      'the OGAGLOW platform, products, and services.';
 
   // ---------------------------------------------------------------------------
   // Legal Options
   // ---------------------------------------------------------------------------
   static const String termsTitle = 'Terms of Service';
   static const String termsSubtitle =
-      'Rules, responsibilities, and conditions for using OgaGlow.';
+      'Rules, responsibilities, and conditions for using OGAGLOW.';
 
   static const String privacyTitle = 'Privacy Policy';
   static const String privacySubtitle =
@@ -34,14 +34,14 @@ class LegalConstants {
   static const String tosLastUpdated = 'Last updated: January 2025';
 
   static const String tosIntro =
-      'Welcome to OgaGlow. By accessing or using our website, mobile '
+      'Welcome to OGAGLOW. By accessing or using our website, mobile '
       'application, or any of our services, you agree to be bound by these '
       'Terms of Service. If you do not agree with any part of these terms, '
       'you may not use our services.';
 
   static const String tosUsageTitle = '1. Website Usage Rules';
   static const String tosUsageContent =
-      'By using OgaGlow, you agree to use the platform only for lawful '
+      'By using OGAGLOW, you agree to use the platform only for lawful '
       'purposes and in a way that does not infringe the rights of, restrict, '
       'or inhibit anyone else\'s use and enjoyment of the platform. '
       'Prohibited behaviour includes harassing or causing distress to any '
@@ -64,7 +64,7 @@ class LegalConstants {
 
   static const String tosOrdersTitle = '3. Orders';
   static const String tosOrdersContent =
-      'All orders placed through OgaGlow are subject to acceptance and '
+      'All orders placed through OGAGLOW are subject to acceptance and '
       'availability. We reserve the right to refuse or cancel any order '
       'for reasons including but not limited to product availability, errors '
       'in product or pricing information, or issues identified by our '
@@ -74,7 +74,7 @@ class LegalConstants {
   static const String tosPaymentsTitle = '4. Payments';
   static const String tosPaymentsContent =
       'We accept various payment methods as displayed at checkout. By '
-      'submitting an order, you authorise OgaGlow to charge the total '
+      'submitting an order, you authorise OGAGLOW to charge the total '
       'amount due using your selected payment method. All prices are '
       'inclusive of applicable taxes unless stated otherwise. Payment '
       'transactions are processed securely through third-party payment '
@@ -82,16 +82,16 @@ class LegalConstants {
 
   static const String tosIntellectualPropertyTitle = '5. Intellectual Property';
   static const String tosIntellectualPropertyContent =
-      'All content on the OgaGlow platform — including text, graphics, '
+      'All content on the OGAGLOW platform — including text, graphics, '
       'logos, images, audio clips, digital downloads, and software — is '
-      'the property of OgaGlow or its content suppliers and is protected '
+      'the property of OGAGLOW or its content suppliers and is protected '
       'by intellectual property laws. You may not reproduce, distribute, '
       'modify, or create derivative works from any content without our '
       'express written permission.';
 
   static const String tosLiabilityTitle = '6. Limitation of Liability';
   static const String tosLiabilityContent =
-      'OgaGlow shall not be liable for any indirect, incidental, special, '
+      'OGAGLOW shall not be liable for any indirect, incidental, special, '
       'consequential, or punitive damages arising out of or relating to '
       'your use of the platform or any products purchased through it. '
       'Our total liability for any claim arising from these terms or your '
@@ -105,7 +105,7 @@ class LegalConstants {
   static const String privacyLastUpdated = 'Last updated: January 2025';
 
   static const String privacyIntro =
-      'At OgaGlow, we take your privacy seriously. This Privacy Policy '
+      'At OGAGLOW, we take your privacy seriously. This Privacy Policy '
       'explains how we collect, use, disclose, and safeguard your '
       'information when you visit our website or use our services. '
       'Please read this policy carefully.';
@@ -174,7 +174,7 @@ class LegalConstants {
   static const String privacyContactContent =
       'If you have any questions, concerns, or requests regarding this '
       'Privacy Policy or our data practices, please contact us at '
-      'support@ogaglow.com or write to us at our head office address. '
+      'support@OGAGLOW.com or write to us at our head office address. '
       'We will respond to your inquiry within a reasonable timeframe.';
 
   // ---------------------------------------------------------------------------
@@ -185,7 +185,7 @@ class LegalConstants {
 
   static const String refundIntro =
       'We want you to be completely satisfied with your purchase from '
-      'OgaGlow. If for any reason you are not happy with your order, '
+      'OGAGLOW. If for any reason you are not happy with your order, '
       'our return and refund policy is designed to make the process as '
       'smooth and hassle-free as possible.';
 
@@ -245,8 +245,7 @@ class LegalConstants {
   static const String refundContactContent =
       'For any questions or assistance regarding returns and refunds, '
       'please reach out to our customer support team:\n\n'
-      'Email: support@ogaglow.com\n'
+      'Email: support@OGAGLOW.com\n'
       'Phone: +92 321 3270507\n'
       'Address: Sharah-e-Faisal, Karachi, Sindh, Pakistan';
 }
-

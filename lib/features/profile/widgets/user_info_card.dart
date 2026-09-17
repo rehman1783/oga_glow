@@ -13,11 +13,7 @@ class UserInfoCard extends StatelessWidget {
   final UserModel? user;
   final bool isLoggedIn;
 
-  const UserInfoCard({
-    super.key,
-    required this.user,
-    required this.isLoggedIn,
-  });
+  const UserInfoCard({super.key, required this.user, required this.isLoggedIn});
 
   Widget _buildInfoRow({
     required BuildContext context,
@@ -40,11 +36,7 @@ class UserInfoCard extends StatelessWidget {
               color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10.r),
             ),
-            child: Icon(
-              icon,
-              size: 18.sp,
-              color: AppColors.primary,
-            ),
+            child: Icon(icon, size: 18.sp, color: AppColors.primary),
           ),
           SizedBox(width: 14.w),
           Expanded(
@@ -161,9 +153,12 @@ class UserInfoCard extends StatelessWidget {
       );
     }
 
-    final displayName = user!.name.isNotEmpty ? user!.name : 'OGA Customer';
-    final displayEmail = user!.email.isNotEmpty ? user!.email : 'No email address';
-    final registrationDate = user!.createdAt != null && user!.createdAt!.isNotEmpty
+    final displayName = user!.name.isNotEmpty ? user!.name : 'OGAGLOW Customer';
+    final displayEmail = user!.email.isNotEmpty
+        ? user!.email
+        : 'No email address';
+    final registrationDate =
+        user!.createdAt != null && user!.createdAt!.isNotEmpty
         ? DateFormatter.formatFullDate(user!.createdAt)
         : 'Registered';
 

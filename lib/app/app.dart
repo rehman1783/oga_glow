@@ -8,8 +8,8 @@ import 'package:oga_glow/app/routes/app_routes.dart';
 import 'bindings/initial_binding.dart';
 import '../core/theme/theme_controller.dart';
 
-class OgaGlowApp extends StatelessWidget {
-  const OgaGlowApp({super.key});
+class OGAGLOWApp extends StatelessWidget {
+  const OGAGLOWApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class OgaGlowApp extends StatelessWidget {
         return Obx(
           () => GetMaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'OGA Glow',
+            title: 'OGAGLOW',
 
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,

@@ -11,7 +11,7 @@ class FakeReviewService {
   Future<FakeReviewResponse> getAllFakeReviews() async {
     debugPrint('[FakeReviewService] Fetching all fake reviews');
     final response = await _apiClient.get(
-      '/ogaglow/fake-reviews/getAllFakeReviews',
+      '/OGAGLOW/fake-reviews/getAllFakeReviews',
     );
     final data = response.data;
 

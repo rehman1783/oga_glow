@@ -145,12 +145,14 @@ class AboutController extends GetxController {
 
   /// Navigate to the All Products screen.
   void shopNow() {
-    if (Get.isRegistered<CategoryController>() &&
-        Get.isRegistered<MainNavigationController>()) {
-      final categoryController = Get.find<CategoryController>();
-      final mainNavController = Get.find<MainNavigationController>();
-      categoryController.openCategory("All");
-      mainNavController.changeIndex(1);
+    if (Get.isRegistered<MainNavigationController>()) {
+      if (Get.isRegistered<CategoryController>()) {
+        Get.find<CategoryController>().openCategory("All");
+      }
+      Get.find<MainNavigationController>().changeIndex(1);
+      Get.until((route) => route.isFirst);
+    } else {
+      Get.offAllNamed(AppRoutes.mainNavigation);
     }
   }
 
@@ -161,28 +163,54 @@ class AboutController extends GetxController {
 
   /// Open WhatsApp or phone dialer for expert consultation.
   Future<void> talkToExperts() async {
-    final uri = Uri.parse(AboutConstants.whatsappUrl);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
+    await launchWhatsApp();
+  }
+
+  /// Launch WhatsApp with support contact
+  Future<void> launchWhatsApp() async {
+    try {
+      final uri = Uri.parse(AboutConstants.whatsappUrl);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        await launchPhone();
+      }
+    } catch (_) {
+      await launchPhone();
+    }
+  }
+
+  /// Launch Phone Dialer
+  Future<void> launchPhone() async {
+    try {
       final phoneUri = Uri.parse(AboutConstants.phoneDial);
       if (await canLaunchUrl(phoneUri)) {
         await launchUrl(phoneUri);
       } else {
-        _showError('Could not open dialer or WhatsApp');
+        _showError('Could not open phone dialer.');
       }
+    } catch (_) {
+      _showError('Could not open phone dialer.');
+    }
+  }
+
+  /// Launch Email Client
+  Future<void> launchEmail() async {
+    try {
+      final emailUri = Uri.parse('mailto:support@ogaglow.com?subject=OGAGLOW%20Inquiry');
+      if (await canLaunchUrl(emailUri)) {
+        await launchUrl(emailUri);
+      } else {
+        _showError('Could not open email client.');
+      }
+    } catch (_) {
+      _showError('Could not open email client.');
     }
   }
 
   /// Navigate to the All Products / Product Listing page.
   void viewProducts() {
-    if (Get.isRegistered<CategoryController>() &&
-        Get.isRegistered<MainNavigationController>()) {
-      final categoryController = Get.find<CategoryController>();
-      final mainNavController = Get.find<MainNavigationController>();
-      categoryController.openCategory("All");
-      mainNavController.changeIndex(1);
-    }
+    shopNow();
   }
 
   /// Shows an error snackbar when a launch fails.

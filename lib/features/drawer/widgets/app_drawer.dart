@@ -24,7 +24,7 @@ class AppDrawer extends StatelessWidget {
               final user = authController.currentUser.value;
               final name = (user?.name != null && user!.name.isNotEmpty)
                   ? user.name
-                  : 'OGA Glow Customer';
+                  : 'OGAGLOW Customer';
               final email = (user?.email != null && user!.email.isNotEmpty)
                   ? user.email
                   : 'hello@ogaglow.com';
@@ -145,7 +145,7 @@ class AppDrawer extends StatelessWidget {
                   ),
                   const Divider(height: 1),
                   DrawerItem(
-                    title: 'About OGA Glow',
+                    title: 'About OGAGLOW',
                     icon: const Icon(Icons.spa_outlined),
                     onTap: () {
                       Get.back();
@@ -187,7 +187,7 @@ class AppDrawer extends StatelessWidget {
                   ),
                   SizedBox(width: 6.w),
                   Text(
-                    'OGA Glow • Pure & Natural',
+                    'OGAGLOW • Pure & Natural',
                     style: AppTextStyles.caption.copyWith(
                       color: colors.textSecondary,
                       fontWeight: FontWeight.w600,
@@ -203,4 +203,3 @@ class AppDrawer extends StatelessWidget {
     );
   }
 }
-
