@@ -25,8 +25,9 @@ class ApiEndpoints {
   static const String myOrders = '/OGAGLOW/orders/my-orders';
 
   // Customer Wishlist endpoints
-  static const String customerWishlist = '/customers/me/wishlist';
-  static const String toggleWishlist = '/customers/me/wishlist/toggle';
-  static String removeWishlistItem(String productId) => '/customers/me/wishlist/item/$productId';
-  static const String clearWishlist = '/customers/me/wishlist/clear';
+  static const String customerWishlist = '/OGAGLOW/customers/me/wishlist';
+  static const String toggleWishlist = '/OGAGLOW/customers/me/wishlist/toggle';
+  static String removeWishlistItem(String productId) =>
+      '/OGAGLOW/customers/me/wishlist/item/$productId';
+  static const String clearWishlist = '/OGAGLOW/customers/me/wishlist/clear';
 }

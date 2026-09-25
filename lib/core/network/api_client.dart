@@ -31,7 +31,7 @@ class ApiClient {
         baseUrl: ApiEndpoints.baseUrl,
         connectTimeout: const Duration(seconds: 15),
         receiveTimeout: const Duration(seconds: 15),
-        sendTimeout: const Duration(seconds: 15),
+        sendTimeout: kIsWeb ? null : const Duration(seconds: 15),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -47,31 +47,21 @@ class ApiClient {
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           }
-          debugPrint('================ HTTP REQUEST ================');
-          debugPrint('URL: ${options.baseUrl}${options.path}');
-          debugPrint('Method: ${options.method}');
-          debugPrint('Headers: ${options.headers}');
-          debugPrint('Body: ${options.data}');
-          debugPrint('==============================================');
+          if (kDebugMode) {
+            debugPrint('[HTTP REQUEST] ${options.method} -> ${options.baseUrl}${options.path}');
+          }
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          debugPrint('================ HTTP RESPONSE ================');
-          debugPrint('URL: ${response.requestOptions.baseUrl}${response.requestOptions.path}');
-          debugPrint('Status Code: ${response.statusCode}');
-          debugPrint('Headers: ${response.headers.map}');
-          debugPrint('Response Body: ${response.data}');
-          debugPrint('===============================================');
+          if (kDebugMode) {
+            debugPrint('[HTTP RESPONSE ${response.statusCode}] ${response.requestOptions.path}');
+          }
           return handler.next(response);
         },
         onError: (error, handler) {
-          debugPrint('================ HTTP ERROR ================');
-          debugPrint('URL: ${error.requestOptions.baseUrl}${error.requestOptions.path}');
-          debugPrint('Status Code: ${error.response?.statusCode}');
-          debugPrint('Error Response Body: ${error.response?.data}');
-          debugPrint('Error Type: ${error.type}');
-          debugPrint('Error Message: ${error.message}');
-          debugPrint('============================================');
+          if (kDebugMode) {
+            debugPrint('[HTTP ERROR ${error.response?.statusCode ?? 'NET'}] ${error.requestOptions.path}');
+          }
           final exception = _handleDioError(error);
           return handler.reject(
             DioException(

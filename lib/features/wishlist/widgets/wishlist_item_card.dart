@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -7,6 +6,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/custom_network_image.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/bounce_tap.dart';
 import '../../cart/widgets/add_to_cart_bottom_sheet.dart';
@@ -78,7 +78,7 @@ class WishlistItemCard extends StatelessWidget {
                 width: 84.r,
                 height: 84.r,
                 child: imageUrl.isNotEmpty
-                    ? CachedNetworkImage(
+                    ? CustomNetworkImage(
                         imageUrl: imageUrl,
                         fit: BoxFit.cover,
                         placeholder: (context, url) => Shimmer.fromColors(

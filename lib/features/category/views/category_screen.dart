@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -7,6 +6,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/core/theme/app_text_styles.dart';
 import 'package:oga_glow/core/widgets/custom_empty_state.dart';
+import 'package:oga_glow/core/widgets/custom_network_image.dart';
 import 'package:oga_glow/features/category/widgets/category_product_card.dart';
 
 import '../controllers/category_controller.dart';
@@ -162,7 +162,7 @@ class CategoryScreen extends GetView<CategoryController> {
                                       width: 40.r,
                                       height: 40.r,
                                       child: product.mainImageUrl.isNotEmpty
-                                          ? CachedNetworkImage(
+                                          ? CustomNetworkImage(
                                               imageUrl: product.mainImageUrl,
                                               fit: BoxFit.cover,
                                               errorWidget: (context, url, error) =>
@@ -296,3 +296,4 @@ class CategoryScreen extends GetView<CategoryController> {
     );
   }
 }
+

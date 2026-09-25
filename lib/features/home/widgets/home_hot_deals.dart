@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -10,6 +9,7 @@ import 'package:oga_glow/features/home/controllers/home_controller.dart';
 import 'package:oga_glow/features/main_navigation/controllers/main_navigation_controller.dart';
 import 'package:oga_glow/features/cart/widgets/add_to_cart_bottom_sheet.dart';
 import 'package:oga_glow/core/widgets/bounce_tap.dart';
+import 'package:oga_glow/core/widgets/custom_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeHotDeals extends GetView<HomeController> {
@@ -257,7 +257,7 @@ class HomeHotDeals extends GetView<HomeController> {
                                   child: AspectRatio(
                                     aspectRatio: 1,
                                     child: deal.mainImageUrl.isNotEmpty
-                                        ? CachedNetworkImage(
+                                        ? CustomNetworkImage(
                                             imageUrl: deal.mainImageUrl,
                                             fit: BoxFit.cover,
                                             placeholder: (context, url) =>

@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:oga_glow/core/theme/app_colors.dart';
+import 'package:oga_glow/core/widgets/custom_network_image.dart';
 import 'package:oga_glow/data/models/product_model.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -91,7 +91,7 @@ class ProductCard extends StatelessWidget {
                       width: double.infinity,
                       height: double.infinity,
                       child: product.mainImageUrl.isNotEmpty
-                          ? CachedNetworkImage(
+                          ? CustomNetworkImage(
                               imageUrl: product.mainImageUrl,
                               fit: BoxFit.cover,
                               placeholder: (context, url) => Shimmer.fromColors(

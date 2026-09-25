@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -7,6 +6,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:oga_glow/app/routes/app_routes.dart';
 import 'package:oga_glow/data/models/product_model.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/custom_network_image.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../wishlist/controllers/wishlist_controller.dart';
 import '../../wishlist/bindings/wishlist_binding.dart';
@@ -84,7 +84,7 @@ class CategoryProductCard extends StatelessWidget {
                       width: double.infinity,
                       height: double.infinity,
                       child: product.mainImageUrl.isNotEmpty
-                          ? CachedNetworkImage(
+                          ? CustomNetworkImage(
                               imageUrl: product.mainImageUrl,
                               fit: BoxFit.cover,
                               placeholder: (context, url) => Shimmer.fromColors(

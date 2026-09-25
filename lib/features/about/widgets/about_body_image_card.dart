@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oga_glow/core/theme/app_colors.dart';
+import 'package:oga_glow/core/widgets/custom_network_image.dart';
 
 /// Reusable network image widget with CachedNetworkImage,
 /// loading indicator, error widget, and theme awareness.
@@ -47,7 +47,7 @@ class AboutBodyImageCard extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius.r),
-        child: CachedNetworkImage(
+        child: CustomNetworkImage(
           imageUrl: imageUrl!,
           fit: fit,
           width: double.infinity,

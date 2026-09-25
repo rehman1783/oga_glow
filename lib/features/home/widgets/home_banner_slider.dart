@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +7,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/custom_network_image.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/bounce_tap.dart';
 import '../../cart/widgets/add_to_cart_bottom_sheet.dart';
@@ -410,7 +410,7 @@ class HomeBannerSlider extends GetView<HomeController> {
                                 child: AspectRatio(
                                   aspectRatio: 1,
                                   child: deal.mainImageUrl.isNotEmpty
-                                      ? CachedNetworkImage(
+                                      ? CustomNetworkImage(
                                           imageUrl: deal.mainImageUrl,
                                           fit: BoxFit.cover,
                                           placeholder: (context, url) =>

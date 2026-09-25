@@ -1,10 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/custom_network_image.dart';
 import '../controllers/product_controller.dart';
 
 class ProductImageSection extends GetView<ProductController> {
@@ -47,7 +47,7 @@ class ProductImageSection extends GetView<ProductController> {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20.r),
-                    child: CachedNetworkImage(
+                    child: CustomNetworkImage(
                       imageUrl: imageUrl,
                       fit: BoxFit.cover,
                       width: double.infinity,

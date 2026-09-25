@@ -17,7 +17,8 @@
             "type": "dart",
             "deviceId": "chrome",
             "args": [
-                "--web-port=8080"
+                "--web-port=8080",
+                "--web-browser-flag=--disable-web-security"
             ]
         },
         {

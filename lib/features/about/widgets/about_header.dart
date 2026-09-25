@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oga_glow/core/constants/about_constants.dart';
 import 'package:oga_glow/core/theme/app_colors.dart';
+import 'package:oga_glow/core/widgets/custom_network_image.dart';
 import 'package:oga_glow/core/theme/app_text_styles.dart';
 
 /// Hero / Header section for the About Us screen.
@@ -111,7 +111,7 @@ class AboutHeader extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(18.r),
-                child: CachedNetworkImage(
+                child: CustomNetworkImage(
                   imageUrl: imageUrl!,
                   fit: BoxFit.cover,
                   width: double.infinity,
