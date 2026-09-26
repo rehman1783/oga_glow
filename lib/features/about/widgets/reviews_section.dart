@@ -16,43 +16,62 @@ class ReviewsSection extends GetView<AboutController> {
       children: [
         Row(
           children: [
-            Icon(Icons.reviews_rounded, color: AppColors.primary, size: 22.sp),
+            Container(
+              padding: EdgeInsets.all(6.w),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.12),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.rate_review_rounded,
+                color: AppColors.primary,
+                size: 18.sp,
+              ),
+            ),
             SizedBox(width: 8.w),
             Text(
-              'Customer Reviews',
+              'Customer Feedback',
               style: AppTextStyles.heading2.copyWith(
                 color: AppColors.of(context).textPrimary,
                 fontSize: 16.sp,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ],
         ),
         SizedBox(height: 12.h),
         Obx(() {
-          if (controller.isFakeReviewsLoading.value) {
+          if (controller.isCustomerReviewsLoading.value) {
             return const Center(
-              child: CircularProgressIndicator(color: AppColors.primary),
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: CircularProgressIndicator(color: AppColors.primary, strokeWidth: 2),
+              ),
             );
           }
 
-          if (controller.fakeReviewsError.value.isNotEmpty) {
+          if (controller.customerReviewsError.value.isNotEmpty) {
             return Text(
-              controller.fakeReviewsError.value,
+              controller.customerReviewsError.value,
               style: AppTextStyles.body.copyWith(color: AppColors.error),
             );
           }
 
-          if (controller.fakeReviews.isEmpty) {
-            return Text(
-              'No customer reviews available right now.',
-              style: AppTextStyles.body.copyWith(
-                color: AppColors.of(context).textSecondary,
+          if (controller.customerReviews.isEmpty) {
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.h),
+              child: Text(
+                'No customer reviews available yet.',
+                style: AppTextStyles.body.copyWith(
+                  color: AppColors.of(context).textSecondary,
+                  fontSize: 13.sp,
+                ),
               ),
             );
           }
 
           return Column(
-            children: controller.fakeReviews
+            children: controller.customerReviews
                 .map((review) => ReviewCard(review: review))
                 .toList(),
           );
@@ -61,3 +80,4 @@ class ReviewsSection extends GetView<AboutController> {
     );
   }
 }
+

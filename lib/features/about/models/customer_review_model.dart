@@ -1,4 +1,4 @@
-class FakeReview {
+class CustomerReview {
   final String id;
   final String name;
   final String email;
@@ -6,7 +6,7 @@ class FakeReview {
   final String? image;
   final DateTime createdAt;
 
-  FakeReview({
+  CustomerReview({
     required this.id,
     required this.name,
     required this.email,
@@ -15,8 +15,8 @@ class FakeReview {
     required this.createdAt,
   });
 
-  factory FakeReview.fromJson(Map<String, dynamic> json) {
-    return FakeReview(
+  factory CustomerReview.fromJson(Map<String, dynamic> json) {
+    return CustomerReview(
       id: json['_id']?.toString() ?? json['id']?.toString() ?? '',
       name: json['name']?.toString() ?? '',
       email: json['email']?.toString() ?? '',
@@ -46,21 +46,21 @@ class FakeReview {
   }
 }
 
-class FakeReviewResponse {
+class CustomerReviewResponse {
   final bool success;
-  final List<FakeReview> reviews;
+  final List<CustomerReview> reviews;
 
-  FakeReviewResponse({required this.success, required this.reviews});
+  CustomerReviewResponse({required this.success, required this.reviews});
 
-  factory FakeReviewResponse.fromJson(Map<String, dynamic> json) {
+  factory CustomerReviewResponse.fromJson(Map<String, dynamic> json) {
     final reviewsJson = json['reviews'] is List
         ? json['reviews'] as List
         : <dynamic>[];
-    return FakeReviewResponse(
+    return CustomerReviewResponse(
       success: json['success'] == true,
       reviews: reviewsJson
           .whereType<Map<String, dynamic>>()
-          .map(FakeReview.fromJson)
+          .map(CustomerReview.fromJson)
           .toList(),
     );
   }

@@ -3,10 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/core/theme/app_text_styles.dart';
 import 'package:oga_glow/core/utils/date_formatter.dart';
-import 'package:oga_glow/features/about/models/fake_review_model.dart';
+import 'package:oga_glow/core/widgets/custom_network_image.dart';
+import 'package:oga_glow/features/about/models/customer_review_model.dart';
 
 class ReviewCard extends StatelessWidget {
-  final FakeReview review;
+  final CustomerReview review;
 
   const ReviewCard({super.key, required this.review});
 
@@ -34,15 +35,32 @@ class ReviewCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            radius: 22.r,
-            backgroundColor: AppColors.primary.withValues(alpha: 0.12),
-            backgroundImage: review.image != null && review.image!.isNotEmpty
-                ? NetworkImage(review.image!)
-                : null,
-            child: review.image == null || review.image!.isEmpty
-                ? Icon(Icons.person_rounded, color: AppColors.primary, size: 20.sp)
-                : null,
+          Container(
+            width: 44.r,
+            height: 44.r,
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
+            child: review.image != null && review.image!.trim().isNotEmpty
+                ? ClipOval(
+                    child: CustomNetworkImage(
+                      imageUrl: review.image!,
+                      width: 44.r,
+                      height: 44.r,
+                      fit: BoxFit.cover,
+                      errorWidget: (context, url, error) => Icon(
+                        Icons.person_rounded,
+                        color: AppColors.primary,
+                        size: 20.sp,
+                      ),
+                    ),
+                  )
+                : Icon(
+                    Icons.person_rounded,
+                    color: AppColors.primary,
+                    size: 20.sp,
+                  ),
           ),
           SizedBox(width: 12.w),
           Expanded(
@@ -53,7 +71,7 @@ class ReviewCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        review.name.isNotEmpty ? review.name : 'Verified Customer',
+                        review.name.trim().isNotEmpty ? review.name : 'Customer',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.heading2.copyWith(
@@ -115,17 +133,17 @@ class ReviewCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 8.h),
-                Text(
-                  review.comment.isNotEmpty
-                      ? review.comment
-                      : 'Great experience with OGAGLOW.',
-                  style: AppTextStyles.body.copyWith(
-                    color: colors.textSecondary,
-                    fontSize: 12.5.sp,
-                    height: 1.45,
+                if (review.comment.trim().isNotEmpty) ...[
+                  SizedBox(height: 8.h),
+                  Text(
+                    review.comment,
+                    style: AppTextStyles.body.copyWith(
+                      color: colors.textSecondary,
+                      fontSize: 12.5.sp,
+                      height: 1.45,
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ),
@@ -134,3 +152,4 @@ class ReviewCard extends StatelessWidget {
     );
   }
 }
+

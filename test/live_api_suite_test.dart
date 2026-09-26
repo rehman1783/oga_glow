@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:oga_glow/data/models/product_model.dart';
 import 'package:oga_glow/features/about/models/about_us_model.dart';
-import 'package:oga_glow/features/about/models/fake_review_model.dart';
+import 'package:oga_glow/features/about/models/customer_review_model.dart';
 import 'package:oga_glow/features/checkout/models/checkout_preview_model.dart';
 import 'package:oga_glow/features/checkout/models/place_order_model.dart';
 
@@ -79,12 +79,12 @@ void main() {
     });
 
     test(
-      '5. GET /OGAGLOW/fake-reviews/getAllFakeReviews returns fake reviews',
+      '5. GET /OGAGLOW/fake-reviews/getAllFakeReviews returns customer reviews',
       () async {
         final res = await dio.get('/OGAGLOW/fake-reviews/getAllFakeReviews');
         expect(res.statusCode, 200);
         expect(res.data, isA<Map<String, dynamic>>());
-        final response = FakeReviewResponse.fromJson(
+        final response = CustomerReviewResponse.fromJson(
           res.data as Map<String, dynamic>,
         );
         expect(response.reviews, isA<List>());

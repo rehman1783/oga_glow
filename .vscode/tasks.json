@@ -1,0 +1,13 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Flutter Force Clean & Unlock",
+            "type": "shell",
+            "command": "powershell -Command \"Stop-Process -Name 'dart','flutter' -Force -ErrorAction SilentlyContinue; flutter clean\"",
+            "problemMatcher": [],
+            "group": "build",
+            "detail": "Kills lingering background dart/flutter processes and removes locked build directory."
+        }
+    ]
+}

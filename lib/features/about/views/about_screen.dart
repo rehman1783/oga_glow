@@ -9,12 +9,9 @@ import '../controllers/about_controller.dart';
 import '../widgets/about_body_image_card.dart';
 import '../widgets/about_empty_widget.dart';
 import '../widgets/about_error_widget.dart';
-import '../widgets/about_faq_item.dart';
 import '../widgets/about_header.dart';
 import '../widgets/about_highlight_card.dart';
-import '../widgets/about_section_title.dart';
 import '../widgets/about_shimmer_loading.dart';
-import '../widgets/about_stats_grid.dart';
 import '../widgets/about_values_section.dart';
 import '../widgets/company_story_section.dart';
 import '../widgets/cta_button_section.dart';
@@ -23,8 +20,8 @@ import '../widgets/reviews_section.dart';
 /// About Us screen.
 ///
 /// Fully API-driven & feature-rich About Us page that showcases hero banner,
-/// company impact metrics, story & mission, values, call-to-action buttons,
-/// customer reviews, and FAQ items.
+/// company story & mission, values, call-to-action buttons, customer feedback,
+/// and FAQ items.
 class AboutScreen extends GetView<AboutController> {
   const AboutScreen({super.key});
 
@@ -135,31 +132,24 @@ class AboutScreen extends GetView<AboutController> {
                       banner?.card3?.isNotEmpty == true)
                     SizedBox(height: 16.h),
 
-                  // ---- 3. Brand Statistics & Impact Counter Grid ----
+                  // ---- 3. Company Story & Mission / Vision ----
                   const FadeSlideTransition(
                     index: 4,
-                    child: AboutStatsGrid(),
-                  ),
-                  SizedBox(height: 24.h),
-
-                  // ---- 4. Company Story & Mission / Vision ----
-                  const FadeSlideTransition(
-                    index: 5,
                     child: CompanyStorySection(),
                   ),
                   SizedBox(height: 24.h),
 
-                  // ---- 5. Why Choose Us & Company Values ----
+                  // ---- 4. Why Choose Us & Company Values ----
                   const FadeSlideTransition(
-                    index: 6,
+                    index: 5,
                     child: AboutValuesSection(),
                   ),
                   SizedBox(height: 24.h),
 
-                  // ---- 6. First Body Image Banner ----
+                  // ---- 5. First Body Image Banner ----
                   if (data.firstImage?.trim().isNotEmpty == true) ...[
                     FadeSlideTransition(
-                      index: 7,
+                      index: 6,
                       child: AboutBodyImageCard(
                         imageUrl: data.firstImage,
                         height: 200.h,
@@ -168,10 +158,10 @@ class AboutScreen extends GetView<AboutController> {
                     SizedBox(height: 16.h),
                   ],
 
-                  // ---- 7. Second Body Image Banner ----
+                  // ---- 6. Second Body Image Banner ----
                   if (data.secondImage?.trim().isNotEmpty == true) ...[
                     FadeSlideTransition(
-                      index: 8,
+                      index: 7,
                       child: AboutBodyImageCard(
                         imageUrl: data.secondImage,
                         height: 200.h,
@@ -180,9 +170,9 @@ class AboutScreen extends GetView<AboutController> {
                     SizedBox(height: 16.h),
                   ],
 
-                  // ---- 8. Call-To-Action & Direct Support Section ----
+                  // ---- 7. Call-To-Action & Direct Support Section ----
                   FadeSlideTransition(
-                    index: 9,
+                    index: 8,
                     child: CTAButtonSection(
                       leftButtonTitle: banner?.leftButton,
                       rightButtonTitle: banner?.rightButton,
@@ -196,57 +186,11 @@ class AboutScreen extends GetView<AboutController> {
                   ),
                   SizedBox(height: 24.h),
 
-                  // ---- 9. Customer Reviews Section ----
+                  // ---- 8. Customer Reviews / Feedback Section ----
                   const FadeSlideTransition(
-                    index: 10,
+                    index: 9,
                     child: ReviewsSection(),
                   ),
-                  SizedBox(height: 24.h),
-
-                  // ---- 10. FAQ Section ----
-                  if (data.faqImage?.trim().isNotEmpty == true ||
-                      !controller.isFaqEmpty) ...[
-                    const FadeSlideTransition(
-                      index: 11,
-                      child: AboutSectionTitle(
-                        icon: Icons.help_center_rounded,
-                        title: 'Frequently Asked Questions',
-                      ),
-                    ),
-                    SizedBox(height: 12.h),
-
-                    // FaqImage Section Banner
-                    if (data.faqImage?.trim().isNotEmpty == true)
-                      FadeSlideTransition(
-                        index: 12,
-                        child: AboutBodyImageCard(
-                          imageUrl: data.faqImage,
-                          height: 160.h,
-                        ),
-                      ),
-
-                    // Dynamic FAQ items list
-                    if (!controller.isFaqEmpty)
-                      ...List.generate(data.faq!.length, (index) {
-                        final faqItem = data.faq![index];
-                        return FadeSlideTransition(
-                          index: 13 + index,
-                          child: AboutFaqItem(
-                            question: faqItem.question ?? '',
-                            answer: faqItem.answer ?? '',
-                          ),
-                        );
-                      })
-                    else
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16.h),
-                        child: const AboutEmptyWidget(
-                          title: 'No FAQ Items',
-                          message: 'No FAQs are available right now.',
-                        ),
-                      ),
-                  ],
-
                   SizedBox(height: 32.h),
                 ],
               ),
@@ -257,3 +201,4 @@ class AboutScreen extends GetView<AboutController> {
     );
   }
 }
+

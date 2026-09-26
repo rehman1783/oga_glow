@@ -22,9 +22,19 @@ class CustomNetworkImage extends StatelessWidget {
     this.errorWidget,
   });
 
+  /// Sanitizes image URLs (e.g. converting Cloudinary .avif URLs to .png for Flutter Web decoding support).
+  static String sanitizeUrl(String url) {
+    final trimmed = url.trim();
+    if (trimmed.isEmpty) return trimmed;
+    if (trimmed.toLowerCase().endsWith('.avif')) {
+      return '${trimmed.substring(0, trimmed.length - 5)}.png';
+    }
+    return trimmed;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final String trimmedUrl = imageUrl.trim();
+    final String trimmedUrl = sanitizeUrl(imageUrl);
 
     if (trimmedUrl.isEmpty) {
       return errorWidget?.call(context, imageUrl, 'Empty URL') ?? _defaultError(context);

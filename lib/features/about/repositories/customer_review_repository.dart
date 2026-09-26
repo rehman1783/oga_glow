@@ -1,18 +1,18 @@
 import 'package:oga_glow/core/network/api_exception.dart';
-import 'package:oga_glow/features/about/models/fake_review_model.dart';
-import 'package:oga_glow/features/about/services/fake_review_service.dart';
+import 'package:oga_glow/features/about/models/customer_review_model.dart';
+import 'package:oga_glow/features/about/services/customer_review_service.dart';
 
-class FakeReviewRepository {
-  static FakeReviewResponse? _cachedResponse;
+class CustomerReviewRepository {
+  static CustomerReviewResponse? _cachedResponse;
   static DateTime? _cacheTime;
   static const Duration _cacheTtl = Duration(minutes: 10);
 
-  final FakeReviewService _service;
+  final CustomerReviewService _service;
 
-  FakeReviewRepository({FakeReviewService? service})
-    : _service = service ?? FakeReviewService();
+  CustomerReviewRepository({CustomerReviewService? service})
+    : _service = service ?? CustomerReviewService();
 
-  Future<FakeReviewResponse> getAllFakeReviews({bool forceRefresh = false}) async {
+  Future<CustomerReviewResponse> getAllCustomerReviews({bool forceRefresh = false}) async {
     if (!forceRefresh &&
         _cachedResponse != null &&
         _cacheTime != null &&
@@ -21,7 +21,7 @@ class FakeReviewRepository {
     }
 
     try {
-      final res = await _service.getAllFakeReviews();
+      final res = await _service.getAllCustomerReviews();
       _cachedResponse = res;
       _cacheTime = DateTime.now();
       return res;
