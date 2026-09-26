@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oga_glow/app/routes/app_routes.dart';
-import 'package:oga_glow/core/constants/about_constants.dart';
 import 'package:oga_glow/core/theme/app_colors.dart';
 import 'package:oga_glow/core/network/api_exception.dart';
 import 'package:oga_glow/features/about/models/about_us_model.dart';
@@ -9,6 +8,8 @@ import 'package:oga_glow/features/about/models/customer_review_model.dart';
 import 'package:oga_glow/features/about/repositories/about_repository.dart';
 import 'package:oga_glow/features/about/repositories/customer_review_repository.dart';
 import 'package:oga_glow/features/category/controllers/category_controller.dart';
+import 'package:oga_glow/features/contact/models/contact_info_model.dart';
+import 'package:oga_glow/features/contact/repositories/contact_repository.dart';
 import 'package:oga_glow/features/main_navigation/controllers/main_navigation_controller.dart';
 import 'package:oga_glow/features/product/models/review_model.dart';
 import 'package:oga_glow/features/product/repositories/review_repository.dart';
@@ -22,14 +23,17 @@ class AboutController extends GetxController {
   final AboutRepository _repository;
   final ReviewRepository _reviewRepository;
   final CustomerReviewRepository _customerReviewRepository;
+  final ContactRepository _contactRepository;
 
   AboutController({
     AboutRepository? repository,
     ReviewRepository? reviewRepository,
     CustomerReviewRepository? customerReviewRepository,
+    ContactRepository? contactRepository,
   }) : _repository = repository ?? AboutRepository(),
        _reviewRepository = reviewRepository ?? ReviewRepository(),
-       _customerReviewRepository = customerReviewRepository ?? CustomerReviewRepository();
+       _customerReviewRepository = customerReviewRepository ?? CustomerReviewRepository(),
+       _contactRepository = contactRepository ?? ContactRepository();
 
   // Observable States
   final isLoading = true.obs;
@@ -42,6 +46,8 @@ class AboutController extends GetxController {
   final customerReviews = <CustomerReview>[].obs;
   final isCustomerReviewsLoading = false.obs;
   final customerReviewsError = ''.obs;
+  final contactInfo = Rx<ContactInfoModel>(ContactInfoModel.fallback());
+  final isContactInfoLoading = false.obs;
 
   /// Helper getter to check if FAQ list is empty
   bool get isFaqEmpty {
@@ -77,7 +83,20 @@ class AboutController extends GetxController {
     await Future.wait([
       fetchAboutUs(forceRefresh: forceRefresh),
       getCustomerReviews(forceRefresh: forceRefresh),
+      fetchContactInfo(),
     ]);
+  }
+
+  Future<void> fetchContactInfo() async {
+    try {
+      isContactInfoLoading.value = true;
+      final info = await _contactRepository.getContactInfo();
+      contactInfo.value = info;
+    } catch (_) {
+      // Keep fallback
+    } finally {
+      isContactInfoLoading.value = false;
+    }
   }
 
   Future<void> fetchTestimonials() async {
@@ -167,9 +186,15 @@ class AboutController extends GetxController {
   }
 
   /// Launch WhatsApp with support contact
-  Future<void> launchWhatsApp() async {
+  Future<void> launchWhatsApp([String? target]) async {
+    final raw = target ?? contactInfo.value.effectiveWhatsAppUrl;
+    String url = raw;
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      final cleanNumber = raw.replaceAll(RegExp(r'[^0-9]'), '');
+      url = 'https://wa.me/$cleanNumber';
+    }
     try {
-      final uri = Uri.parse(AboutConstants.whatsappUrl);
+      final uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       } else {
@@ -180,31 +205,39 @@ class AboutController extends GetxController {
     }
   }
 
-  /// Launch Phone Dialer
-  Future<void> launchPhone() async {
+  /// Launch Phone Dialer using live API phone number
+  Future<void> launchPhone([String? targetPhone]) async {
+    final phone = targetPhone ?? contactInfo.value.primaryPhone;
+    final cleanPhone = phone.replaceAll(' ', '').replaceAll('-', '');
+    final uriString = cleanPhone.startsWith('tel:') ? cleanPhone : 'tel:$cleanPhone';
     try {
-      final phoneUri = Uri.parse(AboutConstants.phoneDial);
+      final phoneUri = Uri.parse(uriString);
       if (await canLaunchUrl(phoneUri)) {
         await launchUrl(phoneUri);
       } else {
-        _showError('Could not open phone dialer.');
+        _showError('Could not open phone dialer for $phone');
       }
     } catch (_) {
-      _showError('Could not open phone dialer.');
+      _showError('Could not open phone dialer for $phone');
     }
   }
 
-  /// Launch Email Client
-  Future<void> launchEmail() async {
+  /// Launch Email Client using live API email address
+  Future<void> launchEmail([String? targetEmail]) async {
+    final email = targetEmail ?? contactInfo.value.primaryEmail;
+    final cleanEmail = email.trim();
+    final uriString = cleanEmail.startsWith('mailto:')
+        ? cleanEmail
+        : 'mailto:$cleanEmail?subject=OGAGLOW%20Inquiry';
     try {
-      final emailUri = Uri.parse('mailto:support@ogaglow.com?subject=OGAGLOW%20Inquiry');
+      final emailUri = Uri.parse(uriString);
       if (await canLaunchUrl(emailUri)) {
         await launchUrl(emailUri);
       } else {
-        _showError('Could not open email client.');
+        _showError('Could not open email client for $email');
       }
     } catch (_) {
-      _showError('Could not open email client.');
+      _showError('Could not open email client for $email');
     }
   }
 
