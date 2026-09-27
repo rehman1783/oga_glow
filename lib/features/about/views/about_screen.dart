@@ -146,28 +146,37 @@ class AboutScreen extends GetView<AboutController> {
                   ),
                   SizedBox(height: 24.h),
 
-                  // ---- 5. First Body Image Banner ----
+                  // ---- 5. Single Body Image Banner (Only 2 images total on About screen: 1 Header + 1 Body) ----
                   if (data.firstImage?.trim().isNotEmpty == true) ...[
                     FadeSlideTransition(
                       index: 6,
                       child: AboutBodyImageCard(
                         imageUrl: data.firstImage,
-                        height: 200.h,
+                        height: 250,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    SizedBox(height: 16.h),
-                  ],
-
-                  // ---- 6. Second Body Image Banner ----
-                  if (data.secondImage?.trim().isNotEmpty == true) ...[
+                    SizedBox(height: 14.h),
+                  ] else if (data.secondImage?.trim().isNotEmpty == true) ...[
                     FadeSlideTransition(
-                      index: 7,
+                      index: 6,
                       child: AboutBodyImageCard(
                         imageUrl: data.secondImage,
-                        height: 200.h,
+                        height: 250,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    SizedBox(height: 16.h),
+                    SizedBox(height: 14.h),
+                  ] else if (data.faqImage?.trim().isNotEmpty == true) ...[
+                    FadeSlideTransition(
+                      index: 6,
+                      child: AboutBodyImageCard(
+                        imageUrl: data.faqImage,
+                        height: 250,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    SizedBox(height: 14.h),
                   ],
 
                   // ---- 7. Call-To-Action & Direct Support Section ----

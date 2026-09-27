@@ -96,42 +96,67 @@ class AboutHeader extends StatelessWidget {
 
           // Banner Image (using CachedNetworkImage) or default logo circle
           if (imageUrl != null && imageUrl!.trim().isNotEmpty) ...[
-            Container(
-              height: 150.h,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18.r),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.15),
-                    blurRadius: 16,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(18.r),
-                child: CustomNetworkImage(
-                  imageUrl: imageUrl!,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  placeholder: (context, url) => Container(
-                    color: colors.cardBackground,
-                    child: const Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: AppColors.primary,
+            GestureDetector(
+              onTap: () => _showImagePreviewDialog(context, imageUrl!),
+              child: Container(
+                width: double.infinity,
+                height: 250.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.12),
+                      blurRadius: 14,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(16.r),
+                      child: CustomNetworkImage(
+                        imageUrl: imageUrl!,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: 250.h,
+                        placeholder: (context, url) => Container(
+                          height: 250.h,
+                          color: colors.cardBackground,
+                          child: const Center(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => _buildLogoCircle(context),
                       ),
                     ),
-                  ),
-                  errorWidget: (context, url, error) => _buildLogoCircle(context),
+                    Positioned(
+                      top: 6.h,
+                      right: 6.w,
+                      child: Container(
+                        padding: EdgeInsets.all(5.w),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.45),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.fullscreen_rounded,
+                          color: Colors.white,
+                          size: 16.sp,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            SizedBox(height: 18.h),
+            SizedBox(height: 14.h),
           ] else ...[
             _buildLogoCircle(context),
-            SizedBox(height: 16.h),
+            SizedBox(height: 14.h),
           ],
 
           // Heading
@@ -164,8 +189,8 @@ class AboutHeader extends StatelessWidget {
 
   Widget _buildLogoCircle(BuildContext context) {
     return Container(
-      width: 76.w,
-      height: 76.w,
+      width: 56.w,
+      height: 56.w,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -183,16 +208,55 @@ class AboutHeader extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: AppColors.primary.withValues(alpha: 0.2),
-            blurRadius: 20,
-            offset: const Offset(0, 6),
+            blurRadius: 14,
+            offset: const Offset(0, 3),
           ),
         ],
       ),
       child: Center(
         child: Icon(
           Icons.spa_rounded,
-          size: 38.sp,
+          size: 28.sp,
           color: AppColors.primary,
+        ),
+      ),
+    );
+  }
+
+  void _showImagePreviewDialog(BuildContext context, String url) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withValues(alpha: 0.85),
+      builder: (ctx) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: EdgeInsets.all(16.w),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            InteractiveViewer(
+              minScale: 0.8,
+              maxScale: 4.0,
+              child: CustomNetworkImage(
+                imageUrl: url,
+                fit: BoxFit.contain,
+              ),
+            ),
+            Positioned(
+              top: 8.h,
+              right: 8.w,
+              child: IconButton(
+                icon: Container(
+                  padding: EdgeInsets.all(6.w),
+                  decoration: const BoxDecoration(
+                    color: Colors.black54,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.close_rounded, color: Colors.white),
+                ),
+                onPressed: () => Navigator.of(ctx).pop(),
+              ),
+            ),
+          ],
         ),
       ),
     );

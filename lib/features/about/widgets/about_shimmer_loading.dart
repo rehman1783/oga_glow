@@ -23,25 +23,25 @@ class AboutShimmerLoading extends StatelessWidget {
           children: [
             // Header Hero Banner Placeholder
             Container(
-              height: 220.h,
+              height: 250.h,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(24.r),
+                borderRadius: BorderRadius.circular(16.r),
               ),
             ),
-            SizedBox(height: 24.h),
+            SizedBox(height: 18.h),
 
             // Highlight Cards Placeholder (3 cards)
             ...List.generate(
               3,
               (index) => Container(
-                height: 60.h,
+                height: 58.h,
                 width: double.infinity,
-                margin: EdgeInsets.only(bottom: 12.h),
+                margin: EdgeInsets.only(bottom: 10.h),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(16.r),
+                  borderRadius: BorderRadius.circular(14.r),
                 ),
               ),
             ),
@@ -49,44 +49,22 @@ class AboutShimmerLoading extends StatelessWidget {
 
             // CTA Buttons Placeholder
             Container(
-              height: 120.h,
+              height: 115.h,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(24.r),
+                borderRadius: BorderRadius.circular(20.r),
               ),
             ),
-            SizedBox(height: 24.h),
+            SizedBox(height: 20.h),
 
-            // First Body Image Placeholder
+            // Single Body Image Placeholder (Total 2 image placeholders: 1 Header + 1 Body)
             Container(
-              height: 180.h,
+              height: 250.h,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(16.r),
-              ),
-            ),
-            SizedBox(height: 16.h),
-
-            // Second Body Image Placeholder
-            Container(
-              height: 180.h,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16.r),
-              ),
-            ),
-            SizedBox(height: 24.h),
-
-            // FAQ Image Banner Placeholder
-            Container(
-              height: 160.h,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16.r),
+                borderRadius: BorderRadius.circular(14.r),
               ),
             ),
             SizedBox(height: 16.h),
