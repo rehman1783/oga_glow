@@ -96,7 +96,11 @@ class AboutScreen extends GetView<AboutController> {
                   FadeSlideTransition(
                     index: 0,
                     child: AboutHeader(
-                      imageUrl: banner?.image,
+                      imageUrl: (data.secondImage?.trim().isNotEmpty == true && data.secondImage != banner?.image)
+                          ? data.secondImage
+                          : (data.faqImage?.trim().isNotEmpty == true && data.faqImage != banner?.image)
+                              ? data.faqImage
+                              : 'assets/images/banner2.jpeg',
                       paragraph: banner?.paragraph,
                     ),
                   ),

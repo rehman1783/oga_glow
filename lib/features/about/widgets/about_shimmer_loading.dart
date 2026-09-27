@@ -23,7 +23,7 @@ class AboutShimmerLoading extends StatelessWidget {
           children: [
             // Header Hero Banner Placeholder
             Container(
-              height: 250.h,
+              height: 320.h,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,

@@ -100,7 +100,7 @@ class AboutHeader extends StatelessWidget {
               onTap: () => _showImagePreviewDialog(context, imageUrl!),
               child: Container(
                 width: double.infinity,
-                height: 250.h,
+                height: 320.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.r),
                   boxShadow: [
@@ -119,9 +119,9 @@ class AboutHeader extends StatelessWidget {
                         imageUrl: imageUrl!,
                         fit: BoxFit.cover,
                         width: double.infinity,
-                        height: 250.h,
+                        height: 320.h,
                         placeholder: (context, url) => Container(
-                          height: 250.h,
+                          height: 320.h,
                           color: colors.cardBackground,
                           child: const Center(
                             child: CircularProgressIndicator(

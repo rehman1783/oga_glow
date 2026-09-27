@@ -40,6 +40,21 @@ class CustomNetworkImage extends StatelessWidget {
       return errorWidget?.call(context, imageUrl, 'Empty URL') ?? _defaultError(context);
     }
 
+    if (trimmedUrl.startsWith('assets/')) {
+      return Image.asset(
+        trimmedUrl,
+        fit: fit,
+        width: width,
+        height: height,
+        errorBuilder: (context, error, stackTrace) {
+          if (errorWidget != null) {
+            return errorWidget!(context, trimmedUrl, error);
+          }
+          return _defaultError(context);
+        },
+      );
+    }
+
     if (kIsWeb) {
       return Image.network(
         trimmedUrl,
