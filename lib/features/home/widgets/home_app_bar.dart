@@ -145,65 +145,6 @@ class HomeAppBar extends StatelessWidget {
                   ],
                 ),
               ),
-
-              // Notification Button with luxury unread indicator
-              BounceTap(
-                onTap: () {},
-                child: Container(
-                  width: 44.w,
-                  height: 44.w,
-                  decoration: BoxDecoration(
-                    color: colors.cardBackground,
-                    borderRadius: BorderRadius.circular(14.r),
-                    border: Border.all(
-                      color: colors.border.withValues(alpha: 0.8),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.black.withValues(alpha: 0.04),
-                        blurRadius: 10,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Icon(
-                        Icons.notifications_outlined,
-                        color: colors.textPrimary,
-                        size: 22.sp,
-                      ),
-                      Positioned(
-                        top: 10.h,
-                        right: 10.w,
-                        child: Container(
-                          width: 8.w,
-                          height: 8.w,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFFE53935), Color(0xFFFF5252)],
-                            ),
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: colors.cardBackground,
-                              width: 1.5,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(
-                                  0xFFE53935,
-                                ).withValues(alpha: 0.5),
-                                blurRadius: 4,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ],
           ),
 

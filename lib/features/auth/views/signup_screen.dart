@@ -9,7 +9,6 @@ import '../widgets/auth_submit_button.dart';
 import '../widgets/auth_text_form_fields.dart';
 import '../widgets/glow_background.dart';
 import '../widgets/fade_slide_transition.dart';
-import '../widgets/google_logo.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../app/routes/app_routes.dart';
 
@@ -250,85 +249,11 @@ class SignupScreen extends GetView<SignupController> {
                         ),
                       ),
 
-                      SizedBox(height: 20.h),
+                      SizedBox(height: 24.h),
 
-                      // Staggered Entrance 4: Divider text
+                      // Staggered Entrance 4: Nav toggle to login
                       FadeSlideTransition(
                         index: 4,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Divider(
-                                color: isDark ? const Color(0xFF223E28) : colors.border,
-                                thickness: 1,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 14),
-                              child: Text(
-                                'OR',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: isDark ? const Color(0xFF7E9E86) : colors.textSecondary,
-                                  letterSpacing: 1.5,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 11.sp,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Divider(
-                                color: isDark ? const Color(0xFF223E28) : colors.border,
-                                thickness: 1,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      SizedBox(height: 20.h),
-
-                      // Staggered Entrance 5: Google Button
-                      FadeSlideTransition(
-                        index: 5,
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: 50.h,
-                          child: OutlinedButton(
-                            onPressed: () {},
-                            style: OutlinedButton.styleFrom(
-                              backgroundColor: isDark ? const Color(0xFF102015) : colors.cardBackground,
-                              side: BorderSide(
-                                color: isDark ? const Color(0xFF22422A) : colors.border,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
-                              ),
-                              elevation: 0,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const GoogleLogo(size: 20),
-                                const SizedBox(width: 12),
-                                Text(
-                                  'Sign up with Google',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14.5.sp,
-                                    color: colors.textPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      SizedBox(height: 20.h),
-
-                      // Staggered Entrance 6: Nav toggle to login
-                      FadeSlideTransition(
-                        index: 6,
                         child: Center(
                           child: TextButton(
                             onPressed: () => Get.offNamed(AppRoutes.login),
