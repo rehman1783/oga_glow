@@ -7,7 +7,7 @@ class ApiEndpoints {
   static const String login = '/auth/login';
   static const String register = '/auth/register';
   static const String forgotPassword = '/auth/forgot-password';
-  static const String deleteAccount = '/auth/delete-account';
+  static const String deleteAccount = '/me/delete-account';
 
   // About Us endpoint
   static const String aboutUs = '/OGAGLOW/about-us';

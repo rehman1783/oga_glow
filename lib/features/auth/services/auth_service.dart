@@ -75,15 +75,12 @@ class AuthService {
     );
   }
 
-  /// Delete user account.
+  /// Delete user account using DELETE /me/delete-account.
   Future<bool> deleteAccount() async {
-    try {
-      final response = await _apiClient.delete(ApiEndpoints.deleteAccount);
-      return response.statusCode == 200 || response.statusCode == 204;
-    } catch (e) {
-      debugPrint('[DEBUG LOG] AuthService.deleteAccount failed or not supported by endpoint: $e');
-      return true; // Proceed with client-side deletion fallback
-    }
+    debugPrint('[DEBUG LOG] AuthService: Calling DELETE ${ApiEndpoints.deleteAccount}');
+    final response = await _apiClient.delete(ApiEndpoints.deleteAccount);
+    debugPrint('[DEBUG LOG] AuthService.deleteAccount: Status Code: ${response.statusCode}');
+    return response.statusCode == 200 || response.statusCode == 204;
   }
 }
 

@@ -1,13 +1,68 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:oga_glow/data/models/product_model.dart';
 import '../../../core/theme/app_colors.dart';
 
 class CartController extends GetxController {
   static const String tag = 'cart';
+  static const String _storageKey = 'local_cart_items_v1';
 
   final RxList<Map<String, dynamic>> cartItems = <Map<String, dynamic>>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _loadCartFromStorage();
+
+    // Automatically persist to SharedPreferences whenever cartItems changes
+    ever(cartItems, (_) {
+      _saveCartToStorage();
+    });
+  }
+
+  /// Loads cart items from SharedPreferences on initialization
+  Future<void> _loadCartFromStorage() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final String? jsonString = prefs.getString(_storageKey);
+      if (jsonString != null && jsonString.isNotEmpty) {
+        final List<dynamic> decoded = jsonDecode(jsonString);
+        final loadedItems = decoded.map<Map<String, dynamic>>((e) {
+          final map = Map<String, dynamic>.from(e as Map);
+          if (map['productModel'] != null && map['productModel'] is Map) {
+            map['productModel'] = ProductModel.fromJson(
+              Map<String, dynamic>.from(map['productModel'] as Map),
+            );
+          }
+          return map;
+        }).toList();
+        cartItems.assignAll(loadedItems);
+      }
+    } catch (e) {
+      debugPrint('[CartController] Error loading cart from storage: $e');
+    }
+  }
+
+  /// Saves cart items to SharedPreferences
+  Future<void> _saveCartToStorage() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final List<Map<String, dynamic>> serializableList = cartItems.map((item) {
+        final Map<String, dynamic> itemMap = Map<String, dynamic>.from(item);
+        if (itemMap['productModel'] is ProductModel) {
+          itemMap['productModel'] = (itemMap['productModel'] as ProductModel).toJson();
+        }
+        return itemMap;
+      }).toList();
+      final String jsonString = jsonEncode(serializableList);
+      await prefs.setString(_storageKey, jsonString);
+    } catch (e) {
+      debugPrint('[CartController] Error saving cart to storage: $e');
+    }
+  }
 
   bool _isSameProduct(Map<String, dynamic> a, Map<String, dynamic> b) {
     if (a['id'] != null && b['id'] != null && a['id'].toString().isNotEmpty && b['id'].toString().isNotEmpty) {

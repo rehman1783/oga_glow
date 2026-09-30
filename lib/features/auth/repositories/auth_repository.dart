@@ -160,10 +160,21 @@ class AuthRepository {
     await _secureStorage.clearAll();
   }
 
-  /// Delete Account: notify API and clear stored auth data.
+  /// Delete Account: notify API DELETE /me/delete-account and clear stored auth data.
   Future<void> deleteAccount() async {
     try {
       await _authService.deleteAccount();
+    } on ApiException {
+      rethrow;
+    } on DioException catch (e) {
+      if (e.error is ApiException) {
+        throw e.error as ApiException;
+      }
+      throw ApiException(
+        message: e.message ?? 'Account deletion failed. Please try again.',
+      );
+    } catch (e) {
+      debugPrint('[AuthRepository] Exception during deleteAccount: $e');
     } finally {
       await _secureStorage.clearAll();
     }

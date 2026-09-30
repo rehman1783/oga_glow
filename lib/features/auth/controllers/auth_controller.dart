@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
 
 import 'package:oga_glow/app/routes/app_routes.dart';
+import 'package:oga_glow/core/network/api_exception.dart';
 import 'package:oga_glow/core/widgets/custom_snackbar.dart';
 import 'package:oga_glow/features/auth/models/user_model.dart';
 import 'package:oga_glow/features/auth/repositories/auth_repository.dart';
+import 'package:oga_glow/features/cart/controllers/cart_controller.dart';
 
 /// Global authentication controller.
 /// Manages auth state across the entire app.
@@ -109,19 +111,43 @@ class AuthController extends GetxController {
   // Delete Account
   // ---------------------------------------------------------------
 
+  /// Delete Account: calls API DELETE /me/delete-account,
+  /// clears local user session, cart, wishlist, and redirects to login screen.
   Future<void> deleteAccount() async {
-    await _authRepository.deleteAccount();
+    try {
+      isLoading.value = true;
+      await _authRepository.deleteAccount();
 
-    currentToken.value = null;
-    currentUser.value = null;
-    isLoggedIn.value = false;
+      CustomSnackbar.showSuccess(
+        title: 'Account Deleted',
+        message: 'Your account and data have been deleted successfully.',
+      );
+    } on ApiException catch (e) {
+      CustomSnackbar.showError(
+        title: 'Error',
+        message: e.message,
+      );
+    } catch (e) {
+      CustomSnackbar.showError(
+        title: 'Error',
+        message: 'Failed to delete account. Please try again.',
+      );
+    } finally {
+      // Clear reactive auth state
+      currentToken.value = null;
+      currentUser.value = null;
+      isLoggedIn.value = false;
 
-    CustomSnackbar.showInfo(
-      title: 'Account Deleted',
-      message: 'Your account has been deleted successfully.',
-    );
+      // Clear local cart if controller exists
+      if (Get.isRegistered<CartController>(tag: CartController.tag)) {
+        Get.find<CartController>(tag: CartController.tag).clearCart();
+      }
 
-    Get.offAllNamed(AppRoutes.login);
+      isLoading.value = false;
+
+      // Navigate to login screen and clear navigation stack
+      Get.offAllNamed(AppRoutes.login);
+    }
   }
 
   // ---------------------------------------------------------------
