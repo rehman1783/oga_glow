@@ -228,7 +228,7 @@ class AboutController extends GetxController {
     final cleanEmail = email.trim();
     final uriString = cleanEmail.startsWith('mailto:')
         ? cleanEmail
-        : 'mailto:$cleanEmail?subject=OGAGLOW%20Inquiry';
+        : 'mailto:$cleanEmail?subject=Ogaglow%20Naturals%20Inquiry';
     try {
       final emailUri = Uri.parse(uriString);
       if (await canLaunchUrl(emailUri)) {

@@ -295,7 +295,7 @@ class _SplashScreenState extends State<SplashScreen>
                       ).createShader(bounds);
                     },
                     child: Text(
-                      'OGAGLOW',
+                      'Ogaglow Naturals',
                       style: GoogleFonts.playfairDisplay(
                         fontSize: 34.sp,
                         fontWeight: FontWeight.w800,

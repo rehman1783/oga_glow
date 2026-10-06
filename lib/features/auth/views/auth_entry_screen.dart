@@ -37,7 +37,7 @@ class AuthEntryScreen extends StatelessWidget {
                     children: [
                       /// Top Brand Header
                       const AuthBrandHeader(
-                        title: 'OGAGLOW',
+                        title: 'Ogaglow Naturals',
                         subtitle: 'Discover Your Natural Radiance',
                       ),
 

@@ -23,7 +23,7 @@ class OGAGLOWApp extends StatelessWidget {
         return Obx(
           () => GetMaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'OGAGLOW',
+            title: 'Ogaglow Naturals',
 
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,

@@ -96,7 +96,7 @@ class LoginController extends GetxController {
 
       CustomSnackbar.showSuccess(
         title: 'Login Successful',
-        message: 'Welcome back to OGAGLOW!',
+        message: 'Welcome back to Ogaglow Naturals!',
       );
     } on NotFoundException {
       _showAccountNotFoundError();

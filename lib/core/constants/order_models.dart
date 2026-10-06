@@ -83,7 +83,7 @@ class OrderModel {
       }
     }
 
-    String pName = 'OGAGLOW Skincare Order';
+    String pName = 'Ogaglow Naturals Order';
     String pImage = 'assets/images/product_placeholder.png';
     double uPrice = 0.0;
     int totalQuantity = 0;
@@ -281,7 +281,7 @@ class OrderModel {
       return [
         TrackingStepModel(
           title: 'Order Placed',
-          description: 'Order was created on OGAGLOW.',
+          description: 'Order was created on Ogaglow Naturals.',
           dateTime: orderDate,
           isCompleted: true,
         ),

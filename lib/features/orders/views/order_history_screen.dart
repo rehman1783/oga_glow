@@ -311,7 +311,7 @@ class OrderHistoryScreen extends GetView<OrderController> {
           ),
           SizedBox(height: 8.h),
           Text(
-            'Please log in with your OGAGLOW account to view your purchase history and track active orders.',
+            'Please log in with your Ogaglow Naturals account to view your purchase history and track active orders.',
             style: AppTextStyles.body.copyWith(
               fontSize: 13.sp,
               color: AppColors.of(context).textSecondary,

@@ -71,7 +71,7 @@ class TestimonialCard extends StatelessWidget {
           Text(
             review.review.isNotEmpty
                 ? review.review
-                : 'Lovely experience with OGAGLOW.',
+                : 'Lovely experience with Ogaglow Naturals.',
             maxLines: 4,
             overflow: TextOverflow.ellipsis,
             style: AppTextStyles.body.copyWith(

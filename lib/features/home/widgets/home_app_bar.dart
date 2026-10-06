@@ -76,7 +76,7 @@ class HomeAppBar extends StatelessWidget {
                     ),
                     SizedBox(height: 2.h),
                     Obx(() {
-                      String displayName = 'OGAGLOW';
+                      String displayName = 'Ogaglow Naturals';
                       if (Get.isRegistered<AuthController>()) {
                         final user =
                             Get.find<AuthController>().currentUser.value;

@@ -269,7 +269,7 @@ class CheckoutController extends GetxController {
       final firstItemName =
           orderData.orderItems.isNotEmpty && orderData.orderItems.first is Map
           ? (orderData.orderItems.first['name']?.toString() ?? 'Order Item')
-          : 'OGAGLOW Order';
+          : 'Ogaglow Naturals Order';
 
       final firstItemImage =
           orderData.orderItems.isNotEmpty && orderData.orderItems.first is Map

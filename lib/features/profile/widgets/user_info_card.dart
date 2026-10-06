@@ -153,7 +153,7 @@ class UserInfoCard extends StatelessWidget {
       );
     }
 
-    final displayName = user!.name.isNotEmpty ? user!.name : 'OGAGLOW Customer';
+    final displayName = user!.name.isNotEmpty ? user!.name : 'Ogaglow Naturals Customer';
     final displayEmail = user!.email.isNotEmpty
         ? user!.email
         : 'No email address';
