@@ -162,6 +162,7 @@ class _SplashScreenState extends State<SplashScreen>
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // Jewel Emblem with Luxury Halo Rings
                   ScaleTransition(
@@ -275,32 +276,41 @@ class _SplashScreenState extends State<SplashScreen>
                   SizedBox(height: 32.h),
 
                   // Brand Title: OGAGLOW with Metallic Gradient
-                  ShaderMask(
-                    shaderCallback: (bounds) {
-                      return LinearGradient(
-                        colors: isDark
-                            ? const [
-                                Color(0xFFFDFCF9),
-                                Color(0xFFE8D499),
-                                Color(0xFFC7A248),
-                                Color(0xFFFFF6D8),
-                              ]
-                            : const [
-                                Color(0xFF1B3B26),
-                                Color(0xFF2E5A27),
-                                Color(0xFF1B3B26),
-                              ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ).createShader(bounds);
-                    },
-                    child: Text(
-                      'Ogaglow Naturals',
-                      style: GoogleFonts.playfairDisplay(
-                        fontSize: 34.sp,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 7.0,
-                        color: Colors.white,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.center,
+                      child: ShaderMask(
+                        shaderCallback: (bounds) {
+                          return LinearGradient(
+                            colors: isDark
+                                ? const [
+                                    Color(0xFFFDFCF9),
+                                    Color(0xFFE8D499),
+                                    Color(0xFFC7A248),
+                                    Color(0xFFFFF6D8),
+                                  ]
+                                : const [
+                                    Color(0xFF1B3B26),
+                                    Color(0xFF2E5A27),
+                                    Color(0xFF1B3B26),
+                                  ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ).createShader(bounds);
+                        },
+                        child: Text(
+                          'Ogaglow Naturals',
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          style: GoogleFonts.playfairDisplay(
+                            fontSize: 28.sp,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 4.0,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -309,6 +319,7 @@ class _SplashScreenState extends State<SplashScreen>
 
                   // Botanical Divider with Center Diamond
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
@@ -375,6 +386,7 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                     child: Text(
                       'AYURVEDIC BOTANICAL BEAUTY',
+                      textAlign: TextAlign.center,
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: 9.5.sp,
                         fontWeight: FontWeight.w800,
@@ -390,6 +402,7 @@ class _SplashScreenState extends State<SplashScreen>
 
                   Text(
                     'Pure Organic Skincare Rituals',
+                    textAlign: TextAlign.center,
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 12.5.sp,
                       fontWeight: FontWeight.w400,
