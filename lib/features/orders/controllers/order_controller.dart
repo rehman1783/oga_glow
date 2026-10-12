@@ -120,6 +120,8 @@ class OrderController extends GetxController {
           .where(
             (o) =>
                 o.orderId.toLowerCase().contains(currentQuery) ||
+                (o.rawOrderId.isNotEmpty &&
+                    o.rawOrderId.toLowerCase().contains(currentQuery)) ||
                 o.productName.toLowerCase().contains(currentQuery) ||
                 o.courierName.toLowerCase().contains(currentQuery) ||
                 o.trackingNumber.toLowerCase().contains(currentQuery),

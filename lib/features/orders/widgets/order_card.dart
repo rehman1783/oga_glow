@@ -118,9 +118,10 @@ class OrderCard extends StatelessWidget {
                       SizedBox(height: 4.h),
 
                       Text(
-                        'ID: ${order.orderId}',
+                        'Order ID: ${order.orderId}',
                         style: AppTextStyles.caption.copyWith(
                           fontSize: 11.sp,
+                          fontWeight: FontWeight.w600,
                           color: colors.textSecondary,
                           fontFamily: 'monospace',
                         ),

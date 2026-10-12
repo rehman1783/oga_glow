@@ -1,3 +1,7 @@
+import 'package:get/get.dart';
+import 'package:oga_glow/features/auth/controllers/auth_controller.dart';
+import 'package:oga_glow/features/home/controllers/home_controller.dart';
+
 // Data models for the Order History module.
 
 /// Enum representing possible order statuses.
@@ -31,10 +35,15 @@ enum OrderStatus {
 /// Represents a single order.
 class OrderModel {
   final String orderId;
+  final String rawOrderId;
   final String productName;
   final String productImage;
   final int quantity;
   final double unitPrice;
+  final double? originalPrice;
+  final double? discountedPrice;
+  final double discountAmount;
+  final double shippingPrice;
   final double totalPrice;
   final String orderDate;
   final String paymentMethod;
@@ -50,10 +59,15 @@ class OrderModel {
 
   const OrderModel({
     required this.orderId,
+    this.rawOrderId = '',
     required this.productName,
     required this.productImage,
     required this.quantity,
     required this.unitPrice,
+    this.originalPrice,
+    this.discountedPrice,
+    this.discountAmount = 0.0,
+    this.shippingPrice = 0.0,
     required this.totalPrice,
     required this.orderDate,
     required this.paymentMethod,
@@ -68,9 +82,73 @@ class OrderModel {
     required this.trackingSteps,
   });
 
+  /// Formats raw IDs (e.g. 24-character hexadecimal MongoDB ObjectIds) into
+  /// a short, memorable ID containing capital letters and numbers (e.g. "OG-8868D5").
+  static String formatOrderId(String rawId) {
+    final clean = rawId.trim();
+    if (clean.isEmpty) {
+      return 'OG-${DateTime.now().millisecondsSinceEpoch.toString().substring(7).toUpperCase()}';
+    }
+    // If already in short OG-XXXXXX format
+    if (clean.toUpperCase().startsWith('OG-') && clean.length <= 12) {
+      return clean.toUpperCase();
+    }
+    // For 24-character MongoDB hex ObjectId or other long IDs, take the last 6 characters in uppercase
+    if (clean.length >= 8) {
+      final shortPart = clean.substring(clean.length - 6).toUpperCase();
+      return 'OG-$shortPart';
+    }
+    return 'OG-${clean.toUpperCase()}';
+  }
+
+  static String _extractImageFromItem(Map<String, dynamic> item) {
+    final directKeys = [
+      item['image'],
+      item['productImage'],
+      item['thumbnail'],
+      item['img'],
+      item['imageUrl'],
+    ];
+    for (final k in directKeys) {
+      if (k != null && k.toString().trim().isNotEmpty) {
+        return k.toString().trim();
+      }
+    }
+
+    if (item['images'] is List && (item['images'] as List).isNotEmpty) {
+      final firstImg = (item['images'] as List).first;
+      if (firstImg is Map && firstImg['url'] != null) {
+        return firstImg['url'].toString().trim();
+      } else if (firstImg is String && firstImg.trim().isNotEmpty) {
+        return firstImg.trim();
+      }
+    }
+
+    if (item['product'] is Map) {
+      final p = item['product'] as Map<String, dynamic>;
+      if (p['images'] is List && (p['images'] as List).isNotEmpty) {
+        final firstImg = (p['images'] as List).first;
+        if (firstImg is Map && firstImg['url'] != null) {
+          return firstImg['url'].toString().trim();
+        } else if (firstImg is String && firstImg.trim().isNotEmpty) {
+          return firstImg.trim();
+        }
+      }
+      for (final key in ['image', 'productImage', 'thumbnail', 'url']) {
+        if (p[key] != null && p[key].toString().trim().isNotEmpty) {
+          return p[key].toString().trim();
+        }
+      }
+    }
+
+    return '';
+  }
+
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     // 1. Order ID
-    final id = (json['_id'] ?? json['id'] ?? json['orderId'] ?? '').toString();
+    final rawId =
+        (json['_id'] ?? json['id'] ?? json['orderId'] ?? '').toString();
+    final formattedId = formatOrderId(rawId);
 
     // 2. Parse Items
     final rawItems = json['orderItems'] ?? json['items'] ?? [];
@@ -84,8 +162,11 @@ class OrderModel {
     }
 
     String pName = 'Ogaglow Naturals Order';
-    String pImage = 'assets/images/product_placeholder.png';
+    String pImage = '';
+    String productId = '';
     double uPrice = 0.0;
+    double? origPrice;
+    double? discPrice;
     int totalQuantity = 0;
 
     if (itemsList.isNotEmpty) {
@@ -98,14 +179,28 @@ class OrderModel {
         }
       }
 
-      final rawImg =
-          first['image'] ?? first['productImage'] ?? first['thumbnail'];
-      if (rawImg != null && rawImg.toString().isNotEmpty) {
-        pImage = rawImg.toString();
+      // Check product ID
+      if (first['product'] is String) {
+        productId = first['product'].toString();
+      } else if (first['product'] is Map && first['product']['_id'] != null) {
+        productId = first['product']['_id'].toString();
+      } else if (first['_id'] != null) {
+        productId = first['_id'].toString();
       }
+
+      pImage = _extractImageFromItem(first);
 
       uPrice = (num.tryParse(first['price']?.toString() ?? '0') ?? 0)
           .toDouble();
+
+      if (first['originalPrice'] != null) {
+        origPrice =
+            (num.tryParse(first['originalPrice'].toString()) ?? 0).toDouble();
+      }
+      if (first['discountedPrice'] != null) {
+        discPrice =
+            (num.tryParse(first['discountedPrice'].toString()) ?? 0).toDouble();
+      }
 
       for (final item in itemsList) {
         totalQuantity += int.tryParse(item['quantity']?.toString() ?? '1') ?? 1;
@@ -114,7 +209,7 @@ class OrderModel {
       totalQuantity = int.tryParse(json['quantity']?.toString() ?? '1') ?? 1;
     }
 
-    // 3. Price
+    // 3. Price & Discount Breakdown
     final double total =
         (num.tryParse(
                   json['totalPrice']?.toString() ??
@@ -124,6 +219,92 @@ class OrderModel {
                 ) ??
                 0)
             .toDouble();
+
+    double discAmount =
+        (num.tryParse(
+                  json['discountAmount']?.toString() ??
+                      json['discount']?.toString() ??
+                      json['couponDiscount']?.toString() ??
+                      '0',
+                ) ??
+                0)
+            .toDouble();
+
+    double shipPrice =
+        (num.tryParse(
+                  json['shippingPrice']?.toString() ??
+                      json['shippingFee']?.toString() ??
+                      '0',
+                ) ??
+                0)
+            .toDouble();
+
+    // 3b. Catalog Match Lookup from HomeController for image and discount accuracy
+    if (Get.isRegistered<HomeController>()) {
+      try {
+        final home = Get.find<HomeController>();
+        final match = home.allProducts.firstWhereOrNull(
+          (p) =>
+              p.name.trim().toLowerCase() == pName.trim().toLowerCase() ||
+              (productId.isNotEmpty && p.id == productId),
+        );
+        if (match != null) {
+          if (pImage.isEmpty || pImage.contains('placeholder')) {
+            pImage = match.mainImageUrl;
+          }
+          if (match.hasDiscount) {
+            origPrice ??= match.price;
+            discPrice ??= match.finalPrice;
+            if (discAmount <= 0) {
+              discAmount =
+                  (match.price - match.finalPrice) *
+                  (totalQuantity > 0 ? totalQuantity : 1);
+            }
+          }
+          if (shipPrice <= 0 && match.shippingPrice > 0) {
+            shipPrice = match.shippingPrice;
+          }
+        }
+      } catch (_) {}
+    }
+
+    // Ensure price consistency
+    if (uPrice <= 0) {
+      if (discPrice != null && discPrice > 0) {
+        uPrice = discPrice;
+      } else if (origPrice != null && origPrice > 0) {
+        uPrice = origPrice;
+      } else {
+        uPrice = total > shipPrice ? total - shipPrice : total;
+      }
+    }
+
+    if (discPrice == null) {
+      if (origPrice != null && origPrice > uPrice) {
+        discPrice = uPrice;
+      } else if (discAmount > 0 && uPrice > 0) {
+        discPrice = uPrice;
+        origPrice ??= uPrice + (discAmount / (totalQuantity > 0 ? totalQuantity : 1));
+      } else {
+        discPrice = uPrice;
+      }
+    }
+
+    if (origPrice == null) {
+      if (discAmount > 0 && discPrice > 0) {
+        origPrice = discPrice + (discAmount / (totalQuantity > 0 ? totalQuantity : 1));
+      } else {
+        origPrice = discPrice;
+      }
+    }
+
+    if (shipPrice <= 0 && total > (discPrice * (totalQuantity > 0 ? totalQuantity : 1))) {
+      shipPrice = total - (discPrice * (totalQuantity > 0 ? totalQuantity : 1));
+    }
+
+    if (pImage.isEmpty) {
+      pImage = 'assets/images/product_placeholder.png';
+    }
 
     // 4. Date formatting
     final String dateString = _formatDate(
@@ -136,12 +317,19 @@ class OrderModel {
     );
 
     // 6. Customer & Phone
-    String custName = 'Valued Customer';
+    String custName = '';
     String phone = '';
     if (json['customer'] is Map) {
       final c = json['customer'] as Map;
-      custName = c['name'] ?? c['fullName'] ?? custName;
-      phone = c['phone'] ?? c['phoneNumber'] ?? phone;
+      custName = (c['name'] ?? c['fullName'] ?? c['customerName'] ?? '').toString();
+      phone = (c['phone'] ?? c['phoneNumber'] ?? '').toString();
+    }
+    if (custName.isEmpty && json['customerName'] != null) {
+      custName = json['customerName'].toString();
+    }
+    if (custName.isEmpty && json['user'] is Map) {
+      final u = json['user'] as Map;
+      custName = (u['name'] ?? u['fullName'] ?? u['username'] ?? '').toString();
     }
 
     // 7. Shipping Address
@@ -152,13 +340,17 @@ class OrderModel {
       final area = a['area'] ?? '';
       final city = a['city'] ?? '';
       final province = a['province'] ?? '';
-      final recipientPhone = a['phoneNumber'] ?? '';
+      final recipientPhone = a['phoneNumber'] ?? a['phone'] ?? '';
 
       if (phone.isEmpty && recipientPhone.toString().isNotEmpty) {
         phone = recipientPhone.toString();
       }
-      if (custName == 'Valued Customer' && a['fullName'] != null) {
-        custName = a['fullName'].toString();
+      if (custName.isEmpty || custName.toLowerCase() == 'valued customer') {
+        final addressName =
+            (a['fullName'] ?? a['name'] ?? a['recipientName'] ?? a['customerName'] ?? '').toString();
+        if (addressName.isNotEmpty) {
+          custName = addressName;
+        }
       }
 
       final parts = [
@@ -174,6 +366,21 @@ class OrderModel {
     } else if (json['shippingAddress'] is String &&
         (json['shippingAddress'] as String).isNotEmpty) {
       formattedAddress = json['shippingAddress'] as String;
+    }
+
+    // Fallback to active logged in user profile if customer name is missing or "Valued Customer"
+    if (custName.isEmpty || custName.trim().toLowerCase() == 'valued customer') {
+      if (Get.isRegistered<AuthController>()) {
+        try {
+          final authUser = Get.find<AuthController>().currentUser.value;
+          if (authUser != null && authUser.name.trim().isNotEmpty) {
+            custName = authUser.name.trim();
+          }
+        } catch (_) {}
+      }
+    }
+    if (custName.isEmpty) {
+      custName = 'Valued Customer';
     }
 
     // 8. Courier & Tracking
@@ -192,13 +399,16 @@ class OrderModel {
     );
 
     return OrderModel(
-      orderId: id.isNotEmpty
-          ? id
-          : 'OG-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}',
+      orderId: formattedId,
+      rawOrderId: rawId,
       productName: pName,
       productImage: pImage,
       quantity: totalQuantity > 0 ? totalQuantity : 1,
       unitPrice: uPrice > 0 ? uPrice : total,
+      originalPrice: origPrice,
+      discountedPrice: discPrice,
+      discountAmount: discAmount,
+      shippingPrice: shipPrice,
       totalPrice: total,
       orderDate: dateString,
       paymentMethod: (json['paymentMethod'] ?? 'Cash on Delivery (COD)')

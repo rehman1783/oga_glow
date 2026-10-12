@@ -208,11 +208,13 @@ class CheckoutController extends GetxController {
       final payload = PlaceOrderRequest(
         userId: userId,
         customer: CustomerInput(
+          name: nameController.text.trim(),
           email: emailController.text.trim(),
           phone: phoneController.text.trim(),
         ),
         orderItems: items,
         shippingAddress: ShippingAddressInput(
+          fullName: nameController.text.trim(),
           phoneNumber: phoneController.text.trim(),
           province: selectedProvince.value,
           city: cityController.text.trim(),
@@ -232,6 +234,9 @@ class CheckoutController extends GetxController {
       final response = await _checkoutRepository.placeOrder(payload);
 
       if (response.order != null) {
+        // Stop loading spinner immediately upon successful order response
+        isPlacingOrder.value = false;
+
         // Clear cart on successful order
         _cartController.clearCart();
 
@@ -284,15 +289,19 @@ class CheckoutController extends GetxController {
       });
 
       final newOrderModel = OrderModel(
-        orderId: orderData.id.length > 8
-            ? 'OG-${orderData.id.substring(orderData.id.length - 6).toUpperCase()}'
-            : 'OG-${orderData.id}',
+        orderId: OrderModel.formatOrderId(orderData.id),
+        rawOrderId: orderData.id,
         productName: firstItemName,
         productImage: firstItemImage.isNotEmpty
             ? firstItemImage
             : 'assets/images/product_placeholder.png',
         quantity: totalQty > 0 ? totalQty : 1,
         unitPrice: orderData.itemsPrice.toDouble(),
+        originalPrice:
+            orderData.itemsPrice.toDouble() + orderData.discountAmount.toDouble(),
+        discountedPrice: orderData.itemsPrice.toDouble(),
+        discountAmount: orderData.discountAmount.toDouble(),
+        shippingPrice: orderData.shippingPrice.toDouble(),
         totalPrice: orderData.totalPrice.toDouble(),
         orderDate: _formatOrderDate(orderData.createdAt),
         paymentMethod: orderData.paymentMethod == 'COD'
@@ -301,8 +310,10 @@ class CheckoutController extends GetxController {
         status: OrderStatus.pending,
         customerName: nameController.text.trim().isNotEmpty
             ? nameController.text.trim()
-            : (orderData.customer?.email ?? 'Customer'),
-        phoneNumber: orderData.customer?.phone ?? phoneController.text.trim(),
+            : (orderData.customer?.name ?? 'Valued Customer'),
+        phoneNumber: phoneController.text.trim().isNotEmpty
+            ? phoneController.text.trim()
+            : (orderData.customer?.phone ?? '+92 (Not specified)'),
         shippingAddress:
             '${addressController.text.trim()}, ${areaController.text.trim()}, ${cityController.text.trim()}, ${selectedProvince.value}',
         estimatedDelivery: '3-5 Business Days',

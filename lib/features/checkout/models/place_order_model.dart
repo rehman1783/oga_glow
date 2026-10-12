@@ -1,26 +1,31 @@
 class CustomerInput {
+  final String? name;
   final String email;
   final String phone;
 
   CustomerInput({
+    this.name,
     required this.email,
     required this.phone,
   });
 
   factory CustomerInput.fromJson(Map<String, dynamic> json) {
     return CustomerInput(
+      name: json['name']?.toString() ?? json['fullName']?.toString(),
       email: json['email']?.toString() ?? '',
       phone: json['phone']?.toString() ?? '',
     );
   }
 
   Map<String, dynamic> toJson() => {
+    if (name != null && name!.isNotEmpty) 'name': name,
     'email': email,
     'phone': phone,
   };
 }
 
 class ShippingAddressInput {
+  final String? fullName;
   final String phoneNumber;
   final String province;
   final String city;
@@ -32,6 +37,7 @@ class ShippingAddressInput {
   final num? lon;
 
   ShippingAddressInput({
+    this.fullName,
     required this.phoneNumber,
     required this.province,
     required this.city,
@@ -45,6 +51,7 @@ class ShippingAddressInput {
 
   factory ShippingAddressInput.fromJson(Map<String, dynamic> json) {
     return ShippingAddressInput(
+      fullName: json['fullName']?.toString() ?? json['name']?.toString(),
       phoneNumber: json['phoneNumber']?.toString() ?? '',
       province: json['province']?.toString() ?? '',
       city: json['city']?.toString() ?? '',
@@ -58,6 +65,7 @@ class ShippingAddressInput {
   }
 
   Map<String, dynamic> toJson() => {
+    if (fullName != null && fullName!.isNotEmpty) 'fullName': fullName,
     'phoneNumber': phoneNumber,
     'province': province,
     'city': city,
